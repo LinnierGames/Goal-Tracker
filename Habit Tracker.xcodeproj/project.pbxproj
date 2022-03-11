@@ -13,7 +13,42 @@
 		E104203B27DBA16600051F2A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E104203A27DBA16600051F2A /* Preview Assets.xcassets */; };
 		E104203D27DBA16600051F2A /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104203C27DBA16600051F2A /* Persistence.swift */; };
 		E104204027DBA16600051F2A /* Habit_Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */; };
+		E104204827DBA28600051F2A /* Sleep+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204627DBA28600051F2A /* Sleep+CoreDataClass.swift */; };
+		E104204927DBA28600051F2A /* Sleep+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204727DBA28600051F2A /* Sleep+CoreDataProperties.swift */; };
+		E104206427DBA43600051F2A /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E104205027DBA3FC00051F2A /* Intents.framework */; };
+		E104206727DBA43600051F2A /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104206627DBA43600051F2A /* IntentHandler.swift */; };
+		E104206B27DBA43600051F2A /* HabitIntents.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E104206327DBA43600051F2A /* HabitIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E104207027DBA44100051F2A /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E104206F27DBA44100051F2A /* Intents.intentdefinition */; };
+		E104207227DBAC5800051F2A /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E104206F27DBA44100051F2A /* Intents.intentdefinition */; };
+		E104207427DBB2F200051F2A /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104203C27DBA16600051F2A /* Persistence.swift */; };
+		E104207527DBB2F600051F2A /* Sleep+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204727DBA28600051F2A /* Sleep+CoreDataProperties.swift */; };
+		E104207627DBB2F600051F2A /* Sleep+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204627DBA28600051F2A /* Sleep+CoreDataClass.swift */; };
+		E104207727DBB4B400051F2A /* Habit_Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E104206927DBA43600051F2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E104202827DBA16500051F2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E104206227DBA43600051F2A;
+			remoteInfo = HabitIntents;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E104205C27DBA3FC00051F2A /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E104206B27DBA43600051F2A /* HabitIntents.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E104203027DBA16500051F2A /* Habit Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Habit Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -23,6 +58,16 @@
 		E104203A27DBA16600051F2A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E104203C27DBA16600051F2A /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		E104203F27DBA16600051F2A /* Habit_Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Habit_Tracker.xcdatamodel; sourceTree = "<group>"; };
+		E104204627DBA28600051F2A /* Sleep+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sleep+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E104204727DBA28600051F2A /* Sleep+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sleep+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E104205027DBA3FC00051F2A /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		E104206327DBA43600051F2A /* HabitIntents.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HabitIntents.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		E104206627DBA43600051F2A /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		E104206827DBA43600051F2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E104206F27DBA44100051F2A /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
+		E104207127DBA5AF00051F2A /* Habit Tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Habit Tracker.entitlements"; sourceTree = "<group>"; };
+		E104207327DBACE200051F2A /* Habit-Tracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Habit-Tracker-Info.plist"; sourceTree = SOURCE_ROOT; };
+		E1E7BBF227DBB6AA0062B219 /* HabitIntents.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HabitIntents.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +78,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E104206027DBA43600051F2A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E104206427DBA43600051F2A /* Intents.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -40,6 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				E104203227DBA16500051F2A /* Habit Tracker */,
+				E104206527DBA43600051F2A /* HabitIntents */,
+				E104204F27DBA3FC00051F2A /* Frameworks */,
 				E104203127DBA16500051F2A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -48,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				E104203027DBA16500051F2A /* Habit Tracker.app */,
+				E104206327DBA43600051F2A /* HabitIntents.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -55,11 +111,15 @@
 		E104203227DBA16500051F2A /* Habit Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				E104207327DBACE200051F2A /* Habit-Tracker-Info.plist */,
+				E104207127DBA5AF00051F2A /* Habit Tracker.entitlements */,
 				E104203327DBA16500051F2A /* Habit_TrackerApp.swift */,
 				E104203527DBA16500051F2A /* ContentView.swift */,
 				E104203727DBA16600051F2A /* Assets.xcassets */,
 				E104203C27DBA16600051F2A /* Persistence.swift */,
 				E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */,
+				E104204627DBA28600051F2A /* Sleep+CoreDataClass.swift */,
+				E104204727DBA28600051F2A /* Sleep+CoreDataProperties.swift */,
 				E104203927DBA16600051F2A /* Preview Content */,
 			);
 			path = "Habit Tracker";
@@ -73,6 +133,25 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		E104204F27DBA3FC00051F2A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E104205027DBA3FC00051F2A /* Intents.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E104206527DBA43600051F2A /* HabitIntents */ = {
+			isa = PBXGroup;
+			children = (
+				E1E7BBF227DBB6AA0062B219 /* HabitIntents.entitlements */,
+				E104206627DBA43600051F2A /* IntentHandler.swift */,
+				E104206F27DBA44100051F2A /* Intents.intentdefinition */,
+				E104206827DBA43600051F2A /* Info.plist */,
+			);
+			path = HabitIntents;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -83,15 +162,34 @@
 				E104202C27DBA16500051F2A /* Sources */,
 				E104202D27DBA16500051F2A /* Frameworks */,
 				E104202E27DBA16500051F2A /* Resources */,
+				E104205C27DBA3FC00051F2A /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E104206A27DBA43600051F2A /* PBXTargetDependency */,
 			);
 			name = "Habit Tracker";
 			productName = "Habit Tracker";
 			productReference = E104203027DBA16500051F2A /* Habit Tracker.app */;
 			productType = "com.apple.product-type.application";
+		};
+		E104206227DBA43600051F2A /* HabitIntents */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E104206C27DBA43600051F2A /* Build configuration list for PBXNativeTarget "HabitIntents" */;
+			buildPhases = (
+				E104205F27DBA43600051F2A /* Sources */,
+				E104206027DBA43600051F2A /* Frameworks */,
+				E104206127DBA43600051F2A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HabitIntents;
+			productName = HabitIntents;
+			productReference = E104206327DBA43600051F2A /* HabitIntents.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -104,6 +202,9 @@
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					E104202F27DBA16500051F2A = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
+					E104206227DBA43600051F2A = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
 				};
@@ -122,6 +223,7 @@
 			projectRoot = "";
 			targets = (
 				E104202F27DBA16500051F2A /* Habit Tracker */,
+				E104206227DBA43600051F2A /* HabitIntents */,
 			);
 		};
 /* End PBXProject section */
@@ -136,6 +238,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E104206127DBA43600051F2A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -143,14 +252,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E104207227DBAC5800051F2A /* Intents.intentdefinition in Sources */,
 				E104203D27DBA16600051F2A /* Persistence.swift in Sources */,
 				E104204027DBA16600051F2A /* Habit_Tracker.xcdatamodeld in Sources */,
 				E104203627DBA16500051F2A /* ContentView.swift in Sources */,
 				E104203427DBA16500051F2A /* Habit_TrackerApp.swift in Sources */,
+				E104204827DBA28600051F2A /* Sleep+CoreDataClass.swift in Sources */,
+				E104204927DBA28600051F2A /* Sleep+CoreDataProperties.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E104205F27DBA43600051F2A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E104207427DBB2F200051F2A /* Persistence.swift in Sources */,
+				E104207527DBB2F600051F2A /* Sleep+CoreDataProperties.swift in Sources */,
+				E104207027DBA44100051F2A /* Intents.intentdefinition in Sources */,
+				E104207727DBB4B400051F2A /* Habit_Tracker.xcdatamodeld in Sources */,
+				E104206727DBA43600051F2A /* IntentHandler.swift in Sources */,
+				E104207627DBB2F600051F2A /* Sleep+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E104206A27DBA43600051F2A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E104206227DBA43600051F2A /* HabitIntents */;
+			targetProxy = E104206927DBA43600051F2A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		E104204127DBA16600051F2A /* Debug */ = {
@@ -272,13 +405,19 @@
 		E104204427DBA16600051F2A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "Habit Tracker/Habit Tracker.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Habit Tracker/Preview Content\"";
+				DEVELOPMENT_TEAM = 8U3L6K9JA6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Habit-Tracker-Info.plist";
+				INFOPLIST_KEY_NSSiriUsageDescription = "Get data";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -291,6 +430,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.linniergames.Habit-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Habit Tracker Dev Profile";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -300,13 +440,19 @@
 		E104204527DBA16600051F2A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "Habit Tracker/Habit Tracker.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Habit Tracker/Preview Content\"";
+				DEVELOPMENT_TEAM = 8U3L6K9JA6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Habit-Tracker-Info.plist";
+				INFOPLIST_KEY_NSSiriUsageDescription = "Get data";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -319,6 +465,63 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.linniergames.Habit-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Habit Tracker Dev Profile";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E104206D27DBA43600051F2A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = HabitIntents/HabitIntents.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8U3L6K9JA6;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HabitIntents/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HabitIntents;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.linniergames.Habit-Tracker.HabitIntents";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E104206E27DBA43600051F2A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = HabitIntents/HabitIntents.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HabitIntents/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HabitIntents;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.linniergames.Habit-Tracker.HabitIntents";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -342,6 +545,15 @@
 			buildConfigurations = (
 				E104204427DBA16600051F2A /* Debug */,
 				E104204527DBA16600051F2A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E104206C27DBA43600051F2A /* Build configuration list for PBXNativeTarget "HabitIntents" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E104206D27DBA43600051F2A /* Debug */,
+				E104206E27DBA43600051F2A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

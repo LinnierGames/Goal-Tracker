@@ -14,8 +14,9 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
+            let newItem = Sleep(context: viewContext)
             newItem.timestamp = Date()
+          newItem.activity = "Driving"
         }
         do {
             try viewContext.save()
@@ -34,6 +35,14 @@ struct PersistenceController {
         container = NSPersistentContainer(name: "Habit_Tracker")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+        } else {
+          guard let fileContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.linniergames.Habit-Tracker") else {
+              fatalError("Shared file container could not be created.")
+          }
+
+          let storeURL = fileContainer.appendingPathComponent("Habit_Tracker.sqlite")
+          let storeDescription = NSPersistentStoreDescription(url: storeURL)
+          container.persistentStoreDescriptions = [storeDescription]
         }
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
