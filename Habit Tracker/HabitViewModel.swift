@@ -11,12 +11,22 @@ import SwiftUI
 class HabitViewModel: ObservableObject {
   let healthKitService = HealthKitService()
 
-  @Published var inBedTimes = [SleepSample]()
-  @Published var isHealthKitGranted: Bool
-
   init() {
     self._isHealthKitGranted = .init(initialValue: healthKitService.isSleepGranted)
   }
+
+  // MARK: Files
+
+  @Published var stagedURLs = [URL]()
+
+  func stageFiles(urls: [URL]) {
+    stagedURLs = urls
+  }
+
+  // MARK: Health Kit
+
+  @Published var inBedTimes = [SleepSample]()
+  @Published var isHealthKitGranted: Bool
 
   func requestHealthKitPremission() {
     Task {
