@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E104203427DBA16500051F2A /* Habit_TrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104203327DBA16500051F2A /* Habit_TrackerApp.swift */; };
-		E104203627DBA16500051F2A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104203527DBA16500051F2A /* ContentView.swift */; };
+		E104203627DBA16500051F2A /* HabitScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104203527DBA16500051F2A /* HabitScreen.swift */; };
 		E104203827DBA16600051F2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E104203727DBA16600051F2A /* Assets.xcassets */; };
 		E104203B27DBA16600051F2A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E104203A27DBA16600051F2A /* Preview Assets.xcassets */; };
 		E104203D27DBA16600051F2A /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104203C27DBA16600051F2A /* Persistence.swift */; };
@@ -24,6 +24,10 @@
 		E104207527DBB2F600051F2A /* Sleep+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204727DBA28600051F2A /* Sleep+CoreDataProperties.swift */; };
 		E104207627DBB2F600051F2A /* Sleep+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204627DBA28600051F2A /* Sleep+CoreDataClass.swift */; };
 		E104207727DBB4B400051F2A /* Habit_Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */; };
+		E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70E827DDDD630098DE0B /* HealthKit.swift */; };
+		E1CD70EB27DDE7850098DE0B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CD70EA27DDE7850098DE0B /* HealthKit.framework */; };
+		E1CD70ED27DDEF6A0098DE0B /* FeelingSleepyScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70EC27DDEF6A0098DE0B /* FeelingSleepyScreen.swift */; };
+		E1CD70EF27DDEFB00098DE0B /* HabitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70EE27DDEFB00098DE0B /* HabitViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +57,7 @@
 /* Begin PBXFileReference section */
 		E104203027DBA16500051F2A /* Habit Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Habit Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E104203327DBA16500051F2A /* Habit_TrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit_TrackerApp.swift; sourceTree = "<group>"; };
-		E104203527DBA16500051F2A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E104203527DBA16500051F2A /* HabitScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitScreen.swift; sourceTree = "<group>"; };
 		E104203727DBA16600051F2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E104203A27DBA16600051F2A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E104203C27DBA16600051F2A /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -67,6 +71,10 @@
 		E104206F27DBA44100051F2A /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
 		E104207127DBA5AF00051F2A /* Habit Tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Habit Tracker.entitlements"; sourceTree = "<group>"; };
 		E104207327DBACE200051F2A /* Habit-Tracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Habit-Tracker-Info.plist"; sourceTree = SOURCE_ROOT; };
+		E1CD70E827DDDD630098DE0B /* HealthKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKit.swift; sourceTree = "<group>"; };
+		E1CD70EA27DDE7850098DE0B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		E1CD70EC27DDEF6A0098DE0B /* FeelingSleepyScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeelingSleepyScreen.swift; sourceTree = "<group>"; };
+		E1CD70EE27DDEFB00098DE0B /* HabitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitViewModel.swift; sourceTree = "<group>"; };
 		E1E7BBF227DBB6AA0062B219 /* HabitIntents.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HabitIntents.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1CD70EB27DDE7850098DE0B /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,15 +120,14 @@
 		E104203227DBA16500051F2A /* Habit Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				E104203327DBA16500051F2A /* Habit_TrackerApp.swift */,
+				E1CD70EE27DDEFB00098DE0B /* HabitViewModel.swift */,
+				E104203527DBA16500051F2A /* HabitScreen.swift */,
+				E1CD70EC27DDEF6A0098DE0B /* FeelingSleepyScreen.swift */,
+				E1CD70F027DDEFCC0098DE0B /* Services */,
+				E104203727DBA16600051F2A /* Assets.xcassets */,
 				E104207327DBACE200051F2A /* Habit-Tracker-Info.plist */,
 				E104207127DBA5AF00051F2A /* Habit Tracker.entitlements */,
-				E104203327DBA16500051F2A /* Habit_TrackerApp.swift */,
-				E104203527DBA16500051F2A /* ContentView.swift */,
-				E104203727DBA16600051F2A /* Assets.xcassets */,
-				E104203C27DBA16600051F2A /* Persistence.swift */,
-				E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */,
-				E104204627DBA28600051F2A /* Sleep+CoreDataClass.swift */,
-				E104204727DBA28600051F2A /* Sleep+CoreDataProperties.swift */,
 				E104203927DBA16600051F2A /* Preview Content */,
 			);
 			path = "Habit Tracker";
@@ -136,6 +144,7 @@
 		E104204F27DBA3FC00051F2A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E1CD70EA27DDE7850098DE0B /* HealthKit.framework */,
 				E104205027DBA3FC00051F2A /* Intents.framework */,
 			);
 			name = Frameworks;
@@ -150,6 +159,26 @@
 				E104206827DBA43600051F2A /* Info.plist */,
 			);
 			path = HabitIntents;
+			sourceTree = "<group>";
+		};
+		E1CD70E727DDDCFD0098DE0B /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */,
+				E104204627DBA28600051F2A /* Sleep+CoreDataClass.swift */,
+				E104204727DBA28600051F2A /* Sleep+CoreDataProperties.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		E1CD70F027DDEFCC0098DE0B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E1CD70E827DDDD630098DE0B /* HealthKit.swift */,
+				E104203C27DBA16600051F2A /* Persistence.swift */,
+				E1CD70E727DDDCFD0098DE0B /* CoreData */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -252,11 +281,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */,
 				E104207227DBAC5800051F2A /* Intents.intentdefinition in Sources */,
 				E104203D27DBA16600051F2A /* Persistence.swift in Sources */,
 				E104204027DBA16600051F2A /* Habit_Tracker.xcdatamodeld in Sources */,
-				E104203627DBA16500051F2A /* ContentView.swift in Sources */,
+				E104203627DBA16500051F2A /* HabitScreen.swift in Sources */,
 				E104203427DBA16500051F2A /* Habit_TrackerApp.swift in Sources */,
+				E1CD70ED27DDEF6A0098DE0B /* FeelingSleepyScreen.swift in Sources */,
+				E1CD70EF27DDEFB00098DE0B /* HabitViewModel.swift in Sources */,
 				E104204827DBA28600051F2A /* Sleep+CoreDataClass.swift in Sources */,
 				E104204927DBA28600051F2A /* Sleep+CoreDataProperties.swift in Sources */,
 			);
@@ -417,6 +449,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Habit-Tracker-Info.plist";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Falalala, this is the share usage message";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Falalala, this is the update usage message";
 				INFOPLIST_KEY_NSSiriUsageDescription = "Get data";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -452,6 +486,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Habit-Tracker-Info.plist";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Falalala, this is the share usage message";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Falalala, this is the update usage message";
 				INFOPLIST_KEY_NSSiriUsageDescription = "Get data";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
