@@ -24,6 +24,7 @@
 		E104207527DBB2F600051F2A /* Sleep+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204727DBA28600051F2A /* Sleep+CoreDataProperties.swift */; };
 		E104207627DBB2F600051F2A /* Sleep+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204627DBA28600051F2A /* Sleep+CoreDataClass.swift */; };
 		E104207727DBB4B400051F2A /* Habit_Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */; };
+		E10AFC0B27DF18D5000965D9 /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10AFC0A27DF18D5000965D9 /* FilePicker.swift */; };
 		E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70E827DDDD630098DE0B /* HealthKit.swift */; };
 		E1CD70EB27DDE7850098DE0B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CD70EA27DDE7850098DE0B /* HealthKit.framework */; };
 		E1CD70ED27DDEF6A0098DE0B /* FeelingSleepyScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70EC27DDEF6A0098DE0B /* FeelingSleepyScreen.swift */; };
@@ -71,6 +72,7 @@
 		E104206F27DBA44100051F2A /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
 		E104207127DBA5AF00051F2A /* Habit Tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Habit Tracker.entitlements"; sourceTree = "<group>"; };
 		E104207327DBACE200051F2A /* Habit-Tracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Habit-Tracker-Info.plist"; sourceTree = SOURCE_ROOT; };
+		E10AFC0A27DF18D5000965D9 /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
 		E1CD70E827DDDD630098DE0B /* HealthKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKit.swift; sourceTree = "<group>"; };
 		E1CD70EA27DDE7850098DE0B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		E1CD70EC27DDEF6A0098DE0B /* FeelingSleepyScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeelingSleepyScreen.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				E1CD70EE27DDEFB00098DE0B /* HabitViewModel.swift */,
 				E104203527DBA16500051F2A /* HabitScreen.swift */,
 				E1CD70EC27DDEF6A0098DE0B /* FeelingSleepyScreen.swift */,
+				E10AFC0C27DF18DB000965D9 /* CommonUI */,
 				E1CD70F027DDEFCC0098DE0B /* Services */,
 				E104203727DBA16600051F2A /* Assets.xcassets */,
 				E104207327DBACE200051F2A /* Habit-Tracker-Info.plist */,
@@ -159,6 +162,14 @@
 				E104206827DBA43600051F2A /* Info.plist */,
 			);
 			path = HabitIntents;
+			sourceTree = "<group>";
+		};
+		E10AFC0C27DF18DB000965D9 /* CommonUI */ = {
+			isa = PBXGroup;
+			children = (
+				E10AFC0A27DF18D5000965D9 /* FilePicker.swift */,
+			);
+			path = CommonUI;
 			sourceTree = "<group>";
 		};
 		E1CD70E727DDDCFD0098DE0B /* CoreData */ = {
@@ -289,6 +300,7 @@
 				E104203427DBA16500051F2A /* Habit_TrackerApp.swift in Sources */,
 				E1CD70ED27DDEF6A0098DE0B /* FeelingSleepyScreen.swift in Sources */,
 				E1CD70EF27DDEFB00098DE0B /* HabitViewModel.swift in Sources */,
+				E10AFC0B27DF18D5000965D9 /* FilePicker.swift in Sources */,
 				E104204827DBA28600051F2A /* Sleep+CoreDataClass.swift in Sources */,
 				E104204927DBA28600051F2A /* Sleep+CoreDataProperties.swift in Sources */,
 			);
