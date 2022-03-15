@@ -7,18 +7,24 @@
 
 import SwiftUI
 
+import CoreData
+
 @MainActor
 class HabitViewModel: ObservableObject {
   let healthKitService = HealthKitService()
+  let networking = Networking.shared
 
   init() {
     self._isHealthKitGranted = .init(initialValue: healthKitService.isSleepGranted)
   }
 
   func export() {
-//    URLSession.shared.upload
-//    MultipartFormDataRequest
-//    multiplart
+    let request = Sleep.fetchRequest()
+    request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
+    let context = PersistenceController.shared.container.viewContext
+    let sleep = try! context.fetch(request)
+
+    networking.uploadData(feelingSleepy: sleep, timesInBed: inBedTimes, csvFiles: stagedURLs)
   }
 
   // MARK: Files
@@ -35,29 +41,93 @@ class HabitViewModel: ObservableObject {
   @Published var isHealthKitGranted: Bool
 
   func requestHealthKitPremission() {
-    Task {
+    _Concurrency.Task {
       await healthKitService.requestAccess()
       isHealthKitGranted = healthKitService.isSleepGranted
     }
   }
 
   func fetchHealthKit() {
-    Task {
+    _Concurrency.Task {
       let sleep = await healthKitService.sleepData()
       inBedTimes = sleep
     }
   }
+}
 
-  func makeCSV() {
+import Moya
 
-    // Sleep
-//      var csv = "start date,end date,duration\n"
-//      for sample in inBedTimes {
-//        csv += "\(sample.start.stringValue),\(sample.end.stringValue),\(sample.duration)\n"
-//      }
-//      guard let csvData = csv.data(using: .utf8) else { fatalError() }
-//      guard let csvFileURL = store(data: csvData, at: "Sleep.csv") else { fatalError() }
+struct RemoteStoreAPI {
+  enum Endpoint {
+    case uploadData(csvFiles: [(data: Data, filename: String)], csvURLs: [URL])
+    case listOfData
+    case uploadReport
+    case listOfReports
   }
+
+  let baseURL: URL
+  let endpoint: Endpoint
+}
+
+extension RemoteStoreAPI: TargetType {
+
+  var path: String {
+    switch endpoint {
+    case .uploadData, .listOfData:
+      return "data"
+    case .uploadReport, .listOfReports:
+      return "reports"
+    }
+  }
+
+  var method: Moya.Method {
+    switch endpoint {
+    case .uploadData, .uploadReport:
+      return .post
+    case .listOfData, .listOfReports:
+      return .get
+    }
+  }
+
+  var task: Task {
+    switch endpoint {
+    case .uploadData(let csvFiles, let csvURLs):
+      let multipartName = "data"
+      let csvFileParts = csvFiles.map { data, filename in
+        MultipartFormData(
+          provider: .data(data),
+          name: multipartName,
+          fileName: filename,
+          mimeType: "text/plain"
+        )
+      }
+      let csvURLParts = csvURLs.map { url in
+        MultipartFormData(
+          provider: .file(url),
+          name: multipartName,
+          fileName: url.lastPathComponent,
+          mimeType: "text/plain"
+        )
+      }
+      let parts = csvFileParts + csvURLParts
+
+      return .uploadMultipart(parts)
+    case .uploadReport:
+      return .requestPlain
+    case .listOfData:
+      return .requestPlain
+    case .listOfReports:
+      return .requestPlain
+    }
+  }
+
+  var headers: [String : String]? {
+    return [
+      "key": "635452ba20a7780588a9367a21f971cfd7a",
+    ]
+  }
+
+
 }
 
 

@@ -25,6 +25,9 @@
 		E104207627DBB2F600051F2A /* Sleep+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204627DBA28600051F2A /* Sleep+CoreDataClass.swift */; };
 		E104207727DBB4B400051F2A /* Habit_Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */; };
 		E10AFC0B27DF18D5000965D9 /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10AFC0A27DF18D5000965D9 /* FilePicker.swift */; };
+		E16A9EA427E0E01A007092CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A9EA327E0E01A007092CD /* AppDelegate.swift */; };
+		E16A9EA827E0E8FD007092CD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = E16A9EA727E0E8FD007092CD /* Moya */; };
+		E16A9EAA27E0F51D007092CD /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A9EA927E0F51D007092CD /* Networking.swift */; };
 		E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70E827DDDD630098DE0B /* HealthKit.swift */; };
 		E1CD70EB27DDE7850098DE0B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CD70EA27DDE7850098DE0B /* HealthKit.framework */; };
 		E1CD70ED27DDEF6A0098DE0B /* FeelingSleepyScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70EC27DDEF6A0098DE0B /* FeelingSleepyScreen.swift */; };
@@ -73,6 +76,8 @@
 		E104207127DBA5AF00051F2A /* Habit Tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Habit Tracker.entitlements"; sourceTree = "<group>"; };
 		E104207327DBACE200051F2A /* Habit-Tracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Habit-Tracker-Info.plist"; sourceTree = SOURCE_ROOT; };
 		E10AFC0A27DF18D5000965D9 /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
+		E16A9EA327E0E01A007092CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E16A9EA927E0F51D007092CD /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		E1CD70E827DDDD630098DE0B /* HealthKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKit.swift; sourceTree = "<group>"; };
 		E1CD70EA27DDE7850098DE0B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		E1CD70EC27DDEF6A0098DE0B /* FeelingSleepyScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeelingSleepyScreen.swift; sourceTree = "<group>"; };
@@ -85,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E16A9EA827E0E8FD007092CD /* Moya in Frameworks */,
 				E1CD70EB27DDE7850098DE0B /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -122,6 +128,7 @@
 		E104203227DBA16500051F2A /* Habit Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				E16A9EA327E0E01A007092CD /* AppDelegate.swift */,
 				E104203327DBA16500051F2A /* Habit_TrackerApp.swift */,
 				E1CD70EE27DDEFB00098DE0B /* HabitViewModel.swift */,
 				E104203527DBA16500051F2A /* HabitScreen.swift */,
@@ -185,6 +192,7 @@
 		E1CD70F027DDEFCC0098DE0B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E16A9EA927E0F51D007092CD /* Networking.swift */,
 				E1CD70E827DDDD630098DE0B /* HealthKit.swift */,
 				E104203C27DBA16600051F2A /* Persistence.swift */,
 				E1CD70E727DDDCFD0098DE0B /* CoreData */,
@@ -210,6 +218,9 @@
 				E104206A27DBA43600051F2A /* PBXTargetDependency */,
 			);
 			name = "Habit Tracker";
+			packageProductDependencies = (
+				E16A9EA727E0E8FD007092CD /* Moya */,
+			);
 			productName = "Habit Tracker";
 			productReference = E104203027DBA16500051F2A /* Habit Tracker.app */;
 			productType = "com.apple.product-type.application";
@@ -258,6 +269,9 @@
 				Base,
 			);
 			mainGroup = E104202727DBA16500051F2A;
+			packageReferences = (
+				E16A9EA627E0E8FD007092CD /* XCRemoteSwiftPackageReference "Moya" */,
+			);
 			productRefGroup = E104203127DBA16500051F2A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -292,8 +306,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E16A9EA427E0E01A007092CD /* AppDelegate.swift in Sources */,
 				E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */,
 				E104207227DBAC5800051F2A /* Intents.intentdefinition in Sources */,
+				E16A9EAA27E0F51D007092CD /* Networking.swift in Sources */,
 				E104203D27DBA16600051F2A /* Persistence.swift in Sources */,
 				E104204027DBA16600051F2A /* Habit_Tracker.xcdatamodeld in Sources */,
 				E104203627DBA16500051F2A /* HabitScreen.swift in Sources */,
@@ -607,6 +623,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E16A9EA627E0E8FD007092CD /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E16A9EA727E0E8FD007092CD /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E16A9EA627E0E8FD007092CD /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */ = {
