@@ -115,7 +115,20 @@ struct SleepSamplesScreen: View {
 
   var body: some View {
     List(samples, id: \.start) { sample in
-      Text(sample.start, format: .dateTime)
+      VStack {
+        HStack {
+          Text("Start")
+          Text(sample.start, format: .dateTime)
+        }
+        HStack {
+          Text("End")
+          Text(sample.end, format: .dateTime)
+        }
+        HStack {
+          Text("Duration")
+          Text(sample.start..<sample.end, format: .timeDuration)
+        }
+      }
     }
   }
 }
