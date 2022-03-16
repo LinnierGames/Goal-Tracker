@@ -1,30 +1,48 @@
 //
-//  FeelingSleepyScreen.swift
+//  CollectedDataScreen.swift
 //  Habit Tracker
 //
 //  Created by Erick Sanchez on 3/13/22.
 //
 
+import CoreData
 import SwiftUI
 
-struct FeelingSleepyScreen: View {
+struct CollectedDataScreen<
+  Data: NSManagedObject & Identifiable,
+  DetailedScreen: View,
+  Row: View,
+  AddNewDataScreen: View
+>: View {
   @Environment(\.managedObjectContext) private var viewContext
 
-  @FetchRequest(
-    sortDescriptors: [NSSortDescriptor(keyPath: \Sleep.timestamp, ascending: true)],
-    animation: .default)
-  private var items: FetchedResults<Sleep>
+  private let row: (Data) -> Row
+  private let detailedScreen: (Data) -> DetailedScreen
+  private let addNewDataScreen: () -> AddNewDataScreen
+
+  @FetchRequest
+  private var items: FetchedResults<Data>
+  @State private var isShowingAddScreen = false
+
+  init(
+    items: FetchRequest<Data>,
+    @ViewBuilder row: @escaping (Data) -> Row,
+    @ViewBuilder detailedScreen: @escaping (Data) -> DetailedScreen,
+    @ViewBuilder addNewDataScreen: @escaping () -> AddNewDataScreen
+  ) {
+    _items = items
+    self.row = row
+    self.detailedScreen = detailedScreen
+    self.addNewDataScreen = addNewDataScreen
+  }
 
   var body: some View {
     List {
       ForEach(items) { item in
         NavigationLink {
-          Text("Item at \(item.timestamp, formatter: itemFormatter)")
+          detailedScreen(item)
         } label: {
-          VStack {
-            Text(item.timestamp, formatter: itemFormatter)
-            Text(item.activity)
-          }
+          row(item)
         }
       }
       .onDelete(perform: deleteItems)
@@ -34,10 +52,13 @@ struct FeelingSleepyScreen: View {
         EditButton()
       }
       ToolbarItem {
-        Button(action: addItem) {
+        Button(action: { isShowingAddScreen = true }) {
           Label("Add Item", systemImage: "plus")
         }
       }
+    }
+    .sheet(isPresented: $isShowingAddScreen) {
+      addNewDataScreen()
     }
   }
 

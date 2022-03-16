@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import CoreData
-
 @MainActor
 class HabitViewModel: ObservableObject {
   let healthKitService = HealthKitService()

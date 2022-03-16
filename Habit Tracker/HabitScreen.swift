@@ -28,7 +28,33 @@ struct ContentView: View {
     NavigationView {
       List {
         Section("Data Collected") {
-          DataCell(label: NavigationLink("Sleep", destination: FeelingSleepyScreen()))
+          // TODO: Support UI building via CollectedData
+//          ForEach(viewModel.collectedData, id: \.title) { data in
+//            DataCell(
+//              label: NavigationLink(data.title, destination: CollectedDataScreen(data: data))
+//            )
+//          }
+          DataCell(label: NavigationLink(
+            "Sleep",
+            destination: CollectedDataScreen(
+              items: FetchRequest<Sleep>(
+                sortDescriptors: [NSSortDescriptor(keyPath: \Sleep.timestamp, ascending: true)],
+                animation: .default
+              ),
+              row: { item in
+                VStack {
+                  Text(item.timestamp, format: .dateTime)
+                  Text(item.activity)
+                }
+              },
+              detailedScreen: { item in
+                Text("Item at \(item.timestamp)")
+              },
+              addNewDataScreen: {
+                Text("new stuff!")
+              }
+            )
+          ))
           DataCell(label: NavigationLink("Shower", destination: Text("Shower stuff")))
         }
         Section("Actions") {
