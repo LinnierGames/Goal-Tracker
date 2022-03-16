@@ -37,8 +37,8 @@ struct ContentView: View {
           DataCell(label: NavigationLink(
             "Sleep",
             destination: CollectedDataScreen(
-              items: FetchRequest<Sleep>(
-                sortDescriptors: [NSSortDescriptor(keyPath: \Sleep.timestamp, ascending: true)],
+              items: FetchRequest<FeelingSleepy>(
+                sortDescriptors: [NSSortDescriptor(keyPath: \FeelingSleepy.timestamp, ascending: true)],
                 animation: .default
               ),
               row: { item in

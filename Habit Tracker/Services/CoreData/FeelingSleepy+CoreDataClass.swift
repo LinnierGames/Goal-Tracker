@@ -9,11 +9,11 @@
 import Foundation
 import CoreData
 
-@objc(Sleep)
-public class Sleep: NSManagedObject {
+@objc(FeelingSleepy)
+public class FeelingSleepy: NSManagedObject {
 
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<Sleep> {
-      return NSFetchRequest<Sleep>(entityName: "Sleep")
+  @nonobjc public class func fetchRequest() -> NSFetchRequest<FeelingSleepy> {
+      return NSFetchRequest<FeelingSleepy>(entityName: "FeelingSleepy")
   }
 
   @NSManaged public var timestamp: Date

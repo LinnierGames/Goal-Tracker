@@ -13,7 +13,7 @@ class Networking {
 
   let api = MoyaProvider<RemoteStoreAPI>()
 
-  func uploadData(feelingSleepy: [Sleep], timesInBed: [SleepSample], csvFiles: [URL]) {
+  func uploadData(feelingSleepy: [FeelingSleepy], timesInBed: [SleepSample], csvFiles: [URL]) {
     var csvFilesAndNames = [(data: Data, filename: String)]()
     let sleepCSV = makeCSV(
       headers: "timestamp,activity",

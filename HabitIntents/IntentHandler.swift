@@ -43,7 +43,7 @@ class INFeelingSleepyIntentHandler: NSObject, INFeelingSleepyIntentHandling {
   private func storeActivityIntoDB(activity: String) {
     let viewContext = PersistenceController.shared.container.viewContext
 
-    let newItem = Sleep(context: viewContext)
+    let newItem = FeelingSleepy(context: viewContext)
     newItem.timestamp = Date()
     newItem.activity = activity
 

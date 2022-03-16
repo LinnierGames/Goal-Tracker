@@ -14,7 +14,7 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for _ in 0..<10 {
-            let newItem = Sleep(context: viewContext)
+            let newItem = FeelingSleepy(context: viewContext)
             newItem.timestamp = Date()
           newItem.activity = "Driving"
         }

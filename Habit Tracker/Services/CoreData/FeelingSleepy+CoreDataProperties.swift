@@ -10,10 +10,10 @@ import Foundation
 import CoreData
 
 
-extension Sleep {
+extension FeelingSleepy {
 
 }
 
-extension Sleep : Identifiable {
+extension FeelingSleepy : Identifiable {
 
 }

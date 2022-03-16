@@ -13,16 +13,16 @@
 		E104203B27DBA16600051F2A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E104203A27DBA16600051F2A /* Preview Assets.xcassets */; };
 		E104203D27DBA16600051F2A /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104203C27DBA16600051F2A /* Persistence.swift */; };
 		E104204027DBA16600051F2A /* Habit_Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */; };
-		E104204827DBA28600051F2A /* Sleep+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204627DBA28600051F2A /* Sleep+CoreDataClass.swift */; };
-		E104204927DBA28600051F2A /* Sleep+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204727DBA28600051F2A /* Sleep+CoreDataProperties.swift */; };
+		E104204827DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204627DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift */; };
+		E104204927DBA28600051F2A /* FeelingSleepy+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204727DBA28600051F2A /* FeelingSleepy+CoreDataProperties.swift */; };
 		E104206427DBA43600051F2A /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E104205027DBA3FC00051F2A /* Intents.framework */; };
 		E104206727DBA43600051F2A /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104206627DBA43600051F2A /* IntentHandler.swift */; };
 		E104206B27DBA43600051F2A /* HabitIntents.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E104206327DBA43600051F2A /* HabitIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E104207027DBA44100051F2A /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E104206F27DBA44100051F2A /* Intents.intentdefinition */; };
 		E104207227DBAC5800051F2A /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E104206F27DBA44100051F2A /* Intents.intentdefinition */; };
 		E104207427DBB2F200051F2A /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104203C27DBA16600051F2A /* Persistence.swift */; };
-		E104207527DBB2F600051F2A /* Sleep+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204727DBA28600051F2A /* Sleep+CoreDataProperties.swift */; };
-		E104207627DBB2F600051F2A /* Sleep+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204627DBA28600051F2A /* Sleep+CoreDataClass.swift */; };
+		E104207527DBB2F600051F2A /* FeelingSleepy+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204727DBA28600051F2A /* FeelingSleepy+CoreDataProperties.swift */; };
+		E104207627DBB2F600051F2A /* FeelingSleepy+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204627DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift */; };
 		E104207727DBB4B400051F2A /* Habit_Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */; };
 		E10AFC0B27DF18D5000965D9 /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10AFC0A27DF18D5000965D9 /* FilePicker.swift */; };
 		E12E2C8F27E237FB002AD960 /* KeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12E2C8E27E237FB002AD960 /* KeyPath.swift */; };
@@ -67,8 +67,8 @@
 		E104203A27DBA16600051F2A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E104203C27DBA16600051F2A /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		E104203F27DBA16600051F2A /* Habit_Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Habit_Tracker.xcdatamodel; sourceTree = "<group>"; };
-		E104204627DBA28600051F2A /* Sleep+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sleep+CoreDataClass.swift"; sourceTree = "<group>"; };
-		E104204727DBA28600051F2A /* Sleep+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sleep+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E104204627DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeelingSleepy+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E104204727DBA28600051F2A /* FeelingSleepy+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeelingSleepy+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E104205027DBA3FC00051F2A /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		E104206327DBA43600051F2A /* HabitIntents.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HabitIntents.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E104206627DBA43600051F2A /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
@@ -204,8 +204,8 @@
 			isa = PBXGroup;
 			children = (
 				E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */,
-				E104204627DBA28600051F2A /* Sleep+CoreDataClass.swift */,
-				E104204727DBA28600051F2A /* Sleep+CoreDataProperties.swift */,
+				E104204627DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift */,
+				E104204727DBA28600051F2A /* FeelingSleepy+CoreDataProperties.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -339,8 +339,8 @@
 				E1CD70ED27DDEF6A0098DE0B /* CollectedDataScreen.swift in Sources */,
 				E1CD70EF27DDEFB00098DE0B /* HabitViewModel.swift in Sources */,
 				E10AFC0B27DF18D5000965D9 /* FilePicker.swift in Sources */,
-				E104204827DBA28600051F2A /* Sleep+CoreDataClass.swift in Sources */,
-				E104204927DBA28600051F2A /* Sleep+CoreDataProperties.swift in Sources */,
+				E104204827DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift in Sources */,
+				E104204927DBA28600051F2A /* FeelingSleepy+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,11 +349,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E104207427DBB2F200051F2A /* Persistence.swift in Sources */,
-				E104207527DBB2F600051F2A /* Sleep+CoreDataProperties.swift in Sources */,
+				E104207527DBB2F600051F2A /* FeelingSleepy+CoreDataProperties.swift in Sources */,
 				E104207027DBA44100051F2A /* Intents.intentdefinition in Sources */,
 				E104207727DBB4B400051F2A /* Habit_Tracker.xcdatamodeld in Sources */,
 				E104206727DBA43600051F2A /* IntentHandler.swift in Sources */,
-				E104207627DBB2F600051F2A /* Sleep+CoreDataClass.swift in Sources */,
+				E104207627DBB2F600051F2A /* FeelingSleepy+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

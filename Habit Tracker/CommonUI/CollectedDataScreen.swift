@@ -64,7 +64,7 @@ struct CollectedDataScreen<
 
   private func addItem() {
     withAnimation {
-      let newItem = Sleep(context: viewContext)
+      let newItem = FeelingSleepy(context: viewContext)
       newItem.timestamp = Date()
       newItem.activity = "Driving"
 

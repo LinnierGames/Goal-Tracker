@@ -17,7 +17,7 @@ class HabitViewModel: ObservableObject {
   }
 
   func export() {
-    let request = Sleep.fetchRequest()
+    let request = FeelingSleepy.fetchRequest()
     request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
     let context = PersistenceController.shared.container.viewContext
     let sleep = try! context.fetch(request)
