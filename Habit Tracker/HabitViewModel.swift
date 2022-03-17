@@ -16,7 +16,7 @@ class HabitViewModel: ObservableObject {
     self._isHealthKitGranted = .init(initialValue: healthKitService.isSleepGranted)
   }
 
-  func export() {
+  func export(to host: String) {
     let request = FeelingSleepy.fetchRequest()
     request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
     let context = PersistenceController.shared.container.viewContext
@@ -31,6 +31,7 @@ class HabitViewModel: ObservableObject {
           "\(line.timestamp),\(line.activity)"
         }
       ),
+
       CSVFile(
         data: inBedTimes,
         headers: "start time,end time,duration",
@@ -41,7 +42,7 @@ class HabitViewModel: ObservableObject {
       ),
     ]
 
-    networking.uploadData(csvFiles: csvFiles, csvFileURLs: stagedURLs)
+    networking.uploadData(csvFiles: csvFiles, csvFileURLs: stagedURLs, to: host)
   }
 
   // MARK: Files

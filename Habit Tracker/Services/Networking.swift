@@ -13,11 +13,10 @@ class Networking {
 
   let api = MoyaProvider<RemoteStoreAPI>()
 
-  func uploadData(csvFiles: [CSVFile], csvFileURLs: [URL]) {
-    let localIP = "10.0.0.166"
+  func uploadData(csvFiles: [CSVFile], csvFileURLs: [URL], to host: String) {
     api.request(
       RemoteStoreAPI(
-        baseURL: URL(string: "http://\(localIP):3000/")!,
+        baseURL: URL(string: host)!,
         endpoint: .uploadData(csvFiles: csvFiles, csvFileURLs: csvFileURLs)
       )) { result in
         switch result {

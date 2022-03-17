@@ -24,6 +24,8 @@ struct DataCell<Label: View>: View {
 struct ContentView: View {
   @StateObject var viewModel = HabitViewModel()
 
+  @State private var hostString = "http://10.0.0.166:3000"
+
   var body: some View {
     NavigationView {
       List {
@@ -64,8 +66,9 @@ struct ContentView: View {
           makeFilesPicker()
         }
         Button("Export") {
-          viewModel.export()
+          viewModel.export(to: hostString)
         }
+        TextField("Host", text: $hostString)
       }
 
       .navigationTitle("Habits")
