@@ -22,9 +22,13 @@ struct DataCell<Label: View>: View {
 }
 
 struct ContentView: View {
-  @StateObject var viewModel = HabitViewModel()
+  @StateObject var viewModel: HabitViewModel
 
-  @State private var hostString = "http://10.0.0.166:3000"
+  init() {
+    _viewModel = StateObject(wrappedValue: HabitViewModel())
+  }
+
+  @AppStorage("HOST_STRING") private var hostString = "http://10.0.0.166:3000"
 
   var body: some View {
     NavigationView {
@@ -70,6 +74,10 @@ struct ContentView: View {
         }
         TextField("Host", text: $hostString)
       }
+      .disabled(viewModel.isLoading)
+      .loadingIndicator(isShowing: viewModel.isLoading)
+
+      .alert(content: $viewModel.alert)
 
       .navigationTitle("Habits")
     }

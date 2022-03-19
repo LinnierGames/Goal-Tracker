@@ -9,40 +9,54 @@ import SwiftUI
 
 @MainActor
 class HabitViewModel: ObservableObject {
-  let healthKitService = HealthKitService()
-  let networking = Networking.shared
+  @Published var isLoading = false
+  @Published var alert: AlertContent?
+  
+  private let healthKitService = HealthKitService()
+  private let networking = Networking.shared
 
   init() {
     self._isHealthKitGranted = .init(initialValue: healthKitService.isSleepGranted)
   }
 
   func export(to host: String) {
-    let request = FeelingSleepy.fetchRequest()
-    request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
-    let context = PersistenceController.shared.container.viewContext
-    let feelingSleepy = try! context.fetch(request)
+    isLoading = true
 
-    let csvFiles = [
-      CSVFile(
-        data: feelingSleepy,
-        headers: "timestamp,activity",
-        filename: "Feeling Sleepy.csv",
-        csvRowFactory: { line in
-          "\(line.timestamp),\(line.activity)"
-        }
-      ),
+    Task {
+      let request = FeelingSleepy.fetchRequest()
+      request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
+      let context = PersistenceController.shared.container.viewContext
+      let feelingSleepy = try! context.fetch(request)
 
-      CSVFile(
-        data: inBedTimes,
-        headers: "start time,end time,duration",
-        filename: "Bedtimes.csv",
-        csvRowFactory: { line in
-          "\(line.start.stringValue),\(line.end.stringValue),\(line.duration)\n"
-        }
-      ),
-    ]
+      let csvFiles = [
+        CSVFile(
+          data: feelingSleepy,
+          headers: "timestamp,activity",
+          filename: "Feeling Sleepy.csv",
+          csvRowFactory: { line in
+            "\(line.timestamp),\(line.activity)"
+          }
+        ),
 
-    networking.uploadData(csvFiles: csvFiles, csvFileURLs: stagedURLs, to: host)
+        CSVFile(
+          data: inBedTimes,
+          headers: "start time,end time,duration",
+          filename: "Bedtimes.csv",
+          csvRowFactory: { line in
+            "\(line.start.stringValue),\(line.end.stringValue),\(line.duration)\n"
+          }
+        ),
+      ]
+
+      do {
+        try await networking.uploadData(csvFiles: csvFiles, csvFileURLs: stagedURLs, to: host)
+        alert = AlertContent(title: "Upload Successful!")
+      } catch {
+        alert = AlertContent(title: "Something Went Wrong", message: error.localizedDescription)
+      }
+
+      isLoading = false
+    }
   }
 
   // MARK: Files

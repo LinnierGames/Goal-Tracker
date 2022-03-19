@@ -13,18 +13,20 @@ class Networking {
 
   let api = MoyaProvider<RemoteStoreAPI>()
 
-  func uploadData(csvFiles: [CSVFile], csvFileURLs: [URL], to host: String) {
-    api.request(
-      RemoteStoreAPI(
-        baseURL: URL(string: host)!,
-        endpoint: .uploadData(csvFiles: csvFiles, csvFileURLs: csvFileURLs)
-      )) { result in
-        switch result {
-        case .success(let response):
-          print(response, self)
-        case .failure(let error):
-          fatalError(error.localizedDescription)
+  func uploadData(csvFiles: [CSVFile], csvFileURLs: [URL], to host: String) async throws {
+    try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+      self.api.request(
+        RemoteStoreAPI(
+          baseURL: URL(string: host)!,
+          endpoint: .uploadData(csvFiles: csvFiles, csvFileURLs: csvFileURLs)
+        )) { result in
+          switch result {
+          case .success:
+            continuation.resume(with: .success(()))
+          case .failure(let error):
+            continuation.resume(with: .failure(error))
+          }
         }
-      }
+    }
   }
 }
