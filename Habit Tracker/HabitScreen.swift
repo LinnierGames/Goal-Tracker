@@ -21,7 +21,7 @@ struct DataCell<Label: View>: View {
   }
 }
 
-struct ContentView: View {
+struct DataCollectorScreen: View {
   @StateObject var viewModel: HabitViewModel
 
   init() {
@@ -144,8 +144,8 @@ struct SleepSamplesScreen: View {
   }
 }
 
-struct ContentView_Previews: PreviewProvider {
+private struct Previews: PreviewProvider {
   static var previews: some View {
-    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    DataCollectorScreen().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
   }
 }

@@ -33,6 +33,8 @@
 		E16A9EAA27E0F51D007092CD /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A9EA927E0F51D007092CD /* Networking.swift */; };
 		E184F4E127E5ACE100BB2F2C /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184F4E027E5ACE100BB2F2C /* Spinner.swift */; };
 		E184F4E327E5AEC800BB2F2C /* AlertContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184F4E227E5AEC800BB2F2C /* AlertContent.swift */; };
+		E184F4E527E5B0F000BB2F2C /* ReportsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184F4E427E5B0F000BB2F2C /* ReportsScreen.swift */; };
+		E184F4E727E5BA1E00BB2F2C /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184F4E627E5BA1E00BB2F2C /* PDFView.swift */; };
 		E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70E827DDDD630098DE0B /* HealthKit.swift */; };
 		E1CD70EB27DDE7850098DE0B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CD70EA27DDE7850098DE0B /* HealthKit.framework */; };
 		E1CD70ED27DDEF6A0098DE0B /* CollectedDataScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */; };
@@ -89,6 +91,8 @@
 		E16A9EA927E0F51D007092CD /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		E184F4E027E5ACE100BB2F2C /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
 		E184F4E227E5AEC800BB2F2C /* AlertContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertContent.swift; sourceTree = "<group>"; };
+		E184F4E427E5B0F000BB2F2C /* ReportsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsScreen.swift; sourceTree = "<group>"; };
+		E184F4E627E5BA1E00BB2F2C /* PDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFView.swift; sourceTree = "<group>"; };
 		E1CD70E827DDDD630098DE0B /* HealthKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKit.swift; sourceTree = "<group>"; };
 		E1CD70EA27DDE7850098DE0B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectedDataScreen.swift; sourceTree = "<group>"; };
@@ -143,6 +147,7 @@
 				E104203327DBA16500051F2A /* Habit_TrackerApp.swift */,
 				E1CD70EE27DDEFB00098DE0B /* HabitViewModel.swift */,
 				E104203527DBA16500051F2A /* HabitScreen.swift */,
+				E184F4E427E5B0F000BB2F2C /* ReportsScreen.swift */,
 				E12E2C9027E237FE002AD960 /* Common */,
 				E10AFC0C27DF18DB000965D9 /* CommonUI */,
 				E1CD70F027DDEFCC0098DE0B /* Services */,
@@ -190,6 +195,7 @@
 				E10AFC0A27DF18D5000965D9 /* FilePicker.swift */,
 				E184F4E027E5ACE100BB2F2C /* Spinner.swift */,
 				E184F4E227E5AEC800BB2F2C /* AlertContent.swift */,
+				E184F4E627E5BA1E00BB2F2C /* PDFView.swift */,
 			);
 			path = CommonUI;
 			sourceTree = "<group>";
@@ -341,6 +347,7 @@
 			files = (
 				E184F4E327E5AEC800BB2F2C /* AlertContent.swift in Sources */,
 				E12BC20527E2451100580111 /* RemoteStoreAPI.swift in Sources */,
+				E184F4E527E5B0F000BB2F2C /* ReportsScreen.swift in Sources */,
 				E16A9EA427E0E01A007092CD /* AppDelegate.swift in Sources */,
 				E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */,
 				E12E2C8F27E237FB002AD960 /* KeyPath.swift in Sources */,
@@ -351,6 +358,7 @@
 				E104204027DBA16600051F2A /* Habit_Tracker.xcdatamodeld in Sources */,
 				E104203627DBA16500051F2A /* HabitScreen.swift in Sources */,
 				E104203427DBA16500051F2A /* Habit_TrackerApp.swift in Sources */,
+				E184F4E727E5BA1E00BB2F2C /* PDFView.swift in Sources */,
 				E1CD70ED27DDEF6A0098DE0B /* CollectedDataScreen.swift in Sources */,
 				E1CD70EF27DDEFB00098DE0B /* HabitViewModel.swift in Sources */,
 				E10AFC0B27DF18D5000965D9 /* FilePicker.swift in Sources */,

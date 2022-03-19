@@ -15,8 +15,17 @@ struct Habit_TrackerApp: App {
 
   var body: some Scene {
     WindowGroup {
-      ContentView()
-        .environment(\.managedObjectContext, persistenceController.container.viewContext)
+      TabView {
+        DataCollectorScreen()
+          .tabItem {
+              Label("Data", systemImage: "antenna.radiowaves.left.and.right")
+          }
+        ReportsScreen()
+          .tabItem {
+              Label("Reports", systemImage: "newspaper")
+          }
+      }
+      .environment(\.managedObjectContext, persistenceController.container.viewContext)
     }
   }
 }

@@ -7,14 +7,19 @@
 
 import Foundation
 import Moya
+import UIKit
 
 class Networking {
   static let shared = Networking()
 
   let api = MoyaProvider<RemoteStoreAPI>()
 
+  init() {
+    api.session.sessionConfiguration.timeoutIntervalForRequest = 2
+  }
+
   func uploadData(csvFiles: [CSVFile], csvFileURLs: [URL], to host: String) async throws {
-    try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+    return try await withCheckedThrowingContinuation { continuation in
       self.api.request(
         RemoteStoreAPI(
           baseURL: URL(string: host)!,
@@ -28,5 +33,32 @@ class Networking {
           }
         }
     }
+  }
+
+  func reports(from host: URL) async throws -> [RemoteReportFile] {
+    return try await withCheckedThrowingContinuation { continuation in
+      api.request(RemoteStoreAPI(baseURL: host, endpoint: .listOfReports)) { result in
+        switch result {
+        case .success(let response):
+          let decoder = JSONDecoder()
+          guard let strings = try? decoder.decode([RemoteReportFile].self, from: response.data) else {
+            assertionFailure("failed to decode")
+            continuation.resume(returning: [])
+            return
+          }
+
+          continuation.resume(returning: strings)
+        case .failure(let error):
+          continuation.resume(with: .failure(error))
+        }
+      }
+    }
+  }
+
+  func report(_ file: RemoteReportFile) async throws -> URL {
+    let request = try URLRequest(url: file.url, method: .get, headers: ["key": "635452ba20a7780588a9367a21f971cfd7a"])
+    let (url, _) = try await URLSession.shared.download(for: request)
+
+    return url
   }
 }
