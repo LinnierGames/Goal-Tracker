@@ -8,19 +8,6 @@
 import SwiftUI
 import CoreData
 
-struct DataCell<Label: View>: View {
-  let label: Label
-
-  @State var toggle = false
-
-  var body: some View {
-    label
-    Toggle(isOn: $toggle) {
-      Text("Include in Export")
-    }
-  }
-}
-
 struct DataCollectorScreen: View {
   @StateObject var viewModel: HabitViewModel
 
@@ -40,8 +27,8 @@ struct DataCollectorScreen: View {
 //              label: NavigationLink(data.title, destination: CollectedDataScreen(data: data))
 //            )
 //          }
-          DataCell(label: NavigationLink(
-            "Sleep",
+          NavigationLink(
+            "Feeling Sleepy",
             destination: CollectedDataScreen(
               items: FetchRequest<FeelingSleepy>(
                 sortDescriptors: [NSSortDescriptor(keyPath: \FeelingSleepy.timestamp, ascending: true)],
@@ -60,8 +47,8 @@ struct DataCollectorScreen: View {
                 Text("new stuff!")
               }
             )
-          ))
-          DataCell(label: NavigationLink("Shower", destination: Text("Shower stuff")))
+          )
+          NavigationLink("Shower", destination: Text("Shower stuff"))
         }
         Section("Actions") {
           makeHealthKitAction()
@@ -116,6 +103,9 @@ struct DataCollectorScreen: View {
     if !viewModel.stagedURLs.isEmpty {
       ForEach(viewModel.stagedURLs, id: \.self) { url in
         Text(url.lastPathComponent)
+      }
+      .onDelete { index in
+        viewModel.stagedURLs.remove(at: index.first!)
       }
     }
   }

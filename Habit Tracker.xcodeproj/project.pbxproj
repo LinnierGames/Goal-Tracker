@@ -35,6 +35,11 @@
 		E184F4E327E5AEC800BB2F2C /* AlertContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184F4E227E5AEC800BB2F2C /* AlertContent.swift */; };
 		E184F4E527E5B0F000BB2F2C /* ReportsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184F4E427E5B0F000BB2F2C /* ReportsScreen.swift */; };
 		E184F4E727E5BA1E00BB2F2C /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184F4E627E5BA1E00BB2F2C /* PDFView.swift */; };
+		E19D369B27E6FDE400AF0490 /* View+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19D369A27E6FDE400AF0490 /* View+Helpers.swift */; };
+		E19D369D27E6FF0D00AF0490 /* ReportsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19D369C27E6FF0D00AF0490 /* ReportsViewModel.swift */; };
+		E19D369F27E6FF3E00AF0490 /* ReportScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19D369E27E6FF3E00AF0490 /* ReportScreen.swift */; };
+		E19D36A127E6FF4C00AF0490 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19D36A027E6FF4C00AF0490 /* ReportViewModel.swift */; };
+		E19D36A327E7008C00AF0490 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19D36A227E7008C00AF0490 /* ShareSheet.swift */; };
 		E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70E827DDDD630098DE0B /* HealthKit.swift */; };
 		E1CD70EB27DDE7850098DE0B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CD70EA27DDE7850098DE0B /* HealthKit.framework */; };
 		E1CD70ED27DDEF6A0098DE0B /* CollectedDataScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */; };
@@ -93,6 +98,11 @@
 		E184F4E227E5AEC800BB2F2C /* AlertContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertContent.swift; sourceTree = "<group>"; };
 		E184F4E427E5B0F000BB2F2C /* ReportsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsScreen.swift; sourceTree = "<group>"; };
 		E184F4E627E5BA1E00BB2F2C /* PDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFView.swift; sourceTree = "<group>"; };
+		E19D369A27E6FDE400AF0490 /* View+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Helpers.swift"; sourceTree = "<group>"; };
+		E19D369C27E6FF0D00AF0490 /* ReportsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsViewModel.swift; sourceTree = "<group>"; };
+		E19D369E27E6FF3E00AF0490 /* ReportScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreen.swift; sourceTree = "<group>"; };
+		E19D36A027E6FF4C00AF0490 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
+		E19D36A227E7008C00AF0490 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		E1CD70E827DDDD630098DE0B /* HealthKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKit.swift; sourceTree = "<group>"; };
 		E1CD70EA27DDE7850098DE0B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectedDataScreen.swift; sourceTree = "<group>"; };
@@ -147,7 +157,10 @@
 				E104203327DBA16500051F2A /* Habit_TrackerApp.swift */,
 				E1CD70EE27DDEFB00098DE0B /* HabitViewModel.swift */,
 				E104203527DBA16500051F2A /* HabitScreen.swift */,
+				E19D369C27E6FF0D00AF0490 /* ReportsViewModel.swift */,
 				E184F4E427E5B0F000BB2F2C /* ReportsScreen.swift */,
+				E19D36A027E6FF4C00AF0490 /* ReportViewModel.swift */,
+				E19D369E27E6FF3E00AF0490 /* ReportScreen.swift */,
 				E12E2C9027E237FE002AD960 /* Common */,
 				E10AFC0C27DF18DB000965D9 /* CommonUI */,
 				E1CD70F027DDEFCC0098DE0B /* Services */,
@@ -191,11 +204,13 @@
 		E10AFC0C27DF18DB000965D9 /* CommonUI */ = {
 			isa = PBXGroup;
 			children = (
+				E184F4E227E5AEC800BB2F2C /* AlertContent.swift */,
 				E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */,
 				E10AFC0A27DF18D5000965D9 /* FilePicker.swift */,
-				E184F4E027E5ACE100BB2F2C /* Spinner.swift */,
-				E184F4E227E5AEC800BB2F2C /* AlertContent.swift */,
 				E184F4E627E5BA1E00BB2F2C /* PDFView.swift */,
+				E19D36A227E7008C00AF0490 /* ShareSheet.swift */,
+				E184F4E027E5ACE100BB2F2C /* Spinner.swift */,
+				E19D369A27E6FDE400AF0490 /* View+Helpers.swift */,
 			);
 			path = CommonUI;
 			sourceTree = "<group>";
@@ -345,6 +360,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E19D36A127E6FF4C00AF0490 /* ReportViewModel.swift in Sources */,
 				E184F4E327E5AEC800BB2F2C /* AlertContent.swift in Sources */,
 				E12BC20527E2451100580111 /* RemoteStoreAPI.swift in Sources */,
 				E184F4E527E5B0F000BB2F2C /* ReportsScreen.swift in Sources */,
@@ -352,12 +368,16 @@
 				E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */,
 				E12E2C8F27E237FB002AD960 /* KeyPath.swift in Sources */,
 				E12BC20727E2488700580111 /* CSVFile.swift in Sources */,
+				E19D369F27E6FF3E00AF0490 /* ReportScreen.swift in Sources */,
 				E104207227DBAC5800051F2A /* Intents.intentdefinition in Sources */,
+				E19D369D27E6FF0D00AF0490 /* ReportsViewModel.swift in Sources */,
+				E19D36A327E7008C00AF0490 /* ShareSheet.swift in Sources */,
 				E16A9EAA27E0F51D007092CD /* Networking.swift in Sources */,
 				E104203D27DBA16600051F2A /* Persistence.swift in Sources */,
 				E104204027DBA16600051F2A /* Habit_Tracker.xcdatamodeld in Sources */,
 				E104203627DBA16500051F2A /* HabitScreen.swift in Sources */,
 				E104203427DBA16500051F2A /* Habit_TrackerApp.swift in Sources */,
+				E19D369B27E6FDE400AF0490 /* View+Helpers.swift in Sources */,
 				E184F4E727E5BA1E00BB2F2C /* PDFView.swift in Sources */,
 				E1CD70ED27DDEF6A0098DE0B /* CollectedDataScreen.swift in Sources */,
 				E1CD70EF27DDEFB00098DE0B /* HabitViewModel.swift in Sources */,

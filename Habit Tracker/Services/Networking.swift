@@ -9,6 +9,10 @@ import Foundation
 import Moya
 import UIKit
 
+enum NetworkingError: Error {
+  case nothingToUpload
+}
+
 class Networking {
   static let shared = Networking()
 
@@ -19,6 +23,8 @@ class Networking {
   }
 
   func uploadData(csvFiles: [CSVFile], csvFileURLs: [URL], to host: String) async throws {
+    guard !csvFiles.isEmpty || !csvFileURLs.isEmpty else { throw NetworkingError.nothingToUpload }
+
     return try await withCheckedThrowingContinuation { continuation in
       self.api.request(
         RemoteStoreAPI(
@@ -57,8 +63,22 @@ class Networking {
 
   func report(_ file: RemoteReportFile) async throws -> URL {
     let request = try URLRequest(url: file.url, method: .get, headers: ["key": "635452ba20a7780588a9367a21f971cfd7a"])
-    let (url, _) = try await URLSession.shared.download(for: request)
+    let (originalURL, _) = try await URLSession.shared.download(for: request)
 
-    return url
+    let fileManager = FileManager.default
+    let downloadsURL = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
+    let filename = originalURL.lastPathComponent.split(separator: ".").first!
+    let pdfFilename = "\(filename).pdf"
+
+    let destinationURL = downloadsURL.appendingPathComponent(pdfFilename)
+
+    do {
+      print(originalURL, destinationURL)
+      try fileManager.moveItem(at: originalURL, to: destinationURL)
+      return destinationURL
+    } catch {
+      assertionFailure(error.localizedDescription)
+      return originalURL
+    }
   }
 }

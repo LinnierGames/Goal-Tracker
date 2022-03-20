@@ -23,30 +23,37 @@ class HabitViewModel: ObservableObject {
     isLoading = true
 
     Task {
+      var csvFiles = [CSVFile]()
+
       let request = FeelingSleepy.fetchRequest()
       request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
       let context = PersistenceController.shared.container.viewContext
       let feelingSleepy = try! context.fetch(request)
+      if !feelingSleepy.isEmpty {
+        csvFiles.append(
+          CSVFile(
+            data: feelingSleepy,
+            headers: "timestamp,activity",
+            filename: "Feeling Sleepy.csv",
+            csvRowFactory: { line in
+              "\(line.timestamp),\(line.activity)"
+            }
+          )
+        )
+      }
 
-      let csvFiles = [
-        CSVFile(
-          data: feelingSleepy,
-          headers: "timestamp,activity",
-          filename: "Feeling Sleepy.csv",
-          csvRowFactory: { line in
-            "\(line.timestamp),\(line.activity)"
-          }
-        ),
-
-        CSVFile(
-          data: inBedTimes,
-          headers: "start time,end time,duration",
-          filename: "Bedtimes.csv",
-          csvRowFactory: { line in
-            "\(line.start.stringValue),\(line.end.stringValue),\(line.duration)\n"
-          }
-        ),
-      ]
+      if !inBedTimes.isEmpty {
+        csvFiles.append(
+          CSVFile(
+            data: inBedTimes,
+            headers: "start time,end time,duration",
+            filename: "Bedtimes.csv",
+            csvRowFactory: { line in
+              "\(line.start.stringValue),\(line.end.stringValue),\(line.duration)\n"
+            }
+          )
+        )
+      }
 
       do {
         try await networking.uploadData(csvFiles: csvFiles, csvFileURLs: stagedURLs, to: host)
@@ -64,7 +71,7 @@ class HabitViewModel: ObservableObject {
   @Published var stagedURLs = [URL]()
 
   func stageFiles(urls: [URL]) {
-    stagedURLs = urls
+    stagedURLs.append(contentsOf: urls)
   }
 
   // MARK: Health Kit
