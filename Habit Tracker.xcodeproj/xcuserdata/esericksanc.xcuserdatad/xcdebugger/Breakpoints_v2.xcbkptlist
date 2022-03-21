@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.SwiftErrorBreakpoint">
          <BreakpointContent
             uuid = "83B9DF20-8EDA-41AA-9B06-6577692202B4"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No">
          </BreakpointContent>
@@ -16,17 +16,65 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "12113C03-87C0-47FD-AA6C-9A7D5F0A4A4E"
+            uuid = "61425587-8333-4F04-9ED1-3E86426BC1BB"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Habit Tracker/Services/Networking.swift"
+            filePath = "HabitImportShareExtension/ShareViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
-            landmarkName = "report(_:)"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "61425587-8333-4F04-9ED1-3E86426BC1BB - 95adb426b7cc38b7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for closure #1 @Sendable () async -&gt; () in HabitImportShareExtension.ShareViewController.viewDidLoad() -&gt; ()"
+                  moduleName = "HabitImportShareExtension"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/HabitImportShareExtension/ShareViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "2904">
+               </Location>
+               <Location
+                  uuid = "61425587-8333-4F04-9ED1-3E86426BC1BB - 7941da989934fcb5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for closure #1 @Sendable () async -&gt; () in HabitImportShareExtension.ShareViewController.viewDidLoad() -&gt; ()"
+                  moduleName = "HabitImportShareExtension"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/HabitImportShareExtension/ShareViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "2976">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "359A52CC-B3E6-4C99-96F3-868B950656F9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Habit Tracker/Services/RemoteStoreAPI.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "task"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

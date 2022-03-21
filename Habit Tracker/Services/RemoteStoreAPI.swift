@@ -52,7 +52,15 @@ extension RemoteStoreAPI: TargetType {
           mimeType: "text/plain"
         )
       }
-      let csvURLParts = csvURLs.map { url in
+      let csvURLParts = csvURLs.compactMap { url -> MultipartFormData? in
+//        guard let data = try? Data(contentsOf: url) else { return nil }
+//
+//        return MultipartFormData(
+//          provider: .data(data),
+//          name: multipartName,
+//          fileName: url.lastPathComponent,
+//          mimeType: "text/plain"
+//        )
         MultipartFormData(
           provider: .file(url),
           name: multipartName,

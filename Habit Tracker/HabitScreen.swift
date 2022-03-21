@@ -53,6 +53,14 @@ struct DataCollectorScreen: View {
         Section("Actions") {
           makeHealthKitAction()
         }
+        Section("Imported Files") {
+          ForEach(viewModel.importedFiles, id: \.self) { url in
+            Text(url.lastPathComponent)
+          }.onDelete { index in
+            let index = index.first!
+            viewModel.deleteImportedFile(at: index)
+          }
+        }
         Section("Other CSV files") {
           makeFilesPicker()
         }

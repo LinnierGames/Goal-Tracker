@@ -11,12 +11,25 @@ import SwiftUI
 class HabitViewModel: ObservableObject {
   @Published var isLoading = false
   @Published var alert: AlertContent?
+  @Published var stagedFiles = [URL]()
+  @Published var importedFiles = [URL]()
   
   private let healthKitService = HealthKitService()
   private let networking = Networking.shared
+  private let ud = UserDefaults(suiteName: "group.com.linniergames.Habit-Tracker")!
 
   init() {
     self._isHealthKitGranted = .init(initialValue: healthKitService.isSleepGranted)
+
+    ud.synchronize()
+    importedFiles = ((ud.array(forKey: "STAGED_FILES") as! [String]?) ?? []).compactMap(URL.init)
+  }
+
+  func deleteImportedFile(at index: Int) {
+    var importedFiles = importedFiles
+    importedFiles.remove(at: index)
+    ud.set(importedFiles.map { $0.absoluteString }, forKey: "STAGED_FILES")
+    self.importedFiles = importedFiles
   }
 
   func export(to host: String) {
@@ -56,8 +69,15 @@ class HabitViewModel: ObservableObject {
       }
 
       do {
-        try await networking.uploadData(csvFiles: csvFiles, csvFileURLs: stagedURLs, to: host)
+        try await networking.uploadData(
+          csvFiles: csvFiles,
+          csvFileURLs: stagedURLs + importedFiles,
+          to: host
+        )
         alert = AlertContent(title: "Upload Successful!")
+
+        ud.set(nil, forKey: "STAGED_FILES")
+        importedFiles = []
       } catch {
         alert = AlertContent(title: "Something Went Wrong", message: error.localizedDescription)
       }
