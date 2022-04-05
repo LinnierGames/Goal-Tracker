@@ -38,21 +38,42 @@ class HabitViewModel: ObservableObject {
     Task {
       var csvFiles = [CSVFile]()
 
-      let request = FeelingSleepy.fetchRequest()
-      request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
-      let context = PersistenceController.shared.container.viewContext
-      let feelingSleepy = try! context.fetch(request)
-      if !feelingSleepy.isEmpty {
-        csvFiles.append(
-          CSVFile(
-            data: feelingSleepy,
-            headers: "timestamp,activity",
-            filename: "Feeling Sleepy.csv",
-            csvRowFactory: { line in
-              "\(line.timestamp),\(line.activity)"
-            }
+      do {
+        let request = FeelingSleepy.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
+        let context = PersistenceController.shared.container.viewContext
+        let feelingSleepy = try! context.fetch(request)
+        if !feelingSleepy.isEmpty {
+          csvFiles.append(
+            CSVFile(
+              data: feelingSleepy,
+              headers: "timestamp,activity",
+              filename: "Feeling Sleepy.csv",
+              csvRowFactory: { line in
+                "\(line.timestamp),\(line.activity)"
+              }
+            )
           )
-        )
+        }
+      }
+
+      do {
+        let request = ShowerTimestamp.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
+        let context = PersistenceController.shared.container.viewContext
+        let showerTimestamps = try! context.fetch(request)
+        if !showerTimestamps.isEmpty {
+          csvFiles.append(
+            CSVFile(
+              data: showerTimestamps,
+              headers: "timestamp,products",
+              filename: "Showers.csv",
+              csvRowFactory: { line in
+                "\(line.timestamp!),\(line.products!.joined(separator: ","))"
+              }
+            )
+          )
+        }
       }
 
       if !inBedTimes.isEmpty {

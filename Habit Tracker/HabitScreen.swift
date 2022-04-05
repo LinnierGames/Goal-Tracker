@@ -31,7 +31,7 @@ struct DataCollectorScreen: View {
             "Feeling Sleepy",
             destination: CollectedDataScreen(
               items: FetchRequest<FeelingSleepy>(
-                sortDescriptors: [NSSortDescriptor(keyPath: \FeelingSleepy.timestamp, ascending: true)],
+                sortDescriptors: [NSSortDescriptor(keyPath: \FeelingSleepy.timestamp, ascending: false)],
                 animation: .default
               ),
               row: { item in
@@ -48,7 +48,27 @@ struct DataCollectorScreen: View {
               }
             )
           )
-          NavigationLink("Shower", destination: Text("Shower stuff"))
+          NavigationLink(
+            "Shower",
+            destination: CollectedDataScreen(
+              items: FetchRequest<ShowerTimestamp>(
+                sortDescriptors: [NSSortDescriptor(keyPath: \FeelingSleepy.timestamp, ascending: false)],
+                animation: .default
+              ),
+              row: { item in
+                VStack {
+                  Text(item.timestamp!, format: .dateTime)
+                  Text(item.products!.joined(separator: ", "))
+                }
+              },
+              detailedScreen: { item in
+                Text("Item at \(item.timestamp!)")
+              },
+              addNewDataScreen: {
+                Text("new stuff!")
+              }
+            )
+          )
         }
         Section("Actions") {
           makeHealthKitAction()
