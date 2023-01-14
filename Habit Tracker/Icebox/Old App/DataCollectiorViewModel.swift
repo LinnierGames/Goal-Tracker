@@ -1,5 +1,5 @@
 //
-//  HabitViewModel.swift
+//  DataCollectiorViewModel.swift
 //  Habit Tracker
 //
 //  Created by Erick Sanchez on 3/13/22.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @MainActor
-class HabitViewModel: ObservableObject {
+class DataCollectiorViewModel: ObservableObject {
   @Published var isLoading = false
   @Published var alert: AlertContent?
   @Published var stagedFiles = [URL]()

@@ -9,10 +9,10 @@ import SwiftUI
 import CoreData
 
 struct DataCollectorScreen: View {
-  @StateObject var viewModel: HabitViewModel
+  @StateObject var viewModel: DataCollectiorViewModel
 
   init() {
-    _viewModel = StateObject(wrappedValue: HabitViewModel())
+    _viewModel = StateObject(wrappedValue: DataCollectiorViewModel())
   }
 
   @AppStorage("HOST_STRING") private var hostString = "http://10.0.0.166:3000"
