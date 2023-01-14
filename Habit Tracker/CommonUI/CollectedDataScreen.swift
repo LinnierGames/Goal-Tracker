@@ -11,11 +11,14 @@ import SwiftUI
 struct CollectedDataScreen<
   Data: NSManagedObject & Identifiable,
   DetailedScreen: View,
+  Label: View,
   Row: View,
   AddNewDataScreen: View
 >: View {
   @Environment(\.managedObjectContext) private var viewContext
 
+  private let title: String
+  private let label: (Data) -> Label
   private let row: (Data) -> Row
   private let detailedScreen: (Data) -> DetailedScreen
   private let addNewDataScreen: () -> AddNewDataScreen
@@ -25,18 +28,35 @@ struct CollectedDataScreen<
   @State private var isShowingAddScreen = false
 
   init(
+    title: String,
     items: FetchRequest<Data>,
+    @ViewBuilder label: @escaping (Data) -> Label,
     @ViewBuilder row: @escaping (Data) -> Row,
     @ViewBuilder detailedScreen: @escaping (Data) -> DetailedScreen,
     @ViewBuilder addNewDataScreen: @escaping () -> AddNewDataScreen
   ) {
+    self.title = title
     _items = items
+    self.label = label
     self.row = row
     self.detailedScreen = detailedScreen
     self.addNewDataScreen = addNewDataScreen
   }
 
   var body: some View {
+    NavigationLink {
+      makeDestination()
+    } label: {
+      VStack(alignment: .leading) {
+        Text(title)
+        if let mostRecentData = items.first {
+          label(mostRecentData)
+        }
+      }
+    }
+  }
+
+  private func makeDestination() -> some View {
     List {
       ForEach(items) { item in
         NavigationLink {
@@ -53,7 +73,7 @@ struct CollectedDataScreen<
       }
       ToolbarItem {
         Button(action: { isShowingAddScreen = true }) {
-          Label("Add Item", systemImage: "plus")
+          SwiftUI.Label("Add Item", systemImage: "plus")
         }
       }
     }

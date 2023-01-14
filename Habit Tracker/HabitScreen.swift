@@ -27,47 +27,51 @@ struct DataCollectorScreen: View {
 //              label: NavigationLink(data.title, destination: CollectedDataScreen(data: data))
 //            )
 //          }
-          NavigationLink(
-            "Feeling Sleepy",
-            destination: CollectedDataScreen(
-              items: FetchRequest<FeelingSleepy>(
-                sortDescriptors: [NSSortDescriptor(keyPath: \FeelingSleepy.timestamp, ascending: false)],
-                animation: .default
-              ),
-              row: { item in
-                VStack {
-                  Text(item.timestamp, format: .dateTime)
-                  Text(item.activity)
-                }
-              },
-              detailedScreen: { item in
-                Text("Item at \(item.timestamp)")
-              },
-              addNewDataScreen: {
-                Text("new stuff!")
+          CollectedDataScreen(
+            title: "Feeling Sleepy",
+            items: FetchRequest<FeelingSleepy>(
+              sortDescriptors: [NSSortDescriptor(keyPath: \FeelingSleepy.timestamp, ascending: false)],
+              animation: .default
+            ),
+            label: { mostRecent in
+              Text("Last event: \(mostRecent.timestamp, format: .dateTime)")
+                .font(.caption)
+            },
+            row: { item in
+              VStack {
+                Text(item.timestamp, format: .dateTime)
+                Text(item.activity)
               }
-            )
+            },
+            detailedScreen: { item in
+              Text("Item at \(item.timestamp)")
+            },
+            addNewDataScreen: {
+              Text("new stuff!")
+            }
           )
-          NavigationLink(
-            "Shower",
-            destination: CollectedDataScreen(
-              items: FetchRequest<ShowerTimestamp>(
-                sortDescriptors: [NSSortDescriptor(keyPath: \FeelingSleepy.timestamp, ascending: false)],
-                animation: .default
-              ),
-              row: { item in
-                VStack {
-                  Text(item.timestamp!, format: .dateTime)
-                  Text(item.products!.joined(separator: ", "))
-                }
-              },
-              detailedScreen: { item in
-                Text("Item at \(item.timestamp!)")
-              },
-              addNewDataScreen: {
-                Text("new stuff!")
+          CollectedDataScreen(
+            title: "Shower",
+            items: FetchRequest<ShowerTimestamp>(
+              sortDescriptors: [NSSortDescriptor(keyPath: \FeelingSleepy.timestamp, ascending: false)],
+              animation: .default
+            ),
+            label: { mostRecent in
+              Text("Last event: \(mostRecent.timestamp!, format: .dateTime)")
+                .font(.caption)
+            },
+            row: { item in
+              VStack {
+                Text(item.timestamp!, format: .dateTime)
+                Text(item.products!.joined(separator: ", "))
               }
-            )
+            },
+            detailedScreen: { item in
+              Text("Item at \(item.timestamp!)")
+            },
+            addNewDataScreen: {
+              Text("new stuff!")
+            }
           )
         }
         Section("Actions") {
@@ -94,7 +98,7 @@ struct DataCollectorScreen: View {
 
       .alert(content: $viewModel.alert)
 
-      .navigationTitle("Habits")
+      .navigationTitle("\(Date(), style: .date)")
     }
   }
 
