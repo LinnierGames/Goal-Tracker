@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21E230" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="21G115" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="FeelingSleepy" representedClassName="FeelingSleepy" syncable="YES">
         <attribute name="activity" attributeType="String"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="Habit" representedClassName="Habit" syncable="YES" codeGenerationType="class">
+        <attribute name="title" attributeType="String" defaultValueString="Untitled Habit"/>
+        <relationship name="entries" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="HabitEntry" inverseName="habit" inverseEntity="HabitEntry"/>
+    </entity>
+    <entity name="HabitEntry" representedClassName="HabitEntry" syncable="YES" codeGenerationType="class">
+        <attribute name="notes" attributeType="String" defaultValueString=""/>
+        <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="0" usesScalarValueType="NO"/>
+        <relationship name="habit" maxCount="1" deletionRule="Nullify" destinationEntity="Habit" inverseName="entries" inverseEntity="Habit"/>
     </entity>
     <entity name="ShowerTimestamp" representedClassName="ShowerTimestamp" syncable="YES" codeGenerationType="class">
         <attribute name="products" attributeType="Transformable" customClassName="[String]"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
-    <elements>
-        <element name="FeelingSleepy" positionX="-63" positionY="-18" width="128" height="59"/>
-        <element name="ShowerTimestamp" positionX="-63" positionY="0" width="128" height="59"/>
-    </elements>
 </model>

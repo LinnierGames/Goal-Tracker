@@ -24,12 +24,16 @@ struct Habit_TrackerApp: App {
               .tabItem {
                   Label("Import", systemImage: "square.and.arrow.down")
               }
-          AnalyticsScreen()
+          GoalsScreen()
               .tabItem {
-                  Label("Analytics", systemImage: "chart.line.uptrend.xyaxis")
+                  Label("Goals", systemImage: "star.fill")
               }
       }
       .environment(\.managedObjectContext, persistenceController.container.viewContext)
+      .onLoad {
+        let r = try! persistenceController.container.viewContext.fetch(Habit.fetchRequest())
+        print(r)
+      }
     }
   }
 }

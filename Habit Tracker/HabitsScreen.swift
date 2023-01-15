@@ -8,13 +8,53 @@
 import SwiftUI
 
 struct HabitsScreen: View {
+  @Environment(\.managedObjectContext) private var viewContext
+
+  @FetchRequest(sortDescriptors: [SortDescriptor(\Habit.title)])
+  private var items: FetchedResults<Habit>
+
   var body: some View {
-    Text("Habits")
+    NavigationView {
+      List(items) { habit in
+        NavigationLink {
+          HabitDetailScreen(habit)
+        } label: {
+          VStack(alignment: .leading) {
+            Text(habit.title ?? "Untitled")
+            Text(habit.entries?.allObjects.count ?? 0, format: .number)
+          }
+        }
+      }
+      .navigationTitle("Habits")
+    }
   }
 }
 
+struct HabitDetailScreen: View {
+  @StateObject var habit: Habit
+
+  init(_ habit: Habit) {
+    self._habit = StateObject(wrappedValue: habit)
+  }
+
+  var body: some View {
+    List {
+      Section("Entries") {
+        ForEach(habit.entries!.allObjects as! [HabitEntry]) { entry in
+          Text("\(entry.timestamp!, style: .date) at \(entry.timestamp!, style: .time)")
+        }
+      }
+    }
+    .navigationBarTitleDisplayMode(.large)
+    .navigationTitle(habit.title!)
+  }
+}
+
+import CoreData
+
 struct ImportDataScreen: View {
   @State private var stagedURLs = [URL]()
+  @Environment(\.managedObjectContext) var viewContext
 
   var body: some View {
     VStack {
@@ -65,21 +105,105 @@ struct ImportDataScreen: View {
   private func importHabits(url: URL) {
     guard
       let data = try? Data(contentsOf: url),
-      let content = try? String(data: data, encoding: .utf8)
+      let content = String(data: data, encoding: .utf8)
     else {
       return
     }
 
-    let parsedCSV: [String] = content.components(
-        separatedBy: "\n"
-    ).map{ $0.components(separatedBy: ",")[0] } // fix this
+    struct CSV {
+      let headers: [String]
 
-    print(parsedCSV)
+      struct Row {
+        let columns: [String]
+      }
+      let rows: [Row]
+    }
+
+    func findItOrCreateIt<T: NSManagedObject>(
+      fetch: NSFetchRequest<T>,
+      predicate: () -> NSPredicate,
+      createIt: () -> T
+    ) -> T {
+      do {
+        fetch.predicate = predicate()
+        let result = try viewContext.fetch(fetch)
+
+        if let it = result.first {
+          return it
+        } else {
+          return createIt()
+        }
+      } catch {
+        assertionFailure(error.localizedDescription)
+
+        return createIt()
+      }
+    }
+
+    func findHabitOrCreateIt(title: String) -> Habit {
+      findItOrCreateIt(fetch: Habit.fetchRequest()) {
+        NSPredicate(format: "title = %@", title)
+      } createIt: {
+        let new = Habit(context: viewContext)
+        new.title = title
+        return new
+      }
+    }
+
+    func findTimestampOrCreateIt(date: Date, habitTitle: String) -> HabitEntry {
+      findItOrCreateIt(fetch: HabitEntry.fetchRequest()) {
+        NSPredicate(format: "timestamp = %@ AND habit.title = %@", date as NSDate, habitTitle)
+      } createIt: {
+        let new = HabitEntry(context: viewContext)
+        new.timestamp = date
+        return new
+      }
+    }
+
+    let stringRows = content.components(
+      separatedBy: "\n"
+    )
+    let rows = Array(
+      stringRows.map { CSV.Row(columns: $0.components(separatedBy: ",")) }.dropFirst()
+    )
+    let headers = stringRows[0].split(separator: ",").map(String.init)
+
+    let csv = CSV(headers: headers, rows: rows)
+
+    guard
+      let trackerIndex = csv.headers.firstIndex(of: "Tracker"),
+      let timestampIndex = csv.headers.firstIndex(of: "Date (ISO 8601)")
+    else {
+      fatalError()
+    }
+
+    for row in csv.rows {
+      guard
+        row.columns.indices.contains(trackerIndex),
+        row.columns.indices.contains(timestampIndex)
+      else {
+        continue
+      }
+
+      let tracker = row.columns[trackerIndex]
+      let timestampString = row.columns[timestampIndex]
+
+      let formatter = DateFormatter()
+      formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+      let timestamp = formatter.date(from: timestampString)!
+
+      let habit = findHabitOrCreateIt(title: tracker)
+      let entry = findTimestampOrCreateIt(date: timestamp, habitTitle: tracker)
+
+      habit.addToEntries(entry)
+    }
+
+    try! viewContext.save()
   }
 }
 
-struct AnalyticsScreen: View {
+struct GoalsScreen: View {
   var body: some View {
-    Text("Analytics")
+    Text("Goals")
   }
 }
