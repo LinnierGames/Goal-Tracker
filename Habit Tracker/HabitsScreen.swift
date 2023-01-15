@@ -7,6 +7,29 @@
 
 import SwiftUI
 
+struct SheetLink<Destination: View, Label: View>: View {
+  let destination: Destination
+  let label: Label
+
+  @State private var isShowingSheet = false
+
+  init(@ViewBuilder destination: () -> Destination, @ViewBuilder label: () -> Label) {
+    self.destination = destination()
+    self.label = label()
+  }
+
+  var body: some View {
+    label
+      .contentShape(Rectangle())
+      .onTapGesture {
+        isShowingSheet.toggle()
+      }
+      .sheet(isPresented: $isShowingSheet) {
+        destination
+      }
+  }
+}
+
 struct HabitsScreen: View {
   @Environment(\.managedObjectContext) private var viewContext
 
@@ -16,12 +39,16 @@ struct HabitsScreen: View {
   var body: some View {
     NavigationView {
       List(items) { habit in
-        NavigationLink {
+        SheetLink {
           HabitDetailScreen(habit)
         } label: {
-          VStack(alignment: .leading) {
-            Text(habit.title ?? "Untitled")
-            Text(habit.entries?.allObjects.count ?? 0, format: .number)
+          HStack {
+            VStack(alignment: .leading) {
+              Text(habit.title ?? "Untitled")
+              Text(habit.entries?.allObjects.count ?? 0, format: .number)
+            }
+            Spacer()
+            Image(systemName: "chevron.right")
           }
         }
       }
@@ -32,21 +59,314 @@ struct HabitsScreen: View {
 
 struct HabitDetailScreen: View {
   @StateObject var habit: Habit
+  @State var uiTabarController: UITabBarController?
 
   init(_ habit: Habit) {
     self._habit = StateObject(wrappedValue: habit)
   }
 
   var body: some View {
-    List {
-      Section("Entries") {
-        ForEach(habit.entries!.allObjects as! [HabitEntry]) { entry in
-          Text("\(entry.timestamp!, style: .date) at \(entry.timestamp!, style: .time)")
+    TabView {
+      HabitDetailsChartScreen(habit: habit)
+        .tabItem {
+          Label("Analytics", systemImage: "chart.xyaxis.line")
         }
+
+      HabitDetailsHistoryScreen(habit: habit)
+        .tabItem {
+          Label("History", systemImage: "clock.arrow.circlepath")
+        }
+
+      NavigationView {
+        Text("HI")
+          .navigationTitle(habit.title!)
+      }
+      .tabItem {
+        Label("Habit", systemImage: "figure.walk")
       }
     }
-    .navigationBarTitleDisplayMode(.large)
-    .navigationTitle(habit.title!)
+  }
+}
+
+import Charts
+import MetricKit
+
+struct HabitDetailsChartScreen: View {
+  @ObservedObject var habit: Habit
+
+  @StateObject private var viewModel = HabitDetailsChartViewModel()
+
+  @FetchRequest
+  private var entries: FetchedResults<HabitEntry>
+
+  @Environment(\.managedObjectContext) private var viewContext
+
+  init(habit: Habit) {
+    self.habit = habit
+    self._entries = FetchRequest(
+      sortDescriptors: [SortDescriptor(\HabitEntry.timestamp)],
+      predicate: NSPredicate(format: "habit = %@", habit)
+    )
+  }
+
+  var body: some View {
+    NavigationView {
+      VStack {
+        // Range Picker
+        makeRangePicker()
+
+        // Window Picker
+        Picker("Flavor", selection: $viewModel.selectedDateWindow) {
+          ForEach(DateWindow.allCases) { window in
+            Text(window.rawValue.capitalized)
+          }
+        }
+        .pickerStyle(.segmented)
+
+        // Charts
+        switch viewModel.selectedDateWindow {
+        case .day:
+          makeDayView()
+        case .week:
+          makeWeekView()
+        case .month:
+          makeMonthView()
+        case .year:
+          makeYearView()
+        }
+
+        Spacer()
+      }
+      .padding(.horizontal)
+
+      .navigationTitle(habit.title!)
+    }
+  }
+
+  private func makeRangePicker() -> some View {
+    HStack {
+      Button(action: viewModel.moveDateBackward) {
+        Image(systemName: "chevron.left")
+          .foregroundColor(.black)
+          .padding()
+          .background(Color.yellow.grayscale(1))
+          .cornerRadius(8)
+      }
+      Spacer()
+      Text(viewModel.selectedDateLabel)
+      Spacer()
+      Button(action: viewModel.moveDateForward) {
+        Image(systemName: "chevron.right")
+          .foregroundColor(.black)
+          .padding()
+          .background(Color.yellow.grayscale(1))
+          .cornerRadius(8)
+      }
+    }
+  }
+
+  private func makeDayView() -> some View {
+    let hour = TimeInterval(hours: 1)
+    let data = stride(from: viewModel.startDate, to: viewModel.endDate, by: hour)
+      .map { day in
+        let nEntriesForDay: Int = {
+          let lowerBound = day.set(minute: 0)
+          let upperBound = day.set(minute: 0).addingTimeInterval(.init(hours: 1))
+          let fetch = HabitEntry.fetchRequest()
+          fetch.predicate = NSPredicate(
+            format: "habit = %@ AND timestamp >= %@ AND timestamp < %@",
+            habit, lowerBound as NSDate, upperBound as NSDate
+          )
+
+          guard let results = try? viewContext.fetch(fetch) else {
+            assertionFailure()
+            return 0
+          }
+
+          return results.count
+        }()
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH"
+        let bucket = formatter.string(from: day)
+
+        return (timestamp: bucket, count: nEntriesForDay)
+      }
+      .map { timestamp, count in
+        Data(timestamp: timestamp, count: count)
+      }
+
+
+    return Chart(data) { entry in
+      BarMark(x: .value("Date", entry.timestamp), y: .value("TimeInterval", entry.count))
+    }
+  }
+
+  private struct Data: Identifiable {
+    var id: String { timestamp }
+
+    let timestamp: String
+    let count: Int
+  }
+
+  private func makeWeekView() -> some View {
+    let day: TimeInterval = 60*60*24
+    let data = stride(from: viewModel.startDate, to: viewModel.endDate, by: day)
+      .map { day in
+        let nEntriesForDay: Int = {
+          let fetch = HabitEntry.fetchRequest()
+          fetch.predicate = NSPredicate(
+            format: "habit = %@ AND timestamp >= %@ AND timestamp < %@",
+            habit, day.midnight as NSDate,
+            day.addingTimeInterval(.init(days: 1)).midnight as NSDate
+          )
+
+          guard let results = try? viewContext.fetch(fetch) else {
+            assertionFailure()
+            return 0
+          }
+
+          return results.count
+        }()
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let bucket = formatter.string(from: day)
+
+        return (timestamp: bucket, count: nEntriesForDay)
+      }
+      .map { timestamp, count in
+        Data(timestamp: timestamp, count: count)
+      }
+
+
+    return Chart(data) { entry in
+      BarMark(x: .value("Date", entry.timestamp), y: .value("TimeInterval", entry.count))
+    }
+  }
+
+  private func makeMonthView() -> some View {
+    let day: TimeInterval = 60*60*24
+    let data = stride(from: viewModel.startDate, to: viewModel.endDate, by: day)
+      .map { day in
+        let nEntriesForDay: Int = {
+          let fetch = HabitEntry.fetchRequest()
+          fetch.predicate = NSPredicate(
+            format: "habit = %@ AND timestamp >= %@ AND timestamp < %@",
+            habit, day.midnight as NSDate,
+            day.addingTimeInterval(.init(days: 1)).midnight as NSDate
+          )
+
+          guard let results = try? viewContext.fetch(fetch) else {
+            assertionFailure()
+            return 0
+          }
+
+          return results.count
+        }()
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let bucket = formatter.string(from: day)
+
+        return (timestamp: bucket, count: nEntriesForDay)
+      }
+      .map { timestamp, count in
+        Data(timestamp: timestamp, count: count)
+      }
+
+
+    return Chart(data) { entry in
+      BarMark(x: .value("Date", entry.timestamp), y: .value("TimeInterval", entry.count))
+    }
+  }
+
+  private func makeYearView() -> some View {
+    Text("makeYearView")
+  }
+
+}
+
+private enum DateWindow: String, CaseIterable, Identifiable {
+  var id: Self { self }
+  case day, week, month, year
+}
+
+private class HabitDetailsChartViewModel: ObservableObject {
+  @Published var selectedDateWindow = DateWindow.week
+  @Published var selectedDate = Date(timeIntervalSince1970: 1557973862)
+
+  var selectedDateLabel: String {
+    String(describing: selectedDate)
+  }
+
+  var startDate: Date { selectedDate }
+  var endDate: Date {
+    switch selectedDateWindow {
+    case .day:
+      return selectedDate.addingTimeInterval(.init(days: 1))
+    case .week:
+      return selectedDate.addingTimeInterval(.init(days: 7))
+    case .month:
+      return selectedDate.addingTimeInterval(.init(days: 31))
+    case .year:
+      return selectedDate.addingTimeInterval(.init(days: 365))
+    }
+  }
+
+  func moveDateForward() {
+    switch selectedDateWindow {
+    case .day:
+      selectedDate = selectedDate.addingTimeInterval(.init(days: 1))
+    case .week:
+      selectedDate = selectedDate.addingTimeInterval(.init(days: 7))
+    case .month:
+      selectedDate = selectedDate.addingTimeInterval(.init(days: 31))
+    case .year:
+      selectedDate = selectedDate.addingTimeInterval(.init(days: 365))
+    }
+  }
+
+  func moveDateBackward() {
+    switch selectedDateWindow {
+    case .day:
+      selectedDate = selectedDate.addingTimeInterval(.init(days: -1))
+    case .week:
+      selectedDate = selectedDate.addingTimeInterval(.init(days: -7))
+    case .month:
+      selectedDate = selectedDate.addingTimeInterval(.init(days: -31))
+    case .year:
+      selectedDate = selectedDate.addingTimeInterval(.init(days: -365))
+    }
+  }
+}
+
+struct HabitDetailsHistoryScreen: View {
+  @ObservedObject var habit: Habit
+
+  @FetchRequest
+  var entries: FetchedResults<HabitEntry>
+
+  init(habit: Habit) {
+    self.habit = habit
+    self._entries = FetchRequest(
+      sortDescriptors: [SortDescriptor(\HabitEntry.timestamp)],
+      predicate: NSPredicate(format: "habit = %@", habit)
+    )
+  }
+
+  var body: some View {
+    NavigationView {
+      List {
+        Section("Entries") {
+          ForEach(entries) { entry in
+            Text("\(entry.timestamp!, style: .date) at \(entry.timestamp!, style: .time)")
+          }
+        }
+      }
+      .navigationBarTitleDisplayMode(.large)
+      .navigationTitle(habit.title!)
+    }
   }
 }
 
@@ -64,8 +384,8 @@ struct ImportDataScreen: View {
             stageFiles(urls: urls)
           } label: {
             HStack {
-                Image(systemName: "doc.on.doc")
-                Text("Pick File")
+              Image(systemName: "doc.on.doc")
+              Text("Pick File")
             }
           }
           if !stagedURLs.isEmpty {
