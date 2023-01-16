@@ -34,7 +34,7 @@ struct HabitPickerScreen: View {
         let isDisabled = disabled(habit)
         HStack {
           Text(habit.title!)
-            .foregroundColor(isDisabled ? .gray : .black)
+            .foregroundColor(isDisabled ? .primary.opacity(0.35) : .primary)
           Spacer()
         }
         .contentShape(Rectangle())

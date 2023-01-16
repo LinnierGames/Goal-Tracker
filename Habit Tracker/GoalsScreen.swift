@@ -22,7 +22,7 @@ struct GoalsScreen: View {
   var body: some View {
     NavigationView {
       List(goals) { goal in
-        NavigationLink {
+        SheetLink {
           GoalDetailScreen(goal)
         } label: {
           VStack(alignment: .leading) {

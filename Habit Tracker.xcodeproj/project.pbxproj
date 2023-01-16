@@ -40,6 +40,8 @@
 		E13F21C22974FAA800E1D4FD /* GoalsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C12974FAA800E1D4FD /* GoalsScreen.swift */; };
 		E13F21C42975284900E1D4FD /* GoalDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */; };
 		E13F21C62975287100E1D4FD /* HabitPickerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C52975287100E1D4FD /* HabitPickerScreen.swift */; };
+		E13F21C82975D5A000E1D4FD /* GoalDetailsChartsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */; };
+		E13F21CA2975D5B000E1D4FD /* GoalDetailsHabitsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C92975D5B000E1D4FD /* GoalDetailsHabitsScreen.swift */; };
 		E16A9EA427E0E01A007092CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A9EA327E0E01A007092CD /* AppDelegate.swift */; };
 		E16A9EA827E0E8FD007092CD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = E16A9EA727E0E8FD007092CD /* Moya */; };
 		E16A9EAA27E0F51D007092CD /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A9EA927E0F51D007092CD /* Networking.swift */; };
@@ -127,6 +129,8 @@
 		E13F21C12974FAA800E1D4FD /* GoalsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsScreen.swift; sourceTree = "<group>"; };
 		E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailScreen.swift; sourceTree = "<group>"; };
 		E13F21C52975287100E1D4FD /* HabitPickerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitPickerScreen.swift; sourceTree = "<group>"; };
+		E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsChartsScreen.swift; sourceTree = "<group>"; };
+		E13F21C92975D5B000E1D4FD /* GoalDetailsHabitsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsHabitsScreen.swift; sourceTree = "<group>"; };
 		E16A9EA327E0E01A007092CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E16A9EA927E0F51D007092CD /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		E184F4E027E5ACE100BB2F2C /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
@@ -212,6 +216,8 @@
 				E13F21BF2974FA9A00E1D4FD /* ImportDataScreen.swift */,
 				E13F21C12974FAA800E1D4FD /* GoalsScreen.swift */,
 				E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */,
+				E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */,
+				E13F21C92975D5B000E1D4FD /* GoalDetailsHabitsScreen.swift */,
 				E12E2C9027E237FE002AD960 /* Common */,
 				E10AFC0C27DF18DB000965D9 /* CommonUI */,
 				E1CD70F027DDEFCC0098DE0B /* Services */,
@@ -478,8 +484,10 @@
 				E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */,
 				E12E2C8F27E237FB002AD960 /* KeyPath.swift in Sources */,
 				E12BC20727E2488700580111 /* CSVFile.swift in Sources */,
+				E13F21CA2975D5B000E1D4FD /* GoalDetailsHabitsScreen.swift in Sources */,
 				E13F21C62975287100E1D4FD /* HabitPickerScreen.swift in Sources */,
 				E19D369F27E6FF3E00AF0490 /* ReportScreen.swift in Sources */,
+				E13F21C82975D5A000E1D4FD /* GoalDetailsChartsScreen.swift in Sources */,
 				E13F21AE297330CD00E1D4FD /* HabitsScreen.swift in Sources */,
 				E13F21C02974FA9A00E1D4FD /* ImportDataScreen.swift in Sources */,
 				E104207227DBAC5800051F2A /* Intents.intentdefinition in Sources */,
