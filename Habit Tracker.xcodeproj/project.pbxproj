@@ -38,6 +38,8 @@
 		E13F21BE2974FA7900E1D4FD /* HabitDetailsHistoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21BD2974FA7900E1D4FD /* HabitDetailsHistoryScreen.swift */; };
 		E13F21C02974FA9A00E1D4FD /* ImportDataScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21BF2974FA9A00E1D4FD /* ImportDataScreen.swift */; };
 		E13F21C22974FAA800E1D4FD /* GoalsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C12974FAA800E1D4FD /* GoalsScreen.swift */; };
+		E13F21C42975284900E1D4FD /* GoalDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */; };
+		E13F21C62975287100E1D4FD /* HabitPickerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C52975287100E1D4FD /* HabitPickerScreen.swift */; };
 		E16A9EA427E0E01A007092CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A9EA327E0E01A007092CD /* AppDelegate.swift */; };
 		E16A9EA827E0E8FD007092CD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = E16A9EA727E0E8FD007092CD /* Moya */; };
 		E16A9EAA27E0F51D007092CD /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A9EA927E0F51D007092CD /* Networking.swift */; };
@@ -123,6 +125,8 @@
 		E13F21BD2974FA7900E1D4FD /* HabitDetailsHistoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailsHistoryScreen.swift; sourceTree = "<group>"; };
 		E13F21BF2974FA9A00E1D4FD /* ImportDataScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportDataScreen.swift; sourceTree = "<group>"; };
 		E13F21C12974FAA800E1D4FD /* GoalsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsScreen.swift; sourceTree = "<group>"; };
+		E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailScreen.swift; sourceTree = "<group>"; };
+		E13F21C52975287100E1D4FD /* HabitPickerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitPickerScreen.swift; sourceTree = "<group>"; };
 		E16A9EA327E0E01A007092CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E16A9EA927E0F51D007092CD /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		E184F4E027E5ACE100BB2F2C /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
@@ -201,11 +205,13 @@
 				E16A9EA327E0E01A007092CD /* AppDelegate.swift */,
 				E104203327DBA16500051F2A /* Habit_TrackerApp.swift */,
 				E13F21AD297330CD00E1D4FD /* HabitsScreen.swift */,
+				E13F21C52975287100E1D4FD /* HabitPickerScreen.swift */,
 				E13F21B92974FA4500E1D4FD /* HabitDetailScreen.swift */,
 				E13F21BB2974FA6100E1D4FD /* HabitDetailsChartsScreen.swift */,
 				E13F21BD2974FA7900E1D4FD /* HabitDetailsHistoryScreen.swift */,
 				E13F21BF2974FA9A00E1D4FD /* ImportDataScreen.swift */,
 				E13F21C12974FAA800E1D4FD /* GoalsScreen.swift */,
+				E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */,
 				E12E2C9027E237FE002AD960 /* Common */,
 				E10AFC0C27DF18DB000965D9 /* CommonUI */,
 				E1CD70F027DDEFCC0098DE0B /* Services */,
@@ -472,6 +478,7 @@
 				E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */,
 				E12E2C8F27E237FB002AD960 /* KeyPath.swift in Sources */,
 				E12BC20727E2488700580111 /* CSVFile.swift in Sources */,
+				E13F21C62975287100E1D4FD /* HabitPickerScreen.swift in Sources */,
 				E19D369F27E6FF3E00AF0490 /* ReportScreen.swift in Sources */,
 				E13F21AE297330CD00E1D4FD /* HabitsScreen.swift in Sources */,
 				E13F21C02974FA9A00E1D4FD /* ImportDataScreen.swift in Sources */,
@@ -487,6 +494,7 @@
 				E104203427DBA16500051F2A /* Habit_TrackerApp.swift in Sources */,
 				E13F21BA2974FA4500E1D4FD /* HabitDetailScreen.swift in Sources */,
 				E13F21BE2974FA7900E1D4FD /* HabitDetailsHistoryScreen.swift in Sources */,
+				E13F21C42975284900E1D4FD /* GoalDetailScreen.swift in Sources */,
 				E19D369B27E6FDE400AF0490 /* View+Helpers.swift in Sources */,
 				E184F4E727E5BA1E00BB2F2C /* PDFView.swift in Sources */,
 				E13F21B82974FA3100E1D4FD /* SheetLink.swift in Sources */,
