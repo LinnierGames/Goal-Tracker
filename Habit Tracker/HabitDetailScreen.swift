@@ -17,23 +17,20 @@ struct HabitDetailScreen: View {
 
   var body: some View {
     TabView {
-      HabitDetailsChartScreen(habit: habit)
+      HabitDetailsChartScreen(habit)
         .tabItem {
           Label("Analytics", systemImage: "chart.xyaxis.line")
         }
 
-      HabitDetailsHistoryScreen(habit: habit)
+      HabitDetailsHistoryScreen(habit)
         .tabItem {
           Label("History", systemImage: "clock.arrow.circlepath")
         }
 
-      NavigationView {
-        Text("HI")
-          .navigationTitle(habit.title!)
-      }
-      .tabItem {
-        Label("Habit", systemImage: "figure.walk")
-      }
+      HabitDetailsSettingsScreen(habit)
+        .tabItem {
+          Label("Habit", systemImage: "figure.walk")
+        }
     }
   }
 }

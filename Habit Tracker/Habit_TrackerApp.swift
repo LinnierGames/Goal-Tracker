@@ -16,13 +16,17 @@ struct Habit_TrackerApp: App {
   var body: some Scene {
     WindowGroup {
       TabView {
-        HabitsScreen()
+        TodayScreen()
           .tabItem {
-            Label("Habits", systemImage: "text.book.closed")
+            Label("Today", systemImage: "calendar")
           }
         ImportDataScreen()
           .tabItem {
             Label("Import", systemImage: "square.and.arrow.down")
+          }
+        HabitsScreen()
+          .tabItem {
+            Label("Habits", systemImage: "text.book.closed")
           }
         GoalsScreen()
           .tabItem {
@@ -30,10 +34,6 @@ struct Habit_TrackerApp: App {
           }
       }
       .environment(\.managedObjectContext, persistenceController.container.viewContext)
-      .onLoad {
-        let r = try! persistenceController.container.viewContext.fetch(Habit.fetchRequest())
-        print(r)
-      }
     }
   }
 }

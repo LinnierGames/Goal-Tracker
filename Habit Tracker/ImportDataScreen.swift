@@ -13,44 +13,47 @@ struct ImportDataScreen: View {
   @Environment(\.managedObjectContext) var viewContext
 
   var body: some View {
-    VStack {
-      List {
-        Section("Habits") {
-          FilePicker(types: [.commaSeparatedText], allowMultiple: false) { urls in
-            stageFiles(urls: urls)
-          } label: {
-            HStack {
-              Image(systemName: "doc.on.doc")
-              Text("Pick File")
+    NavigationView {
+      VStack {
+        List {
+          Section("Habits") {
+            FilePicker(types: [.commaSeparatedText], allowMultiple: false) { urls in
+              stageFiles(urls: urls)
+            } label: {
+              HStack {
+                Image(systemName: "doc.on.doc")
+                Text("Pick File")
+              }
+            }
+            if !stagedURLs.isEmpty {
+              ForEach(stagedURLs, id: \.self) { url in
+                Text(url.lastPathComponent)
+              }
+              .onDelete { index in
+                stagedURLs.remove(at: index.first!)
+              }
             }
           }
-          if !stagedURLs.isEmpty {
-            ForEach(stagedURLs, id: \.self) { url in
-              Text(url.lastPathComponent)
-            }
-            .onDelete { index in
-              stagedURLs.remove(at: index.first!)
-            }
+
+          Section("Sleep") {
+
+          }
+
+          Section("Blocks") {
+
+          }
+
+          Section("Calory") {
+
           }
         }
 
-        Section("Sleep") {
-
+        ButtonFill("Import", fill: .blue) {
+          importHabits(url: stagedURLs[0])
         }
-
-        Section("Blocks") {
-
-        }
-
-        Section("Calory") {
-
-        }
+        .disabled(stagedURLs.isEmpty)
       }
-
-      ButtonFill("Import", fill: .blue) {
-        importHabits(url: stagedURLs[0])
-      }
-      .disabled(stagedURLs.isEmpty)
+      .navigationTitle("Import")
     }
   }
 

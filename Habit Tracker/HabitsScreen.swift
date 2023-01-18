@@ -30,6 +30,17 @@ struct HabitsScreen: View {
         }
       }
       .navigationTitle("Habits")
+      .toolbar {
+        Button(action: addNewTracker) {
+          Image(systemName: "plus")
+        }
+      }
     }
+  }
+
+  private func addNewTracker() {
+    let newTracker = Habit(context: viewContext)
+    newTracker.title = "_ A new tracker"
+    try! viewContext.save()
   }
 }

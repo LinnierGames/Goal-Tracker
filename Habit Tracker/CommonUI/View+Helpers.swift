@@ -7,6 +7,17 @@
 
 import SwiftUI
 
+extension View {
+  @ViewBuilder
+  func isHidden(_ condition: Bool) -> some View {
+    if condition {
+      self.hidden()
+    } else {
+      self
+    }
+  }
+}
+
 private struct ViewDidLoadModifier: ViewModifier {
   let action: () -> Void
 

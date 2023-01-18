@@ -19,7 +19,7 @@ struct HabitDetailsChartScreen: View {
 
   @Environment(\.managedObjectContext) private var viewContext
 
-  init(habit: Habit) {
+  init(_ habit: Habit) {
     self.habit = habit
     self._entries = FetchRequest(
       sortDescriptors: [SortDescriptor(\HabitEntry.timestamp)],
@@ -42,18 +42,21 @@ struct HabitDetailsChartScreen: View {
         .pickerStyle(.segmented)
 
         // Charts
-        switch viewModel.selectedDateWindow {
-        case .day:
-          makeDayView()
-        case .week:
-          makeWeekView()
-        case .month:
-          makeMonthView()
-        case .year:
-          makeYearView()
+        VStack {
+          switch viewModel.selectedDateWindow {
+          case .day:
+            makeDayView()
+          case .week:
+            makeWeekView()
+          case .month:
+            makeMonthView()
+          case .year:
+            makeYearView()
 
-          // TODO: support smaller bucket sizes within each window (e.g. see weeks in a month vs days)
+            // TODO: support smaller bucket sizes within each window (e.g. see weeks in a month vs days)
+          }
         }
+        .frame(height: 196)
 
         Spacer()
       }
@@ -214,10 +217,14 @@ private enum DateWindow: String, CaseIterable, Identifiable {
 
 private class HabitDetailsChartViewModel: ObservableObject {
   @Published var selectedDateWindow = DateWindow.week
-  @Published var selectedDate = Date(timeIntervalSince1970: 1557973862)
+  @Published var selectedDate: Date = {
+    let calendar = Calendar.current
+    let sunday = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: Date()))
+    return calendar.date(byAdding: .day, value: 0, to: sunday!)!
+  }() // Date(timeIntervalSince1970: 1557973862) June 2019
 
   var selectedDateLabel: String {
-    String(describing: selectedDate)
+    DateFormatter.localizedString(from: selectedDate, dateStyle: .long, timeStyle: .none)
   }
 
   var startDate: Date { selectedDate }

@@ -5,6 +5,7 @@
 //  Created by Erick Sanchez on 1/16/23.
 //
 
+import Charts
 import SwiftUI
 
 struct GoalDetailsChartsScreen: View {
