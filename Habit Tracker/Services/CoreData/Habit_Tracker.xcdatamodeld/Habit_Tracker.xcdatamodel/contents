@@ -14,6 +14,7 @@
         <relationship name="habit" maxCount="1" deletionRule="Nullify" destinationEntity="Habit" inverseName="goals" inverseEntity="Habit"/>
     </entity>
     <entity name="Habit" representedClassName="Habit" syncable="YES" codeGenerationType="class">
+        <attribute name="showInTodayView" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String" defaultValueString="Untitled Habit"/>
         <relationship name="entries" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="HabitEntry" inverseName="habit" inverseEntity="HabitEntry"/>
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalHabitCriteria" inverseName="habit" inverseEntity="GoalHabitCriteria"/>

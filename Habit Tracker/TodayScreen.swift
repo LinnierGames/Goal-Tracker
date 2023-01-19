@@ -10,7 +10,10 @@ import SwiftUI
 struct TodayScreen: View {
   @Environment(\.managedObjectContext) private var viewContext
 
-  @FetchRequest(sortDescriptors: [SortDescriptor(\Habit.title)])
+  @FetchRequest(
+    sortDescriptors: [SortDescriptor(\Habit.title)],
+    predicate: NSPredicate(format: "showInTodayView == YES")
+  )
   private var trackers: FetchedResults<Habit>
 
   var body: some View {
@@ -34,7 +37,9 @@ struct TodayTrackerCell: View {
 
   var body: some View {
     HStack {
-      Button(action: markAsCompleted, systemImage: "circle")
+      let trackedForToday = tracker.mostRecentEntry?.timestamp.map { Calendar.current.isDateInToday($0) } ?? false
+      Button(action: markAsCompleted, systemImage: trackedForToday ? "checkmark.circle.fill" : "circle")
+        .foregroundColor(trackedForToday ? .green : .black)
       VStack(alignment: .leading) {
         Text(tracker.title!)
         if let entry = tracker.mostRecentEntry {
@@ -58,6 +63,11 @@ struct TodayTrackerCell: View {
         Label("Done", systemImage: "checkmark")
       }
     }
+    .swipeActions(edge: .trailing) {
+      Button(action: hideFromTodayView) {
+        Label("Hide", systemImage: "eye.slash")
+      }
+    }
   }
 
   private func markAsCompleted() {
@@ -66,5 +76,12 @@ struct TodayTrackerCell: View {
     tracker.addToEntries(newEntry)
 
     try! viewContext.save()
+  }
+
+  private func hideFromTodayView() {
+    withAnimation {
+      tracker.showInTodayView = false
+      try! viewContext.save()
+    }
   }
 }

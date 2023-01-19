@@ -45,6 +45,12 @@ struct HabitDetailsSettingsScreen: View {
             Text("Weekdays")
           }
         }
+
+        Section {
+          Toggle(isOn: $habit.showInTodayView) {
+            Label("Show in Today View", systemImage: "calendar")
+          }
+        }
       }
       .listStyle(.grouped)
 
@@ -55,6 +61,10 @@ struct HabitDetailsSettingsScreen: View {
 //        }.isHidden(!isTitleFocused)
 //      }
       .navigationTitle(habit.title!)
+
+      .onChange(of: habit.showInTodayView) { _ in
+        try! viewContext.save()
+      }
     }
   }
 }
