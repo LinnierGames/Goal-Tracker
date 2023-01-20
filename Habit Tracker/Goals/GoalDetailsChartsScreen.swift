@@ -71,13 +71,12 @@ private struct ChartCell: View {
   }
 
   var body: some View {
-    Chart {
-      LineMark(x: .value("x", "12 pm"), y: .value("count", 5))
-      LineMark(x: .value("x", "1"), y: .value("count", 8))
-      LineMark(x: .value("x", "2"), y: .value("count", 15))
-      LineMark(x: .value("x", "3"), y: .value("count", 2))
+    HStack {
+      Text(chart.habit!.habit!.title!) // TODO: remove habit name
+      Spacer()
+      RandomChart(.line)
+        .frame(width: 196, height: 64)
     }
-    .padding(.vertical)
   }
 }
 
