@@ -39,7 +39,7 @@ struct TodayTrackerCell: View {
     HStack {
       let trackedForToday = tracker.mostRecentEntry?.timestamp.map { Calendar.current.isDateInToday($0) } ?? false
       Button(action: markAsCompleted, systemImage: trackedForToday ? "checkmark.circle.fill" : "circle")
-        .foregroundColor(trackedForToday ? .green : .black)
+        .foregroundColor(trackedForToday ? .green : .primary)
       VStack(alignment: .leading) {
         Text(tracker.title!)
         if let entry = tracker.mostRecentEntry {

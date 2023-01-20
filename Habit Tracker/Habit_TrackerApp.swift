@@ -55,3 +55,12 @@ struct OldApp: View {
     .environment(\.managedObjectContext, persistenceController.container.viewContext)
   }
 }
+
+struct Scratchpad_Previews: PreviewProvider {
+  static var previews: some View {
+    Button("New Chart") {}
+//      .tint(.red)
+//      .controlSize(.small) // .large, .medium or .small
+//      .background(Color.blue)
+  }
+}

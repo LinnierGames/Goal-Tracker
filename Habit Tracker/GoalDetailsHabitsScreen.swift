@@ -30,12 +30,12 @@ struct GoalDetailsHabitsScreen: View {
     NavigationView {
       List {
         Section("Habits") {
-          ForEach(habitCriterias.map(\.habit!)) { habit in
-            Text(habit.title!)
+          ForEach(habitCriterias) { criteria in
+            Text(criteria.habit!.title!)
               .swipeActions {
                 Button {
                   withAnimation {
-                    viewContext.delete(habit)
+                    viewContext.delete(criteria)
                     try! viewContext.save()
                   }
                 } label: {

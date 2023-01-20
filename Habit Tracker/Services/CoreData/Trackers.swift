@@ -15,6 +15,6 @@ extension Habit {
   }
 
   var allEntries: [HabitEntry] {
-    (entries?.allObjects ?? []) as! [HabitEntry]
+    entries?.allManagedObjects() ?? []
   }
 }

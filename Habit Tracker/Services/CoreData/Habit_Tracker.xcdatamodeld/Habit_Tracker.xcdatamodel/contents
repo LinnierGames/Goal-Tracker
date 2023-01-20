@@ -6,10 +6,21 @@
     </entity>
     <entity name="Goal" representedClassName="Goal" syncable="YES" codeGenerationType="class">
         <attribute name="title" attributeType="String" defaultValueString=""/>
+        <relationship name="chartSections" toMany="YES" deletionRule="Cascade" destinationEntity="GoalChartSection" inverseName="goal" inverseEntity="GoalChartSection"/>
         <relationship name="habits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalHabitCriteria" inverseName="goal" inverseEntity="GoalHabitCriteria"/>
+    </entity>
+    <entity name="GoalChart" representedClassName="GoalChart" syncable="YES" codeGenerationType="class">
+        <relationship name="habit" maxCount="1" deletionRule="Nullify" destinationEntity="GoalHabitCriteria" inverseName="charts" inverseEntity="GoalHabitCriteria"/>
+        <relationship name="section" maxCount="1" deletionRule="Nullify" destinationEntity="GoalChartSection" inverseName="charts" inverseEntity="GoalChartSection"/>
+    </entity>
+    <entity name="GoalChartSection" representedClassName="GoalChartSection" syncable="YES" codeGenerationType="class">
+        <attribute name="title" attributeType="String" defaultValueString="Untitled Section"/>
+        <relationship name="charts" toMany="YES" deletionRule="Cascade" destinationEntity="GoalChart" inverseName="section" inverseEntity="GoalChart"/>
+        <relationship name="goal" maxCount="1" deletionRule="Nullify" destinationEntity="Goal" inverseName="chartSections" inverseEntity="Goal"/>
     </entity>
     <entity name="GoalHabitCriteria" representedClassName="GoalHabitCriteria" syncable="YES" codeGenerationType="class">
         <attribute name="target" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="charts" toMany="YES" deletionRule="Nullify" destinationEntity="GoalChart" inverseName="habit" inverseEntity="GoalChart"/>
         <relationship name="goal" maxCount="1" deletionRule="Nullify" destinationEntity="Goal" inverseName="habits" inverseEntity="Goal"/>
         <relationship name="habit" maxCount="1" deletionRule="Nullify" destinationEntity="Habit" inverseName="goals" inverseEntity="Habit"/>
     </entity>

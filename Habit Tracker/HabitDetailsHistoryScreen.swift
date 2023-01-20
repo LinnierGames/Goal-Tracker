@@ -19,7 +19,7 @@ struct HabitDetailsHistoryScreen: View {
   init(_ habit: Habit) {
     self.habit = habit
     self._entries = FetchRequest(
-      sortDescriptors: [SortDescriptor(\HabitEntry.timestamp)],
+      sortDescriptors: [SortDescriptor(\HabitEntry.timestamp, order: .reverse)],
       predicate: NSPredicate(format: "habit = %@", habit)
     )
   }
@@ -34,6 +34,20 @@ struct HabitDetailsHistoryScreen: View {
       }
       .navigationBarTitleDisplayMode(.large)
       .navigationTitle(habit.title!)
+
+      .toolbar {
+        Button {
+          withAnimation {
+            let newEntry = HabitEntry(context: viewContext)
+            newEntry.timestamp = Date()
+            habit.addToEntries(newEntry)
+
+            try! viewContext.save()
+          }
+        } label: {
+          Image(systemName: "plus")
+        }
+      }
     }
   }
 

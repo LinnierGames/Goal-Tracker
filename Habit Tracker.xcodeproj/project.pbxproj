@@ -29,7 +29,9 @@
 		E11A949E2977BD1100FDCE41 /* Binding+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A949D2977BD1100FDCE41 /* Binding+Helpers.swift */; };
 		E11A94A02977CD2400FDCE41 /* TodayScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A949F2977CD2400FDCE41 /* TodayScreen.swift */; };
 		E11A94A22977CFE900FDCE41 /* Button+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A12977CFE900FDCE41 /* Button+Helpers.swift */; };
-		E11A94A42977D17100FDCE41 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A32977D17100FDCE41 /* Tracker.swift */; };
+		E11A94A42977D17100FDCE41 /* Trackers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A32977D17100FDCE41 /* Trackers.swift */; };
+		E11A94A6297A53AA00FDCE41 /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A5297A53AA00FDCE41 /* Goals.swift */; };
+		E11A94A8297A53D600FDCE41 /* NSSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A7297A53D600FDCE41 /* NSSet.swift */; };
 		E12BC20527E2451100580111 /* RemoteStoreAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12BC20427E2451100580111 /* RemoteStoreAPI.swift */; };
 		E12BC20727E2488700580111 /* CSVFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12BC20627E2488700580111 /* CSVFile.swift */; };
 		E12E2C8F27E237FB002AD960 /* KeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12E2C8E27E237FB002AD960 /* KeyPath.swift */; };
@@ -122,7 +124,9 @@
 		E11A949D2977BD1100FDCE41 /* Binding+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Binding+Helpers.swift"; sourceTree = "<group>"; };
 		E11A949F2977CD2400FDCE41 /* TodayScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayScreen.swift; sourceTree = "<group>"; };
 		E11A94A12977CFE900FDCE41 /* Button+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+Helpers.swift"; sourceTree = "<group>"; };
-		E11A94A32977D17100FDCE41 /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
+		E11A94A32977D17100FDCE41 /* Trackers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trackers.swift; sourceTree = "<group>"; };
+		E11A94A5297A53AA00FDCE41 /* Goals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goals.swift; sourceTree = "<group>"; };
+		E11A94A7297A53D600FDCE41 /* NSSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSet.swift; sourceTree = "<group>"; };
 		E12BC20427E2451100580111 /* RemoteStoreAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoreAPI.swift; sourceTree = "<group>"; };
 		E12BC20627E2488700580111 /* CSVFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVFile.swift; sourceTree = "<group>"; };
 		E12E2C8E27E237FB002AD960 /* KeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPath.swift; sourceTree = "<group>"; };
@@ -338,7 +342,9 @@
 				E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */,
 				E104204627DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift */,
 				E104204727DBA28600051F2A /* FeelingSleepy+CoreDataProperties.swift */,
-				E11A94A32977D17100FDCE41 /* Tracker.swift */,
+				E11A94A32977D17100FDCE41 /* Trackers.swift */,
+				E11A94A5297A53AA00FDCE41 /* Goals.swift */,
+				E11A94A7297A53D600FDCE41 /* NSSet.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -506,6 +512,7 @@
 				E13F21C82975D5A000E1D4FD /* GoalDetailsChartsScreen.swift in Sources */,
 				E13F21AE297330CD00E1D4FD /* HabitsScreen.swift in Sources */,
 				E11A949E2977BD1100FDCE41 /* Binding+Helpers.swift in Sources */,
+				E11A94A8297A53D600FDCE41 /* NSSet.swift in Sources */,
 				E13F21C02974FA9A00E1D4FD /* ImportDataScreen.swift in Sources */,
 				E104207227DBAC5800051F2A /* Intents.intentdefinition in Sources */,
 				E13F21B0297336E300E1D4FD /* ButtonFill.swift in Sources */,
@@ -519,7 +526,7 @@
 				E104203627DBA16500051F2A /* DataCollectorScreen.swift in Sources */,
 				E104203427DBA16500051F2A /* Habit_TrackerApp.swift in Sources */,
 				E13F21BA2974FA4500E1D4FD /* HabitDetailScreen.swift in Sources */,
-				E11A94A42977D17100FDCE41 /* Tracker.swift in Sources */,
+				E11A94A42977D17100FDCE41 /* Trackers.swift in Sources */,
 				E13F21BE2974FA7900E1D4FD /* HabitDetailsHistoryScreen.swift in Sources */,
 				E13F21C42975284900E1D4FD /* GoalDetailScreen.swift in Sources */,
 				E19D369B27E6FDE400AF0490 /* View+Helpers.swift in Sources */,
@@ -534,6 +541,7 @@
 				E11A949C2977BAB500FDCE41 /* HabitDetailsSettingsScreen.swift in Sources */,
 				E104204827DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift in Sources */,
 				E104204927DBA28600051F2A /* FeelingSleepy+CoreDataProperties.swift in Sources */,
+				E11A94A6297A53AA00FDCE41 /* Goals.swift in Sources */,
 				E184F4E127E5ACE100BB2F2C /* Spinner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
