@@ -15,22 +15,22 @@ struct GoalDetailsChartsScreen: View {
   @State private var newChartSectionTitle = ""
 
   @FetchRequest
-  private var habitCriterias: FetchedResults<GoalHabitCriteria>
+  private var sections: FetchedResults<GoalChartSection>
 
   @Environment(\.managedObjectContext)
   private var viewContext
 
   init(_ goal: Goal) {
     self.goal = goal
-    self._habitCriterias = FetchRequest(
-      sortDescriptors: [SortDescriptor(\GoalHabitCriteria.habit!.title)],
+    self._sections = FetchRequest(
+      sortDescriptors: [SortDescriptor(\GoalChartSection.title)], // TODO: manual sorting
       predicate: NSPredicate(format: "goal = %@", goal)
     )
   }
 
   var body: some View {
     NavigationView {
-      List(goal.allChartSections) { section in
+      List(sections) { section in
         Section(section.title!) {
           ChartSection(section, goal: goal)
         }
@@ -50,10 +50,6 @@ struct GoalDetailsChartsScreen: View {
     }
   }
 
-  private func addChart(to section: GoalChartSection) {
-
-  }
-
   private func addNewChartSection() {
     withAnimation {
       let newSection = GoalChartSection(context: viewContext)
@@ -61,11 +57,13 @@ struct GoalDetailsChartsScreen: View {
       goal.addToChartSections(newSection)
 
       try! viewContext.save()
+
+      newChartSectionTitle = ""
     }
   }
 }
 
-struct ChartCell: View {
+private struct ChartCell: View {
   @ObservedObject var chart: GoalChart
 
   init(_ chart: GoalChart) {
@@ -83,7 +81,7 @@ struct ChartCell: View {
   }
 }
 
-struct ChartSection: View {
+private struct ChartSection: View {
   var goal: Goal
   @ObservedObject var section: GoalChartSection
 
@@ -146,65 +144,6 @@ struct ChartSection: View {
       }
     } label: {
       label()
-    }
-  }
-}
-
-struct GoalHabitChartPickerScreen: View {
-  let title: String
-  let subtitle: String
-  let goal: Goal
-
-  enum Chart {
-    case habit(GoalHabitCriteria)
-    case chart(Void) // TODO: Reference simple charts from the habit itself
-  }
-  let didPick: (Chart) -> Void
-
-  @FetchRequest
-  private var criterias: FetchedResults<GoalHabitCriteria>
-
-  @Environment(\.dismiss) var dismiss
-
-  init(title: String, subtitle: String, goal: Goal, didPick: @escaping (Chart) -> Void) {
-    self.title = title
-    self.subtitle = subtitle
-    self.goal = goal
-    self.didPick = didPick
-    self._criterias = FetchRequest(
-      sortDescriptors: [SortDescriptor(\GoalHabitCriteria.habit!.title)],
-      predicate: NSPredicate(format: "goal = %@", goal)
-    )
-  }
-
-  var body: some View {
-    NavigationView {
-      List(criterias) { criteria in
-        HStack {
-          Text(criteria.habit!.title!)
-          Spacer()
-          Button {
-            didPick(.habit(criteria))
-            dismiss()
-          } label: {
-            Text("New Chart")
-              .font(.caption)
-          }
-          .buttonStyle(.bordered)
-        }
-        .contentShape(Rectangle())
-        .onTapGesture {
-        }
-      }
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          VStack {
-            Text(title).font(.headline)
-            Text(subtitle).font(.subheadline)
-          }
-        }
-      }
     }
   }
 }

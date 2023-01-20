@@ -41,17 +41,9 @@ struct GoalsScreen: View {
 
               Spacer()
 
-              Chart {
-                LineMark(x: .value("x", "12 pm"), y: .value("count", (0..<10).randomElement()!))
-                LineMark(x: .value("x", "1"), y: .value("count", (0..<10).randomElement()!))
-                LineMark(x: .value("x", "2"), y: .value("count", (0..<10).randomElement()!))
-                LineMark(x: .value("x", "3"), y: .value("count", (0..<10).randomElement()!))
-              }
-              .chartXAxis(.hidden)
-              .chartYAxis(.hidden)
-              .frame(width: 164, height: 32)
-              .padding(.vertical)
-              .background(Color.gray.opacity(0.25))
+              RandomChart(.line)
+                .frame(width: 164, height: 32)
+                .padding(.vertical)
             }
           }
         }

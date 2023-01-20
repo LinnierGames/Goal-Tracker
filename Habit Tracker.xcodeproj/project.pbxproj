@@ -32,6 +32,8 @@
 		E11A94A42977D17100FDCE41 /* Trackers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A32977D17100FDCE41 /* Trackers.swift */; };
 		E11A94A6297A53AA00FDCE41 /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A5297A53AA00FDCE41 /* Goals.swift */; };
 		E11A94A8297A53D600FDCE41 /* NSSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A7297A53D600FDCE41 /* NSSet.swift */; };
+		E11A94B0297A628D00FDCE41 /* GoalHabitChartPickerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94AF297A628D00FDCE41 /* GoalHabitChartPickerScreen.swift */; };
+		E11A94B2297A647C00FDCE41 /* Charts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94B1297A647C00FDCE41 /* Charts.swift */; };
 		E12BC20527E2451100580111 /* RemoteStoreAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12BC20427E2451100580111 /* RemoteStoreAPI.swift */; };
 		E12BC20727E2488700580111 /* CSVFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12BC20627E2488700580111 /* CSVFile.swift */; };
 		E12E2C8F27E237FB002AD960 /* KeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12E2C8E27E237FB002AD960 /* KeyPath.swift */; };
@@ -127,6 +129,8 @@
 		E11A94A32977D17100FDCE41 /* Trackers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trackers.swift; sourceTree = "<group>"; };
 		E11A94A5297A53AA00FDCE41 /* Goals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goals.swift; sourceTree = "<group>"; };
 		E11A94A7297A53D600FDCE41 /* NSSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSet.swift; sourceTree = "<group>"; };
+		E11A94AF297A628D00FDCE41 /* GoalHabitChartPickerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalHabitChartPickerScreen.swift; sourceTree = "<group>"; };
+		E11A94B1297A647C00FDCE41 /* Charts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Charts.swift; sourceTree = "<group>"; };
 		E12BC20427E2451100580111 /* RemoteStoreAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoreAPI.swift; sourceTree = "<group>"; };
 		E12BC20627E2488700580111 /* CSVFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVFile.swift; sourceTree = "<group>"; };
 		E12E2C8E27E237FB002AD960 /* KeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPath.swift; sourceTree = "<group>"; };
@@ -222,18 +226,10 @@
 			children = (
 				E16A9EA327E0E01A007092CD /* AppDelegate.swift */,
 				E104203327DBA16500051F2A /* Habit_TrackerApp.swift */,
-				E11A949F2977CD2400FDCE41 /* TodayScreen.swift */,
-				E13F21BF2974FA9A00E1D4FD /* ImportDataScreen.swift */,
-				E13F21AD297330CD00E1D4FD /* HabitsScreen.swift */,
-				E13F21C52975287100E1D4FD /* HabitPickerScreen.swift */,
-				E13F21B92974FA4500E1D4FD /* HabitDetailScreen.swift */,
-				E13F21BB2974FA6100E1D4FD /* HabitDetailsChartsScreen.swift */,
-				E13F21BD2974FA7900E1D4FD /* HabitDetailsHistoryScreen.swift */,
-				E11A949B2977BAB500FDCE41 /* HabitDetailsSettingsScreen.swift */,
-				E13F21C12974FAA800E1D4FD /* GoalsScreen.swift */,
-				E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */,
-				E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */,
-				E13F21C92975D5B000E1D4FD /* GoalDetailsHabitsScreen.swift */,
+				E11A94AC297A626C00FDCE41 /* Today */,
+				E11A94AB297A626600FDCE41 /* Data */,
+				E11A94AA297A625D00FDCE41 /* Trackers */,
+				E11A94A9297A625200FDCE41 /* Goals */,
 				E12E2C9027E237FE002AD960 /* Common */,
 				E10AFC0C27DF18DB000965D9 /* CommonUI */,
 				E1CD70F027DDEFCC0098DE0B /* Services */,
@@ -287,8 +283,66 @@
 				E13F21AF297336E300E1D4FD /* ButtonFill.swift */,
 				E13F21B72974FA3100E1D4FD /* SheetLink.swift */,
 				E11A94A12977CFE900FDCE41 /* Button+Helpers.swift */,
+				E11A94B1297A647C00FDCE41 /* Charts.swift */,
 			);
 			path = CommonUI;
+			sourceTree = "<group>";
+		};
+		E11A94A9297A625200FDCE41 /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				E11A94AE297A628A00FDCE41 /* Common */,
+				E13F21C12974FAA800E1D4FD /* GoalsScreen.swift */,
+				E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */,
+				E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */,
+				E13F21C92975D5B000E1D4FD /* GoalDetailsHabitsScreen.swift */,
+			);
+			path = Goals;
+			sourceTree = "<group>";
+		};
+		E11A94AA297A625D00FDCE41 /* Trackers */ = {
+			isa = PBXGroup;
+			children = (
+				E11A94AD297A627400FDCE41 /* Common */,
+				E13F21AD297330CD00E1D4FD /* HabitsScreen.swift */,
+				E13F21B92974FA4500E1D4FD /* HabitDetailScreen.swift */,
+				E13F21BB2974FA6100E1D4FD /* HabitDetailsChartsScreen.swift */,
+				E13F21BD2974FA7900E1D4FD /* HabitDetailsHistoryScreen.swift */,
+				E11A949B2977BAB500FDCE41 /* HabitDetailsSettingsScreen.swift */,
+			);
+			path = Trackers;
+			sourceTree = "<group>";
+		};
+		E11A94AB297A626600FDCE41 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				E13F21BF2974FA9A00E1D4FD /* ImportDataScreen.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		E11A94AC297A626C00FDCE41 /* Today */ = {
+			isa = PBXGroup;
+			children = (
+				E11A949F2977CD2400FDCE41 /* TodayScreen.swift */,
+			);
+			path = Today;
+			sourceTree = "<group>";
+		};
+		E11A94AD297A627400FDCE41 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				E13F21C52975287100E1D4FD /* HabitPickerScreen.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		E11A94AE297A628A00FDCE41 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				E11A94AF297A628D00FDCE41 /* GoalHabitChartPickerScreen.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		E12E2C9027E237FE002AD960 /* Common */ = {
@@ -509,6 +563,7 @@
 				E13F21CA2975D5B000E1D4FD /* GoalDetailsHabitsScreen.swift in Sources */,
 				E13F21C62975287100E1D4FD /* HabitPickerScreen.swift in Sources */,
 				E19D369F27E6FF3E00AF0490 /* ReportScreen.swift in Sources */,
+				E11A94B2297A647C00FDCE41 /* Charts.swift in Sources */,
 				E13F21C82975D5A000E1D4FD /* GoalDetailsChartsScreen.swift in Sources */,
 				E13F21AE297330CD00E1D4FD /* HabitsScreen.swift in Sources */,
 				E11A949E2977BD1100FDCE41 /* Binding+Helpers.swift in Sources */,
@@ -531,6 +586,7 @@
 				E13F21C42975284900E1D4FD /* GoalDetailScreen.swift in Sources */,
 				E19D369B27E6FDE400AF0490 /* View+Helpers.swift in Sources */,
 				E184F4E727E5BA1E00BB2F2C /* PDFView.swift in Sources */,
+				E11A94B0297A628D00FDCE41 /* GoalHabitChartPickerScreen.swift in Sources */,
 				E13F21B82974FA3100E1D4FD /* SheetLink.swift in Sources */,
 				E1CD70ED27DDEF6A0098DE0B /* CollectedDataScreen.swift in Sources */,
 				E1CD70EF27DDEFB00098DE0B /* DataCollectiorViewModel.swift in Sources */,

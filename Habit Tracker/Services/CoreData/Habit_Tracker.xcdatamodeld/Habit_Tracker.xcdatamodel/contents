@@ -20,7 +20,7 @@
     </entity>
     <entity name="GoalHabitCriteria" representedClassName="GoalHabitCriteria" syncable="YES" codeGenerationType="class">
         <attribute name="target" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="charts" toMany="YES" deletionRule="Nullify" destinationEntity="GoalChart" inverseName="habit" inverseEntity="GoalChart"/>
+        <relationship name="charts" toMany="YES" deletionRule="Cascade" destinationEntity="GoalChart" inverseName="habit" inverseEntity="GoalChart"/>
         <relationship name="goal" maxCount="1" deletionRule="Nullify" destinationEntity="Goal" inverseName="habits" inverseEntity="Goal"/>
         <relationship name="habit" maxCount="1" deletionRule="Nullify" destinationEntity="Habit" inverseName="goals" inverseEntity="Habit"/>
     </entity>
