@@ -66,16 +66,34 @@ struct GoalDetailsChartsScreen: View {
 private struct ChartCell: View {
   @ObservedObject var chart: GoalChart
 
+  private var startDate: Date
+  private var endDate: Date
+
+  @Environment(\.managedObjectContext)
+  private var viewContext
+
   init(_ chart: GoalChart) {
     self.chart = chart
+
+    let now = Date()
+    let calendar = Calendar.current
+    let sunday = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now))
+
+    self.startDate = calendar.date(byAdding: .day, value: 0, to: sunday!)!
+    self.endDate = startDate.addingTimeInterval(.init(days: 7))
   }
 
   var body: some View {
     HStack {
       Text(chart.habit!.habit!.title!) // TODO: remove habit name
       Spacer()
-      RandomChart(.line)
-        .frame(width: 196, height: 64)
+      HabitChart(
+        chart.habit!.habit!,
+        range: startDate...endDate,
+        granularity: .days,
+        context: viewContext
+      )
+      .frame(width: 196, height: 64)
     }
   }
 }

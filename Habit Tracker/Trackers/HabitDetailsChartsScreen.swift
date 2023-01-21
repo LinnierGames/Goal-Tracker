@@ -133,39 +133,12 @@ struct HabitDetailsChartScreen: View {
   }
 
   private func makeWeekView() -> some View {
-    let day: TimeInterval = 60*60*24
-    let data = stride(from: viewModel.startDate, to: viewModel.endDate, by: day)
-      .map { day in
-        let nEntriesForDay: Int = {
-          let fetch = HabitEntry.fetchRequest()
-          fetch.predicate = NSPredicate(
-            format: "habit = %@ AND timestamp >= %@ AND timestamp < %@",
-            habit, day.midnight as NSDate,
-            day.addingTimeInterval(.init(days: 1)).midnight as NSDate
-          )
-
-          guard let results = try? viewContext.fetch(fetch) else {
-            assertionFailure()
-            return 0
-          }
-
-          return results.count
-        }()
-
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd"
-        let bucket = formatter.string(from: day)
-
-        return (timestamp: bucket, count: nEntriesForDay)
-      }
-      .map { timestamp, count in
-        Data(timestamp: timestamp, count: count)
-      }
-
-
-    return Chart(data) { entry in
-      BarMark(x: .value("Date", entry.timestamp), y: .value("TimeInterval", entry.count))
-    }
+    HabitChart(
+      habit,
+      range: viewModel.startDate...viewModel.endDate,
+      granularity: .days,
+      context: viewContext
+    )
   }
 
   private func makeMonthView() -> some View {
