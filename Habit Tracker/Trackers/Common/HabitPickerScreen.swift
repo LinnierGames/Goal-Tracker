@@ -16,6 +16,9 @@ struct HabitPickerScreen: View {
   @FetchRequest(sortDescriptors: [SortDescriptor(\Habit.title)])
   private var habits: FetchedResults<Habit>
 
+  @Environment(\.dismiss)
+  private var dismiss
+
   init(
     title: String,
     subtitle: String,
@@ -40,6 +43,7 @@ struct HabitPickerScreen: View {
         .contentShape(Rectangle())
         .onTapGesture {
           didPick(habit)
+          dismiss()
         }
         .disabled(isDisabled)
       }

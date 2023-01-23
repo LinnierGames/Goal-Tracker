@@ -32,3 +32,25 @@ extension Binding {
     self.init(get: get, set: { _ in })
   }
 }
+
+protocol OptionalType: ExpressibleByNilLiteral {
+  associatedtype Wrapped
+  var optional: Wrapped? { get set }
+}
+extension Optional: OptionalType {
+  var optional: Wrapped? {
+    get { return self }
+    mutating set { self = newValue }
+  }
+}
+
+extension Binding where Value: OptionalType {
+  func mapOptional(
+    defaultValue: Value.Wrapped
+  ) -> Binding<Value.Wrapped> {
+    Binding<Value.Wrapped>(
+      get: { self.wrappedValue.optional ?? defaultValue },
+      set: { newValue in self.wrappedValue.optional = .some(newValue) }
+    )
+  }
+}

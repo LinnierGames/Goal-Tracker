@@ -25,6 +25,8 @@
 		E104207627DBB2F600051F2A /* FeelingSleepy+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204627DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift */; };
 		E104207727DBB4B400051F2A /* Habit_Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */; };
 		E104FCE3297C4A17003AF448 /* HabitChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104FCE2297C4A17003AF448 /* HabitChart.swift */; };
+		E104FCE5297D9BDA003AF448 /* TrackerEntryDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104FCE4297D9BDA003AF448 /* TrackerEntryDetailScreen.swift */; };
+		E104FCE7297DA796003AF448 /* GoalDetailsChartsEditScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104FCE6297DA796003AF448 /* GoalDetailsChartsEditScreen.swift */; };
 		E10AFC0B27DF18D5000965D9 /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10AFC0A27DF18D5000965D9 /* FilePicker.swift */; };
 		E11A949C2977BAB500FDCE41 /* HabitDetailsSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A949B2977BAB500FDCE41 /* HabitDetailsSettingsScreen.swift */; };
 		E11A949E2977BD1100FDCE41 /* Binding+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A949D2977BD1100FDCE41 /* Binding+Helpers.swift */; };
@@ -123,6 +125,8 @@
 		E104207127DBA5AF00051F2A /* Habit Tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Habit Tracker.entitlements"; sourceTree = "<group>"; };
 		E104207327DBACE200051F2A /* Habit-Tracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Habit-Tracker-Info.plist"; sourceTree = SOURCE_ROOT; };
 		E104FCE2297C4A17003AF448 /* HabitChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitChart.swift; sourceTree = "<group>"; };
+		E104FCE4297D9BDA003AF448 /* TrackerEntryDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerEntryDetailScreen.swift; sourceTree = "<group>"; };
+		E104FCE6297DA796003AF448 /* GoalDetailsChartsEditScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsChartsEditScreen.swift; sourceTree = "<group>"; };
 		E10AFC0A27DF18D5000965D9 /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
 		E11A949B2977BAB500FDCE41 /* HabitDetailsSettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailsSettingsScreen.swift; sourceTree = "<group>"; };
 		E11A949D2977BD1100FDCE41 /* Binding+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Binding+Helpers.swift"; sourceTree = "<group>"; };
@@ -306,6 +310,7 @@
 				E13F21C12974FAA800E1D4FD /* GoalsScreen.swift */,
 				E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */,
 				E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */,
+				E104FCE6297DA796003AF448 /* GoalDetailsChartsEditScreen.swift */,
 				E13F21C92975D5B000E1D4FD /* GoalDetailsHabitsScreen.swift */,
 			);
 			path = Goals;
@@ -319,6 +324,7 @@
 				E13F21B92974FA4500E1D4FD /* HabitDetailScreen.swift */,
 				E13F21BB2974FA6100E1D4FD /* HabitDetailsChartsScreen.swift */,
 				E13F21BD2974FA7900E1D4FD /* HabitDetailsHistoryScreen.swift */,
+				E104FCE4297D9BDA003AF448 /* TrackerEntryDetailScreen.swift */,
 				E11A949B2977BAB500FDCE41 /* HabitDetailsSettingsScreen.swift */,
 			);
 			path = Trackers;
@@ -582,9 +588,11 @@
 				E11A94A8297A53D600FDCE41 /* NSSet.swift in Sources */,
 				E13F21C02974FA9A00E1D4FD /* ImportDataScreen.swift in Sources */,
 				E104207227DBAC5800051F2A /* Intents.intentdefinition in Sources */,
+				E104FCE5297D9BDA003AF448 /* TrackerEntryDetailScreen.swift in Sources */,
 				E13F21B0297336E300E1D4FD /* ButtonFill.swift in Sources */,
 				E13F21BC2974FA6100E1D4FD /* HabitDetailsChartsScreen.swift in Sources */,
 				E19D369D27E6FF0D00AF0490 /* ReportsViewModel.swift in Sources */,
+				E104FCE7297DA796003AF448 /* GoalDetailsChartsEditScreen.swift in Sources */,
 				E19D36A327E7008C00AF0490 /* ShareSheet.swift in Sources */,
 				E16A9EAA27E0F51D007092CD /* Networking.swift in Sources */,
 				E11A94A02977CD2400FDCE41 /* TodayScreen.swift in Sources */,

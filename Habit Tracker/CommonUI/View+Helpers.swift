@@ -38,4 +38,17 @@ extension View {
   func onLoad(perform action: @escaping () -> Void) -> some View {
     modifier(ViewDidLoadModifier(action: action))
   }
+
+  func navigationBarHeadline(_ headline: String, subheadline: String) -> some View {
+    self
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
+        ToolbarItem(placement: .principal) {
+          VStack {
+            Text(headline).font(.headline)
+            Text(subheadline).font(.subheadline)
+          }
+        }
+      }
+  }
 }

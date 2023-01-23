@@ -28,6 +28,7 @@ struct GoalsScreen: View {
           VStack(alignment: .leading) {
             HStack {
               Text(goal.title!)
+                .foregroundColor(.primary)
                 .font(.title2)
             }
 
@@ -37,6 +38,7 @@ struct GoalsScreen: View {
                 Text("Goal")
                 Text("Goal")
               }
+              .foregroundColor(.primary)
               .font(.caption)
 
               Spacer()

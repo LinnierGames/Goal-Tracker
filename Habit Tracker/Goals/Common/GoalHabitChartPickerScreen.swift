@@ -59,15 +59,7 @@ struct GoalHabitChartPickerScreen: View {
           .padding(.leading, 16)
         }
       }
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-        ToolbarItem(placement: .principal) {
-          VStack {
-            Text(title).font(.headline)
-            Text(subtitle).font(.subheadline)
-          }
-        }
-      }
+      .navigationBarHeadline(title, subheadline: subtitle)
     }
   }
 }

@@ -13,6 +13,7 @@ struct GoalDetailsChartsScreen: View {
 
   @State private var isNewChartSectionAlertShowing = false
   @State private var newChartSectionTitle = ""
+  @State private var addNewChartToSection: GoalChartSection?
 
   @FetchRequest
   private var sections: FetchedResults<GoalChartSection>
@@ -37,7 +38,30 @@ struct GoalDetailsChartsScreen: View {
       }
       .navigationTitle(goal.title!)
       .toolbar {
-        Button(action: { isNewChartSectionAlertShowing = true }, systemImage: "plus")
+        Menu {
+          Button(
+            action: { isNewChartSectionAlertShowing = true },
+            title: "Add Section", systemImage: "plus"
+          )
+
+          Menu {
+            ForEach(sections) { section in
+              Button(section.title!) {
+                addNewChartToSection = section
+              }
+            }
+          } label: {
+            Label("Add Chart", systemImage: "chart.xyaxis.line")
+          }
+        } label: {
+          Image(systemName: "plus")
+        }
+
+        SheetLink {
+          GoalDetailsChartsEditScreen(goal)
+        } label: {
+          Text("Edit")
+        }
       }
 
       .alert("Add Section", isPresented: $isNewChartSectionAlertShowing, actions: {
@@ -47,6 +71,27 @@ struct GoalDetailsChartsScreen: View {
       }, message: {
         Text("enter the title for your new goal")
       })
+
+      .sheet(item: $addNewChartToSection) { section in
+        GoalHabitChartPickerScreen(
+          title: "Select a Chart",
+          subtitle: "Goal: \(goal.title!) Section: \(section.title!)",
+          goal: goal
+        ) { chart in
+          switch chart {
+          case .habit(let habit):
+            withAnimation {
+              let newChart = GoalChart(context: viewContext)
+              newChart.habit = habit
+              section.addToCharts(newChart)
+
+              try! viewContext.save()
+            }
+          case .chart:
+            break
+          }
+        }
+      }
     }
   }
 
@@ -64,7 +109,8 @@ struct GoalDetailsChartsScreen: View {
 }
 
 private struct ChartCell: View {
-  @ObservedObject var chart: GoalChart
+  @ObservedObject private var chart: GoalChart
+  @ObservedObject private var tracker: Habit
 
   private var startDate: Date
   private var endDate: Date
@@ -74,6 +120,7 @@ private struct ChartCell: View {
 
   init(_ chart: GoalChart) {
     self.chart = chart
+    self.tracker = chart.habit!.habit!
 
     let now = Date()
     let calendar = Calendar.current
@@ -95,6 +142,17 @@ private struct ChartCell: View {
       )
       .frame(width: 196, height: 64)
     }
+    .contextMenu {
+      Button(action: { addLog(for: chart.habit!.habit!) }, title: "Add log", systemImage: "plus")
+    }
+  }
+
+  private func addLog(for tracker: Habit) {
+    let newLog = HabitEntry(context: viewContext)
+    newLog.timestamp = Date()
+    tracker.addToEntries(newLog)
+
+    try! viewContext.save()
   }
 }
 
@@ -102,65 +160,72 @@ private struct ChartSection: View {
   var goal: Goal
   @ObservedObject var section: GoalChartSection
 
+  @FetchRequest
+  private var charts: FetchedResults<GoalChart>
+
   @Environment(\.managedObjectContext)
   private var viewContext
+
+  // FIXME: for some reason, deleting charts or sections causes a crash originating from this view
 
   init(_ section: GoalChartSection, goal: Goal) {
     self.section = section
     self.goal = goal
+    self._charts = FetchRequest(
+      sortDescriptors: [SortDescriptor(\GoalChart.habit!.habit!.title!)], // TODO: manual sorting
+      predicate: NSPredicate(format: "section = %@", section)
+    )
   }
 
   var body: some View {
-    if section.allCharts.isEmpty {
-      makeChartPicker(section: section) {
+    if charts.isEmpty {
+      makeChartPicker(section: section, goal: goal, context: viewContext) {
         HStack {
           Spacer()
           VStack(alignment: .center, spacing: 8) {
             Text("No charts in the section!")
-            Label("Add Chart", systemImage: "chart.bar")
+              .foregroundColor(.primary)
+            Label("Add a Chart", systemImage: "chart.bar")
           }
           Spacer()
         }
       }
     } else {
-      ForEach(section.allCharts) { chart in
+      ForEach(charts) { chart in
         ChartCell(chart)
-      }
-      makeChartPicker(section: section) {
-        HStack {
-          Spacer()
-          Label("Add Chart", systemImage: "chart.bar")
-          Spacer()
-        }
       }
     }
   }
+}
 
-  private func makeChartPicker<Label: View>(
-    section: GoalChartSection,
-    @ViewBuilder label: () -> Label
-  ) -> some View {
-    SheetLink {
-      GoalHabitChartPickerScreen(
-        title: "Select a Chart",
-        subtitle: "Goal: \(goal.title!) Section: \(section.title!)",
-        goal: goal
-      ) { chart in
-        switch chart {
-        case .habit(let habit):
-          withAnimation {
-            let newChart = GoalChart(context: viewContext)
-            newChart.habit = habit
-            section.addToCharts(newChart)
+import CoreData
 
-            try! viewContext.save()
-          }
-        case .chart:
-          break
+private func makeChartPicker<Label: View>(
+  section: GoalChartSection,
+  goal: Goal,
+  context: NSManagedObjectContext,
+  @ViewBuilder label: () -> Label
+) -> some View {
+  SheetLink {
+    GoalHabitChartPickerScreen(
+      title: "Select a Chart",
+      subtitle: "Goal: \(goal.title!) Section: \(section.title!)",
+      goal: goal
+    ) { chart in
+      switch chart {
+      case .habit(let habit):
+        withAnimation {
+          let newChart = GoalChart(context: context)
+          newChart.habit = habit
+          section.addToCharts(newChart)
+
+          try! context.save()
         }
+      case .chart:
+        break
       }
-    } label: {
-      label()
     }
+  } label: {
+    label()
   }
 }

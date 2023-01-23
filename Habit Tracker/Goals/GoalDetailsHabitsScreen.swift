@@ -46,31 +46,28 @@ struct GoalDetailsHabitsScreen: View {
         }
       }
       .toolbar {
-        Menu {
-          Button(action: { isShowingAddHabitPicker = true }, label: {
-            Label("Add Habit", systemImage: "text.book.closed")
+        SheetLink {
+          HabitPickerScreen(title: "Select Habit to Add", subtitle: goal.title!, didPick: { habit in
+            isShowingAddHabitPicker = false
+
+            let newHabit = GoalHabitCriteria(context: viewContext)
+            newHabit.habit = habit
+            newHabit.goal = goal
+
+            goal.addToHabits(newHabit)
+
+            try! viewContext.save()
+          }, disabled: { habit in
+            habitCriterias.map(\.habit).contains(where: { $0 == habit })
           })
         } label: {
-          Image(systemName: "ellipsis")
+          Image(systemName: "plus")
         }
       }
       .navigationTitle(goal.title!)
     }
-    .sheet(isPresented: $isShowingAddHabitPicker) {
-      HabitPickerScreen(title: "Select Habit to Add", subtitle: goal.title!, didPick: { habit in
-        isShowingAddHabitPicker = false
-
-        let newHabit = GoalHabitCriteria(context: viewContext)
-        newHabit.habit = habit
-        newHabit.goal = goal
-
-        goal.addToHabits(newHabit)
-
-        try! viewContext.save()
-      }, disabled: { habit in
-        habitCriterias.map(\.habit).contains(where: { $0 == habit })
-      })
-    }
+//    .sheet(isPresented: $isShowingAddHabitPicker) {
+//    }
   }
 
   private func removeHabitFromGoal(indexes: IndexSet) {

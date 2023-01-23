@@ -14,7 +14,8 @@ struct HabitDetailsHistoryScreen: View {
   @FetchRequest
   private var entries: FetchedResults<HabitEntry>
 
-  @Environment(\.managedObjectContext) private var viewContext
+  @Environment(\.managedObjectContext)
+  private var viewContext
 
   init(_ habit: Habit) {
     self.habit = habit
@@ -28,7 +29,15 @@ struct HabitDetailsHistoryScreen: View {
     NavigationView {
       List {
         ForEach(entries) { entry in
-          Text("\(entry.timestamp!, style: .date) at \(entry.timestamp!, style: .time)")
+          HStack {
+            Text("\(entry.timestamp!, style: .date) at \(entry.timestamp!, style: .time)")
+            Spacer()
+            SheetLink {
+              TrackerEntryDetailScreen(tracker: habit, entry: entry)
+            } label: {
+              Image(systemName: "info.circle")
+            }
+          }
         }
         .onDelete(perform: deleteEntry)
       }

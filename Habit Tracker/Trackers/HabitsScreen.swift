@@ -15,17 +15,18 @@ struct HabitsScreen: View {
 
   var body: some View {
     NavigationView {
-      List(items) { habit in
+      List(items) { tracker in
         SheetLink {
-          HabitDetailScreen(habit)
+          HabitDetailScreen(tracker)
         } label: {
           HStack {
-            VStack(alignment: .leading) {
-              Text(habit.title ?? "Untitled")
-              Text(habit.entries?.allObjects.count ?? 0, format: .number)
-            }
+            Text(tracker.title ?? "Untitled")
             Spacer()
             Image(systemName: "chevron.right")
+          }
+          .foregroundColor(.primary)
+          .contextMenu {
+            Button(action: { addLog(for: tracker) }, title: "Add log", systemImage: "plus")
           }
         }
       }
@@ -41,6 +42,14 @@ struct HabitsScreen: View {
   private func addNewTracker() {
     let newTracker = Habit(context: viewContext)
     newTracker.title = "_ A new tracker"
+    try! viewContext.save()
+  }
+
+  private func addLog(for tracker: Habit) {
+    let newLog = HabitEntry(context: viewContext)
+    newLog.timestamp = Date()
+    tracker.addToEntries(newLog)
+
     try! viewContext.save()
   }
 }

@@ -13,4 +13,14 @@ extension Button {
       Image(systemName: systemImage)
     }
   }
+
+  init(
+    action: @escaping () -> Void,
+    title: String,
+    systemImage: String
+  ) where Label == SwiftUI.Label<Text, Image> {
+    self.init(action: action, label: {
+      Label(title, systemImage: systemImage)
+    })
+  }
 }
