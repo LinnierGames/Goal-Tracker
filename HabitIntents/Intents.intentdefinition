@@ -9,11 +9,11 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>ENudCT</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>21E230</string>
+	<string>21G115</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>13E113</string>
+	<string>14C18</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>13.3</string>
+	<string>14.2</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
@@ -302,8 +302,202 @@
 			<key>INIntentVerb</key>
 			<string>Do</string>
 		</dict>
+		<dict>
+			<key>INIntentCategory</key>
+			<string>generic</string>
+			<key>INIntentConfigurable</key>
+			<true/>
+			<key>INIntentDescriptionID</key>
+			<string>89OAnL</string>
+			<key>INIntentEligibleForWidgets</key>
+			<true/>
+			<key>INIntentKeyParameter</key>
+			<string>tracker</string>
+			<key>INIntentLastParameterTag</key>
+			<integer>2</integer>
+			<key>INIntentManagedParameterCombinations</key>
+			<dict>
+				<key>tracker</key>
+				<dict>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Log ${tracker}</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>TxkZMX</string>
+					<key>INIntentParameterCombinationUpdatesLinked</key>
+					<true/>
+				</dict>
+			</dict>
+			<key>INIntentName</key>
+			<string>INLogTracker</string>
+			<key>INIntentParameterCombinations</key>
+			<dict>
+				<key>tracker</key>
+				<dict>
+					<key>INIntentParameterCombinationSubtitle</key>
+					<string>Create a new log for a the selected tracker</string>
+					<key>INIntentParameterCombinationSubtitleID</key>
+					<string>QwBTnh</string>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Log ${tracker}</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>4EU0ZZ</string>
+				</dict>
+			</dict>
+			<key>INIntentParameters</key>
+			<array>
+				<dict>
+					<key>INIntentParameterConfigurable</key>
+					<true/>
+					<key>INIntentParameterCustomDisambiguation</key>
+					<true/>
+					<key>INIntentParameterDisplayName</key>
+					<string>Tracker</string>
+					<key>INIntentParameterDisplayNameID</key>
+					<string>4d9S7W</string>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>1</integer>
+					<key>INIntentParameterName</key>
+					<string>tracker</string>
+					<key>INIntentParameterObjectType</key>
+					<string>INTracker</string>
+					<key>INIntentParameterObjectTypeNamespace</key>
+					<string>ENudCT</string>
+					<key>INIntentParameterPromptDialogs</key>
+					<array>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Configuration</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>What tracker would you like to log</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>5VeTpm</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Primary</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>Which tracker would you like to log</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>TGLWP1</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>DisambiguationSelection</string>
+						</dict>
+					</array>
+					<key>INIntentParameterSupportsDynamicEnumeration</key>
+					<true/>
+					<key>INIntentParameterSupportsResolution</key>
+					<true/>
+					<key>INIntentParameterSupportsSearch</key>
+					<true/>
+					<key>INIntentParameterTag</key>
+					<integer>2</integer>
+					<key>INIntentParameterType</key>
+					<string>Object</string>
+				</dict>
+			</array>
+			<key>INIntentResponse</key>
+			<dict>
+				<key>INIntentResponseCodes</key>
+				<array>
+					<dict>
+						<key>INIntentResponseCodeName</key>
+						<string>success</string>
+						<key>INIntentResponseCodeSuccess</key>
+						<true/>
+					</dict>
+					<dict>
+						<key>INIntentResponseCodeName</key>
+						<string>failure</string>
+					</dict>
+				</array>
+			</dict>
+			<key>INIntentTitle</key>
+			<string>Log Tracker</string>
+			<key>INIntentTitleID</key>
+			<string>RS8E73</string>
+			<key>INIntentType</key>
+			<string>Custom</string>
+			<key>INIntentVerb</key>
+			<string>Do</string>
+		</dict>
 	</array>
 	<key>INTypes</key>
-	<array/>
+	<array>
+		<dict>
+			<key>INTypeDisplayName</key>
+			<string>Tracker</string>
+			<key>INTypeDisplayNameID</key>
+			<string>oVWG6b</string>
+			<key>INTypeLastPropertyTag</key>
+			<integer>100</integer>
+			<key>INTypeName</key>
+			<string>INTracker</string>
+			<key>INTypeProperties</key>
+			<array>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>1</integer>
+					<key>INTypePropertyName</key>
+					<string>identifier</string>
+					<key>INTypePropertyTag</key>
+					<integer>1</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>2</integer>
+					<key>INTypePropertyName</key>
+					<string>displayString</string>
+					<key>INTypePropertyTag</key>
+					<integer>2</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>3</integer>
+					<key>INTypePropertyName</key>
+					<string>pronunciationHint</string>
+					<key>INTypePropertyTag</key>
+					<integer>3</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDefault</key>
+					<true/>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>4</integer>
+					<key>INTypePropertyName</key>
+					<string>alternativeSpeakableMatches</string>
+					<key>INTypePropertySupportsMultipleValues</key>
+					<true/>
+					<key>INTypePropertyTag</key>
+					<integer>4</integer>
+					<key>INTypePropertyType</key>
+					<string>SpeakableString</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

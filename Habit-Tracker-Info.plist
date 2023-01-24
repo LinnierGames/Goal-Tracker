@@ -11,6 +11,7 @@
 	<array>
 		<string>INFeelingSleepyIntent</string>
 		<string>INFeelingSleeyIntent</string>
+		<string>INLogTrackerIntent</string>
 		<string>INShowerTimestampIntent</string>
 	</array>
 </dict>

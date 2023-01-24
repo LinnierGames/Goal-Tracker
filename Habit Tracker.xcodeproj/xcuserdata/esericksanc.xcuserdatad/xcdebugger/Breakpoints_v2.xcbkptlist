@@ -87,13 +87,13 @@
             filePath = "HabitIntents/IntentHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "handle(intent:completion:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "5AC5C7B8-67E2-4749-BE4C-410845C15FAC - 1dbaeac14b8a6b12"
+                  uuid = "5AC5C7B8-67E2-4749-BE4C-410845C15FAC - 1dbaeac14b8a6394"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -103,12 +103,12 @@
                   urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/HabitIntents/IntentHandler.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "65"
-                  endingLineNumber = "65"
+                  startingLineNumber = "123"
+                  endingLineNumber = "123"
                   offsetFromSymbolStart = "72">
                </Location>
                <Location
-                  uuid = "5AC5C7B8-67E2-4749-BE4C-410845C15FAC - 1dbaeac14b8a6b12"
+                  uuid = "5AC5C7B8-67E2-4749-BE4C-410845C15FAC - 1dbaeac14b8a6394"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -118,8 +118,8 @@
                   urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/HabitIntents/IntentHandler.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "65"
-                  endingLineNumber = "65"
+                  startingLineNumber = "123"
+                  endingLineNumber = "123"
                   offsetFromSymbolStart = "128">
                </Location>
             </Locations>
@@ -151,10 +151,10 @@
             filePath = "Habit Tracker/Goals/GoalDetailsChartsScreen.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
-            landmarkName = "makeChartPicker(section:goal:context:@ViewBuilder:)"
-            landmarkType = "9">
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -170,6 +170,134 @@
             startingLineNumber = "52"
             endingLineNumber = "52"
             landmarkName = "init(_:range:granularity:context:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1402629A-B8A3-4E2B-B7F0-A0A0D600A7B9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Habit Tracker/Common/ShortcutManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "voiceShortcut(for:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1402629A-B8A3-4E2B-B7F0-A0A0D600A7B9 - ef5899c8b0319244"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Habit_Tracker.ShortcutManager.voiceShortcut(for: Foundation.URL) -&gt; Swift.Optional&lt;__C.INVoiceShortcut&gt;"
+                  moduleName = "Habit Tracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/Habit%20Tracker/Common/ShortcutManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "85"
+                  endingLineNumber = "85"
+                  offsetFromSymbolStart = "512">
+               </Location>
+               <Location
+                  uuid = "1402629A-B8A3-4E2B-B7F0-A0A0D600A7B9 - ef5899c8b0319244"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Habit_Tracker.ShortcutManager.voiceShortcut(for: Foundation.URL) -&gt; Swift.Optional&lt;__C.INVoiceShortcut&gt;"
+                  moduleName = "Habit Tracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/Habit%20Tracker/Common/ShortcutManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "85"
+                  endingLineNumber = "85"
+                  offsetFromSymbolStart = "884">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "37FDADC1-F916-4606-941A-4740360BD7AD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Habit Tracker/Common/ShortcutManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "voiceShortcut(for:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "52110928-31EF-4F2D-A3B7-D78B5C1BF75E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HabitIntents/IntentHandler.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "resolveTracker(for:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6215DB30-B89C-41B2-9434-FD0F477CB390"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HabitIntents/IntentHandler.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "handle(intent:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B871A61E-0B8B-4DB2-9169-CB07A4AC3A71"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Habit Tracker/Trackers/HabitDetailsSettingsScreen.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3B631413-CC44-42B3-914B-F3E839B071DC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Habit Tracker/CommonUI/Siri/SiriShortcutViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "setupShortcut(to:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

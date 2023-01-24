@@ -13,6 +13,7 @@
 			<key>IntentsSupported</key>
 			<array>
 				<string>INFeelingSleepyIntent</string>
+				<string>INLogTrackerIntent</string>
 				<string>INShowerTimestampIntent</string>
 			</array>
 		</dict>

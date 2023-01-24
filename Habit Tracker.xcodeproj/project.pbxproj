@@ -69,6 +69,9 @@
 		E19D36BD27E83D8800AF0490 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19D36BC27E83D8800AF0490 /* ShareViewController.swift */; };
 		E19D36C027E83D8800AF0490 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E19D36BE27E83D8800AF0490 /* MainInterface.storyboard */; };
 		E19D36C427E83D8800AF0490 /* HabitImportShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E19D36BA27E83D8800AF0490 /* HabitImportShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E1C10D56297FB74F00825BCC /* SiriShortcutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D55297FB74F00825BCC /* SiriShortcutViewController.swift */; };
+		E1C10D58297FB76500825BCC /* SiriButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D57297FB76500825BCC /* SiriButton.swift */; };
+		E1C10D5A297FB85100825BCC /* ShortcutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D59297FB85100825BCC /* ShortcutManager.swift */; };
 		E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70E827DDDD630098DE0B /* HealthKit.swift */; };
 		E1CD70EB27DDE7850098DE0B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CD70EA27DDE7850098DE0B /* HealthKit.framework */; };
 		E1CD70ED27DDEF6A0098DE0B /* CollectedDataScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */; };
@@ -171,6 +174,9 @@
 		E19D36BF27E83D8800AF0490 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		E19D36C127E83D8800AF0490 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E19D36C827E84C3E00AF0490 /* HabitImportShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HabitImportShareExtension.entitlements; sourceTree = "<group>"; };
+		E1C10D55297FB74F00825BCC /* SiriShortcutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriShortcutViewController.swift; sourceTree = "<group>"; };
+		E1C10D57297FB76500825BCC /* SiriButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriButton.swift; sourceTree = "<group>"; };
+		E1C10D59297FB85100825BCC /* ShortcutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutManager.swift; sourceTree = "<group>"; };
 		E1CD70E827DDDD630098DE0B /* HealthKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKit.swift; sourceTree = "<group>"; };
 		E1CD70EA27DDE7850098DE0B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectedDataScreen.swift; sourceTree = "<group>"; };
@@ -287,6 +293,7 @@
 		E10AFC0C27DF18DB000965D9 /* CommonUI */ = {
 			isa = PBXGroup;
 			children = (
+				E1C10D54297FB74800825BCC /* Siri */,
 				E104FCE1297C4A10003AF448 /* Charts */,
 				E184F4E227E5AEC800BB2F2C /* AlertContent.swift */,
 				E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */,
@@ -370,6 +377,7 @@
 				E13F21B3297490B400E1D4FD /* TimeInterval+Date.swift */,
 				E13F21B52974911D00E1D4FD /* Date+Extensions.swift */,
 				E11A949D2977BD1100FDCE41 /* Binding+Helpers.swift */,
+				E1C10D59297FB85100825BCC /* ShortcutManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -405,6 +413,15 @@
 				E19D36C127E83D8800AF0490 /* Info.plist */,
 			);
 			path = HabitImportShareExtension;
+			sourceTree = "<group>";
+		};
+		E1C10D54297FB74800825BCC /* Siri */ = {
+			isa = PBXGroup;
+			children = (
+				E1C10D55297FB74F00825BCC /* SiriShortcutViewController.swift */,
+				E1C10D57297FB76500825BCC /* SiriButton.swift */,
+			);
+			path = Siri;
 			sourceTree = "<group>";
 		};
 		E1CD70E727DDDCFD0098DE0B /* CoreData */ = {
@@ -569,6 +586,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E104FCE3297C4A17003AF448 /* HabitChart.swift in Sources */,
+				E1C10D56297FB74F00825BCC /* SiriShortcutViewController.swift in Sources */,
 				E19D36A127E6FF4C00AF0490 /* ReportViewModel.swift in Sources */,
 				E11A94A22977CFE900FDCE41 /* Button+Helpers.swift in Sources */,
 				E184F4E327E5AEC800BB2F2C /* AlertContent.swift in Sources */,
@@ -609,6 +627,7 @@
 				E11A94B0297A628D00FDCE41 /* GoalHabitChartPickerScreen.swift in Sources */,
 				E13F21B82974FA3100E1D4FD /* SheetLink.swift in Sources */,
 				E1CD70ED27DDEF6A0098DE0B /* CollectedDataScreen.swift in Sources */,
+				E1C10D5A297FB85100825BCC /* ShortcutManager.swift in Sources */,
 				E1CD70EF27DDEFB00098DE0B /* DataCollectiorViewModel.swift in Sources */,
 				E13F21B4297490B400E1D4FD /* TimeInterval+Date.swift in Sources */,
 				E13F21B62974911D00E1D4FD /* Date+Extensions.swift in Sources */,
@@ -619,6 +638,7 @@
 				E104204927DBA28600051F2A /* FeelingSleepy+CoreDataProperties.swift in Sources */,
 				E11A94A6297A53AA00FDCE41 /* Goals.swift in Sources */,
 				E184F4E127E5ACE100BB2F2C /* Spinner.swift in Sources */,
+				E1C10D58297FB76500825BCC /* SiriButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

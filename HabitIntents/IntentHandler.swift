@@ -13,6 +13,8 @@ class IntentHandler: INExtension {
     // This is the default implementation.  If you want different objects to handle different intents,
     // you can override this and return the handler you want for that particular intent.
     switch intent {
+    case is INLogTrackerIntent:
+      return INLogTrackerIntentHandler()
     case is INFeelingSleepyIntent:
       return INFeelingSleepyIntentHandler()
     case is INShowerTimestampIntent:
@@ -22,6 +24,70 @@ class IntentHandler: INExtension {
     }
   }
 
+}
+
+class INLogTrackerIntentHandler: NSObject, INLogTrackerIntentHandling {
+
+  private let viewContext = PersistenceController.shared.container.viewContext
+
+  func provideTrackerOptionsCollection(for intent: INLogTrackerIntent, searchTerm: String?) async throws -> INObjectCollection<INTracker> {
+    let allTrackers = Habit.fetchRequest()
+    allTrackers.sortDescriptors = [NSSortDescriptor(keyPath: \Habit.title, ascending: true)]
+    let coreDataTrackers = try! viewContext.fetch(allTrackers)
+    let trackers = coreDataTrackers.map { tracker in
+      INTracker(
+        identifier: tracker.objectID.uriRepresentation().absoluteString,
+        display: tracker.title!
+      )
+    }
+
+    return INObjectCollection(items: trackers)
+  }
+
+  func resolveTracker(for intent: INLogTrackerIntent) async -> INTrackerResolutionResult {
+    if let tracker = intent.tracker {
+      return .success(with: tracker)
+    } else {
+      let allTrackers = Habit.fetchRequest()
+      allTrackers.sortDescriptors = [NSSortDescriptor(keyPath: \Habit.title, ascending: true)]
+      let coreDataTrackers = try! viewContext.fetch(allTrackers)
+      let trackers = coreDataTrackers.map { tracker in
+        INTracker(
+          identifier: tracker.objectID.uriRepresentation().absoluteString,
+          display: tracker.title!
+        )
+      }
+
+      return .disambiguation(with: trackers)
+    }
+  }
+
+  func handle(intent: INLogTrackerIntent) async -> INLogTrackerIntentResponse {
+    guard let tracker = intent.tracker else {
+      return INLogTrackerIntentResponse(code: .failure, userActivity: nil)
+    }
+
+    createLog(for: tracker)
+
+    return INLogTrackerIntentResponse(code: .success, userActivity: nil)
+  }
+
+  private func createLog(for inTracker: INTracker) {
+    let trackerURLString = inTracker.identifier!
+    let trackerURL = URL(string: trackerURLString)!
+
+    let managedObjectID =
+      viewContext.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: trackerURL)!
+    let tracker = viewContext.object(with: managedObjectID) as! Habit
+
+    let newEntry = HabitEntry(context: viewContext)
+    newEntry.timestamp = Date()
+    tracker.addToEntries(newEntry)
+
+    try! viewContext.save()
+
+    // FIXME: notify the main app of new updates to the database
+  }
 }
 
 class INFeelingSleepyIntentHandler: NSObject, INFeelingSleepyIntentHandling {

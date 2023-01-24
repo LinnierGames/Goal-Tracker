@@ -51,6 +51,26 @@ struct HabitDetailsSettingsScreen: View {
             Label("Show in Today View", systemImage: "calendar")
           }
         }
+
+        Section {
+          if let shortcut = ShortcutManager.shared.voiceShortcut(
+            for: habit.objectID.uriRepresentation()
+          ) {
+            SiriButton(voiceShortcut: shortcut)
+          } else {
+            SiriButton(
+              intent: ShortcutManager.shared.intent(
+                for: .logTrackerIntent(habit)
+              )
+            )
+          }
+        }
+        .listSectionSeparator(.hidden)
+        .listRowBackground(EmptyView())
+//        .onAppear {
+//          let intent = ShortcutManager.Shortcut.logTrackerIntent(habit).intent
+//          ShortcutManager.shared.donate(intent)
+//        }
       }
       .listStyle(.grouped)
 

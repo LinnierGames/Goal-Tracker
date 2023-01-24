@@ -131,19 +131,24 @@ private struct ChartCell: View {
   }
 
   var body: some View {
-    HStack {
-      Text(chart.habit!.habit!.title!) // TODO: remove habit name
-      Spacer()
-      HabitChart(
-        chart.habit!.habit!,
-        range: startDate...endDate,
-        granularity: .days,
-        context: viewContext
-      )
-      .frame(width: 196, height: 64)
-    }
-    .contextMenu {
-      Button(action: { addLog(for: chart.habit!.habit!) }, title: "Add log", systemImage: "plus")
+    SheetLink {
+      HabitDetailScreen(tracker)
+    } label: {
+      HStack {
+        Text(chart.habit!.habit!.title!) // TODO: remove habit name
+          .foregroundColor(.primary)
+        Spacer()
+        HabitChart(
+          chart.habit!.habit!,
+          range: startDate...endDate,
+          granularity: .days,
+          context: viewContext
+        )
+        .frame(width: 196, height: 64)
+      }
+      .contextMenu {
+        Button(action: { addLog(for: chart.habit!.habit!) }, title: "Add log", systemImage: "plus")
+      }
     }
   }
 

@@ -31,17 +31,26 @@ struct GoalDetailsHabitsScreen: View {
       List {
         Section("Habits") {
           ForEach(habitCriterias) { criteria in
-            Text(criteria.habit!.title!)
-              .swipeActions {
-                Button {
-                  withAnimation {
-                    viewContext.delete(criteria)
-                    try! viewContext.save()
-                  }
-                } label: {
-                  Text("Remove")
-                }
+            SheetLink {
+              HabitDetailScreen(criteria.habit!)
+            } label: {
+              HStack {
+                Text(criteria.habit!.title!)
+                Spacer()
+                Image(systemName: "cheveron")
               }
+              .foregroundColor(.primary)
+            }
+            .swipeActions {
+              Button {
+                withAnimation {
+                  viewContext.delete(criteria)
+                  try! viewContext.save()
+                }
+              } label: {
+                Text("Remove")
+              }
+            }
           }
         }
       }
