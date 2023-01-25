@@ -29,14 +29,10 @@ struct HabitDetailsHistoryScreen: View {
     NavigationView {
       List {
         ForEach(entries) { entry in
-          HStack {
+          NavigationLink {
+            TrackerEntryDetailScreen(tracker: habit, entry: entry)
+          } label: {
             Text("\(entry.timestamp!, style: .date) at \(entry.timestamp!, style: .time)")
-            Spacer()
-            SheetLink {
-              TrackerEntryDetailScreen(tracker: habit, entry: entry)
-            } label: {
-              Image(systemName: "info.circle")
-            }
           }
         }
         .onDelete(perform: deleteEntry)

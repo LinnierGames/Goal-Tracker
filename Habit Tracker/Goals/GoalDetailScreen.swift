@@ -22,9 +22,14 @@ struct GoalDetailScreen: View {
           Label("Charts", systemImage: "chart.xyaxis.line")
         }
 
-      GoalDetailsHabitsScreen(goal)
+      Text("Export!")
         .tabItem {
-          Label("Habits", systemImage: "text.book.closed")
+          Label("Export", systemImage: "square.and.arrow.up")
+        }
+
+      GoalDetailsSettingsScreen(goal)
+        .tabItem {
+          Label("Goal", systemImage: "star.fill")
         }
     }
   }

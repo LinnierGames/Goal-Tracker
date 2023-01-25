@@ -10,11 +10,15 @@ import SwiftUI
 struct HabitDetailsSettingsScreen: View {
   @ObservedObject var habit: Habit
 
-//  @FocusState private var isTitleFocused
-  @Environment(\.managedObjectContext) private var viewContext
+  @State private var habitTitle: String
+  @Environment(\.managedObjectContext)
+  private var viewContext
 
   init(_ habit: Habit) {
     self.habit = habit
+
+    // FIXME: deleting the tracker crashes here
+    self._habitTitle = State(initialValue: habit.title!)
   }
 
   var body: some View {
@@ -23,10 +27,10 @@ struct HabitDetailsSettingsScreen: View {
         Section {
           HStack {
             Label("Title", systemImage: "text.book.closed")
-            TextField("Title", text: $habit.title.map(get: { $0 ?? "" }, set: { $0 }))
-//              .focused($isTitleFocused)
+            TextField("Title", text: $habitTitle)
               .multilineTextAlignment(.trailing)
               .onSubmit {
+                habit.title = habitTitle
                 try! viewContext.save()
               }
               .submitLabel(.done)
@@ -67,19 +71,26 @@ struct HabitDetailsSettingsScreen: View {
         }
         .listSectionSeparator(.hidden)
         .listRowBackground(EmptyView())
-//        .onAppear {
-//          let intent = ShortcutManager.Shortcut.logTrackerIntent(habit).intent
-//          ShortcutManager.shared.donate(intent)
-//        }
+
+        Section {
+          ActionSheetLink(title: "Delete Tracker") {
+            Button("Delete Tracker", role: .destructive) {
+              viewContext.delete(habit)
+              try! viewContext.save()
+            }
+          } message: {
+            Text("Deleting this tracker will delete logs and links to goals. Are you sure?")
+          } label: {
+            HStack {
+              Spacer()
+              Text("Delete Habit")
+                .foregroundColor(.red)
+              Spacer()
+            }
+          }
+        }
       }
       .listStyle(.grouped)
-
-//      .toolbar {
-//        Button("Done") {
-//          isTitleFocused = false
-//          try! viewContext.save()
-//        }.isHidden(!isTitleFocused)
-//      }
       .navigationTitle(habit.title!)
 
       .onChange(of: habit.showInTodayView) { _ in

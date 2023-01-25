@@ -51,4 +51,20 @@ extension View {
         }
       }
   }
+
+  @ViewBuilder public func `if`<T>(_ condition: Bool, transform: (Self) -> T) -> some View where T: View {
+      if condition {
+          transform(self)
+      } else {
+          self
+      }
+  }
+
+  @ViewBuilder public func ifLet<T, G>(_ optional: G?, transform: (Self, G) -> T) -> some View where T: View {
+      if let unwrapped = optional {
+          transform(self, unwrapped)
+      } else {
+          self
+      }
+  }
 }

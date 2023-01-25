@@ -53,7 +53,7 @@
 		E13F21C42975284900E1D4FD /* GoalDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */; };
 		E13F21C62975287100E1D4FD /* HabitPickerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C52975287100E1D4FD /* HabitPickerScreen.swift */; };
 		E13F21C82975D5A000E1D4FD /* GoalDetailsChartsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */; };
-		E13F21CA2975D5B000E1D4FD /* GoalDetailsHabitsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C92975D5B000E1D4FD /* GoalDetailsHabitsScreen.swift */; };
+		E13F21CA2975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift */; };
 		E16A9EA427E0E01A007092CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A9EA327E0E01A007092CD /* AppDelegate.swift */; };
 		E16A9EA827E0E8FD007092CD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = E16A9EA727E0E8FD007092CD /* Moya */; };
 		E16A9EAA27E0F51D007092CD /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A9EA927E0F51D007092CD /* Networking.swift */; };
@@ -72,6 +72,10 @@
 		E1C10D56297FB74F00825BCC /* SiriShortcutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D55297FB74F00825BCC /* SiriShortcutViewController.swift */; };
 		E1C10D58297FB76500825BCC /* SiriButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D57297FB76500825BCC /* SiriButton.swift */; };
 		E1C10D5A297FB85100825BCC /* ShortcutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D59297FB85100825BCC /* ShortcutManager.swift */; };
+		E1C10D5E2980545500825BCC /* GoalDetailsSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D5D2980545500825BCC /* GoalDetailsSettingsScreen.swift */; };
+		E1C10D602980594F00825BCC /* AlertLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D5F2980594F00825BCC /* AlertLink.swift */; };
+		E1C10D622980595C00825BCC /* ActionSheetLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D612980595C00825BCC /* ActionSheetLink.swift */; };
+		E1C10D64298101C500825BCC /* NavigationSheetLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D63298101C500825BCC /* NavigationSheetLink.swift */; };
 		E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70E827DDDD630098DE0B /* HealthKit.swift */; };
 		E1CD70EB27DDE7850098DE0B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CD70EA27DDE7850098DE0B /* HealthKit.framework */; };
 		E1CD70ED27DDEF6A0098DE0B /* CollectedDataScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */; };
@@ -157,7 +161,7 @@
 		E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailScreen.swift; sourceTree = "<group>"; };
 		E13F21C52975287100E1D4FD /* HabitPickerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitPickerScreen.swift; sourceTree = "<group>"; };
 		E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsChartsScreen.swift; sourceTree = "<group>"; };
-		E13F21C92975D5B000E1D4FD /* GoalDetailsHabitsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsHabitsScreen.swift; sourceTree = "<group>"; };
+		E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsSettingsHabitsScreen.swift; sourceTree = "<group>"; };
 		E16A9EA327E0E01A007092CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E16A9EA927E0F51D007092CD /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		E184F4E027E5ACE100BB2F2C /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
@@ -177,6 +181,10 @@
 		E1C10D55297FB74F00825BCC /* SiriShortcutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriShortcutViewController.swift; sourceTree = "<group>"; };
 		E1C10D57297FB76500825BCC /* SiriButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriButton.swift; sourceTree = "<group>"; };
 		E1C10D59297FB85100825BCC /* ShortcutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutManager.swift; sourceTree = "<group>"; };
+		E1C10D5D2980545500825BCC /* GoalDetailsSettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsSettingsScreen.swift; sourceTree = "<group>"; };
+		E1C10D5F2980594F00825BCC /* AlertLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertLink.swift; sourceTree = "<group>"; };
+		E1C10D612980595C00825BCC /* ActionSheetLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetLink.swift; sourceTree = "<group>"; };
+		E1C10D63298101C500825BCC /* NavigationSheetLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSheetLink.swift; sourceTree = "<group>"; };
 		E1CD70E827DDDD630098DE0B /* HealthKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKit.swift; sourceTree = "<group>"; };
 		E1CD70EA27DDE7850098DE0B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectedDataScreen.swift; sourceTree = "<group>"; };
@@ -296,6 +304,10 @@
 				E1C10D54297FB74800825BCC /* Siri */,
 				E104FCE1297C4A10003AF448 /* Charts */,
 				E184F4E227E5AEC800BB2F2C /* AlertContent.swift */,
+				E1C10D5F2980594F00825BCC /* AlertLink.swift */,
+				E13F21B72974FA3100E1D4FD /* SheetLink.swift */,
+				E1C10D612980595C00825BCC /* ActionSheetLink.swift */,
+				E1C10D63298101C500825BCC /* NavigationSheetLink.swift */,
 				E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */,
 				E10AFC0A27DF18D5000965D9 /* FilePicker.swift */,
 				E184F4E627E5BA1E00BB2F2C /* PDFView.swift */,
@@ -303,7 +315,6 @@
 				E184F4E027E5ACE100BB2F2C /* Spinner.swift */,
 				E19D369A27E6FDE400AF0490 /* View+Helpers.swift */,
 				E13F21AF297336E300E1D4FD /* ButtonFill.swift */,
-				E13F21B72974FA3100E1D4FD /* SheetLink.swift */,
 				E11A94A12977CFE900FDCE41 /* Button+Helpers.swift */,
 				E11A94B1297A647C00FDCE41 /* Charts.swift */,
 			);
@@ -318,7 +329,8 @@
 				E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */,
 				E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */,
 				E104FCE6297DA796003AF448 /* GoalDetailsChartsEditScreen.swift */,
-				E13F21C92975D5B000E1D4FD /* GoalDetailsHabitsScreen.swift */,
+				E1C10D5D2980545500825BCC /* GoalDetailsSettingsScreen.swift */,
+				E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -596,7 +608,7 @@
 				E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */,
 				E12E2C8F27E237FB002AD960 /* KeyPath.swift in Sources */,
 				E12BC20727E2488700580111 /* CSVFile.swift in Sources */,
-				E13F21CA2975D5B000E1D4FD /* GoalDetailsHabitsScreen.swift in Sources */,
+				E13F21CA2975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift in Sources */,
 				E13F21C62975287100E1D4FD /* HabitPickerScreen.swift in Sources */,
 				E19D369F27E6FF3E00AF0490 /* ReportScreen.swift in Sources */,
 				E11A94B2297A647C00FDCE41 /* Charts.swift in Sources */,
@@ -608,11 +620,13 @@
 				E104207227DBAC5800051F2A /* Intents.intentdefinition in Sources */,
 				E104FCE5297D9BDA003AF448 /* TrackerEntryDetailScreen.swift in Sources */,
 				E13F21B0297336E300E1D4FD /* ButtonFill.swift in Sources */,
+				E1C10D622980595C00825BCC /* ActionSheetLink.swift in Sources */,
 				E13F21BC2974FA6100E1D4FD /* HabitDetailsChartsScreen.swift in Sources */,
 				E19D369D27E6FF0D00AF0490 /* ReportsViewModel.swift in Sources */,
 				E104FCE7297DA796003AF448 /* GoalDetailsChartsEditScreen.swift in Sources */,
 				E19D36A327E7008C00AF0490 /* ShareSheet.swift in Sources */,
 				E16A9EAA27E0F51D007092CD /* Networking.swift in Sources */,
+				E1C10D64298101C500825BCC /* NavigationSheetLink.swift in Sources */,
 				E11A94A02977CD2400FDCE41 /* TodayScreen.swift in Sources */,
 				E104203D27DBA16600051F2A /* Persistence.swift in Sources */,
 				E104204027DBA16600051F2A /* Habit_Tracker.xcdatamodeld in Sources */,
@@ -625,8 +639,10 @@
 				E19D369B27E6FDE400AF0490 /* View+Helpers.swift in Sources */,
 				E184F4E727E5BA1E00BB2F2C /* PDFView.swift in Sources */,
 				E11A94B0297A628D00FDCE41 /* GoalHabitChartPickerScreen.swift in Sources */,
+				E1C10D602980594F00825BCC /* AlertLink.swift in Sources */,
 				E13F21B82974FA3100E1D4FD /* SheetLink.swift in Sources */,
 				E1CD70ED27DDEF6A0098DE0B /* CollectedDataScreen.swift in Sources */,
+				E1C10D5E2980545500825BCC /* GoalDetailsSettingsScreen.swift in Sources */,
 				E1C10D5A297FB85100825BCC /* ShortcutManager.swift in Sources */,
 				E1CD70EF27DDEFB00098DE0B /* DataCollectiorViewModel.swift in Sources */,
 				E13F21B4297490B400E1D4FD /* TimeInterval+Date.swift in Sources */,

@@ -19,26 +19,14 @@ struct TrackerEntryDetailScreen: View {
   private var dismiss
 
   var body: some View {
-    NavigationView {
-      List {
-        DatePicker(selection: $entry.timestamp.mapOptional(defaultValue: Date())) {
-          Label("Date", systemImage: "calendar")
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-          ToolbarItem(placement: .principal) {
-            VStack {
-              Text("Edit Entry").font(.headline)
-              Text("for \(tracker.title!)").font(.subheadline)
-            }
-          }
-
-          ToolbarItem(placement: .navigationBarTrailing) {
-            Button("Done", action: dismiss.callAsFunction)
-          }
-        }
-      }.listStyle(.grouped)
+    List {
+      DatePicker(selection: $entry.timestamp.mapOptional(defaultValue: Date())) {
+        Label("Date", systemImage: "calendar")
+      }
     }
+    .listStyle(.grouped)
+    .navigationTitle("Edit Entry")
+
     .onChange(of: entry.timestamp) { _ in
       try! viewContext.save()
     }

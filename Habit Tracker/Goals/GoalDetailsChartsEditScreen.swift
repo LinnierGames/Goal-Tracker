@@ -11,6 +11,9 @@ import SwiftUI
 struct GoalDetailsChartsEditScreen: View {
   @ObservedObject var goal: Goal
 
+  @State private var sectionToEdit: GoalChartSection?
+  @State private var sectionTitle = ""
+
   @FetchRequest
   private var sections: FetchedResults<GoalChartSection>
 
@@ -28,7 +31,7 @@ struct GoalDetailsChartsEditScreen: View {
   var body: some View {
     NavigationView {
       List(sections) { section in
-        Section(section.title!) {
+        Section {
           ForEach(section.allCharts) { chart in
             Text(chart.habit!.habit!.title!) // TODO: remove habit name
               .swipeActions {
@@ -41,7 +44,7 @@ struct GoalDetailsChartsEditScreen: View {
               }
           }
 
-          AlertLink(title: "Delete Section") {
+          ActionSheetLink(title: "Delete Section") {
             Button("Delete", role: .destructive) {
               withAnimation {
                 viewContext.delete(section)
@@ -57,9 +60,36 @@ struct GoalDetailsChartsEditScreen: View {
               Spacer()
             }
           }
+        } header: {
+          HStack {
+            Text(section.title!)
+              .foregroundColor(.gray)
+            Spacer()
+            Button("Edit") {
+              sectionTitle = section.title!
+              sectionToEdit = section
+            }
+            .font(.caption)
+          }
         }
+
       }
       .navigationBarHeadline("Edit Charts", subheadline: "for \(goal.title!)")
+      .ifLet(sectionToEdit, transform: { view, section in
+        view.alert(
+          "Section Title",
+          isPresented: $sectionToEdit.map(get: { $0 != nil }, set: { _ in nil })
+        ) {
+            TextField("Title", text: $sectionTitle)
+            Button("Cancel", role: .cancel, action: {})
+            Button("Save") {
+              section.title = sectionTitle
+              try! viewContext.save()
+            }
+          } message: {
+            Text("enter a new title")
+          }
+      })
     }
   }
 

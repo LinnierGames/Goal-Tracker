@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct HabitsScreen: View {
-  @Environment(\.managedObjectContext) private var viewContext
+  @State private var newTrackerTitle = ""
+
+  @Environment(\.managedObjectContext)
+  private var viewContext
 
   @FetchRequest(sortDescriptors: [SortDescriptor(\Habit.title)])
   private var items: FetchedResults<Habit>
@@ -16,23 +19,25 @@ struct HabitsScreen: View {
   var body: some View {
     NavigationView {
       List(items) { tracker in
-        SheetLink {
+        NavigationSheetLink {
           HabitDetailScreen(tracker)
         } label: {
-          HStack {
-            Text(tracker.title ?? "Untitled")
-            Spacer()
-            Image(systemName: "chevron.right")
-          }
-          .foregroundColor(.primary)
-          .contextMenu {
-            Button(action: { addLog(for: tracker) }, title: "Add log", systemImage: "plus")
-          }
+          Text(tracker.title ?? "Untitled")
+            .foregroundColor(.primary)
+            .contextMenu {
+              Button(action: { addLog(for: tracker) }, title: "Add log", systemImage: "plus")
+            }
         }
       }
       .navigationTitle("Habits")
       .toolbar {
-        Button(action: addNewTracker) {
+        AlertLink(title: "Add Tracker") {
+          TextField("Title", text: $newTrackerTitle)
+          Button("Cancel", role: .cancel, action: {})
+          Button("Add", action: addNewTracker)
+        } message: {
+          Text("enter the title for your new tracker")
+        } label: {
           Image(systemName: "plus")
         }
       }
@@ -41,8 +46,10 @@ struct HabitsScreen: View {
 
   private func addNewTracker() {
     let newTracker = Habit(context: viewContext)
-    newTracker.title = "_ A new tracker"
+    newTracker.title = newTrackerTitle
     try! viewContext.save()
+
+    newTrackerTitle = ""
   }
 
   private func addLog(for tracker: Habit) {

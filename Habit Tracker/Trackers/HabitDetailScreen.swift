@@ -11,6 +11,8 @@ struct HabitDetailScreen: View {
   @StateObject var habit: Habit
   @State var uiTabarController: UITabBarController?
 
+  @Environment(\.dismiss) private var dismiss
+
   init(_ habit: Habit) {
     self._habit = StateObject(wrappedValue: habit)
   }
@@ -32,5 +34,11 @@ struct HabitDetailScreen: View {
           Label("Habit", systemImage: "figure.walk")
         }
     }
+
+    // FIXME: this is not called in time for deleting
+    .onChange(of: habit.isDeleted, perform: { newValue in
+      guard newValue else { return }
+      dismiss()
+    })
   }
 }
