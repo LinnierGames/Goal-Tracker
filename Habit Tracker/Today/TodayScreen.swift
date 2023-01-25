@@ -17,7 +17,7 @@ struct TodayScreen: View {
   private var trackers: FetchedResults<Habit>
 
   @FetchRequest(
-    sortDescriptors: [SortDescriptor(\HabitEntry.habit!.title!)],
+    sortDescriptors: [SortDescriptor(\HabitEntry.timestamp, order: .reverse)],
     predicate: NSPredicate(
       format: "timestamp >= %@ AND timestamp < %@ AND habit.showInTodayView == NO",
       Date().midnight as NSDate,
@@ -36,8 +36,8 @@ struct TodayScreen: View {
         if !entriesLoggedToday.isEmpty {
           Section("Other Trackers") {
             // TODO: Remove duplicate trackers
-            ForEach(entriesLoggedToday.map(\.habit!)) { tracker in
-              TodayTrackerCell(tracker)
+            ForEach(entriesLoggedToday) { entry in
+              TodayTrackerCell(entry.habit!, entryOverride: entry)
             }
           }
         }
@@ -48,13 +48,15 @@ struct TodayScreen: View {
 }
 
 struct TodayTrackerCell: View {
+  let entryOverride: HabitEntry?
   @ObservedObject var tracker: Habit
 
   @Environment(\.managedObjectContext)
   private var viewContext
 
-  init(_ tracker: Habit) {
+  init(_ tracker: Habit, entryOverride: HabitEntry? = nil) {
     self.tracker = tracker
+    self.entryOverride = entryOverride
   }
 
   var body: some View {
@@ -71,7 +73,7 @@ struct TodayTrackerCell: View {
         VStack(alignment: .leading) {
           Text(tracker.title!)
             .foregroundColor(.primary)
-          if let entry = tracker.mostRecentEntry {
+          if let entry = entryOverride ?? tracker.mostRecentEntry {
             Text("\(entry.timestamp!, style: .date) at \(entry.timestamp!, style: .time)")
               .font(.caption)
               .foregroundColor(.gray)

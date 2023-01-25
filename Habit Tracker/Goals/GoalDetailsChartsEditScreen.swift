@@ -72,7 +72,6 @@ struct GoalDetailsChartsEditScreen: View {
             .font(.caption)
           }
         }
-
       }
       .navigationBarHeadline("Edit Charts", subheadline: "for \(goal.title!)")
       .ifLet(sectionToEdit, transform: { view, section in
