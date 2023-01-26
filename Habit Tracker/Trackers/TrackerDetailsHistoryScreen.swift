@@ -1,6 +1,6 @@
 //
-//  HabitDetailsHistoryScreen.swift
-//  Habit Tracker
+//  TrackerDetailsHistoryScreen.swift
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/15/23.
 //
@@ -8,20 +8,20 @@
 import CoreData
 import SwiftUI
 
-struct HabitDetailsHistoryScreen: View {
-  @ObservedObject var habit: Habit
+struct TrackerDetailsHistoryScreen: View {
+  @ObservedObject var tracker: Tracker
 
   @FetchRequest
-  private var entries: FetchedResults<HabitEntry>
+  private var entries: FetchedResults<TrackerLog>
 
   @Environment(\.managedObjectContext)
   private var viewContext
 
-  init(_ habit: Habit) {
-    self.habit = habit
+  init(_ tracker: Tracker) {
+    self.tracker = tracker
     self._entries = FetchRequest(
-      sortDescriptors: [SortDescriptor(\HabitEntry.timestamp, order: .reverse)],
-      predicate: NSPredicate(format: "habit = %@", habit)
+      sortDescriptors: [SortDescriptor(\TrackerLog.timestamp, order: .reverse)],
+      predicate: NSPredicate(format: "tracker = %@", tracker)
     )
   }
 
@@ -30,7 +30,7 @@ struct HabitDetailsHistoryScreen: View {
       List {
         ForEach(entries) { entry in
           NavigationLink {
-            TrackerEntryDetailScreen(tracker: habit, entry: entry)
+            TrackerEntryDetailScreen(tracker: tracker, entry: entry)
           } label: {
             Text("\(entry.timestamp!, style: .date) at \(entry.timestamp!, style: .time)")
           }
@@ -38,14 +38,14 @@ struct HabitDetailsHistoryScreen: View {
         .onDelete(perform: deleteEntry)
       }
       .navigationBarTitleDisplayMode(.large)
-      .navigationTitle(habit.title!)
+      .navigationTitle(tracker.title!)
 
       .toolbar {
         Button {
           withAnimation {
-            let newEntry = HabitEntry(context: viewContext)
-            newEntry.timestamp = Date()
-            habit.addToEntries(newEntry)
+            let newLog = TrackerLog(context: viewContext)
+            newLog.timestamp = Date()
+            tracker.addToLogs(newLog)
 
             try! viewContext.save()
           }

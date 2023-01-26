@@ -1,6 +1,6 @@
 //
 //  GoalDetailsSettingsScreen.swift
-//  Habit Tracker
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/24/23.
 //
@@ -38,9 +38,9 @@ struct GoalDetailsSettingsScreen: View {
 
         Section {
           NavigationLink {
-            GoalDetailsSettingsHabitsScreen(goal)
+            GoalDetailsSettingsTrackersScreen(goal)
           } label: {
-            Label("Linked Habits", systemImage: "text.book.closed")
+            Label("Linked Trackers", systemImage: "text.book.closed")
           }
         }
 

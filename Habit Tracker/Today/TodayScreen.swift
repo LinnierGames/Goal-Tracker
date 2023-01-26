@@ -1,6 +1,6 @@
 //
 //  TodayScreen.swift
-//  Habit Tracker
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/17/23.
 //
@@ -11,20 +11,20 @@ struct TodayScreen: View {
   @Environment(\.managedObjectContext) private var viewContext
 
   @FetchRequest(
-    sortDescriptors: [SortDescriptor(\Habit.title!)],
+    sortDescriptors: [SortDescriptor(\Tracker.title!)],
     predicate: NSPredicate(format: "showInTodayView == YES")
   )
-  private var trackers: FetchedResults<Habit>
+  private var trackers: FetchedResults<Tracker>
 
   @FetchRequest(
-    sortDescriptors: [SortDescriptor(\HabitEntry.timestamp, order: .reverse)],
+    sortDescriptors: [SortDescriptor(\TrackerLog.timestamp, order: .reverse)],
     predicate: NSPredicate(
-      format: "timestamp >= %@ AND timestamp < %@ AND habit.showInTodayView == NO",
+      format: "timestamp >= %@ AND timestamp < %@ AND tracker.showInTodayView == NO",
       Date().midnight as NSDate,
       Date().addingTimeInterval(.init(days: 1)).midnight as NSDate
     )
   )
-  private var entriesLoggedToday: FetchedResults<HabitEntry>
+  private var logsForToday: FetchedResults<TrackerLog>
 
   var body: some View {
     NavigationView {
@@ -33,11 +33,11 @@ struct TodayScreen: View {
           TodayTrackerCell(tracker)
         }
 
-        if !entriesLoggedToday.isEmpty {
+        if !logsForToday.isEmpty {
           Section("Other Trackers") {
             // TODO: Remove duplicate trackers
-            ForEach(entriesLoggedToday) { entry in
-              TodayTrackerCell(entry.habit!, entryOverride: entry)
+            ForEach(logsForToday) { log in
+              TodayTrackerCell(log.tracker!, entryOverride: log)
             }
           }
         }
@@ -48,13 +48,13 @@ struct TodayScreen: View {
 }
 
 struct TodayTrackerCell: View {
-  let entryOverride: HabitEntry?
-  @ObservedObject var tracker: Habit
+  let entryOverride: TrackerLog?
+  @ObservedObject var tracker: Tracker
 
   @Environment(\.managedObjectContext)
   private var viewContext
 
-  init(_ tracker: Habit, entryOverride: HabitEntry? = nil) {
+  init(_ tracker: Tracker, entryOverride: TrackerLog? = nil) {
     self.tracker = tracker
     self.entryOverride = entryOverride
   }
@@ -68,12 +68,12 @@ struct TodayTrackerCell: View {
         .onTapGesture(perform: markAsCompleted)
 
       NavigationSheetLink {
-        HabitDetailScreen(tracker)
+        TrackerDetailScreen(tracker)
       } label: {
         VStack(alignment: .leading) {
           Text(tracker.title!)
             .foregroundColor(.primary)
-          if let entry = entryOverride ?? tracker.mostRecentEntry {
+          if let entry = entryOverride ?? tracker.mostRecentLog {
             Text("\(entry.timestamp!, style: .date) at \(entry.timestamp!, style: .time)")
               .font(.caption)
               .foregroundColor(.gray)
@@ -96,19 +96,19 @@ struct TodayTrackerCell: View {
   }
 
   private func markAsCompleted() {
-    if let log = tracker.mostRecentEntry, Calendar.current.isDateInToday(log.timestamp!) {
+    if let log = tracker.mostRecentLog, Calendar.current.isDateInToday(log.timestamp!) {
       viewContext.delete(log)
     } else {
-      let newEntry = HabitEntry(context: viewContext)
-      newEntry.timestamp = Date()
-      tracker.addToEntries(newEntry)
+      let newLog = TrackerLog(context: viewContext)
+      newLog.timestamp = Date()
+      tracker.addToLogs(newLog)
     }
 
     try! viewContext.save()
   }
 
-  private func isTrackerLoggedToday(_ tracker: Habit) -> Bool {
-    tracker.mostRecentEntry?.timestamp.map { Calendar.current.isDateInToday($0) } ?? false
+  private func isTrackerLoggedToday(_ tracker: Tracker) -> Bool {
+    tracker.mostRecentLog?.timestamp.map { Calendar.current.isDateInToday($0) } ?? false
   }
 
   private func hideFromTodayView() {

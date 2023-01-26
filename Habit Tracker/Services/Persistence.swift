@@ -1,6 +1,6 @@
 //
 //  Persistence.swift
-//  Habit Tracker
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 3/11/22.
 //
@@ -40,7 +40,7 @@ struct PersistenceController {
               fatalError("Shared file container could not be created.")
           }
 
-          let storeURL = fileContainer.appendingPathComponent("Habit_Tracker.sqlite")
+          let storeURL = fileContainer.appendingPathComponent("Tracker_Tracker.sqlite")
           let storeDescription = NSPersistentStoreDescription(url: storeURL)
           container.persistentStoreDescriptions = [storeDescription]
         }

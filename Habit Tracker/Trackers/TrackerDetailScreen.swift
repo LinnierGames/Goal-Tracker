@@ -1,42 +1,42 @@
 //
-//  HabitDetailScreen.swift
-//  Habit Tracker
+//  TrackerDetailScreen.swift
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/15/23.
 //
 
 import SwiftUI
 
-struct HabitDetailScreen: View {
-  @StateObject var habit: Habit
+struct TrackerDetailScreen: View {
+  @StateObject var tracker: Tracker
   @State var uiTabarController: UITabBarController?
 
   @Environment(\.dismiss) private var dismiss
 
-  init(_ habit: Habit) {
-    self._habit = StateObject(wrappedValue: habit)
+  init(_ tracker: Tracker) {
+    self._tracker = StateObject(wrappedValue: tracker)
   }
 
   var body: some View {
     TabView {
-      HabitDetailsChartScreen(habit)
+      TrackerDetailsChartScreen(tracker)
         .tabItem {
           Label("Analytics", systemImage: "chart.xyaxis.line")
         }
 
-      HabitDetailsHistoryScreen(habit)
+      TrackerDetailsHistoryScreen(tracker)
         .tabItem {
           Label("History", systemImage: "clock.arrow.circlepath")
         }
 
-      HabitDetailsSettingsScreen(habit)
+      TrackerDetailsSettingsScreen(tracker)
         .tabItem {
-          Label("Habit", systemImage: "figure.walk")
+          Label("Tracker", systemImage: "figure.walk")
         }
     }
 
     // FIXME: this is not called in time for deleting
-    .onChange(of: habit.isDeleted, perform: { newValue in
+    .onChange(of: tracker.isDeleted, perform: { newValue in
       guard newValue else { return }
       dismiss()
     })

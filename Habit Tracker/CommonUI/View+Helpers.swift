@@ -1,6 +1,6 @@
 //
 //  View+Helpers.swift
-//  Habit Tracker
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 3/19/22.
 //
@@ -48,6 +48,7 @@ extension View {
             Text(headline).font(.headline)
             Text(subheadline).font(.subheadline)
           }
+          .foregroundColor(.primary)
         }
       }
   }

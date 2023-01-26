@@ -1,6 +1,6 @@
 //
 //  ShareViewController.swift
-//  HabitImportShareExtension
+//  TrackerImportShareExtension
 //
 //  Created by Erick Sanchez on 3/20/22.
 //
@@ -51,7 +51,7 @@ class ShareViewController: UIViewController {
 
     Task {
       let fileManager = FileManager.default
-      let ud = UserDefaults(suiteName: "group.com.linniergames.Habit-Tracker")!
+      let ud = UserDefaults(suiteName: "group.com.linniergames.Tracker-Tracker")!
       
       for attachment in attachments {
         guard let fileData = try? await attachment.loadData(forTypeIdentifier: "public.comma-separated-values-text") else {

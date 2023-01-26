@@ -1,24 +1,24 @@
 //
-//  HabitDetailsSettingsScreen.swift
-//  Habit Tracker
+//  TrackerDetailsSettingsScreen.swift
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/17/23.
 //
 
 import SwiftUI
 
-struct HabitDetailsSettingsScreen: View {
-  @ObservedObject var habit: Habit
+struct TrackerDetailsSettingsScreen: View {
+  @ObservedObject var tracker: Tracker
 
-  @State private var habitTitle: String
+  @State private var trackerTitle: String
   @Environment(\.managedObjectContext)
   private var viewContext
 
-  init(_ habit: Habit) {
-    self.habit = habit
+  init(_ tracker: Tracker) {
+    self.tracker = tracker
 
     // FIXME: deleting the tracker crashes here
-    self._habitTitle = State(initialValue: habit.title!)
+    self._trackerTitle = State(initialValue: tracker.title!)
   }
 
   var body: some View {
@@ -27,10 +27,10 @@ struct HabitDetailsSettingsScreen: View {
         Section {
           HStack {
             Label("Title", systemImage: "text.book.closed")
-            TextField("Title", text: $habitTitle)
+            TextField("Title", text: $trackerTitle)
               .multilineTextAlignment(.trailing)
               .onSubmit {
-                habit.title = habitTitle
+                tracker.title = trackerTitle
                 try! viewContext.save()
               }
               .submitLabel(.done)
@@ -51,20 +51,20 @@ struct HabitDetailsSettingsScreen: View {
         }
 
         Section {
-          Toggle(isOn: $habit.showInTodayView) {
+          Toggle(isOn: $tracker.showInTodayView) {
             Label("Show in Today View", systemImage: "calendar")
           }
         }
 
         Section {
           if let shortcut = ShortcutManager.shared.voiceShortcut(
-            for: habit.objectID.uriRepresentation()
+            for: tracker.objectID.uriRepresentation()
           ) {
             SiriButton(voiceShortcut: shortcut)
           } else {
             SiriButton(
               intent: ShortcutManager.shared.intent(
-                for: .logTrackerIntent(habit)
+                for: .logTrackerIntent(tracker)
               )
             )
           }
@@ -75,7 +75,7 @@ struct HabitDetailsSettingsScreen: View {
         Section {
           ActionSheetLink(title: "Delete Tracker") {
             Button("Delete Tracker", role: .destructive) {
-              viewContext.delete(habit)
+              viewContext.delete(tracker)
               try! viewContext.save()
             }
           } message: {
@@ -83,7 +83,7 @@ struct HabitDetailsSettingsScreen: View {
           } label: {
             HStack {
               Spacer()
-              Text("Delete Habit")
+              Text("Delete Tracker")
                 .foregroundColor(.red)
               Spacer()
             }
@@ -91,9 +91,9 @@ struct HabitDetailsSettingsScreen: View {
         }
       }
       .listStyle(.grouped)
-      .navigationTitle(habit.title!)
+      .navigationTitle(tracker.title!)
 
-      .onChange(of: habit.showInTodayView) { _ in
+      .onChange(of: tracker.showInTodayView) { _ in
         try! viewContext.save()
       }
     }

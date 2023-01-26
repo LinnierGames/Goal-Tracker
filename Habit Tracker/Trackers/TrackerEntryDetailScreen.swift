@@ -1,6 +1,6 @@
 //
 //  TrackerEntryDetailScreen.swift
-//  Habit Tracker
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/22/23.
 //
@@ -9,8 +9,8 @@ import CoreData
 import SwiftUI
 
 struct TrackerEntryDetailScreen: View {
-  @ObservedObject var tracker: Habit
-  @ObservedObject var entry: HabitEntry
+  @ObservedObject var tracker: Tracker
+  @ObservedObject var entry: TrackerLog
 
   @Environment(\.managedObjectContext)
   private var viewContext

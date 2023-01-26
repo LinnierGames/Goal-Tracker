@@ -1,6 +1,6 @@
 //
 //  GoalDetailsChartsScreen.swift
-//  Habit Tracker
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/16/23.
 //
@@ -74,16 +74,16 @@ struct GoalDetailsChartsScreen: View {
       })
 
       .sheet(item: $addNewChartToSection) { section in
-        GoalHabitChartPickerScreen(
+        GoalTrackerChartPickerScreen(
           title: "Select a Chart",
           subtitle: "Goal: \(goal.title!) Section: \(section.title!)",
           goal: goal
         ) { chart in
           switch chart {
-          case .habit(let habit, let kind):
+          case .tracker(let tracker, let kind):
             withAnimation {
               let newChart = GoalChart(context: viewContext)
-              newChart.habit = habit
+              newChart.tracker = tracker
               newChart.kind = kind
               section.addToCharts(newChart)
 
@@ -126,7 +126,7 @@ private struct ChartSection: View {
     self.section = section
     self.goal = goal
     self._charts = FetchRequest(
-      sortDescriptors: [SortDescriptor(\GoalChart.habit!.habit!.title!)], // TODO: manual sorting
+      sortDescriptors: [SortDescriptor(\GoalChart.tracker!.tracker!.title!)], // TODO: manual sorting
       predicate: NSPredicate(format: "section = %@", section)
     )
   }
@@ -158,16 +158,16 @@ private struct ChartSection: View {
     @ViewBuilder label: () -> Label
   ) -> some View {
     SheetLink {
-      GoalHabitChartPickerScreen(
+      GoalTrackerChartPickerScreen(
         title: "Select a Chart",
         subtitle: "Goal: \(goal.title!) Section: \(section.title!)",
         goal: goal
       ) { chart in
         switch chart {
-        case .habit(let habit, let kind):
+        case .tracker(let tracker, let kind):
           withAnimation {
             let newChart = GoalChart(context: context)
-            newChart.habit = habit
+            newChart.tracker = tracker
             newChart.kind = kind
             section.addToCharts(newChart)
 
@@ -185,17 +185,19 @@ private struct ChartSection: View {
 
 private struct ChartCell: View {
   @ObservedObject private var chart: GoalChart
-  @ObservedObject private var tracker: Habit
+  @ObservedObject private var tracker: Tracker
 
-  private var startDate: Date
-  private var endDate: Date
+  private let startDate: Date
+  private let endDate: Date
+
+  @State private var showEditorForChart: GoalChart?
 
   @Environment(\.managedObjectContext)
   private var viewContext
 
   init(_ chart: GoalChart) {
     self.chart = chart
-    self.tracker = chart.habit!.habit!
+    self.tracker = chart.tracker!.tracker!
 
     let now = Date()
     let calendar = Calendar.current
@@ -207,41 +209,47 @@ private struct ChartCell: View {
 
   var body: some View {
     SheetLink {
-      HabitDetailScreen(tracker)
+      TrackerDetailScreen(tracker)
     } label: {
       HStack {
-        Text(chart.habit!.habit!.title!) // TODO: remove habit name
+        Text(chart.tracker!.tracker!.title!) // TODO: remove tracker name
           .foregroundColor(.primary)
         Spacer()
         switch chart.kind {
         case .count:
-          HabitBarChart(
-            chart.habit!.habit!,
+          TrackerBarChart(
+            chart.tracker!.tracker!,
             range: startDate...endDate,
             granularity: .days,
             context: viewContext
           )
-          .frame(width: 196, height: 64)
+          .frame(width: 196, height: chart.height.floatValue)
         case .frequency:
-          HabitPlotChart(
-            chart.habit!.habit!,
+          TrackerPlotChart(
+            chart.tracker!.tracker!,
             range: startDate...endDate,
             granularity: .days,
             context: viewContext
           )
-          .frame(width: 196, height: 64)
+          .frame(width: 196, height: chart.height.floatValue)
         }
       }
       .contextMenu {
-        Button(action: { addLog(for: chart.habit!.habit!) }, title: "Add log", systemImage: "plus")
+        Button(action: { addLog(for: chart.tracker!.tracker!) }, title: "Add log", systemImage: "plus")
+        Button(action: { showEditorForChart = chart }, title: "Edit Chart", systemImage: "pencil")
+      }
+      .sheet(item: $showEditorForChart) { chart in
+        NavigationView {
+          GoalDetailsChartEditScreen(chart)
+        }
       }
     }
   }
 
-  private func addLog(for tracker: Habit) {
-    let newLog = HabitEntry(context: viewContext)
+  private func addLog(for tracker: Tracker) {
+    let newLog = TrackerLog(context: viewContext)
     newLog.timestamp = Date()
-    tracker.addToEntries(newLog)
+    tracker.addToLogs(newLog)
 
     try! viewContext.save()
   }

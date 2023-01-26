@@ -31,8 +31,8 @@ class INLogTrackerIntentHandler: NSObject, INLogTrackerIntentHandling {
   private let viewContext = PersistenceController.shared.container.viewContext
 
   func provideTrackerOptionsCollection(for intent: INLogTrackerIntent, searchTerm: String?) async throws -> INObjectCollection<INTracker> {
-    let allTrackers = Habit.fetchRequest()
-    allTrackers.sortDescriptors = [NSSortDescriptor(keyPath: \Habit.title, ascending: true)]
+    let allTrackers = Tracker.fetchRequest()
+    allTrackers.sortDescriptors = [NSSortDescriptor(keyPath: \Tracker.title, ascending: true)]
     let coreDataTrackers = try! viewContext.fetch(allTrackers)
     let trackers = coreDataTrackers.map { tracker in
       INTracker(
@@ -48,8 +48,8 @@ class INLogTrackerIntentHandler: NSObject, INLogTrackerIntentHandling {
     if let tracker = intent.tracker {
       return .success(with: tracker)
     } else {
-      let allTrackers = Habit.fetchRequest()
-      allTrackers.sortDescriptors = [NSSortDescriptor(keyPath: \Habit.title, ascending: true)]
+      let allTrackers = Tracker.fetchRequest()
+      allTrackers.sortDescriptors = [NSSortDescriptor(keyPath: \Tracker.title, ascending: true)]
       let coreDataTrackers = try! viewContext.fetch(allTrackers)
       let trackers = coreDataTrackers.map { tracker in
         INTracker(
@@ -78,11 +78,11 @@ class INLogTrackerIntentHandler: NSObject, INLogTrackerIntentHandling {
 
     let managedObjectID =
       viewContext.persistentStoreCoordinator!.managedObjectID(forURIRepresentation: trackerURL)!
-    let tracker = viewContext.object(with: managedObjectID) as! Habit
+    let tracker = viewContext.object(with: managedObjectID) as! Tracker
 
-    let newEntry = HabitEntry(context: viewContext)
-    newEntry.timestamp = Date()
-    tracker.addToEntries(newEntry)
+    let newLog = TrackerLog(context: viewContext)
+    newLog.timestamp = Date()
+    tracker.addToLogs(newLog)
 
     try! viewContext.save()
 

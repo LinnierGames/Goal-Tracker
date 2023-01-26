@@ -1,26 +1,26 @@
 //
 //  HabbitsScreen.swift
-//  Habit Tracker
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/14/23.
 //
 
 import SwiftUI
 
-struct HabitsScreen: View {
+struct TrackersScreen: View {
   @State private var newTrackerTitle = ""
 
   @Environment(\.managedObjectContext)
   private var viewContext
 
-  @FetchRequest(sortDescriptors: [SortDescriptor(\Habit.title)])
-  private var items: FetchedResults<Habit>
+  @FetchRequest(sortDescriptors: [SortDescriptor(\Tracker.title)])
+  private var items: FetchedResults<Tracker>
 
   var body: some View {
     NavigationView {
       List(items) { tracker in
         NavigationSheetLink {
-          HabitDetailScreen(tracker)
+          TrackerDetailScreen(tracker)
         } label: {
           Text(tracker.title ?? "Untitled")
             .foregroundColor(.primary)
@@ -29,7 +29,7 @@ struct HabitsScreen: View {
             }
         }
       }
-      .navigationTitle("Habits")
+      .navigationTitle("Trackers")
       .toolbar {
         AlertLink(title: "Add Tracker") {
           TextField("Title", text: $newTrackerTitle)
@@ -45,17 +45,17 @@ struct HabitsScreen: View {
   }
 
   private func addNewTracker() {
-    let newTracker = Habit(context: viewContext)
+    let newTracker = Tracker(context: viewContext)
     newTracker.title = newTrackerTitle
     try! viewContext.save()
 
     newTrackerTitle = ""
   }
 
-  private func addLog(for tracker: Habit) {
-    let newLog = HabitEntry(context: viewContext)
+  private func addLog(for tracker: Tracker) {
+    let newLog = TrackerLog(context: viewContext)
     newLog.timestamp = Date()
-    tracker.addToEntries(newLog)
+    tracker.addToLogs(newLog)
 
     try! viewContext.save()
   }

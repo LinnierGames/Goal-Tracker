@@ -1,39 +1,39 @@
 //
-//  GoalDetailsSettingsHabitsScreen.swift
-//  Habit Tracker
+//  GoalDetailsSettingsTrackersScreen.swift
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/16/23.
 //
 
 import SwiftUI
 
-struct GoalDetailsSettingsHabitsScreen: View {
+struct GoalDetailsSettingsTrackersScreen: View {
   @ObservedObject var goal: Goal
 
   @FetchRequest
-  private var habitCriterias: FetchedResults<GoalHabitCriteria>
+  private var trackerCriterias: FetchedResults<GoalTrackerCriteria>
 
-  @State private var isShowingAddHabitPicker = false
+  @State private var isShowingAddTrackerPicker = false
 
   @Environment(\.managedObjectContext)
   private var viewContext
 
   init(_ goal: Goal) {
     self.goal = goal
-    self._habitCriterias = FetchRequest(
-      sortDescriptors: [SortDescriptor(\GoalHabitCriteria.habit!.title)],
+    self._trackerCriterias = FetchRequest(
+      sortDescriptors: [SortDescriptor(\GoalTrackerCriteria.tracker!.title)],
       predicate: NSPredicate(format: "goal = %@", goal)
     )
   }
 
   var body: some View {
     List {
-      Section("Habits") {
-        ForEach(habitCriterias) { criteria in
+      Section("Trackers") {
+        ForEach(trackerCriterias) { criteria in
           NavigationSheetLink {
-            HabitDetailScreen(criteria.habit!)
+            TrackerDetailScreen(criteria.tracker!)
           } label: {
-            Text(criteria.habit!.title!)
+            Text(criteria.tracker!.title!)
           }
           .swipeActions {
             Button {
@@ -50,30 +50,30 @@ struct GoalDetailsSettingsHabitsScreen: View {
     }
     .toolbar {
       SheetLink {
-        HabitPickerScreen(title: "Select Habit to Add", subtitle: goal.title!, didPick: { habit in
-          isShowingAddHabitPicker = false
+        TrackerPickerScreen(title: "Select Tracker to Add", subtitle: goal.title!, didPick: { tracker in
+          isShowingAddTrackerPicker = false
 
-          let newHabit = GoalHabitCriteria(context: viewContext)
-          newHabit.habit = habit
-          newHabit.goal = goal
+          let newTracker = GoalTrackerCriteria(context: viewContext)
+          newTracker.tracker = tracker
+          newTracker.goal = goal
 
-          goal.addToHabits(newHabit)
+          goal.addToTrackers(newTracker)
 
           try! viewContext.save()
-        }, disabled: { habit in
-          habitCriterias.map(\.habit).contains(where: { $0 == habit })
+        }, disabled: { tracker in
+          trackerCriterias.map(\.tracker).contains(where: { $0 == tracker })
         })
       } label: {
         Image(systemName: "plus")
       }
     }
-    .navigationTitle("Linked Habits")
+    .navigationTitle("Linked Trackers")
   }
 
-  private func removeHabitFromGoal(indexes: IndexSet) {
+  private func removeTrackerFromGoal(indexes: IndexSet) {
     withAnimation {
-      let habitToRemove = habitCriterias[indexes.first!]
-      viewContext.delete(habitToRemove)
+      let trackerToRemove = trackerCriterias[indexes.first!]
+      viewContext.delete(trackerToRemove)
       try! viewContext.save()
     }
   }

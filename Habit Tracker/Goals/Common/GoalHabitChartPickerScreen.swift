@@ -1,25 +1,25 @@
 //
-//  GoalHabitChartPickerScreen.swift
-//  Habit Tracker
+//  GoalTrackerChartPickerScreen.swift
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/19/23.
 //
 
 import SwiftUI
 
-struct GoalHabitChartPickerScreen: View {
+struct GoalTrackerChartPickerScreen: View {
   let title: String
   let subtitle: String
   let goal: Goal
 
   enum Chart {
-    case habit(GoalHabitCriteria, ChartKind)
-    case chart(Void) // TODO: Reference simple charts from the habit itself
+    case tracker(GoalTrackerCriteria, ChartKind)
+    case chart(Void) // TODO: Reference simple charts from the tracker itself
   }
   let didPick: (Chart) -> Void
 
   @FetchRequest
-  private var criterias: FetchedResults<GoalHabitCriteria>
+  private var criterias: FetchedResults<GoalTrackerCriteria>
 
   @Environment(\.dismiss) var dismiss
 
@@ -29,7 +29,7 @@ struct GoalHabitChartPickerScreen: View {
     self.goal = goal
     self.didPick = didPick
     self._criterias = FetchRequest(
-      sortDescriptors: [SortDescriptor(\GoalHabitCriteria.habit!.title)],
+      sortDescriptors: [SortDescriptor(\GoalTrackerCriteria.tracker!.title)],
       predicate: NSPredicate(format: "goal = %@", goal)
     )
   }
@@ -38,12 +38,12 @@ struct GoalHabitChartPickerScreen: View {
     NavigationView {
       List(criterias) { criteria in
         HStack {
-          Text(criteria.habit!.title!)
+          Text(criteria.tracker!.title!)
           Spacer()
           Menu {
             Button(
               action: {
-                didPick(.habit(criteria, .count))
+                didPick(.tracker(criteria, .count))
                 dismiss()
               },
               title: "Count",
@@ -52,7 +52,7 @@ struct GoalHabitChartPickerScreen: View {
 
             Button(
               action: {
-                didPick(.habit(criteria, .frequency))
+                didPick(.tracker(criteria, .frequency))
                 dismiss()
               },
               title: "Frequency",

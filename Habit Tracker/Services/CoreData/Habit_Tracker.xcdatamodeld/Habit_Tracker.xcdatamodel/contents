@@ -7,37 +7,38 @@
     <entity name="Goal" representedClassName="Goal" syncable="YES" codeGenerationType="class">
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="chartSections" toMany="YES" deletionRule="Cascade" destinationEntity="GoalChartSection" inverseName="goal" inverseEntity="GoalChartSection"/>
-        <relationship name="habits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalHabitCriteria" inverseName="goal" inverseEntity="GoalHabitCriteria"/>
+        <relationship name="trackers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalTrackerCriteria" inverseName="goal" inverseEntity="GoalTrackerCriteria"/>
     </entity>
     <entity name="GoalChart" representedClassName="GoalChart" syncable="YES" codeGenerationType="class">
+        <attribute name="heightRawValue" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="kindRawValue" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="habit" maxCount="1" deletionRule="Nullify" destinationEntity="GoalHabitCriteria" inverseName="charts" inverseEntity="GoalHabitCriteria"/>
         <relationship name="section" maxCount="1" deletionRule="Nullify" destinationEntity="GoalChartSection" inverseName="charts" inverseEntity="GoalChartSection"/>
+        <relationship name="tracker" maxCount="1" deletionRule="Nullify" destinationEntity="GoalTrackerCriteria" inverseName="charts" inverseEntity="GoalTrackerCriteria"/>
     </entity>
     <entity name="GoalChartSection" representedClassName="GoalChartSection" syncable="YES" codeGenerationType="class">
         <attribute name="title" attributeType="String" defaultValueString="Untitled Section"/>
         <relationship name="charts" toMany="YES" deletionRule="Cascade" destinationEntity="GoalChart" inverseName="section" inverseEntity="GoalChart"/>
         <relationship name="goal" maxCount="1" deletionRule="Nullify" destinationEntity="Goal" inverseName="chartSections" inverseEntity="Goal"/>
     </entity>
-    <entity name="GoalHabitCriteria" representedClassName="GoalHabitCriteria" syncable="YES" codeGenerationType="class">
+    <entity name="GoalTrackerCriteria" representedClassName="GoalTrackerCriteria" syncable="YES" codeGenerationType="class">
         <attribute name="target" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="charts" toMany="YES" deletionRule="Cascade" destinationEntity="GoalChart" inverseName="habit" inverseEntity="GoalChart"/>
-        <relationship name="goal" maxCount="1" deletionRule="Nullify" destinationEntity="Goal" inverseName="habits" inverseEntity="Goal"/>
-        <relationship name="habit" maxCount="1" deletionRule="Nullify" destinationEntity="Habit" inverseName="goals" inverseEntity="Habit"/>
-    </entity>
-    <entity name="Habit" representedClassName="Habit" syncable="YES" codeGenerationType="class">
-        <attribute name="showInTodayView" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
-        <attribute name="title" attributeType="String" defaultValueString="Untitled Habit"/>
-        <relationship name="entries" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="HabitEntry" inverseName="habit" inverseEntity="HabitEntry"/>
-        <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalHabitCriteria" inverseName="habit" inverseEntity="GoalHabitCriteria"/>
-    </entity>
-    <entity name="HabitEntry" representedClassName="HabitEntry" syncable="YES" codeGenerationType="class">
-        <attribute name="notes" attributeType="String" defaultValueString=""/>
-        <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="0" usesScalarValueType="NO"/>
-        <relationship name="habit" maxCount="1" deletionRule="Nullify" destinationEntity="Habit" inverseName="entries" inverseEntity="Habit"/>
+        <relationship name="charts" toMany="YES" deletionRule="Cascade" destinationEntity="GoalChart" inverseName="tracker" inverseEntity="GoalChart"/>
+        <relationship name="goal" maxCount="1" deletionRule="Nullify" destinationEntity="Goal" inverseName="trackers" inverseEntity="Goal"/>
+        <relationship name="tracker" maxCount="1" deletionRule="Nullify" destinationEntity="Tracker" inverseName="goals" inverseEntity="Tracker"/>
     </entity>
     <entity name="ShowerTimestamp" representedClassName="ShowerTimestamp" syncable="YES" codeGenerationType="class">
         <attribute name="products" attributeType="Transformable" customClassName="[String]"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="Tracker" representedClassName="Tracker" syncable="YES" codeGenerationType="class">
+        <attribute name="showInTodayView" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="title" attributeType="String" defaultValueString="Untitled Habit"/>
+        <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalTrackerCriteria" inverseName="tracker" inverseEntity="GoalTrackerCriteria"/>
+        <relationship name="logs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TrackerLog" inverseName="tracker" inverseEntity="TrackerLog"/>
+    </entity>
+    <entity name="TrackerLog" representedClassName="TrackerLog" syncable="YES" codeGenerationType="class">
+        <attribute name="notes" attributeType="String" defaultValueString=""/>
+        <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="0" usesScalarValueType="NO"/>
+        <relationship name="tracker" maxCount="1" deletionRule="Nullify" destinationEntity="Tracker" inverseName="logs" inverseEntity="Tracker"/>
     </entity>
 </model>

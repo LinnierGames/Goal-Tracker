@@ -1,6 +1,6 @@
 //
 //  ImportDataScreen.swift
-//  Habit Tracker
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/15/23.
 //
@@ -16,7 +16,7 @@ struct ImportDataScreen: View {
     NavigationView {
       VStack {
         List {
-          Section("Habits") {
+          Section("Trackers") {
             FilePicker(types: [.commaSeparatedText], allowMultiple: false) { urls in
               stageFiles(urls: urls)
             } label: {
@@ -49,7 +49,7 @@ struct ImportDataScreen: View {
         }
 
         ButtonFill("Import", fill: .blue) {
-          importHabits(url: stagedURLs[0])
+          importTrackers(url: stagedURLs[0])
         }
         .disabled(stagedURLs.isEmpty)
       }
@@ -61,7 +61,7 @@ struct ImportDataScreen: View {
     stagedURLs = urls
   }
 
-  private func importHabits(url: URL) {
+  private func importTrackers(url: URL) {
     guard
       let data = try? Data(contentsOf: url),
       let content = String(data: data, encoding: .utf8)
@@ -99,21 +99,21 @@ struct ImportDataScreen: View {
       }
     }
 
-    func findHabitOrCreateIt(title: String) -> Habit {
-      findItOrCreateIt(fetch: Habit.fetchRequest()) {
+    func findTrackerOrCreateIt(title: String) -> Tracker {
+      findItOrCreateIt(fetch: Tracker.fetchRequest()) {
         NSPredicate(format: "title = %@", title)
       } createIt: {
-        let new = Habit(context: viewContext)
+        let new = Tracker(context: viewContext)
         new.title = title
         return new
       }
     }
 
-    func findTimestampOrCreateIt(date: Date, habitTitle: String) -> HabitEntry {
-      findItOrCreateIt(fetch: HabitEntry.fetchRequest()) {
-        NSPredicate(format: "timestamp = %@ AND habit.title = %@", date as NSDate, habitTitle)
+    func findTimestampOrCreateIt(date: Date, trackerTitle: String) -> TrackerLog {
+      findItOrCreateIt(fetch: TrackerLog.fetchRequest()) {
+        NSPredicate(format: "timestamp = %@ AND tracker.title = %@", date as NSDate, trackerTitle)
       } createIt: {
-        let new = HabitEntry(context: viewContext)
+        let new = TrackerLog(context: viewContext)
         new.timestamp = date
         return new
       }
@@ -144,17 +144,17 @@ struct ImportDataScreen: View {
         continue
       }
 
-      let tracker = row.columns[trackerIndex]
+      let trackerString = row.columns[trackerIndex]
       let timestampString = row.columns[timestampIndex]
 
       let formatter = DateFormatter()
       formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
       let timestamp = formatter.date(from: timestampString)!
 
-      let habit = findHabitOrCreateIt(title: tracker)
-      let entry = findTimestampOrCreateIt(date: timestamp, habitTitle: tracker)
+      let tracker = findTrackerOrCreateIt(title: trackerString)
+      let log = findTimestampOrCreateIt(date: timestamp, trackerTitle: trackerString)
 
-      habit.addToEntries(entry)
+      tracker.addToLogs(log)
     }
 
     try! viewContext.save()

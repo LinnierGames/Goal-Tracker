@@ -1,6 +1,6 @@
 //
-//  Habit_TrackerApp.swift
-//  Habit Tracker
+//  Tracker_TrackerApp.swift
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 3/11/22.
 //
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct Habit_TrackerApp: App {
+struct Tracker_TrackerApp: App {
   let persistenceController = PersistenceController.shared
 
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -24,9 +24,9 @@ struct Habit_TrackerApp: App {
           .tabItem {
             Label("Import", systemImage: "square.and.arrow.down")
           }
-        HabitsScreen()
+        TrackersScreen()
           .tabItem {
-            Label("Habits", systemImage: "text.book.closed")
+            Label("Trackers", systemImage: "text.book.closed")
           }
         GoalsScreen()
           .tabItem {

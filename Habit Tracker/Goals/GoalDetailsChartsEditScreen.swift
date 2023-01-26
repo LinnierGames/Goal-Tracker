@@ -1,6 +1,6 @@
 //
 //  GoalDetailsChartsEditScreen.swift
-//  Habit Tracker
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/22/23.
 //
@@ -32,17 +32,7 @@ struct GoalDetailsChartsEditScreen: View {
     NavigationView {
       List(sections) { section in
         Section {
-          ForEach(section.allCharts) { chart in
-            Text(chart.habit!.habit!.title!) // TODO: remove habit name
-              .swipeActions {
-                Button("Delete") {
-                  withAnimation {
-                    viewContext.delete(chart)
-                    try! viewContext.save()
-                  }
-                }
-              }
-          }
+          SectionOfCharts(section)
 
           ActionSheetLink(title: "Delete Section") {
             Button("Delete", role: .destructive) {
@@ -91,7 +81,46 @@ struct GoalDetailsChartsEditScreen: View {
       })
     }
   }
+}
 
-  private func deleteChart(index: IndexSet) {
+private struct SectionOfCharts: View {
+  @ObservedObject var section: GoalChartSection
+
+  @FetchRequest
+  private var charts: FetchedResults<GoalChart>
+
+  @Environment(\.managedObjectContext)
+  private var viewContext
+
+  init(_ section: GoalChartSection) {
+    self.section = section
+    self._charts = FetchRequest(
+      sortDescriptors: [SortDescriptor(\GoalChart.tracker!.tracker!.title)], // TODO: manual sorting
+      predicate: NSPredicate(format: "section = %@", section)
+    )
+  }
+
+
+  var body: some View {
+    ForEach(charts) { chart in
+      NavigationLink {
+        GoalDetailsChartEditScreen(chart)
+      } label: {
+        HStack {
+          Text(chart.tracker!.tracker!.title!) // TODO: remove tracker name
+          Spacer()
+          Text(chart.kind.stringValue)
+            .foregroundColor(.gray)
+        }
+        .swipeActions {
+          Button("Delete") {
+            withAnimation {
+              viewContext.delete(chart)
+              try! viewContext.save()
+            }
+          }
+        }
+      }
+    }
   }
 }

@@ -1,6 +1,6 @@
 //
 //  Sleep+CoreDataProperties.swift
-//  Habit Tracker
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 3/11/22.
 //

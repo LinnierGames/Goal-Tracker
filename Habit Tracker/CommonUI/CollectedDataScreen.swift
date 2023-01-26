@@ -1,6 +1,6 @@
 //
 //  CollectedDataScreen.swift
-//  Habit Tracker
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 3/13/22.
 //

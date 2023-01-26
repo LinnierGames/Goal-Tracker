@@ -115,12 +115,12 @@ public final class ShortcutManager {
    */
   public enum Shortcut {
     /// The **Add Item** intent.
-    case logTrackerIntent(Habit)
+    case logTrackerIntent(Tracker)
 
     /// Returns the unique ID of the intent.
     var intentId: String {
       switch self {
-      case .logTrackerIntent(let habit): return "logTrackerIntent:\(habit.objectID.uriRepresentation().absoluteString)"
+      case .logTrackerIntent(let tracker): return "logTrackerIntent:\(tracker.objectID.uriRepresentation().absoluteString)"
       }
     }
 
@@ -128,11 +128,11 @@ public final class ShortcutManager {
     var intent: INIntent {
       let intent: INIntent
       switch self {
-      case .logTrackerIntent(let habit):
+      case .logTrackerIntent(let tracker):
         let logIntent = INLogTrackerIntent()
         logIntent.tracker = INTracker(
-          identifier: habit.objectID.uriRepresentation().absoluteString,
-          display: habit.title!
+          identifier: tracker.objectID.uriRepresentation().absoluteString,
+          display: tracker.title!
         )
 
         intent = logIntent

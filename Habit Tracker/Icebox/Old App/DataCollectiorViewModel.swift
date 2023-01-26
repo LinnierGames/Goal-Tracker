@@ -1,6 +1,6 @@
 //
 //  DataCollectiorViewModel.swift
-//  Habit Tracker
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 3/13/22.
 //
@@ -16,7 +16,7 @@ class DataCollectiorViewModel: ObservableObject {
   
   private let healthKitService = HealthKitService()
   private let networking = Networking.shared
-  private let ud = UserDefaults(suiteName: "group.com.linniergames.Habit-Tracker")!
+  private let ud = UserDefaults(suiteName: "group.com.linniergames.Tracker-Tracker")!
 
   init() {
     self._isHealthKitGranted = .init(initialValue: healthKitService.isSleepGranted)

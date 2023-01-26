@@ -1,6 +1,6 @@
 //
-//  HabitDetailsChartsScreen.swift
-//  Habit Tracker
+//  TrackerDetailsChartsScreen.swift
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/15/23.
 //
@@ -9,21 +9,21 @@ import Charts
 import MetricKit
 import SwiftUI
 
-struct HabitDetailsChartScreen: View {
-  @ObservedObject var habit: Habit
+struct TrackerDetailsChartScreen: View {
+  @ObservedObject var tracker: Tracker
 
-  @StateObject private var viewModel = HabitDetailsChartViewModel()
+  @StateObject private var viewModel = TrackerDetailsChartViewModel()
 
   @FetchRequest
-  private var entries: FetchedResults<HabitEntry>
+  private var entries: FetchedResults<TrackerLog>
 
   @Environment(\.managedObjectContext) private var viewContext
 
-  init(_ habit: Habit) {
-    self.habit = habit
+  init(_ tracker: Tracker) {
+    self.tracker = tracker
     self._entries = FetchRequest(
-      sortDescriptors: [SortDescriptor(\HabitEntry.timestamp)],
-      predicate: NSPredicate(format: "habit = %@", habit)
+      sortDescriptors: [SortDescriptor(\TrackerLog.timestamp)],
+      predicate: NSPredicate(format: "tracker = %@", tracker)
     )
   }
 
@@ -62,7 +62,7 @@ struct HabitDetailsChartScreen: View {
       }
       .padding(.horizontal)
 
-      .navigationTitle(habit.title!)
+      .navigationTitle(tracker.title!)
     }
   }
 
@@ -102,10 +102,10 @@ struct HabitDetailsChartScreen: View {
         let nEntriesForDay: Int = {
           let lowerBound = day.set(minute: 0)
           let upperBound = day.set(minute: 0).addingTimeInterval(.init(hours: 1))
-          let fetch = HabitEntry.fetchRequest()
+          let fetch = TrackerLog.fetchRequest()
           fetch.predicate = NSPredicate(
-            format: "habit = %@ AND timestamp >= %@ AND timestamp < %@",
-            habit, lowerBound as NSDate, upperBound as NSDate
+            format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
+            tracker, lowerBound as NSDate, upperBound as NSDate
           )
 
           guard let results = try? viewContext.fetch(fetch) else {
@@ -133,8 +133,8 @@ struct HabitDetailsChartScreen: View {
   }
 
   private func makeWeekView() -> some View {
-    HabitBarChart(
-      habit,
+    TrackerBarChart(
+      tracker,
       range: viewModel.startDate...viewModel.endDate,
       granularity: .days,
       context: viewContext
@@ -146,10 +146,10 @@ struct HabitDetailsChartScreen: View {
     let data = stride(from: viewModel.startDate, to: viewModel.endDate, by: day)
       .map { day in
         let nEntriesForDay: Int = {
-          let fetch = HabitEntry.fetchRequest()
+          let fetch = TrackerLog.fetchRequest()
           fetch.predicate = NSPredicate(
-            format: "habit = %@ AND timestamp >= %@ AND timestamp < %@",
-            habit, day.midnight as NSDate,
+            format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
+            tracker, day.midnight as NSDate,
             day.addingTimeInterval(.init(days: 1)).midnight as NSDate
           )
 
@@ -188,7 +188,7 @@ private enum DateWindow: String, CaseIterable, Identifiable {
   case day, week, month, year
 }
 
-private class HabitDetailsChartViewModel: ObservableObject {
+private class TrackerDetailsChartViewModel: ObservableObject {
   @Published var selectedDateWindow = DateWindow.week
   @Published var selectedDate: Date = {
     let calendar = Calendar.current

@@ -1,6 +1,6 @@
 //
 //  SheetLink.swift
-//  Habit Tracker
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/15/23.
 //
@@ -19,14 +19,13 @@ struct SheetLink<Destination: View, Label: View>: View {
   }
 
   var body: some View {
-    label
-      .foregroundColor(.accentColor)
-      .contentShape(Rectangle())
-      .onTapGesture {
-        isShowingSheet.toggle()
-      }
-      .sheet(isPresented: $isShowingSheet) {
-        destination
-      }
+    Button {
+      isShowingSheet.toggle()
+    } label: {
+      label
+    }
+    .sheet(isPresented: $isShowingSheet) {
+      destination
+    }
   }
 }

@@ -1,20 +1,20 @@
 //
-//  HabitPickerScreen.swift
-//  Habit Tracker
+//  TrackerPickerScreen.swift
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/15/23.
 //
 
 import SwiftUI
 
-struct HabitPickerScreen: View {
+struct TrackerPickerScreen: View {
   let title: String
   let subtitle: String
-  let didPick: (Habit) -> Void
-  let disabled: (Habit) -> Bool
+  let didPick: (Tracker) -> Void
+  let disabled: (Tracker) -> Bool
 
-  @FetchRequest(sortDescriptors: [SortDescriptor(\Habit.title)])
-  private var habits: FetchedResults<Habit>
+  @FetchRequest(sortDescriptors: [SortDescriptor(\Tracker.title)])
+  private var trackers: FetchedResults<Tracker>
 
   @Environment(\.dismiss)
   private var dismiss
@@ -22,8 +22,8 @@ struct HabitPickerScreen: View {
   init(
     title: String,
     subtitle: String,
-    didPick: @escaping (Habit) -> Void,
-    disabled: @escaping (Habit) -> Bool = { _ in false }
+    didPick: @escaping (Tracker) -> Void,
+    disabled: @escaping (Tracker) -> Bool = { _ in false }
   ) {
     self.title = title
     self.subtitle = subtitle
@@ -33,16 +33,16 @@ struct HabitPickerScreen: View {
 
   var body: some View {
     NavigationView {
-      List(habits) { habit in
-        let isDisabled = disabled(habit)
+      List(trackers) { tracker in
+        let isDisabled = disabled(tracker)
         HStack {
-          Text(habit.title!)
+          Text(tracker.title!)
             .foregroundColor(isDisabled ? .primary.opacity(0.35) : .primary)
           Spacer()
         }
         .contentShape(Rectangle())
         .onTapGesture {
-          didPick(habit)
+          didPick(tracker)
           dismiss()
         }
         .disabled(isDisabled)

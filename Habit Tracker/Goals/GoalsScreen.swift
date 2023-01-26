@@ -1,6 +1,6 @@
 //
 //  GoalsScreen.swift
-//  Habit Tracker
+//  Tracker Tracker
 //
 //  Created by Erick Sanchez on 1/15/23.
 //
