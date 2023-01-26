@@ -13,7 +13,7 @@ struct GoalHabitChartPickerScreen: View {
   let goal: Goal
 
   enum Chart {
-    case habit(GoalHabitCriteria)
+    case habit(GoalHabitCriteria, ChartKind)
     case chart(Void) // TODO: Reference simple charts from the habit itself
   }
   let didPick: (Chart) -> Void
@@ -40,14 +40,36 @@ struct GoalHabitChartPickerScreen: View {
         HStack {
           Text(criteria.habit!.title!)
           Spacer()
-          Button {
-            didPick(.habit(criteria))
-            dismiss()
+          Menu {
+            Button(
+              action: {
+                didPick(.habit(criteria, .count))
+                dismiss()
+              },
+              title: "Count",
+              systemImage: "chart.bar.fill"
+            )
+
+            Button(
+              action: {
+                didPick(.habit(criteria, .frequency))
+                dismiss()
+              },
+              title: "Frequency",
+              systemImage: "chart.xyaxis.line"
+            )
           } label: {
             Text("Create New Chart")
               .font(.caption)
+              .padding(.horizontal, 10)
+              .padding(.vertical, 8)
+              .background(Color.gray.opacity(0.15))
+              .cornerRadius(8)
           }
-          .buttonStyle(.bordered)
+//          Button {
+//          } label: {
+//          }
+//          .buttonStyle(.bordered)
         }
         ForEach(0..<Int.random(in: 1...4)) { _ in
           HStack {

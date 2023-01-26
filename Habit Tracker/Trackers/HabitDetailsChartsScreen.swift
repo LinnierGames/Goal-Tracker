@@ -133,7 +133,7 @@ struct HabitDetailsChartScreen: View {
   }
 
   private func makeWeekView() -> some View {
-    HabitChart(
+    HabitBarChart(
       habit,
       range: viewModel.startDate...viewModel.endDate,
       granularity: .days,

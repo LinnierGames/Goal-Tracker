@@ -6,6 +6,7 @@
 //
 
 import Charts
+import CoreData
 import SwiftUI
 
 struct GoalDetailsChartsScreen: View {
@@ -79,10 +80,11 @@ struct GoalDetailsChartsScreen: View {
           goal: goal
         ) { chart in
           switch chart {
-          case .habit(let habit):
+          case .habit(let habit, let kind):
             withAnimation {
               let newChart = GoalChart(context: viewContext)
               newChart.habit = habit
+              newChart.kind = kind
               section.addToCharts(newChart)
 
               try! viewContext.save()
@@ -105,59 +107,6 @@ struct GoalDetailsChartsScreen: View {
 
       newChartSectionTitle = ""
     }
-  }
-}
-
-private struct ChartCell: View {
-  @ObservedObject private var chart: GoalChart
-  @ObservedObject private var tracker: Habit
-
-  private var startDate: Date
-  private var endDate: Date
-
-  @Environment(\.managedObjectContext)
-  private var viewContext
-
-  init(_ chart: GoalChart) {
-    self.chart = chart
-    self.tracker = chart.habit!.habit!
-
-    let now = Date()
-    let calendar = Calendar.current
-    let sunday = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now))
-
-    self.startDate = calendar.date(byAdding: .day, value: 0, to: sunday!)!
-    self.endDate = startDate.addingTimeInterval(.init(days: 7))
-  }
-
-  var body: some View {
-    SheetLink {
-      HabitDetailScreen(tracker)
-    } label: {
-      HStack {
-        Text(chart.habit!.habit!.title!) // TODO: remove habit name
-          .foregroundColor(.primary)
-        Spacer()
-        HabitChart(
-          chart.habit!.habit!,
-          range: startDate...endDate,
-          granularity: .days,
-          context: viewContext
-        )
-        .frame(width: 196, height: 64)
-      }
-      .contextMenu {
-        Button(action: { addLog(for: chart.habit!.habit!) }, title: "Add log", systemImage: "plus")
-      }
-    }
-  }
-
-  private func addLog(for tracker: Habit) {
-    let newLog = HabitEntry(context: viewContext)
-    newLog.timestamp = Date()
-    tracker.addToEntries(newLog)
-
-    try! viewContext.save()
   }
 }
 
@@ -201,36 +150,99 @@ private struct ChartSection: View {
       }
     }
   }
+
+  private func makeChartPicker<Label: View>(
+    section: GoalChartSection,
+    goal: Goal,
+    context: NSManagedObjectContext,
+    @ViewBuilder label: () -> Label
+  ) -> some View {
+    SheetLink {
+      GoalHabitChartPickerScreen(
+        title: "Select a Chart",
+        subtitle: "Goal: \(goal.title!) Section: \(section.title!)",
+        goal: goal
+      ) { chart in
+        switch chart {
+        case .habit(let habit, let kind):
+          withAnimation {
+            let newChart = GoalChart(context: context)
+            newChart.habit = habit
+            newChart.kind = kind
+            section.addToCharts(newChart)
+
+            try! context.save()
+          }
+        case .chart:
+          break
+        }
+      }
+    } label: {
+      label()
+    }
+  }
 }
 
-import CoreData
+private struct ChartCell: View {
+  @ObservedObject private var chart: GoalChart
+  @ObservedObject private var tracker: Habit
 
-private func makeChartPicker<Label: View>(
-  section: GoalChartSection,
-  goal: Goal,
-  context: NSManagedObjectContext,
-  @ViewBuilder label: () -> Label
-) -> some View {
-  SheetLink {
-    GoalHabitChartPickerScreen(
-      title: "Select a Chart",
-      subtitle: "Goal: \(goal.title!) Section: \(section.title!)",
-      goal: goal
-    ) { chart in
-      switch chart {
-      case .habit(let habit):
-        withAnimation {
-          let newChart = GoalChart(context: context)
-          newChart.habit = habit
-          section.addToCharts(newChart)
+  private var startDate: Date
+  private var endDate: Date
 
-          try! context.save()
+  @Environment(\.managedObjectContext)
+  private var viewContext
+
+  init(_ chart: GoalChart) {
+    self.chart = chart
+    self.tracker = chart.habit!.habit!
+
+    let now = Date()
+    let calendar = Calendar.current
+    let sunday = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now))
+
+    self.startDate = calendar.date(byAdding: .day, value: 0, to: sunday!)!
+    self.endDate = startDate.addingTimeInterval(.init(days: 7))
+  }
+
+  var body: some View {
+    SheetLink {
+      HabitDetailScreen(tracker)
+    } label: {
+      HStack {
+        Text(chart.habit!.habit!.title!) // TODO: remove habit name
+          .foregroundColor(.primary)
+        Spacer()
+        switch chart.kind {
+        case .count:
+          HabitBarChart(
+            chart.habit!.habit!,
+            range: startDate...endDate,
+            granularity: .days,
+            context: viewContext
+          )
+          .frame(width: 196, height: 64)
+        case .frequency:
+          HabitPlotChart(
+            chart.habit!.habit!,
+            range: startDate...endDate,
+            granularity: .days,
+            context: viewContext
+          )
+          .frame(width: 196, height: 64)
         }
-      case .chart:
-        break
+      }
+      .contextMenu {
+        Button(action: { addLog(for: chart.habit!.habit!) }, title: "Add log", systemImage: "plus")
       }
     }
-  } label: {
-    label()
+  }
+
+  private func addLog(for tracker: Habit) {
+    let newLog = HabitEntry(context: viewContext)
+    newLog.timestamp = Date()
+    tracker.addToEntries(newLog)
+
+    try! viewContext.save()
   }
 }

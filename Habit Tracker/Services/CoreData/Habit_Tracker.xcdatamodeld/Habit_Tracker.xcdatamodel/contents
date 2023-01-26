@@ -10,6 +10,7 @@
         <relationship name="habits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalHabitCriteria" inverseName="goal" inverseEntity="GoalHabitCriteria"/>
     </entity>
     <entity name="GoalChart" representedClassName="GoalChart" syncable="YES" codeGenerationType="class">
+        <attribute name="kindRawValue" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="habit" maxCount="1" deletionRule="Nullify" destinationEntity="GoalHabitCriteria" inverseName="charts" inverseEntity="GoalHabitCriteria"/>
         <relationship name="section" maxCount="1" deletionRule="Nullify" destinationEntity="GoalChartSection" inverseName="charts" inverseEntity="GoalChartSection"/>
     </entity>

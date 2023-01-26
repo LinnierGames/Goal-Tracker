@@ -185,6 +185,7 @@
 		E1C10D5F2980594F00825BCC /* AlertLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertLink.swift; sourceTree = "<group>"; };
 		E1C10D612980595C00825BCC /* ActionSheetLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetLink.swift; sourceTree = "<group>"; };
 		E1C10D63298101C500825BCC /* NavigationSheetLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSheetLink.swift; sourceTree = "<group>"; };
+		E1C10D652981A76A00825BCC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E1CD70E827DDDD630098DE0B /* HealthKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKit.swift; sourceTree = "<group>"; };
 		E1CD70EA27DDE7850098DE0B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectedDataScreen.swift; sourceTree = "<group>"; };
@@ -293,6 +294,7 @@
 		E104FCE1297C4A10003AF448 /* Charts */ = {
 			isa = PBXGroup;
 			children = (
+				E1C10D652981A76A00825BCC /* README.md */,
 				E104FCE2297C4A17003AF448 /* HabitChart.swift */,
 			);
 			path = Charts;

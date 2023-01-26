@@ -58,9 +58,31 @@ struct OldApp: View {
 
 struct Scratchpad_Previews: PreviewProvider {
   static var previews: some View {
-    Button("New Chart") {}
-//      .tint(.red)
-//      .controlSize(.small) // .large, .medium or .small
-//      .background(Color.blue)
+    Menu {
+      Button(
+        action: {
+        },
+        title: "Count",
+        systemImage: "chart.bar.fill"
+      )
+
+      Button(
+        action: {
+        },
+        title: "Frequency",
+        systemImage: "chart.xyaxis.line"
+      )
+    } label: {
+      Text("Create New Chart")
+        .font(.caption)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 8)
+        .background(Color.gray.opacity(0.15))
+        .cornerRadius(8)
+      //          Button {
+      //          } label: {
+      //          }
+      //          .buttonStyle(.bordered)
+    }
   }
 }

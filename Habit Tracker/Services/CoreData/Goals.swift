@@ -22,3 +22,19 @@ extension GoalChartSection {
     charts?.allManagedObjects() ?? []
   }
 }
+
+enum ChartKind: Int16 {
+  case count
+  case frequency
+}
+
+extension GoalChart {
+  var kind: ChartKind {
+    get {
+      ChartKind(rawValue: kindRawValue)!
+    }
+    set {
+      kindRawValue = newValue.rawValue
+    }
+  }
+}
