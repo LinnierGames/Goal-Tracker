@@ -32,20 +32,11 @@ struct GoalsScreen: View {
                 .font(.title2)
             }
 
-            HStack {
-              VStack {
-                Text("Goal")
-                Text("Goal")
-                Text("Goal")
-              }
-              .foregroundColor(.primary)
-              .font(.caption)
-
+            HStack(alignment: .top) {
+              GoalCellDetailView(goal)
               Spacer()
-
               RandomChart(.line)
                 .frame(width: 164, height: 32)
-                .padding(.vertical)
             }
           }
         }
@@ -78,9 +69,27 @@ struct GoalsScreen: View {
   }
 }
 
-struct HI_Previews: PreviewProvider {
-  static var previews: some View {
-    List(0..<4) { _ in
+private struct GoalCellDetailView: View {
+  @ObservedObject var goal: Goal
+
+  @FetchRequest
+  private var sections: FetchedResults<GoalChartSection>
+
+  init(_ goal: Goal) {
+    self.goal = goal
+    self._sections = FetchRequest(
+      sortDescriptors: [SortDescriptor(\.title)],
+      predicate: NSPredicate(format: "goal = %@", goal)
+    )
+  }
+
+  var body: some View {
+    VStack(alignment: .leading) {
+      ForEach(sections) { section in
+        Text(section.title!)
+      }
     }
+    .foregroundColor(.primary)
+    .font(.caption)
   }
 }

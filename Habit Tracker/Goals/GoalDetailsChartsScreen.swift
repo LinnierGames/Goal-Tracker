@@ -212,7 +212,7 @@ private struct ChartCell: View {
       TrackerDetailScreen(tracker)
     } label: {
       HStack {
-        Text(chart.tracker!.tracker!.title!) // TODO: remove tracker name
+        Text(chart.tracker!.tracker!.title!)
           .foregroundColor(.primary)
         Spacer()
         switch chart.kind {

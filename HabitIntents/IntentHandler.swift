@@ -87,6 +87,7 @@ class INLogTrackerIntentHandler: NSObject, INLogTrackerIntentHandling {
     try! viewContext.save()
 
     // FIXME: notify the main app of new updates to the database
+    // https://www.avanderlee.com/swift/core-data-app-extension-data-sharing/#using-darwin-notifications-for-communication-between-extensions-and-your-main-app
   }
 }
 

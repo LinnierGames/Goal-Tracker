@@ -11,12 +11,16 @@ struct ChartHourFormat: FormatStyle {
   func format(_ value: Int) -> String {
     if value >= 12 {
       if value > 12 {
-        return "\(value - 12)pm"
+        return "\(value - 12)p"
       } else {
-        return "12pm"
+        return "12p"
       }
     } else {
-      return "\(value)am"
+      if value == 12 {
+        return "12a"
+      } else {
+        return "\(value)a"
+      }
     }
   }
 }

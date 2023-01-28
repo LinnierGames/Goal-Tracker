@@ -48,6 +48,8 @@ struct TrackerPlotChart: View {
 
     self.granularity = granularity
 
+    // TODO: support other granularities
+
     let day: TimeInterval = 60*60*24
     self.data = stride(from: range.lowerBound, to: range.upperBound, by: day)
       .map { day -> [(Int, Int)] in
@@ -90,7 +92,7 @@ struct TrackerPlotChart: View {
   var body: some View {
     Chart {
       ForEach(data) { entry in
-        PointMark(x: .value("Date", entry.timestamp), y: .value("Hour", entry.hour))
+        PointMark(x: .value("Date", Double(entry.timestamp) + 0.5), y: .value("Hour", entry.hour))
       }
 
       // Color the sections of the day

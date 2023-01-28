@@ -35,7 +35,6 @@ struct TodayScreen: View {
 
         if !logsForToday.isEmpty {
           Section("Other Trackers") {
-            // TODO: Remove duplicate trackers
             ForEach(logsForToday) { log in
               TodayTrackerCell(log.tracker!, entryOverride: log)
             }

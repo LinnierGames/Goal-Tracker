@@ -38,6 +38,8 @@ struct TrackerBarChart: View {
     self.range = range
     self.granularity = granularity
 
+    // TODO: support other granularities
+
     let day: TimeInterval = 60*60*24
     self.data = stride(from: range.lowerBound, to: range.upperBound, by: day)
       .map { day in
