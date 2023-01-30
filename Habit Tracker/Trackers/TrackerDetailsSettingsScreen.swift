@@ -51,6 +51,18 @@ struct TrackerDetailsSettingsScreen: View {
         }
 
         Section {
+          NavigationLink {
+            TrackerDetailsSettingsFieldsScreen(tracker)
+          } label: {
+            HStack {
+              Label("Custom Fields", systemImage: "line.3.horizontal")
+              Spacer()
+              Text(tracker.fields!.count, format: .number)
+            }
+          }
+        }
+
+        Section {
           Toggle(isOn: $tracker.showInTodayView) {
             Label("Show in Today View", systemImage: "calendar")
           }

@@ -30,7 +30,7 @@ struct TrackerDetailsHistoryScreen: View {
       List {
         ForEach(entries) { entry in
           NavigationLink {
-            TrackerEntryDetailScreen(tracker: tracker, entry: entry)
+            TrackerEntryDetailScreen(tracker: tracker, log: entry)
           } label: {
             Text("\(entry.timestamp!, style: .date) at \(entry.timestamp!, style: .time)")
           }

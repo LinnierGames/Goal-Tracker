@@ -68,4 +68,11 @@ extension View {
           self
       }
   }
+
+  func item<Item, Content: View>(
+    _ item: Item,
+    @ViewBuilder modifer: (Self, Item) -> Content
+  ) -> some View {
+    modifer(self, item)
+  }
 }
