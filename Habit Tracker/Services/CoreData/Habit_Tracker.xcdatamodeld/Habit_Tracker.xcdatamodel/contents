@@ -33,6 +33,7 @@
     <entity name="Tracker" representedClassName="Tracker" syncable="YES" codeGenerationType="class">
         <attribute name="showInTodayView" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String" defaultValueString="Untitled Habit"/>
+        <relationship name="fields" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TrackerLogField" inverseName="tracker" inverseEntity="TrackerLogField"/>
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalTrackerCriteria" inverseName="tracker" inverseEntity="GoalTrackerCriteria"/>
         <relationship name="logs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TrackerLog" inverseName="tracker" inverseEntity="TrackerLog"/>
     </entity>
@@ -40,5 +41,20 @@
         <attribute name="notes" attributeType="String" defaultValueString=""/>
         <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="0" usesScalarValueType="NO"/>
         <relationship name="tracker" maxCount="1" deletionRule="Nullify" destinationEntity="Tracker" inverseName="logs" inverseEntity="Tracker"/>
+        <relationship name="values" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TrackerLogValue" inverseName="log" inverseEntity="TrackerLogValue"/>
+    </entity>
+    <entity name="TrackerLogField" representedClassName="TrackerLogField" syncable="YES" codeGenerationType="class">
+        <attribute name="title" attributeType="String" defaultValueString="Field"/>
+        <attribute name="typeRawValue" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="tracker" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tracker" inverseName="fields" inverseEntity="Tracker"/>
+        <relationship name="values" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TrackerLogValue" inverseName="field" inverseEntity="TrackerLogValue"/>
+    </entity>
+    <entity name="TrackerLogValue" representedClassName="TrackerLogValue" syncable="YES" codeGenerationType="class">
+        <attribute name="boolValue" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="doubleValue" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="integerValue" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="stringValue" optional="YES" attributeType="String"/>
+        <relationship name="field" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrackerLogField" inverseName="values" inverseEntity="TrackerLogField"/>
+        <relationship name="log" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrackerLog" inverseName="values" inverseEntity="TrackerLog"/>
     </entity>
 </model>

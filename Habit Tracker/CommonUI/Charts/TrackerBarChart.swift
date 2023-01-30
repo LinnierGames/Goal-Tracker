@@ -19,9 +19,9 @@ struct TrackerBarChart: View {
   var granularity: Granularity
 
   private struct Data: Identifiable {
-    var id: String { timestamp }
+    var id: TimeInterval { timestamp.timeIntervalSince1970 }
 
-    let timestamp: String
+    let timestamp: Date
     let count: Int
   }
   private var data: [Data]
@@ -59,11 +59,7 @@ struct TrackerBarChart: View {
           return results.count
         }()
 
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd"
-        let bucket = formatter.string(from: day)
-
-        return (timestamp: bucket, count: nEntriesForDay)
+        return (timestamp: day, count: nEntriesForDay)
       }
       .map { timestamp, count in
         Data(timestamp: timestamp, count: count)
@@ -72,7 +68,10 @@ struct TrackerBarChart: View {
 
   var body: some View {
     Chart(data) { entry in
-      BarMark(x: .value("Date", entry.timestamp), y: .value("Count", entry.count))
+      BarMark(x: .value("Date", entry.timestamp, unit: .day), y: .value("Count", entry.count))
+    }
+    .chartXAxis {
+      AxisMarks(format: ChartDayFormat(), values: Array(stride(from: range.lowerBound, to: range.upperBound, by: .init(days: 1))))
     }
   }
 }

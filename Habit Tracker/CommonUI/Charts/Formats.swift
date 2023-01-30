@@ -24,3 +24,11 @@ struct ChartHourFormat: FormatStyle {
     }
   }
 }
+
+struct ChartDayFormat: FormatStyle {
+  func format(_ value: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "dd"
+    return formatter.string(from: value)
+  }
+}

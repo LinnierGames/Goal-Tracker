@@ -12,7 +12,6 @@ import SwiftUI
 struct TrackerPlotChart: View {
   @ObservedObject var tracker: Tracker
   var range: ClosedRange<Date>
-  var rangeInt: ClosedRange<Int>
 
   enum Granularity {
     case hours, days, weeks, months
@@ -20,9 +19,9 @@ struct TrackerPlotChart: View {
   var granularity: Granularity
 
   private struct Data: Identifiable {
-    var id: Int { timestamp }
+    var id: TimeInterval { timestamp.timeIntervalSince1970 }
 
-    let timestamp: Int
+    let timestamp: Date
     let hour: Int
   }
   private var data: [Data]
@@ -38,21 +37,13 @@ struct TrackerPlotChart: View {
   ) {
     self.tracker = tracker
     self.range = range
-    self.rangeInt = range.map({ lower, upper -> ClosedRange<Int> in
-      let formatter = DateFormatter()
-      formatter.dateFormat = "dd"
-      let lower = Int(formatter.string(from: lower)) ?? 1
-      let upper = Int(formatter.string(from: upper)) ?? 2
-      return lower...upper
-    })
-
     self.granularity = granularity
 
     // TODO: support other granularities
 
     let day: TimeInterval = 60*60*24
     self.data = stride(from: range.lowerBound, to: range.upperBound, by: day)
-      .map { day -> [(Int, Int)] in
+      .map { day -> [(Date, Int)] in
         let entriesForDay: [TrackerLog] = {
           let fetch = TrackerLog.fetchRequest()
           fetch.predicate = NSPredicate(
@@ -80,7 +71,7 @@ struct TrackerPlotChart: View {
 
           return Int(hour) ?? 0
         }.map { hour in
-          (timestamp: bucket, hour: hour)
+          (timestamp: day, hour: hour)
         }
       }
       .flatMap { $0 }
@@ -92,7 +83,7 @@ struct TrackerPlotChart: View {
   var body: some View {
     Chart {
       ForEach(data) { entry in
-        PointMark(x: .value("Date", Double(entry.timestamp) + 0.5), y: .value("Hour", entry.hour))
+        PointMark(x: .value("Date", entry.timestamp, unit: .day), y: .value("Hour", entry.hour))
       }
 
       // Color the sections of the day
@@ -106,8 +97,8 @@ struct TrackerPlotChart: View {
         id: \.0
       ) { range, color in
         RectangleMark(
-          xStart: .value("Date", rangeInt.lowerBound),
-          xEnd: .value("Date", rangeInt.upperBound),
+          xStart: .value("Date", self.range.lowerBound),
+          xEnd: .value("Date", self.range.upperBound),
           yStart: .value("Hour", range.lowerBound),
           yEnd: .value("Hour", range.upperBound)
         )
@@ -123,8 +114,7 @@ struct TrackerPlotChart: View {
       AxisMarks(format: ChartHourFormat(), values: [6, 12, 18])
     }
     .chartXAxis {
-      AxisMarks(values: Array(rangeInt))
+      AxisMarks(format: ChartDayFormat(), values: Array(stride(from: range.lowerBound, to: range.upperBound, by: .init(days: 1))))
     }
-    .chartXScale(domain: rangeInt)
   }
 }
