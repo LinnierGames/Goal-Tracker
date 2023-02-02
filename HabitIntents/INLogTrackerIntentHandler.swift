@@ -63,7 +63,10 @@ class INLogTrackerIntentHandler: NSObject, INLogTrackerIntentHandling {
       createLog(for: tracker, fieldValues: [])
     }
 
-    return INLogTrackerIntentResponse(code: .success, userActivity: nil)
+    let result = INLogTrackerIntentResponse(code: .success, userActivity: nil)
+    result.tracker = tracker.displayString
+
+    return result
   }
 
   private func createLog(for inTracker: INTracker, fieldValues inFieldValues: [INTrackerLogValue]) {

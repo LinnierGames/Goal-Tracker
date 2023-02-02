@@ -200,6 +200,10 @@
 				<key>INIntentResponseCodes</key>
 				<array>
 					<dict>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>Logged ${tracker}</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>vAJaEO</string>
 						<key>INIntentResponseCodeName</key>
 						<string>success</string>
 						<key>INIntentResponseCodeSuccess</key>
@@ -208,6 +212,25 @@
 					<dict>
 						<key>INIntentResponseCodeName</key>
 						<string>failure</string>
+					</dict>
+				</array>
+				<key>INIntentResponseLastParameterTag</key>
+				<integer>3</integer>
+				<key>INIntentResponseParameters</key>
+				<array>
+					<dict>
+						<key>INIntentResponseParameterDisplayName</key>
+						<string>Tracker</string>
+						<key>INIntentResponseParameterDisplayNameID</key>
+						<string>JbkYOe</string>
+						<key>INIntentResponseParameterDisplayPriority</key>
+						<integer>1</integer>
+						<key>INIntentResponseParameterName</key>
+						<string>tracker</string>
+						<key>INIntentResponseParameterTag</key>
+						<integer>3</integer>
+						<key>INIntentResponseParameterType</key>
+						<string>String</string>
 					</dict>
 				</array>
 			</dict>

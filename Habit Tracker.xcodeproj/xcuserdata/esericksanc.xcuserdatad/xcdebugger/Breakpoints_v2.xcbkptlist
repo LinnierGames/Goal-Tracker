@@ -33,7 +33,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "56"
             endingLineNumber = "56"
-            landmarkName = "resolveTracker(for:)"
+            landmarkName = "handle(intent:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -47,9 +47,9 @@
             filePath = "HabitIntents/INLogTrackerIntentHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "provideTrackerOptionsCollection(for:searchTerm:)"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "createLog(for:fieldValues:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -65,7 +65,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "60"
             endingLineNumber = "60"
-            landmarkName = "resolveTracker(for:)"
+            landmarkName = "handle(intent:)"
             landmarkType = "7">
             <Locations>
                <Location
