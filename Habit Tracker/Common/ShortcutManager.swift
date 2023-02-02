@@ -79,14 +79,19 @@ public final class ShortcutManager {
   }
 
   public func voiceShortcut(for trackerURI: URL) -> INVoiceShortcut? {
+    let coordinator = PersistenceController.shared.container.persistentStoreCoordinator
 
     // Search all voice shortcuts
     for voiceShorcut in voiceShortcuts {
       if let intent = voiceShorcut.shortcut.intent as? INLogTrackerIntent {
-        guard let trackerURLString = intent.tracker?.identifier! else { continue }
-        let trackerURL = URL(string: trackerURLString)!
+        guard
+          let trackerIdentifier = intent.tracker?.identifier!,
+          let trackerObjectIDURI = Tracker.decodeIntentIdentifier(trackerIdentifier, coordinator: coordinator)?.objectID.uriRepresentation()
+        else {
+          continue
+        }
 
-        if trackerURI == trackerURL {
+        if trackerObjectIDURI.absoluteString.contains(trackerURI.absoluteString) {
           return voiceShorcut
         }
       }
@@ -131,7 +136,7 @@ public final class ShortcutManager {
       case .logTrackerIntent(let tracker):
         let logIntent = INLogTrackerIntent()
         logIntent.tracker = INTracker(
-          identifier: tracker.objectID.uriRepresentation().absoluteString,
+          identifier: tracker.encodeIntentIdentifier(),
           display: tracker.title!
         )
 

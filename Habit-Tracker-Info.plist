@@ -9,10 +9,9 @@
 	</dict>
 	<key>NSUserActivityTypes</key>
 	<array>
-		<string>INFeelingSleepyIntent</string>
 		<string>INFeelingSleeyIntent</string>
 		<string>INLogTrackerIntent</string>
-		<string>INShowerTimestampIntent</string>
+		<string>INTrackerLogValueIntent</string>
 	</array>
 </dict>
 </plist>

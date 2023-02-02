@@ -5,218 +5,18 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.SwiftErrorBreakpoint">
-         <BreakpointContent
-            uuid = "83B9DF20-8EDA-41AA-9B06-6577692202B4"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "61425587-8333-4F04-9ED1-3E86426BC1BB"
+            uuid = "7171ED06-2A28-4799-975B-733DCCC614B7"
             shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HabitImportShareExtension/ShareViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "61425587-8333-4F04-9ED1-3E86426BC1BB - 95adb426b7cc38b7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(5) suspend resume partial function for closure #1 @Sendable () async -&gt; () in HabitImportShareExtension.ShareViewController.viewDidLoad() -&gt; ()"
-                  moduleName = "HabitImportShareExtension"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/HabitImportShareExtension/ShareViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "76"
-                  endingLineNumber = "76"
-                  offsetFromSymbolStart = "2904">
-               </Location>
-               <Location
-                  uuid = "61425587-8333-4F04-9ED1-3E86426BC1BB - 7941da989934fcb5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(7) suspend resume partial function for closure #1 @Sendable () async -&gt; () in HabitImportShareExtension.ShareViewController.viewDidLoad() -&gt; ()"
-                  moduleName = "HabitImportShareExtension"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/HabitImportShareExtension/ShareViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "76"
-                  endingLineNumber = "76"
-                  offsetFromSymbolStart = "2976">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "359A52CC-B3E6-4C99-96F3-868B950656F9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Habit Tracker/Services/RemoteStoreAPI.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "task"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "5AC5C7B8-67E2-4749-BE4C-410845C15FAC"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HabitIntents/IntentHandler.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
-            landmarkName = "handle(intent:completion:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "5AC5C7B8-67E2-4749-BE4C-410845C15FAC - 1dbaeac14b8a6394"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "HabitIntents.INShowerTimestampIntentHandler.handle(intent: HabitIntents.INShowerTimestampIntent, completion: (HabitIntents.INShowerTimestampIntentResponse) -&gt; ()) -&gt; ()"
-                  moduleName = "HabitIntents"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/HabitIntents/IntentHandler.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "123"
-                  endingLineNumber = "123"
-                  offsetFromSymbolStart = "72">
-               </Location>
-               <Location
-                  uuid = "5AC5C7B8-67E2-4749-BE4C-410845C15FAC - 1dbaeac14b8a6394"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "HabitIntents.INShowerTimestampIntentHandler.handle(intent: HabitIntents.INShowerTimestampIntent, completion: (HabitIntents.INShowerTimestampIntentResponse) -&gt; ()) -&gt; ()"
-                  moduleName = "HabitIntents"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/HabitIntents/IntentHandler.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "123"
-                  endingLineNumber = "123"
-                  offsetFromSymbolStart = "128">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F43213F4-E1CE-4BEA-8CC1-1884900764E1"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Habit Tracker/Common/Date+Extensions.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
-            landmarkName = "set(second:minute:hour:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "77649BD7-D43E-41D5-95E6-742598FD8B30"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Habit Tracker/Goals/GoalDetailsChartsScreen.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1402629A-B8A3-4E2B-B7F0-A0A0D600A7B9"
-            shouldBeEnabled = "No"
+            condition = "intent.tracker?.displayString == &quot;&#x1f356; Eat Dinner&quot;"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Habit Tracker/Common/ShortcutManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "voiceShortcut(for:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "1402629A-B8A3-4E2B-B7F0-A0A0D600A7B9 - ef5899c8b0319244"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Habit_Tracker.ShortcutManager.voiceShortcut(for: Foundation.URL) -&gt; Swift.Optional&lt;__C.INVoiceShortcut&gt;"
-                  moduleName = "Habit Tracker"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/Habit%20Tracker/Common/ShortcutManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "85"
-                  endingLineNumber = "85"
-                  offsetFromSymbolStart = "512">
-               </Location>
-               <Location
-                  uuid = "1402629A-B8A3-4E2B-B7F0-A0A0D600A7B9 - ef5899c8b0319244"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Habit_Tracker.ShortcutManager.voiceShortcut(for: Foundation.URL) -&gt; Swift.Optional&lt;__C.INVoiceShortcut&gt;"
-                  moduleName = "Habit Tracker"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/Habit%20Tracker/Common/ShortcutManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "85"
-                  endingLineNumber = "85"
-                  offsetFromSymbolStart = "884">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "37FDADC1-F916-4606-941A-4740360BD7AD"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Habit Tracker/Common/ShortcutManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "voiceShortcut(for:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -224,15 +24,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "52110928-31EF-4F2D-A3B7-D78B5C1BF75E"
+            uuid = "63D518F3-8F6D-4A21-BAF4-2E4FC2B4F266"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HabitIntents/IntentHandler.swift"
+            filePath = "HabitIntents/INLogTrackerIntentHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
             landmarkName = "resolveTracker(for:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -240,81 +40,161 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6215DB30-B89C-41B2-9434-FD0F477CB390"
+            uuid = "D3FB50F7-0F88-4049-876E-E637AE9789F4"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HabitIntents/IntentHandler.swift"
+            filePath = "HabitIntents/INLogTrackerIntentHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "handle(intent:)"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "provideTrackerOptionsCollection(for:searchTerm:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3B631413-CC44-42B3-914B-F3E839B071DC"
+            uuid = "F63D5A27-BFC4-4D4A-BD3D-41F57ECDCC1E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Habit Tracker/CommonUI/Siri/SiriShortcutViewController.swift"
+            filePath = "HabitIntents/INLogTrackerIntentHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "setupShortcut(to:)"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "resolveTracker(for:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F63D5A27-BFC4-4D4A-BD3D-41F57ECDCC1E - ecd255760a2f4405"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for HabitIntents.INLogTrackerIntentHandler.handle(intent: HabitIntents.INLogTrackerIntent) async -&gt; HabitIntents.INLogTrackerIntentResponse"
+                  moduleName = "HabitIntents"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/HabitIntents/INLogTrackerIntentHandler.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "152">
+               </Location>
+               <Location
+                  uuid = "F63D5A27-BFC4-4D4A-BD3D-41F57ECDCC1E - ecd255760a2f4405"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for HabitIntents.INLogTrackerIntentHandler.handle(intent: HabitIntents.INLogTrackerIntent) async -&gt; HabitIntents.INLogTrackerIntentResponse"
+                  moduleName = "HabitIntents"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/HabitIntents/INLogTrackerIntentHandler.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "196">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9C5C003E-4781-4E0B-9AE4-3E52EE73893C"
-            shouldBeEnabled = "No"
+            uuid = "35A34EC7-8F4D-45EE-92FC-89F9303BD69D"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Habit Tracker/Trackers/Common/TrackerEntryDetailScreen.swift"
+            filePath = "HabitIntents/Common.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
-            landmarkName = "init(tracker:log:field:)"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "tracker(in:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "35A34EC7-8F4D-45EE-92FC-89F9303BD69D - 71f21e43a752eb61"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HabitIntents.INTracker.tracker(in: __C.NSManagedObjectContext) -&gt; HabitIntents.Tracker"
+                  moduleName = "HabitIntents"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/HabitIntents/Common.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  uuid = "35A34EC7-8F4D-45EE-92FC-89F9303BD69D - 71f21e43a752eb61"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HabitIntents.INTracker.tracker(in: __C.NSManagedObjectContext) -&gt; HabitIntents.Tracker"
+                  moduleName = "HabitIntents"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/HabitIntents/Common.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "548">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "27308ACC-FE6D-43FE-A3B8-0C239DED711A"
+            uuid = "786A8C67-E38C-406F-BE35-DCA3CCC446A7"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Habit Tracker/Trackers/Common/TrackerEntryDetailScreen.swift"
+            filePath = "HabitIntents/Common.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
-            landmarkName = "init(tracker:log:field:)"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "field(in:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "974EFD41-F8E1-47FC-9537-03DF5FFE91AA"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Habit Tracker/Trackers/Common/TrackerEntryDetailScreen.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
-            landmarkName = "body"
-            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "786A8C67-E38C-406F-BE35-DCA3CCC446A7 - e894a0401da367b6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HabitIntents.INTrackerLogField.field(in: __C.NSManagedObjectContext) -&gt; HabitIntents.TrackerLogField"
+                  moduleName = "HabitIntents"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/HabitIntents/Common.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  uuid = "786A8C67-E38C-406F-BE35-DCA3CCC446A7 - e894a0401da367b6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HabitIntents.INTrackerLogField.field(in: __C.NSManagedObjectContext) -&gt; HabitIntents.TrackerLogField"
+                  moduleName = "HabitIntents"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/HabitIntents/Common.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "548">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

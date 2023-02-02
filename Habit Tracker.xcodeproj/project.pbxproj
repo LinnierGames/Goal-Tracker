@@ -56,6 +56,9 @@
 		E13F21CA2975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift */; };
 		E15FB390298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15FB38F298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift */; };
 		E15FB392298774E600A88FD0 /* TrackerLogFieldScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15FB391298774E600A88FD0 /* TrackerLogFieldScreen.swift */; };
+		E15FB395298B16EB00A88FD0 /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A5297A53AA00FDCE41 /* Goals.swift */; };
+		E15FB396298B16EB00A88FD0 /* NSSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A7297A53D600FDCE41 /* NSSet.swift */; };
+		E15FB397298B16EB00A88FD0 /* Trackers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A32977D17100FDCE41 /* Trackers.swift */; };
 		E16A9EA427E0E01A007092CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A9EA327E0E01A007092CD /* AppDelegate.swift */; };
 		E16A9EA827E0E8FD007092CD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = E16A9EA727E0E8FD007092CD /* Moya */; };
 		E16A9EAA27E0F51D007092CD /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A9EA927E0F51D007092CD /* Networking.swift */; };
@@ -86,6 +89,9 @@
 		E1CD70EB27DDE7850098DE0B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CD70EA27DDE7850098DE0B /* HealthKit.framework */; };
 		E1CD70ED27DDEF6A0098DE0B /* CollectedDataScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */; };
 		E1CD70EF27DDEFB00098DE0B /* DataCollectiorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70EE27DDEFB00098DE0B /* DataCollectiorViewModel.swift */; };
+		E1EF4519298B9C5600DC5CC1 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF4518298B9C5600DC5CC1 /* Common.swift */; };
+		E1EF451B298B9C7A00DC5CC1 /* INLogTrackerIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF451A298B9C7A00DC5CC1 /* INLogTrackerIntentHandler.swift */; };
+		E1EF451D298B9C8800DC5CC1 /* INTrackerLogValueIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF451C298B9C8800DC5CC1 /* INTrackerLogValueIntentHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -170,6 +176,7 @@
 		E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsSettingsHabitsScreen.swift; sourceTree = "<group>"; };
 		E15FB38F298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerDetailsSettingsFieldsScreen.swift; sourceTree = "<group>"; };
 		E15FB391298774E600A88FD0 /* TrackerLogFieldScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerLogFieldScreen.swift; sourceTree = "<group>"; };
+		E15FB393298B0DAF00A88FD0 /* IceBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceBox.swift; sourceTree = "<group>"; };
 		E16A9EA327E0E01A007092CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E16A9EA927E0F51D007092CD /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		E184F4E027E5ACE100BB2F2C /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
@@ -203,6 +210,9 @@
 		E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectedDataScreen.swift; sourceTree = "<group>"; };
 		E1CD70EE27DDEFB00098DE0B /* DataCollectiorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCollectiorViewModel.swift; sourceTree = "<group>"; };
 		E1E7BBF227DBB6AA0062B219 /* HabitIntents.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HabitIntents.entitlements; sourceTree = "<group>"; };
+		E1EF4518298B9C5600DC5CC1 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		E1EF451A298B9C7A00DC5CC1 /* INLogTrackerIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INLogTrackerIntentHandler.swift; sourceTree = "<group>"; };
+		E1EF451C298B9C8800DC5CC1 /* INTrackerLogValueIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INTrackerLogValueIntentHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -296,9 +306,13 @@
 		E104206527DBA43600051F2A /* HabitIntents */ = {
 			isa = PBXGroup;
 			children = (
-				E1E7BBF227DBB6AA0062B219 /* HabitIntents.entitlements */,
-				E104206627DBA43600051F2A /* IntentHandler.swift */,
 				E104206F27DBA44100051F2A /* Intents.intentdefinition */,
+				E104206627DBA43600051F2A /* IntentHandler.swift */,
+				E1EF451A298B9C7A00DC5CC1 /* INLogTrackerIntentHandler.swift */,
+				E1EF451C298B9C8800DC5CC1 /* INTrackerLogValueIntentHandler.swift */,
+				E1EF4518298B9C5600DC5CC1 /* Common.swift */,
+				E15FB393298B0DAF00A88FD0 /* IceBox.swift */,
+				E1E7BBF227DBB6AA0062B219 /* HabitIntents.entitlements */,
 				E104206827DBA43600051F2A /* Info.plist */,
 			);
 			path = HabitIntents;
@@ -690,8 +704,14 @@
 			files = (
 				E104207427DBB2F200051F2A /* Persistence.swift in Sources */,
 				E104207527DBB2F600051F2A /* FeelingSleepy+CoreDataProperties.swift in Sources */,
+				E15FB397298B16EB00A88FD0 /* Trackers.swift in Sources */,
+				E1EF451D298B9C8800DC5CC1 /* INTrackerLogValueIntentHandler.swift in Sources */,
 				E104207027DBA44100051F2A /* Intents.intentdefinition in Sources */,
+				E1EF4519298B9C5600DC5CC1 /* Common.swift in Sources */,
 				E104207727DBB4B400051F2A /* Habit_Tracker.xcdatamodeld in Sources */,
+				E15FB395298B16EB00A88FD0 /* Goals.swift in Sources */,
+				E1EF451B298B9C7A00DC5CC1 /* INLogTrackerIntentHandler.swift in Sources */,
+				E15FB396298B16EB00A88FD0 /* NSSet.swift in Sources */,
 				E104206727DBA43600051F2A /* IntentHandler.swift in Sources */,
 				E104207627DBB2F600051F2A /* FeelingSleepy+CoreDataClass.swift in Sources */,
 			);

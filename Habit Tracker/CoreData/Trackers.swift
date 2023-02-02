@@ -5,7 +5,7 @@
 //  Created by Erick Sanchez on 1/17/23.
 //
 
-import Foundation
+import CoreData
 
 extension Tracker {
   var mostRecentLog: TrackerLog? {
@@ -20,6 +20,39 @@ extension Tracker {
 
   var allFields: [TrackerLogField] {
     fields?.allManagedObjects() ?? []
+  }
+
+  func encodeIntentIdentifier() -> String {
+    "\(objectID.uriRepresentation().absoluteString) \(allFields.isEmpty ? "HAS_NO_FIELDS" : "HAS_FIELDS")"
+  }
+
+  static func decodeIntentIdentifier(
+    _ identifer: String,
+    coordinator: NSPersistentStoreCoordinator
+  ) -> (objectID: NSManagedObjectID, hasFields: Bool)? {
+    let components = identifer.split(separator: " ")
+    guard components.count == 2, let objectURL = URL(string: String(components[0])) else {
+      assertionFailure("Decoding failed")
+      return nil
+    }
+
+    guard let managedObjectID = coordinator.managedObjectID(forURIRepresentation: objectURL) else {
+      assertionFailure("Decoding failed: invalid managed object ID")
+      return nil
+    }
+
+    let hasFields: Bool
+    switch components[1] {
+    case "HAS_NO_FIELDS":
+      hasFields = false
+    case "HAS_FIELDS":
+      hasFields = true
+    default:
+      assertionFailure("Decoding failed: invalid component")
+      return nil
+    }
+
+    return (managedObjectID, hasFields)
   }
 }
 
@@ -56,6 +89,43 @@ extension TrackerLogField {
     set {
       typeRawValue = newValue.rawValue
     }
+  }
+
+  func encodeIntentIdentifier() -> String {
+    "\(objectID.uriRepresentation().absoluteString) \(type.description)"
+  }
+
+  static func decodeIntentIdentifier(
+    _ identifer: String,
+    coordinator: NSPersistentStoreCoordinator
+  ) -> (objectID: NSManagedObjectID, fieldType: TrackerLogFieldType)? {
+    let components = identifer.split(separator: " ")
+    guard components.count == 2, let objectURL = URL(string: String(components[0])) else {
+      assertionFailure("Decoding failed")
+      return nil
+    }
+
+    guard let managedObjectID = coordinator.managedObjectID(forURIRepresentation: objectURL) else {
+      assertionFailure("Decoding failed: invalid managed object ID")
+      return nil
+    }
+
+    let fieldType: TrackerLogFieldType
+    switch components[1] {
+    case TrackerLogFieldType.string.description:
+      fieldType = .string
+    case TrackerLogFieldType.integer.description:
+      fieldType = .integer
+    case TrackerLogFieldType.double.description:
+      fieldType = .double
+    case TrackerLogFieldType.boolean.description:
+      fieldType = .boolean
+    default:
+      assertionFailure("Decoding failed: invalid field type")
+      return nil
+    }
+
+    return (managedObjectID, fieldType)
   }
 }
 

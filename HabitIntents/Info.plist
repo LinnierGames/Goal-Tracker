@@ -12,9 +12,8 @@
 			<array/>
 			<key>IntentsSupported</key>
 			<array>
-				<string>INFeelingSleepyIntent</string>
 				<string>INLogTrackerIntent</string>
-				<string>INShowerTimestampIntent</string>
+				<string>INTrackerLogValueIntent</string>
 			</array>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
