@@ -607,7 +607,7 @@
 						<key>INIntentParameterRelationshipPredicateName</key>
 						<string>ObjectIdentifierValueContains</string>
 						<key>INIntentParameterRelationshipPredicateValue</key>
-						<string>integer</string>
+						<string>Integer</string>
 					</dict>
 					<key>INIntentParameterSupportsResolution</key>
 					<true/>
@@ -703,7 +703,7 @@
 						<key>INIntentParameterRelationshipPredicateName</key>
 						<string>ObjectIdentifierValueContains</string>
 						<key>INIntentParameterRelationshipPredicateValue</key>
-						<string>double</string>
+						<string>Double</string>
 					</dict>
 					<key>INIntentParameterSupportsResolution</key>
 					<true/>
