@@ -69,13 +69,27 @@ struct TodayTrackerCell: View {
       NavigationSheetLink {
         TrackerDetailScreen(tracker)
       } label: {
-        VStack(alignment: .leading) {
-          Text(tracker.title!)
-            .foregroundColor(.primary)
-          if let entry = entryOverride ?? tracker.mostRecentLog {
-            Text("\(entry.timestamp!, style: .date) at \(entry.timestamp!, style: .time)")
-              .font(.caption)
-              .foregroundColor(.gray)
+        HStack {
+          VStack(alignment: .leading) {
+            Text(tracker.title!)
+              .foregroundColor(.primary)
+            if let entry = entryOverride ?? tracker.mostRecentLog {
+              Text("\(entry.timestamp!, style: .date) at \(entry.timestamp!, style: .time)")
+                .font(.caption)
+                .foregroundColor(.gray)
+            }
+          }
+
+          if let entry = entryOverride ?? tracker.mostRecentLog, isTrackerLoggedToday(tracker) {
+            Spacer()
+
+            NavigationSheetLink(buttonOnly: true) {
+              NavigationView {
+                TrackerEntryDetailScreen(tracker: tracker, log: entry)
+              }
+            } label: {
+              Image(systemName: "bookmark.circle")
+            }
           }
         }
       }

@@ -12,6 +12,8 @@ struct TrackerEntryDetailScreen: View {
   @ObservedObject var tracker: Tracker
   @ObservedObject var log: TrackerLog
 
+  @State private var isKeyboardShowing = false
+
   @Environment(\.managedObjectContext)
   private var viewContext
 
@@ -32,6 +34,12 @@ struct TrackerEntryDetailScreen: View {
     }
     .listStyle(.grouped)
     .navigationTitle("Edit Entry")
+//    .toolbar {
+//      Button("Done") {
+//        isKeyboardShowing = false
+//      }
+//      .isHidden(!isKeyboardShowing)
+//    }
 
     .onChange(of: log.timestamp) { _ in
       try! viewContext.save()
@@ -222,6 +230,10 @@ private struct FieldValue: View {
   @State private var string = ""
   @State private var bool = false
 
+  @FocusState private var isKeyboardShowing
+
+  // FIXME: remove duplicate done buttons when there's multiple fields
+
   var body: some View {
     HStack {
       Text(field.title!)
@@ -234,6 +246,14 @@ private struct FieldValue: View {
           .onSubmit {
             viewModel.set(stringValue: string)
           }
+          .focused($isKeyboardShowing)
+          .toolbar {
+            Button("Done") {
+              isKeyboardShowing = false
+              viewModel.set(stringValue: string)
+            }
+            .isHidden(!isKeyboardShowing)
+          }
       case .integer:
         TextField(field.type.description, text: $string) // TODO: use a formater?
           .multilineTextAlignment(.trailing)
@@ -242,6 +262,14 @@ private struct FieldValue: View {
           .onSubmit {
             viewModel.set(integerValue: Int(string) ?? 0)
           }
+          .focused($isKeyboardShowing)
+          .toolbar {
+            Button("Done") {
+              isKeyboardShowing = false
+              viewModel.set(integerValue: Int(string) ?? 0)
+            }
+            .isHidden(!isKeyboardShowing)
+          }
       case .double:
         TextField(field.type.description, text: $string) // TODO: use a formater?
           .multilineTextAlignment(.trailing)
@@ -249,6 +277,14 @@ private struct FieldValue: View {
           .frame(width: 196)
           .onSubmit {
             viewModel.set(doubleValue: Double(string) ?? 0)
+          }
+          .focused($isKeyboardShowing)
+          .toolbar {
+            Button("Done") {
+              isKeyboardShowing = false
+              viewModel.set(doubleValue: Double(string) ?? 0)
+            }
+            .isHidden(!isKeyboardShowing)
           }
       case .boolean:
         Toggle(isOn: $bool) {

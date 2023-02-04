@@ -8,27 +8,36 @@
 import SwiftUI
 
 struct NavigationSheetLink<Destination: View, Label: View>: View {
+  let buttonOnly: Bool
   let destination: () -> Destination
   let label: () -> Label
 
   @State private var isShowingSheet = false
 
   init(
+    buttonOnly: Bool = false,
     @ViewBuilder destination: @escaping () -> Destination,
     @ViewBuilder label: @escaping () -> Label
   ) {
+    self.buttonOnly = buttonOnly
     self.destination = destination
     self.label = label
   }
 
   var body: some View {
-    HStack {
-      label()
+    Group {
+      if buttonOnly {
+        label()
+      } else {
+        HStack {
+          label()
 
-      Spacer()
+          Spacer()
 
-      Image(systemName: "chevron.right")
-        .foregroundColor(.gray)
+          Image(systemName: "chevron.right")
+            .foregroundColor(.gray)
+        }
+      }
     }
     .contentShape(Rectangle())
     .onTapGesture {
