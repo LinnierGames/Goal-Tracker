@@ -28,11 +28,31 @@ struct TrackerDetailsHistoryScreen: View {
   var body: some View {
     NavigationView {
       List {
-        ForEach(entries) { entry in
+        ForEach(entries) { log in
           NavigationLink {
-            TrackerEntryDetailScreen(tracker: tracker, log: entry)
+            TrackerEntryDetailScreen(tracker: tracker, log: log)
           } label: {
-            Text("\(entry.timestamp!, style: .date) at \(entry.timestamp!, style: .time)")
+            VStack(alignment: .leading) {
+              Text("\(log.timestamp!, style: .date) at \(log.timestamp!, style: .time)")
+
+              TrackerLogFieldValuesList(tracker: tracker, log: log) { field, value in
+                HStack {
+                  Text(field.title!)
+                  Spacer()
+                  switch value {
+                  case .string(let string):
+                    Text(string)
+                  case .integer(let int):
+                    Text(int, format: .number)
+                  case .double(let double):
+                    Text(double, format: .number)
+                  case .boolean(let bool):
+                    Text(bool ? "True" : "False")
+                  }
+                }
+                .font(.caption2)
+              }
+            }
           }
         }
         .onDelete(perform: deleteEntry)

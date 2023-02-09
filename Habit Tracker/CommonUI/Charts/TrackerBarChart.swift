@@ -71,7 +71,7 @@ struct TrackerBarChart: View {
       BarMark(x: .value("Date", entry.timestamp, unit: .day), y: .value("Count", entry.count))
     }
     .chartXAxis {
-      AxisMarks(format: ChartDayFormat(), values: Array(stride(from: range.lowerBound, to: range.upperBound, by: .init(days: 1))))
+      AxisMarks(format: ChartDayFormat(.dayOfTheWeek), values: Array(stride(from: range.lowerBound, to: range.upperBound, by: .init(days: 1))))
     }
   }
 }

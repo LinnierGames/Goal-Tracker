@@ -5,9 +5,44 @@
 //  Created by Erick Sanchez on 1/17/23.
 //
 
+import Combine
 import SwiftUI
 
+private class ViewModel: ObservableObject {
+  private var bag = Set<AnyCancellable>()
+
+  @Published var toggle = false
+
+  init() {
+
+    NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)
+      .map { _ in }
+      .sink(receiveValue: { [weak self] _ in self?.viewContextDidSaveExternally() })
+      .store(in: &bag)
+
+//    Timer.publish(every: .init(minutes: 1), on: .main, in: .default)
+//      .autoconnect()
+//      .map { _ in }
+//      .sink(receiveValue: { [unowned self] _ in self.viewContextDidSaveExternally() })
+//      .store(in: &bag)
+  }
+
+
+  /// Called when a certain managed object context has been saved from an external process. It should also be called on the context's queue.
+  func viewContextDidSaveExternally() {
+    let viewContext = PersistenceController.shared.container.viewContext
+    viewContext.perform {
+      // `refreshAllObjects` only refreshes objects from which the cache is invalid. With a staleness intervall of -1 the cache never invalidates.
+      // We set the `stalenessInterval` to 0 to make sure that changes in the app extension get processed correctly.
+      viewContext.stalenessInterval = 0
+      viewContext.refreshAllObjects()
+      viewContext.stalenessInterval = -1
+    }
+  }
+}
+
 struct TodayScreen: View {
+  @StateObject private var viewModel = ViewModel()
   @Environment(\.managedObjectContext) private var viewContext
 
   @FetchRequest(

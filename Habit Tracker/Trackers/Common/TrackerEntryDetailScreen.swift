@@ -75,14 +75,13 @@ private struct TrackerFieldValues: View {
       }
     } else {
       ForEach(fields) { field in
-        FieldValue(tracker: tracker, log: log, field: field)
+        FieldValue(log: log, field: field)
       }
     }
   }
 }
 
 private class FieldValueViewModel: ObservableObject {
-  @ObservedObject var tracker: Tracker
   @ObservedObject var log: TrackerLog
   @ObservedObject var field: TrackerLogField
 
@@ -120,8 +119,7 @@ private class FieldValueViewModel: ObservableObject {
   @Published var value: Value
   @Published var logValue: TrackerLogValue?
 
-  init(tracker: Tracker, log: TrackerLog, field: TrackerLogField) {
-    self.tracker = tracker
+  init(log: TrackerLog, field: TrackerLogField) {
     self.log = log
     self.field = field
 
@@ -213,17 +211,15 @@ private class FieldValueViewModel: ObservableObject {
 }
 
 private struct FieldValue: View {
-  @ObservedObject var tracker: Tracker
   @ObservedObject var log: TrackerLog
   @ObservedObject var field: TrackerLogField
   @StateObject private var viewModel: FieldValueViewModel
 
-  init(tracker: Tracker, log: TrackerLog, field: TrackerLogField) {
-    self.tracker = tracker
+  init(log: TrackerLog, field: TrackerLogField) {
     self.log = log
     self.field = field
     self._viewModel = StateObject(
-      wrappedValue: FieldValueViewModel(tracker: tracker, log: log, field: field)
+      wrappedValue: FieldValueViewModel(log: log, field: field)
     )
   }
 
@@ -255,7 +251,7 @@ private struct FieldValue: View {
             .isHidden(!isKeyboardShowing)
           }
       case .integer:
-        TextField(field.type.description, text: $string) // TODO: use a formater?
+        TextField(field.type.description, text: $string) // TODO: use value and format?
           .multilineTextAlignment(.trailing)
           .keyboardType(.numberPad)
           .frame(width: 196)

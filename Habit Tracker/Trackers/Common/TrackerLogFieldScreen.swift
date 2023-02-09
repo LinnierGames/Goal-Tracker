@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/// Editor for Log Fields new or existing showing a list of supported field types
+///
+/// - Returns: new or modifed field
 struct TrackerLogFieldScreen: View {
   static func newField(didFinish: @escaping (String, TrackerLogFieldType) -> Void) -> Self {
     TrackerLogFieldScreen(navTitle: "New Field", fieldTitle: "", selectedFieldType: .string, didFinish: didFinish)

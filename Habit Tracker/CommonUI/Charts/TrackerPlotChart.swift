@@ -114,7 +114,7 @@ struct TrackerPlotChart: View {
       AxisMarks(format: ChartHourFormat(), values: [6, 12, 18])
     }
     .chartXAxis {
-      AxisMarks(format: ChartDayFormat(), values: Array(stride(from: range.lowerBound, to: range.upperBound, by: .init(days: 1))))
+      AxisMarks(format: ChartDayFormat(.dayOfTheWeek), values: Array(stride(from: range.lowerBound, to: range.upperBound, by: .init(days: 1))))
     }
   }
 }

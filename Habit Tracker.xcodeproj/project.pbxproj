@@ -92,6 +92,7 @@
 		E1EF4519298B9C5600DC5CC1 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF4518298B9C5600DC5CC1 /* Common.swift */; };
 		E1EF451B298B9C7A00DC5CC1 /* INLogTrackerIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF451A298B9C7A00DC5CC1 /* INLogTrackerIntentHandler.swift */; };
 		E1EF451D298B9C8800DC5CC1 /* INTrackerLogValueIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF451C298B9C8800DC5CC1 /* INTrackerLogValueIntentHandler.swift */; };
+		E1EF452A2995501E00DC5CC1 /* TrackerLogFieldValuesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF45292995501E00DC5CC1 /* TrackerLogFieldValuesList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -213,6 +214,7 @@
 		E1EF4518298B9C5600DC5CC1 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		E1EF451A298B9C7A00DC5CC1 /* INLogTrackerIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INLogTrackerIntentHandler.swift; sourceTree = "<group>"; };
 		E1EF451C298B9C8800DC5CC1 /* INTrackerLogValueIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INTrackerLogValueIntentHandler.swift; sourceTree = "<group>"; };
+		E1EF45292995501E00DC5CC1 /* TrackerLogFieldValuesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerLogFieldValuesList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -403,6 +405,7 @@
 				E13F21C52975287100E1D4FD /* TrackerPickerScreen.swift */,
 				E104FCE4297D9BDA003AF448 /* TrackerEntryDetailScreen.swift */,
 				E15FB391298774E600A88FD0 /* TrackerLogFieldScreen.swift */,
+				E1EF45292995501E00DC5CC1 /* TrackerLogFieldValuesList.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -690,6 +693,7 @@
 				E10AFC0B27DF18D5000965D9 /* FilePicker.swift in Sources */,
 				E15FB390298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift in Sources */,
 				E11A949C2977BAB500FDCE41 /* TrackerDetailsSettingsScreen.swift in Sources */,
+				E1EF452A2995501E00DC5CC1 /* TrackerLogFieldValuesList.swift in Sources */,
 				E104204827DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift in Sources */,
 				E104204927DBA28600051F2A /* FeelingSleepy+CoreDataProperties.swift in Sources */,
 				E11A94A6297A53AA00FDCE41 /* Goals.swift in Sources */,
