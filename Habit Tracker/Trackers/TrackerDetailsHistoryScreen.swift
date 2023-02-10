@@ -8,19 +8,23 @@
 import CoreData
 import SwiftUI
 
+extension TrackerLog {
+}
+
 struct TrackerDetailsHistoryScreen: View {
   @ObservedObject var tracker: Tracker
 
-  @FetchRequest
-  private var entries: FetchedResults<TrackerLog>
+  @SectionedFetchRequest
+  private var logs: SectionedFetchResults<String, TrackerLog>
 
   @Environment(\.managedObjectContext)
   private var viewContext
 
   init(_ tracker: Tracker) {
     self.tracker = tracker
-    self._entries = FetchRequest(
-      sortDescriptors: [SortDescriptor(\TrackerLog.timestamp, order: .reverse)],
+    self._logs = SectionedFetchRequest(
+      sectionIdentifier: \.timestampWeek,
+      sortDescriptors: [SortDescriptor(\.timestamp, order: .reverse)],
       predicate: NSPredicate(format: "tracker = %@", tracker)
     )
   }
@@ -28,34 +32,43 @@ struct TrackerDetailsHistoryScreen: View {
   var body: some View {
     NavigationView {
       List {
-        ForEach(entries) { log in
-          NavigationLink {
-            TrackerEntryDetailScreen(tracker: tracker, log: log)
-          } label: {
-            VStack(alignment: .leading) {
-              Text("\(log.timestamp!, style: .date) at \(log.timestamp!, style: .time)")
+        ForEach(logs) { section in
+          Section(section.id) {
+            ForEach(section) { log in
+              NavigationLink {
+                TrackerEntryDetailScreen(tracker: tracker, log: log)
+              } label: {
+                VStack(alignment: .leading) {
+                  Text(log.timestampFormat)
 
-              TrackerLogFieldValuesList(tracker: tracker, log: log) { field, value in
-                HStack {
-                  Text(field.title!)
-                  Spacer()
-                  switch value {
-                  case .string(let string):
-                    Text(string)
-                  case .integer(let int):
-                    Text(int, format: .number)
-                  case .double(let double):
-                    Text(double, format: .number)
-                  case .boolean(let bool):
-                    Text(bool ? "True" : "False")
+                  TrackerLogFieldValuesList(tracker: tracker, log: log) { field, value in
+                    HStack {
+                      Text(field.title!)
+                      Spacer()
+                      switch value {
+                      case .string(let string):
+                        Text(string)
+                      case .integer(let int):
+                        Text(int, format: .number)
+                      case .double(let double):
+                        Text(double, format: .number)
+                      case .boolean(let bool):
+                        Text(bool ? "True" : "False")
+                      }
+                    }
+                    .font(.caption2)
                   }
                 }
-                .font(.caption2)
+              }
+            }
+            .onDelete { index in
+              withAnimation {
+                viewContext.delete(section[index.first!])
+                try! viewContext.save()
               }
             }
           }
         }
-        .onDelete(perform: deleteEntry)
       }
       .navigationBarTitleDisplayMode(.large)
       .navigationTitle(tracker.title!)
@@ -73,13 +86,6 @@ struct TrackerDetailsHistoryScreen: View {
           Image(systemName: "plus")
         }
       }
-    }
-  }
-
-  private func deleteEntry(indexes: IndexSet) {
-    withAnimation {
-      viewContext.delete(entries[indexes.first!])
-      try! viewContext.save()
     }
   }
 }

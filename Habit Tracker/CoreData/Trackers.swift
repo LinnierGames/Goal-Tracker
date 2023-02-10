@@ -60,6 +60,18 @@ extension TrackerLog {
   var allValues: [TrackerLogValue] {
     values?.allManagedObjects() ?? []
   }
+
+  @objc var timestampFormat: String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "EEEE, d 'at' HH:mm"
+    return formatter.string(from: timestamp!)
+  }
+
+  @objc var timestampWeek: String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "MMM yyyy, 'week' F"
+    return formatter.string(from: timestamp!)
+  }
 }
 
 enum TrackerLogFieldType: Int16, CaseIterable, Identifiable {

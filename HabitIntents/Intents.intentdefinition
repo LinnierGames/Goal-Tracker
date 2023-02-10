@@ -703,7 +703,7 @@
 						<key>INIntentParameterRelationshipPredicateName</key>
 						<string>ObjectIdentifierValueContains</string>
 						<key>INIntentParameterRelationshipPredicateValue</key>
-						<string>Double</string>
+						<string>Decimal</string>
 					</dict>
 					<key>INIntentParameterSupportsResolution</key>
 					<true/>
