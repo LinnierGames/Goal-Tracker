@@ -9,14 +9,14 @@ import Charts
 import CoreData
 import SwiftUI
 
-struct TrackerBarChart: View {
+struct TrackerBarChart: View, ChartTools {
   @ObservedObject var tracker: Tracker
   var range: ClosedRange<Date>
 
   enum Granularity {
     case hours, days, weeks, months
   }
-  var granularity: Granularity
+  var granularity: DateWindow
 
   private struct Data: Identifiable {
     var id: TimeInterval { timestamp.timeIntervalSince1970 }
@@ -31,24 +31,22 @@ struct TrackerBarChart: View {
   init(
     _ tracker: Tracker,
     range: ClosedRange<Date>,
-    granularity: Granularity,
+    granularity: DateWindow,
     context: NSManagedObjectContext
   ) {
     self.tracker = tracker
     self.range = range
     self.granularity = granularity
 
-    // TODO: support other granularities
+//    // TODO: support other granularities
 
-    let day: TimeInterval = 60*60*24
-    self.data = stride(from: range.lowerBound, to: range.upperBound, by: day)
-      .map { day in
+    self.data = Self.strideChartMarks(range: range, granularity: granularity)
+      .map { day, lowerBound, upperBound in
         let nEntriesForDay: Int = {
           let fetch = TrackerLog.fetchRequest()
           fetch.predicate = NSPredicate(
             format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
-            tracker, day.midnight as NSDate,
-            day.addingTimeInterval(.init(days: 1)).midnight as NSDate
+            tracker, lowerBound as NSDate, upperBound as NSDate
           )
 
           guard let results = try? context.fetch(fetch) else {
@@ -68,10 +66,26 @@ struct TrackerBarChart: View {
 
   var body: some View {
     Chart(data) { entry in
-      BarMark(x: .value("Date", entry.timestamp, unit: .day), y: .value("Count", entry.count))
+      switch granularity {
+      case .day:
+        BarMark(x: .value("Date", entry.timestamp, unit: .hour), y: .value("Count", entry.count))
+      case .week, .month, .year:
+        BarMark(x: .value("Date", entry.timestamp, unit: .day), y: .value("Count", entry.count))
+      }
     }
     .chartXAxis {
-      AxisMarks(format: ChartDayFormat(.dayOfTheWeek), values: Array(stride(from: range.lowerBound, to: range.upperBound, by: .init(days: 1))))
+      switch granularity {
+      case .day:
+        AxisMarks(
+          format: ChartDayFormat(.hourOfTheDay),
+          values: Self.strideDates(range: range, granularity: granularity)
+        )
+      case .week, .month, .year:
+        AxisMarks(
+          format: ChartDayFormat(.dayOfTheWeek),
+          values: Self.strideDates(range: range, granularity: granularity)
+        )
+      }
     }
   }
 }

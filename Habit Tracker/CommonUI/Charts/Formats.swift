@@ -27,6 +27,7 @@ struct ChartHourFormat: FormatStyle {
 
 struct ChartDayFormat: FormatStyle {
   enum Format: Equatable, Codable {
+    case hourOfTheDay
     case dayOfTheWeek
     case dayOfTheMonth
   }
@@ -37,13 +38,15 @@ struct ChartDayFormat: FormatStyle {
   }
 
   func format(_ value: Date) -> String {
+    let formatter = DateFormatter()
     switch format {
+    case .hourOfTheDay:
+      formatter.dateFormat = "H"
+      return formatter.string(from: value)
     case .dayOfTheWeek:
-      let formatter = DateFormatter()
       formatter.dateFormat = "EEEEE"
       return formatter.string(from: value)
     case .dayOfTheMonth:
-      let formatter = DateFormatter()
       formatter.dateFormat = "dd"
       return formatter.string(from: value)
     }

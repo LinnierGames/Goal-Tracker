@@ -9,14 +9,11 @@ import Charts
 import CoreData
 import SwiftUI
 
-struct TrackerPlotChart: View {
+struct TrackerPlotChart: View, ChartTools {
   @ObservedObject var tracker: Tracker
   var range: ClosedRange<Date>
 
-  enum Granularity {
-    case hours, days, weeks, months
-  }
-  var granularity: Granularity
+  var granularity: DateWindow
 
   private struct Data: Identifiable {
     var id: TimeInterval { timestamp.timeIntervalSince1970 }
@@ -32,7 +29,7 @@ struct TrackerPlotChart: View {
   init(
     _ tracker: Tracker,
     range: ClosedRange<Date>,
-    granularity: Granularity,
+    granularity: DateWindow,
     context: NSManagedObjectContext
   ) {
     self.tracker = tracker
@@ -41,15 +38,13 @@ struct TrackerPlotChart: View {
 
     // TODO: support other granularities
 
-    let day: TimeInterval = 60*60*24
-    self.data = stride(from: range.lowerBound, to: range.upperBound, by: day)
-      .map { day -> [(Date, Int)] in
+    self.data = Self.strideChartMarks(range: range, granularity: granularity)
+      .map { day, lowerBound, uppoerBound -> [(Date, Int)] in
         let entriesForDay: [TrackerLog] = {
           let fetch = TrackerLog.fetchRequest()
           fetch.predicate = NSPredicate(
             format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
-            tracker, day.midnight as NSDate,
-            day.addingTimeInterval(.init(days: 1)).midnight as NSDate
+            tracker, lowerBound as NSDate, uppoerBound as NSDate
           )
 
           guard let results = try? context.fetch(fetch) else {
@@ -114,7 +109,18 @@ struct TrackerPlotChart: View {
       AxisMarks(format: ChartHourFormat(), values: [6, 12, 18])
     }
     .chartXAxis {
-      AxisMarks(format: ChartDayFormat(.dayOfTheWeek), values: Array(stride(from: range.lowerBound, to: range.upperBound, by: .init(days: 1))))
+      switch granularity {
+      case .day:
+        AxisMarks(
+          format: ChartDayFormat(.hourOfTheDay),
+          values: Self.strideDates(range: range, granularity: granularity)
+        )
+      case .week, .month, .year:
+        AxisMarks(
+          format: ChartDayFormat(.dayOfTheWeek),
+          values: Self.strideDates(range: range, granularity: granularity)
+        )
+      }
     }
   }
 }

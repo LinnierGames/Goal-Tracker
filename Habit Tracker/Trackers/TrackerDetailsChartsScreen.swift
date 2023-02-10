@@ -12,7 +12,7 @@ import SwiftUI
 struct TrackerDetailsChartScreen: View {
   @ObservedObject var tracker: Tracker
 
-  @StateObject private var viewModel = TrackerDetailsChartViewModel()
+  @StateObject private var datePickerViewModel = DateRangePickerViewModel(intialDate: Date())
 
   @FetchRequest
   private var entries: FetchedResults<TrackerLog>
@@ -30,31 +30,16 @@ struct TrackerDetailsChartScreen: View {
   var body: some View {
     NavigationView {
       VStack {
-        // Range Picker
-        makeRangePicker()
-
-        // Window Picker
-        Picker("Flavor", selection: $viewModel.selectedDateWindow) {
-          ForEach(DateWindow.allCases) { window in
-            Text(window.rawValue.capitalized)
-          }
-        }
-        .pickerStyle(.segmented)
+        DateRangePicker(viewModel: datePickerViewModel)
 
         // Charts
         VStack {
-          switch viewModel.selectedDateWindow {
-          case .day:
-            makeDayView()
-          case .week:
-            makeWeekView()
-          case .month:
-            makeMonthView()
-          case .year:
-            makeYearView()
-
-            // TODO: support smaller bucket sizes within each window (e.g. see weeks in a month vs days)
-          }
+          TrackerBarChart(
+            tracker,
+            range: datePickerViewModel.startDate...datePickerViewModel.endDate,
+            granularity: datePickerViewModel.selectedDateWindow,
+            context: viewContext
+          )
         }
         .frame(height: 196)
 
@@ -63,28 +48,6 @@ struct TrackerDetailsChartScreen: View {
       .padding(.horizontal)
 
       .navigationTitle(tracker.title!)
-    }
-  }
-
-  private func makeRangePicker() -> some View {
-    HStack {
-      Button(action: viewModel.moveDateBackward) {
-        Image(systemName: "chevron.left")
-          .foregroundColor(.black)
-          .padding()
-          .background(Color.yellow.grayscale(1))
-          .cornerRadius(8)
-      }
-      Spacer()
-      Text(viewModel.selectedDateLabel)
-      Spacer()
-      Button(action: viewModel.moveDateForward) {
-        Image(systemName: "chevron.right")
-          .foregroundColor(.black)
-          .padding()
-          .background(Color.yellow.grayscale(1))
-          .cornerRadius(8)
-      }
     }
   }
 
@@ -97,35 +60,38 @@ struct TrackerDetailsChartScreen: View {
 
   private func makeDayView() -> some View {
     let hour = TimeInterval(hours: 1)
-    let data = stride(from: viewModel.startDate.midnight, to: viewModel.endDate.midnight, by: hour)
-      .map { day in
-        let nEntriesForDay: Int = {
-          let lowerBound = day.set(minute: 0)
-          let upperBound = day.set(minute: 0).addingTimeInterval(.init(hours: 1))
-          let fetch = TrackerLog.fetchRequest()
-          fetch.predicate = NSPredicate(
-            format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
-            tracker, lowerBound as NSDate, upperBound as NSDate
-          )
+    let data = stride(
+      from: datePickerViewModel.startDate.midnight,
+      to: datePickerViewModel.endDate.midnight,
+      by: hour
+    )
+    .map { day in
+      let nEntriesForDay: Int = {
+        let lowerBound = day.set(minute: 0)
+        let upperBound = day.set(minute: 0).addingTimeInterval(.init(hours: 1))
+        let fetch = TrackerLog.fetchRequest()
+        fetch.predicate = NSPredicate(
+          format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
+          tracker, lowerBound as NSDate, upperBound as NSDate
+        )
 
-          guard let results = try? viewContext.fetch(fetch) else {
-            assertionFailure()
-            return 0
-          }
+        guard let results = try? viewContext.fetch(fetch) else {
+          assertionFailure()
+          return 0
+        }
 
-          return results.count
-        }()
+        return results.count
+      }()
 
-        let formatter = DateFormatter()
-        formatter.dateFormat = "H"
-        let bucket = formatter.string(from: day)
+      let formatter = DateFormatter()
+      formatter.dateFormat = "H"
+      let bucket = formatter.string(from: day)
 
-        return (timestamp: bucket, count: nEntriesForDay)
-      }
-      .map { timestamp, count in
-        Data(timestamp: timestamp, count: count)
-      }
-
+      return (timestamp: bucket, count: nEntriesForDay)
+    }
+    .map { timestamp, count in
+      Data(timestamp: timestamp, count: count)
+    }
 
     return Chart(data) { entry in
       BarMark(x: .value("Date", entry.timestamp), y: .value("TimeInterval", entry.count))
@@ -135,42 +101,45 @@ struct TrackerDetailsChartScreen: View {
   private func makeWeekView() -> some View {
     TrackerBarChart(
       tracker,
-      range: viewModel.startDate...viewModel.endDate,
-      granularity: .days,
+      range: datePickerViewModel.startDate...datePickerViewModel.endDate,
+      granularity: .week,
       context: viewContext
     )
   }
 
   private func makeMonthView() -> some View {
     let day: TimeInterval = 60*60*24
-    let data = stride(from: viewModel.startDate, to: viewModel.endDate, by: day)
-      .map { day in
-        let nEntriesForDay: Int = {
-          let fetch = TrackerLog.fetchRequest()
-          fetch.predicate = NSPredicate(
-            format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
-            tracker, day.midnight as NSDate,
-            day.addingTimeInterval(.init(days: 1)).midnight as NSDate
-          )
+    let data = stride(
+      from: datePickerViewModel.startDate,
+      to: datePickerViewModel.endDate,
+      by: day
+    )
+    .map { day in
+      let nEntriesForDay: Int = {
+        let fetch = TrackerLog.fetchRequest()
+        fetch.predicate = NSPredicate(
+          format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
+          tracker, day.midnight as NSDate,
+          day.addingTimeInterval(.init(days: 1)).midnight as NSDate
+        )
 
-          guard let results = try? viewContext.fetch(fetch) else {
-            assertionFailure()
-            return 0
-          }
+        guard let results = try? viewContext.fetch(fetch) else {
+          assertionFailure()
+          return 0
+        }
 
-          return results.count
-        }()
+        return results.count
+      }()
 
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd"
-        let bucket = formatter.string(from: day)
+      let formatter = DateFormatter()
+      formatter.dateFormat = "dd"
+      let bucket = formatter.string(from: day)
 
-        return (timestamp: bucket, count: nEntriesForDay)
-      }
-      .map { timestamp, count in
-        Data(timestamp: timestamp, count: count)
-      }
-
+      return (timestamp: bucket, count: nEntriesForDay)
+    }
+    .map { timestamp, count in
+      Data(timestamp: timestamp, count: count)
+    }
 
     return Chart(data) { entry in
       BarMark(x: .value("Date", entry.timestamp), y: .value("TimeInterval", entry.count))
@@ -181,62 +150,4 @@ struct TrackerDetailsChartScreen: View {
     Text("makeYearView")
   }
 
-}
-
-private enum DateWindow: String, CaseIterable, Identifiable {
-  var id: Self { self }
-  case day, week, month, year
-}
-
-private class TrackerDetailsChartViewModel: ObservableObject {
-  @Published var selectedDateWindow = DateWindow.week
-  @Published var selectedDate: Date = {
-    let calendar = Calendar.current
-    let sunday = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: Date()))
-    return calendar.date(byAdding: .day, value: 0, to: sunday!)!
-  }() // Date(timeIntervalSince1970: 1557973862) June 2019
-
-  var selectedDateLabel: String {
-    DateFormatter.localizedString(from: selectedDate, dateStyle: .long, timeStyle: .none)
-  }
-
-  var startDate: Date { selectedDate }
-  var endDate: Date {
-    switch selectedDateWindow {
-    case .day:
-      return selectedDate.addingTimeInterval(.init(days: 1))
-    case .week:
-      return selectedDate.addingTimeInterval(.init(days: 7))
-    case .month:
-      return selectedDate.addingTimeInterval(.init(days: 31))
-    case .year:
-      return selectedDate.addingTimeInterval(.init(days: 365))
-    }
-  }
-
-  func moveDateForward() {
-    switch selectedDateWindow {
-    case .day:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: 1))
-    case .week:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: 7))
-    case .month:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: 31))
-    case .year:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: 365))
-    }
-  }
-
-  func moveDateBackward() {
-    switch selectedDateWindow {
-    case .day:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: -1))
-    case .week:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: -7))
-    case .month:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: -31))
-    case .year:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: -365))
-    }
-  }
 }

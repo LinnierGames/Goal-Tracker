@@ -22,6 +22,8 @@ struct GoalDetailsChartsScreen: View {
   @Environment(\.managedObjectContext)
   private var viewContext
 
+  @StateObject private var dateRangePickerViewModel = DateRangePickerViewModel(intialDate: Date())
+
   init(_ goal: Goal) {
     self.goal = goal
     self._sections = FetchRequest(
@@ -32,9 +34,14 @@ struct GoalDetailsChartsScreen: View {
 
   var body: some View {
     NavigationView {
-      List(sections) { section in
-        Section(section.title!) {
-          ChartSection(section, goal: goal)
+      VStack {
+        DateRangePicker(viewModel: dateRangePickerViewModel)
+          .padding(.horizontal)
+
+        List(sections) { section in
+          Section(section.title!) {
+            ChartSection(section, goal: goal)
+          }
         }
       }
       .navigationTitle(goal.title!)
@@ -95,6 +102,7 @@ struct GoalDetailsChartsScreen: View {
         }
       }
     }
+    .environmentObject(dateRangePickerViewModel)
   }
 
   private func addNewChartSection() {
@@ -187,8 +195,7 @@ private struct ChartCell: View {
   @ObservedObject private var chart: GoalChart
   @ObservedObject private var tracker: Tracker
 
-  private let startDate: Date
-  private let endDate: Date
+  @EnvironmentObject private var picker: DateRangePickerViewModel
 
   @State private var showEditorForChart: GoalChart?
 
@@ -198,13 +205,6 @@ private struct ChartCell: View {
   init(_ chart: GoalChart) {
     self.chart = chart
     self.tracker = chart.tracker!.tracker!
-
-    let now = Date()
-    let calendar = Calendar.current
-    let sunday = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now))
-
-    self.startDate = calendar.date(byAdding: .day, value: 0, to: sunday!)!
-    self.endDate = startDate.addingTimeInterval(.init(days: 7))
   }
 
   var body: some View {
@@ -212,26 +212,35 @@ private struct ChartCell: View {
       TrackerDetailScreen(tracker)
     } label: {
       HStack {
-        Text(chart.tracker!.tracker!.title!)
-          .foregroundColor(.primary)
-        Spacer()
+        if picker.selectedDateWindow != .day {
+          Text(chart.tracker!.tracker!.title!)
+            .foregroundColor(.primary)
+          Spacer()
+        }
+
         switch chart.kind {
         case .count:
           TrackerBarChart(
             chart.tracker!.tracker!,
-            range: startDate...endDate,
-            granularity: .days,
+            range: picker.startDate...picker.endDate,
+            granularity: picker.selectedDateWindow,
             context: viewContext
           )
-          .frame(width: 196, height: chart.height.floatValue)
+          .frame(height: chart.height.floatValue)
+          .if(picker.selectedDateWindow != .day) {
+            $0.frame(width: 196)
+          }
         case .frequency:
           TrackerPlotChart(
             chart.tracker!.tracker!,
-            range: startDate...endDate,
-            granularity: .days,
+            range: picker.startDate...picker.endDate,
+            granularity: picker.selectedDateWindow,
             context: viewContext
           )
-          .frame(width: 196, height: chart.height.floatValue)
+          .frame(height: chart.height.floatValue)
+          .if(picker.selectedDateWindow != .day) {
+            $0.frame(width: 196)
+          }
         }
       }
       .contextMenu {

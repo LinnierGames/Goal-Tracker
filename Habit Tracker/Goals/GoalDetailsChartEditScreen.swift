@@ -70,7 +70,7 @@ struct GoalDetailsChartEditScreen: View {
         TrackerBarChart(
           chart.tracker!.tracker!,
           range: startDate...endDate,
-          granularity: .days,
+          granularity: .week,
           context: viewContext
         )
         .frame(width: 196, height: chart.height.floatValue)
@@ -78,7 +78,7 @@ struct GoalDetailsChartEditScreen: View {
         TrackerPlotChart(
           chart.tracker!.tracker!,
           range: startDate...endDate,
-          granularity: .days,
+          granularity: .week,
           context: viewContext
         )
         .frame(width: 196, height: chart.height.floatValue)

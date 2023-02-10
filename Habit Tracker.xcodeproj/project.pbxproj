@@ -93,6 +93,8 @@
 		E1EF451B298B9C7A00DC5CC1 /* INLogTrackerIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF451A298B9C7A00DC5CC1 /* INLogTrackerIntentHandler.swift */; };
 		E1EF451D298B9C8800DC5CC1 /* INTrackerLogValueIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF451C298B9C8800DC5CC1 /* INTrackerLogValueIntentHandler.swift */; };
 		E1EF452A2995501E00DC5CC1 /* TrackerLogFieldValuesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF45292995501E00DC5CC1 /* TrackerLogFieldValuesList.swift */; };
+		E1EF452C299602DC00DC5CC1 /* DateRatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF452B299602DC00DC5CC1 /* DateRatePicker.swift */; };
+		E1EF452E29960B1400DC5CC1 /* ChartTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF452D29960B1400DC5CC1 /* ChartTools.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -215,6 +217,8 @@
 		E1EF451A298B9C7A00DC5CC1 /* INLogTrackerIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INLogTrackerIntentHandler.swift; sourceTree = "<group>"; };
 		E1EF451C298B9C8800DC5CC1 /* INTrackerLogValueIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INTrackerLogValueIntentHandler.swift; sourceTree = "<group>"; };
 		E1EF45292995501E00DC5CC1 /* TrackerLogFieldValuesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerLogFieldValuesList.swift; sourceTree = "<group>"; };
+		E1EF452B299602DC00DC5CC1 /* DateRatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRatePicker.swift; sourceTree = "<group>"; };
+		E1EF452D29960B1400DC5CC1 /* ChartTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTools.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -324,9 +328,11 @@
 			isa = PBXGroup;
 			children = (
 				E1C10D652981A76A00825BCC /* README.md */,
+				E1C10D6C2983328E00825BCC /* Formats.swift */,
+				E1EF452D29960B1400DC5CC1 /* ChartTools.swift */,
+				E1EF452B299602DC00DC5CC1 /* DateRatePicker.swift */,
 				E104FCE2297C4A17003AF448 /* TrackerBarChart.swift */,
 				E1C10D6829832B1800825BCC /* TrackerPlotChart.swift */,
-				E1C10D6C2983328E00825BCC /* Formats.swift */,
 			);
 			path = Charts;
 			sourceTree = "<group>";
@@ -645,6 +651,7 @@
 				E1CD70E927DDDD630098DE0B /* HealthKit.swift in Sources */,
 				E12E2C8F27E237FB002AD960 /* KeyPath.swift in Sources */,
 				E12BC20727E2488700580111 /* CSVFile.swift in Sources */,
+				E1EF452E29960B1400DC5CC1 /* ChartTools.swift in Sources */,
 				E13F21CA2975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift in Sources */,
 				E1C10D6D2983328E00825BCC /* Formats.swift in Sources */,
 				E13F21C62975287100E1D4FD /* TrackerPickerScreen.swift in Sources */,
@@ -657,6 +664,7 @@
 				E11A94A8297A53D600FDCE41 /* NSSet.swift in Sources */,
 				E13F21C02974FA9A00E1D4FD /* ImportDataScreen.swift in Sources */,
 				E104207227DBAC5800051F2A /* Intents.intentdefinition in Sources */,
+				E1EF452C299602DC00DC5CC1 /* DateRatePicker.swift in Sources */,
 				E104FCE5297D9BDA003AF448 /* TrackerEntryDetailScreen.swift in Sources */,
 				E13F21B0297336E300E1D4FD /* ButtonFill.swift in Sources */,
 				E1C10D622980595C00825BCC /* ActionSheetLink.swift in Sources */,
