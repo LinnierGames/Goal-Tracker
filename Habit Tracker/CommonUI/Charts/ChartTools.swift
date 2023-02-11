@@ -39,9 +39,11 @@ extension ChartTools {
   static func strideDates(range: ClosedRange<Date>, granularity: DateWindow) -> [Date] {
     switch granularity {
     case .day:
-      return Array(stride(from: range.lowerBound, to: range.upperBound, by: .init(hours: 1)))
-    case .week, .month, .year:
+      return Array(stride(from: range.lowerBound, to: range.upperBound, by: .init(hours: 6)))
+    case .week:
       return Array(stride(from: range.lowerBound, to: range.upperBound, by: .init(days: 1)))
+    case .month, .year: // TODO: support year
+      return Array(stride(from: range.lowerBound, to: range.upperBound, by: .init(days: 7)))
     }
   }
 }

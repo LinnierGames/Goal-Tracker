@@ -13,7 +13,11 @@ enum DateWindow: String, CaseIterable, Identifiable {
 }
 
 class DateRangePickerViewModel: ObservableObject {
-  @Published var selectedDateWindow = DateWindow.week
+  @Published var selectedDateWindow = DateWindow.week {
+    didSet {
+      updateStartDateToNewWindow()
+    }
+  }
   @Published var selectedDate: Date
 
   init(intialDate: Date) {
@@ -37,38 +41,67 @@ class DateRangePickerViewModel: ObservableObject {
     switch selectedDateWindow {
     case .day:
       return selectedDate.addingTimeInterval(.init(days: 1))
-    case .week, .month, .year:
+    case .week:
       return selectedDate.addingTimeInterval(.init(days: 7))
-//    case .month:
-//      return selectedDate.addingTimeInterval(.init(days: 31))
+    case .month, .year:
+      return selectedDate.addingTimeInterval(.init(days: 31))
 //    case .year:
 //      return selectedDate.addingTimeInterval(.init(days: 365))
     }
   }
 
   func moveDateForward() {
+    let calendar = Calendar.current
     switch selectedDateWindow {
     case .day:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: 1))
+      selectedDate = calendar.date(byAdding: .day, value: 1, to: selectedDate)!
     case .week:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: 7))
+      selectedDate = calendar.date(byAdding: .weekOfYear, value: 1, to: selectedDate)!
     case .month:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: 31))
+      selectedDate = calendar.date(byAdding: .month, value: 1, to: selectedDate)!
     case .year:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: 365))
+      selectedDate = calendar.date(byAdding: .year, value: 1, to: selectedDate)!
     }
   }
 
   func moveDateBackward() {
+    let calendar = Calendar.current
     switch selectedDateWindow {
     case .day:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: -1))
+      selectedDate = calendar.date(byAdding: .day, value: -1, to: selectedDate)!
     case .week:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: -7))
+      selectedDate = calendar.date(byAdding: .weekOfYear, value: -1, to: selectedDate)!
     case .month:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: -31))
+      selectedDate = calendar.date(byAdding: .month, value: -1, to: selectedDate)!
     case .year:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: -365))
+      selectedDate = calendar.date(byAdding: .year, value: -1, to: selectedDate)!
+    }
+  }
+
+  private func updateStartDateToNewWindow() {
+    let calendar = Calendar.current
+    switch selectedDateWindow {
+    case .day:
+      let selectedDateIsWithinThisWeek =
+        calendar.isDate(selectedDate, equalTo: Date(), toGranularity: .weekOfYear)
+      if selectedDateIsWithinThisWeek {
+        selectedDate = Date()
+      } else {
+        break
+      }
+    case .week:
+      let sunday = calendar.date(
+        from: calendar.dateComponents(
+          [.yearForWeekOfYear, .weekOfYear],
+          from: selectedDate
+        )
+      )
+
+      self.selectedDate = calendar.date(byAdding: .day, value: 0, to: sunday!)!
+    case .month:
+      self.selectedDate = selectedDate.set(day: 1)
+    case .year:
+      self.selectedDate = selectedDate.set(day: 1, month: 1)
     }
   }
 }

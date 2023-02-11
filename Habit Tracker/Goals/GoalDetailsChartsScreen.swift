@@ -212,11 +212,9 @@ private struct ChartCell: View {
       TrackerDetailScreen(tracker)
     } label: {
       HStack {
-        if picker.selectedDateWindow != .day {
-          Text(chart.tracker!.tracker!.title!)
-            .foregroundColor(.primary)
-          Spacer()
-        }
+        Text(chart.tracker!.tracker!.title!)
+          .foregroundColor(.primary)
+        Spacer()
 
         switch chart.kind {
         case .count:
@@ -226,10 +224,7 @@ private struct ChartCell: View {
             granularity: picker.selectedDateWindow,
             context: viewContext
           )
-          .frame(height: chart.height.floatValue)
-          .if(picker.selectedDateWindow != .day) {
-            $0.frame(width: 196)
-          }
+          .frame(width: 196, height: chart.height.floatValue)
         case .frequency:
           TrackerPlotChart(
             chart.tracker!.tracker!,
@@ -237,10 +232,7 @@ private struct ChartCell: View {
             granularity: picker.selectedDateWindow,
             context: viewContext
           )
-          .frame(height: chart.height.floatValue)
-          .if(picker.selectedDateWindow != .day) {
-            $0.frame(width: 196)
-          }
+          .frame(width: 196, height: chart.height.floatValue)
         }
       }
       .contextMenu {

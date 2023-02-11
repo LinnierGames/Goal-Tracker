@@ -11,22 +11,12 @@ import SwiftUI
 private class ViewModel: ObservableObject {
   private var bag = Set<AnyCancellable>()
 
-  @Published var toggle = false
-
   init() {
-
     NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)
       .map { _ in }
       .sink(receiveValue: { [weak self] _ in self?.viewContextDidSaveExternally() })
       .store(in: &bag)
-
-//    Timer.publish(every: .init(minutes: 1), on: .main, in: .default)
-//      .autoconnect()
-//      .map { _ in }
-//      .sink(receiveValue: { [unowned self] _ in self.viewContextDidSaveExternally() })
-//      .store(in: &bag)
   }
-
 
   /// Called when a certain managed object context has been saved from an external process. It should also be called on the context's queue.
   func viewContextDidSaveExternally() {
@@ -37,6 +27,8 @@ private class ViewModel: ObservableObject {
       viewContext.stalenessInterval = 0
       viewContext.refreshAllObjects()
       viewContext.stalenessInterval = -1
+
+      self.objectWillChange.send()
     }
   }
 }

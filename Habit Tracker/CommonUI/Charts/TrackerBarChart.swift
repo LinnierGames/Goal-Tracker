@@ -77,12 +77,17 @@ struct TrackerBarChart: View, ChartTools {
       switch granularity {
       case .day:
         AxisMarks(
-          format: ChartDayFormat(.hourOfTheDay),
+          format: ChartDayFormat(.hourOfTheDay()),
           values: Self.strideDates(range: range, granularity: granularity)
         )
-      case .week, .month, .year:
+      case .week:
         AxisMarks(
           format: ChartDayFormat(.dayOfTheWeek),
+          values: Self.strideDates(range: range, granularity: granularity)
+        )
+      case .month, .year:
+        AxisMarks(
+          format: ChartDayFormat(.dayOfTheMonth),
           values: Self.strideDates(range: range, granularity: granularity)
         )
       }
