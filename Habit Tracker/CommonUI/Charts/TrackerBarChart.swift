@@ -18,6 +18,11 @@ struct TrackerBarChart: View, ChartTools {
   }
   var granularity: DateWindow
 
+  enum Width {
+    case short, full
+  }
+  var width: Width
+
   private struct Data: Identifiable {
     var id: TimeInterval { timestamp.timeIntervalSince1970 }
 
@@ -31,12 +36,13 @@ struct TrackerBarChart: View, ChartTools {
   init(
     _ tracker: Tracker,
     range: ClosedRange<Date>,
-    granularity: DateWindow,
+    granularity: DateWindow, width: Width = .full,
     context: NSManagedObjectContext
   ) {
     self.tracker = tracker
     self.range = range
     self.granularity = granularity
+    self.width = width
 
 //    // TODO: support other granularities
 
@@ -69,8 +75,10 @@ struct TrackerBarChart: View, ChartTools {
       switch granularity {
       case .day:
         BarMark(x: .value("Date", entry.timestamp, unit: .hour), y: .value("Count", entry.count))
-      case .week, .month, .year:
+      case .week, .month:
         BarMark(x: .value("Date", entry.timestamp, unit: .day), y: .value("Count", entry.count))
+      case .year:
+        BarMark(x: .value("Date", entry.timestamp, unit: .month), y: .value("Count", entry.count))
       }
     }
     .chartXAxis {
@@ -85,9 +93,14 @@ struct TrackerBarChart: View, ChartTools {
           format: ChartDayFormat(.dayOfTheWeek),
           values: Self.strideDates(range: range, granularity: granularity)
         )
-      case .month, .year:
+      case .month:
         AxisMarks(
           format: ChartDayFormat(.dayOfTheMonth),
+          values: Self.strideDates(range: range, granularity: granularity)
+        )
+      case .year:
+        AxisMarks(
+          format: ChartDayFormat(.monthOfTheYear(style: width == .full ? .medium : .short)),
           values: Self.strideDates(range: range, granularity: granularity)
         )
       }

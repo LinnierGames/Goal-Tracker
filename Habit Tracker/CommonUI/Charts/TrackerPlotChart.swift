@@ -9,17 +9,27 @@ import Charts
 import CoreData
 import SwiftUI
 
+extension Double: Identifiable {
+  public var id: Double { self }
+}
+
 struct TrackerPlotChart: View, ChartTools {
   @ObservedObject var tracker: Tracker
   var range: ClosedRange<Date>
 
   var granularity: DateWindow
 
+  enum Width {
+    case short, full
+  }
+  var width: Width
+
   private struct Data: Identifiable {
     var id: TimeInterval { timestamp.timeIntervalSince1970 }
 
     let timestamp: Date
-    let hour: Int
+    let hour: Double
+    let hours: [Double]
   }
   private var data: [Data]
 
@@ -29,22 +39,21 @@ struct TrackerPlotChart: View, ChartTools {
   init(
     _ tracker: Tracker,
     range: ClosedRange<Date>,
-    granularity: DateWindow,
+    granularity: DateWindow, width: Width = .full,
     context: NSManagedObjectContext
   ) {
     self.tracker = tracker
     self.range = range
     self.granularity = granularity
-
-    // TODO: support other granularities
+    self.width = width
 
     self.data = Self.strideChartMarks(range: range, granularity: granularity)
-      .map { day, lowerBound, uppoerBound -> [(Date, Int)] in
-        let entriesForDay: [TrackerLog] = {
+      .map { day, lowerBound, upperBound -> [(Date, Double, [Double])] in
+        let entriesForRange: [TrackerLog] = {
           let fetch = TrackerLog.fetchRequest()
           fetch.predicate = NSPredicate(
             format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
-            tracker, lowerBound as NSDate, uppoerBound as NSDate
+            tracker, lowerBound as NSDate, upperBound as NSDate
           )
 
           guard let results = try? context.fetch(fetch) else {
@@ -55,30 +64,62 @@ struct TrackerPlotChart: View, ChartTools {
           return results
         }()
 
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd"
-        let bucket = Int(formatter.string(from: day)) ?? 1
+        switch granularity {
+        case .day, .week, .month:
+          return entriesForRange.map { entry in
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH"
+            let hour = formatter.string(from: entry.timestamp!)
 
-        return entriesForDay.map { entry in
-          let formatter = DateFormatter()
-          formatter.dateFormat = "HH"
-          let hour = formatter.string(from: entry.timestamp!)
+            return Double(hour) ?? 0
+          }.map { hour in
+            (day, hour, [])
+          }
+        case .year:
+          guard !entriesForRange.isEmpty else { return [] }
+          let hours = entriesForRange
+            .map { Calendar.current.dateComponents([.hour], from: $0.timestamp!).hour! }
+            .map { Double($0) }
+          let sum = hours
+            .reduce(0, +)
 
-          return Int(hour) ?? 0
-        }.map { hour in
-          (timestamp: day, hour: hour)
+          let count = entriesForRange.count
+
+//          let distance =
+//            upperBound.timeIntervalSinceReferenceDate - lowerBound.timeIntervalSinceReferenceDate
+//          let halfTheDistance = distance / 2
+//          let halfTheDistanceAfterTheLowerBound = lowerBound.addingTimeInterval(halfTheDistance)
+
+          return [(day, Double(sum) / Double(count), hours)]
         }
       }
       .flatMap { $0 }
-      .map { timestamp, hour in
-        Data(timestamp: timestamp, hour: hour)
+      .map { timestamp, hour, hours in
+        Data(timestamp: timestamp, hour: hour, hours: hours)
       }
   }
 
   var body: some View {
     Chart {
       ForEach(data) { entry in
-        PointMark(x: .value("Date", entry.timestamp, unit: .day), y: .value("Hour", entry.hour))
+        switch granularity {
+        case .day, .week, .month:
+          PointMark(x: .value("Date", entry.timestamp, unit: .day), y: .value("Hour", entry.hour))
+        case .year:
+          let barHeight: Double = 0.2
+          ForEach(entry.hours) { hour in
+            BarMark(
+              x: .value("Date", entry.timestamp, unit: .month),
+              yStart: .value("Hour", hour + barHeight),
+              yEnd: .value("Hour", hour - barHeight),
+              width: 12
+            )
+            .opacity(0.4)
+          }
+
+          LineMark(x: .value("Date", entry.timestamp, unit: .month), y: .value("Hour", entry.hour))
+            .symbol(BasicChartSymbolShape.circle)
+        }
       }
 
       // Color the sections of the day
@@ -91,14 +132,26 @@ struct TrackerPlotChart: View, ChartTools {
         ],
         id: \.0
       ) { range, color in
-        RectangleMark(
-          xStart: .value("Date", self.range.lowerBound),
-          xEnd: .value("Date", self.range.upperBound),
-          yStart: .value("Hour", range.lowerBound),
-          yEnd: .value("Hour", range.upperBound)
-        )
-        .foregroundStyle(color)
-        .opacity(0.2)
+        switch granularity {
+        case .day, .week, .month:
+          RectangleMark(
+            xStart: .value("Date", self.range.lowerBound),
+            xEnd: .value("Date", self.range.upperBound),
+            yStart: .value("Hour", range.lowerBound),
+            yEnd: .value("Hour", range.upperBound)
+          )
+          .foregroundStyle(color)
+          .opacity(0.2)
+        case .year:
+          RectangleMark(
+            xStart: .value("Date", self.range.lowerBound, unit: .year),
+            xEnd: .value("Date", self.range.upperBound, unit: .year),
+            yStart: .value("Hour", range.lowerBound),
+            yEnd: .value("Hour", range.upperBound)
+          )
+          .foregroundStyle(color)
+          .opacity(0.2)
+        }
       }
 
 //      RuleMark(xStart: .value("Date", rangeInt.lowerBound), xEnd: .value("Date", rangeInt.upperBound), y: .value("Hour", 12))
@@ -120,9 +173,14 @@ struct TrackerPlotChart: View, ChartTools {
           format: ChartDayFormat(.dayOfTheWeek),
           values: Self.strideDates(range: range, granularity: granularity)
         )
-      case .month, .year:
+      case .month:
         AxisMarks(
           format: ChartDayFormat(.dayOfTheMonth),
+          values: Self.strideDates(range: range, granularity: granularity)
+        )
+      case .year:
+        AxisMarks(
+          format: ChartDayFormat(.monthOfTheYear(style: width == .full ? .medium : .short)),
           values: Self.strideDates(range: range, granularity: granularity)
         )
       }

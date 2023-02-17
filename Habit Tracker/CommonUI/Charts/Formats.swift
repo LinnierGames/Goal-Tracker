@@ -31,9 +31,14 @@ struct ChartDayFormat: FormatStyle {
       case full
       case minized
     }
-    case hourOfTheDay(HourOfTheDay = .full)
+    case hourOfTheDay(style: HourOfTheDay = .full)
     case dayOfTheWeek
     case dayOfTheMonth
+
+    enum MonthOfTheYear: Hashable, Codable {
+      case short, medium, full
+    }
+    case monthOfTheYear(style: MonthOfTheYear)
   }
   private let format: Format
 
@@ -63,6 +68,18 @@ struct ChartDayFormat: FormatStyle {
     case .dayOfTheMonth:
       formatter.dateFormat = "d"
       return formatter.string(from: value)
+    case .monthOfTheYear(let style):
+      switch style {
+      case .short:
+        formatter.dateFormat = "MMMMM"
+        return formatter.string(from: value)
+      case .medium:
+        formatter.dateFormat = "MMM"
+        return formatter.string(from: value)
+      case .full:
+        formatter.dateFormat = "MMMM"
+        return formatter.string(from: value)
+      }
     }
   }
 }
