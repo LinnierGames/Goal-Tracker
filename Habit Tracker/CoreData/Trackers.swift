@@ -142,44 +142,18 @@ extension TrackerLogField {
 }
 
 extension TrackerLogValue {
-//  static let integerNilValue = Int64.max
-//  static let doubleDoubleValue = Double.greatestFiniteMagnitude
-//
-//  var string: INT? {
-//    get {
-//
-//    }
-//    set {
-//
-//    }
-//  }
-//
-//  var integer: INT? {
-//    get {
-//
-//    }
-//    set {
-//
-//    }
-//  }
-//
-//  var boolean: INT? {
-//    get {
-//
-//    }
-//    set {
-//
-//    }
-//  }
-//
-//  var double: INT? {
-//    get {
-//
-//    }
-//    set {
-//
-//    }
-//  }
+  var string: String {
+    switch field!.type {
+    case .string:
+      return stringValue ?? ""
+    case .integer:
+      return String(integerValue)
+    case .double:
+      return String(doubleValue)
+    case .boolean:
+      return boolValue ? "True" : "False"
+    }
+  }
 }
 
 //Tracker

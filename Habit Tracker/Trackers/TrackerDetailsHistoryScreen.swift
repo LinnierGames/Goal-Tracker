@@ -74,16 +74,26 @@ struct TrackerDetailsHistoryScreen: View {
       .navigationTitle(tracker.title!)
 
       .toolbar {
-        Button {
-          withAnimation {
-            let newLog = TrackerLog(context: viewContext)
-            newLog.timestamp = Date()
-            tracker.addToLogs(newLog)
-
-            try! viewContext.save()
+        ToolbarItem(placement: .navigationBarLeading) {
+          SheetLink {
+            ExportScreen()
+          } label: {
+            Image(systemName: "square.and.arrow.up")
           }
-        } label: {
-          Image(systemName: "plus")
+        }
+
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Button {
+            withAnimation {
+              let newLog = TrackerLog(context: viewContext)
+              newLog.timestamp = Date()
+              tracker.addToLogs(newLog)
+
+              try! viewContext.save()
+            }
+          } label: {
+            Image(systemName: "plus")
+          }
         }
       }
     }

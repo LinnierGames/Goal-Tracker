@@ -14,11 +14,11 @@ struct TrackersScreen: View {
   private var viewContext
 
   @FetchRequest(sortDescriptors: [SortDescriptor(\Tracker.title)])
-  private var items: FetchedResults<Tracker>
+  private var trackers: FetchedResults<Tracker>
 
   var body: some View {
     NavigationView {
-      List(items) { tracker in
+      List(trackers) { tracker in
         NavigationSheetLink {
           TrackerDetailScreen(tracker)
         } label: {
@@ -31,14 +31,24 @@ struct TrackersScreen: View {
       }
       .navigationTitle("Trackers")
       .toolbar {
-        AlertLink(title: "Add Tracker") {
-          TextField("Title", text: $newTrackerTitle)
-          Button("Cancel", role: .cancel, action: {})
-          Button("Add", action: addNewTracker)
-        } message: {
-          Text("enter the title for your new tracker")
-        } label: {
-          Image(systemName: "plus")
+        ToolbarItem(placement: .navigationBarLeading) {
+          SheetLink {
+            ExportScreen()
+          } label: {
+            Image(systemName: "square.and.arrow.up")
+          }
+        }
+
+        ToolbarItem(placement: .navigationBarTrailing) {
+          AlertLink(title: "Add Tracker") {
+            TextField("Title", text: $newTrackerTitle)
+            Button("Cancel", role: .cancel, action: {})
+            Button("Add", action: addNewTracker)
+          } message: {
+            Text("enter the title for your new tracker")
+          } label: {
+            Image(systemName: "plus")
+          }
         }
       }
     }
