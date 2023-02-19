@@ -85,9 +85,9 @@ class DateRangePickerViewModel: ObservableObject {
       let selectedDateIsWithinThisWeek =
         calendar.isDate(selectedDate, equalTo: Date(), toGranularity: .weekOfYear)
       if selectedDateIsWithinThisWeek {
-        selectedDate = Date()
+        selectedDate = Date().set(minute: 0, hour: 0)
       } else {
-        break
+        selectedDate = selectedDate.set(minute: 0, hour: 0)
       }
     case .week:
       let sunday = calendar.date(

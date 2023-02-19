@@ -28,6 +28,7 @@ struct TrackerPlotChart: View, ChartTools {
     var id: TimeInterval { timestamp.timeIntervalSince1970 }
 
     let timestamp: Date
+    let count: Int // count for that timestamp
     let hour: Double
     let hours: [Double]
   }
@@ -48,7 +49,7 @@ struct TrackerPlotChart: View, ChartTools {
     self.width = width
 
     self.data = Self.strideChartMarks(range: range, granularity: granularity)
-      .map { day, lowerBound, upperBound -> [(Date, Double, [Double])] in
+      .map { day, lowerBound, upperBound -> [(Date, Int, Double, [Double])] in
         let entriesForRange: [TrackerLog] = {
           let fetch = TrackerLog.fetchRequest()
           fetch.predicate = NSPredicate(
@@ -65,7 +66,9 @@ struct TrackerPlotChart: View, ChartTools {
         }()
 
         switch granularity {
-        case .day, .week, .month:
+        case .day:
+          return [(day, entriesForRange.count, 0.0, [])]
+        case .week, .month:
           return entriesForRange.map { entry in
             let formatter = DateFormatter()
             formatter.dateFormat = "HH"
@@ -73,7 +76,7 @@ struct TrackerPlotChart: View, ChartTools {
 
             return Double(hour) ?? 0
           }.map { hour in
-            (day, hour, [])
+            (day, 1, hour, [])
           }
         case .year:
           guard !entriesForRange.isEmpty else { return [] }
@@ -90,12 +93,12 @@ struct TrackerPlotChart: View, ChartTools {
 //          let halfTheDistance = distance / 2
 //          let halfTheDistanceAfterTheLowerBound = lowerBound.addingTimeInterval(halfTheDistance)
 
-          return [(day, Double(sum) / Double(count), hours)]
+          return [(day, 1, Double(sum) / Double(count), hours)]
         }
       }
       .flatMap { $0 }
-      .map { timestamp, hour, hours in
-        Data(timestamp: timestamp, hour: hour, hours: hours)
+      .map { timestamp, count, hour, hours in
+        Data(timestamp: timestamp, count: count, hour: hour, hours: hours)
       }
   }
 
@@ -103,7 +106,9 @@ struct TrackerPlotChart: View, ChartTools {
     Chart {
       ForEach(data) { entry in
         switch granularity {
-        case .day, .week, .month:
+        case .day:
+          BarMark(x: .value("Date", entry.timestamp, unit: .hour), y: .value("Count", entry.count))
+        case .week, .month:
           PointMark(x: .value("Date", entry.timestamp, unit: .day), y: .value("Hour", entry.hour))
         case .year:
           let barHeight: Double = 0.2
@@ -123,43 +128,47 @@ struct TrackerPlotChart: View, ChartTools {
       }
 
       // Color the sections of the day
-      ForEach(
-        [
-          (0...6, Color.gray),
-          (6...12, Color.orange),
-          (12...18, Color.yellow),
-          (18...24, Color.gray)
-        ],
-        id: \.0
-      ) { range, color in
-        switch granularity {
-        case .day, .week, .month:
-          RectangleMark(
-            xStart: .value("Date", self.range.lowerBound),
-            xEnd: .value("Date", self.range.upperBound),
-            yStart: .value("Hour", range.lowerBound),
-            yEnd: .value("Hour", range.upperBound)
-          )
-          .foregroundStyle(color)
-          .opacity(0.2)
-        case .year:
-          RectangleMark(
-            xStart: .value("Date", self.range.lowerBound, unit: .year),
-            xEnd: .value("Date", self.range.upperBound, unit: .year),
-            yStart: .value("Hour", range.lowerBound),
-            yEnd: .value("Hour", range.upperBound)
-          )
-          .foregroundStyle(color)
-          .opacity(0.2)
+      if granularity != .day {
+        ForEach(
+          [
+            (0...6, Color.gray),
+            (6...12, Color.orange),
+            (12...18, Color.yellow),
+            (18...24, Color.gray)
+          ],
+          id: \.0
+        ) { range, color in
+          switch granularity {
+          case .day, .week, .month:
+            RectangleMark(
+              xStart: .value("Date", self.range.lowerBound),
+              xEnd: .value("Date", self.range.upperBound),
+              yStart: .value("Hour", range.lowerBound),
+              yEnd: .value("Hour", range.upperBound)
+            )
+            .foregroundStyle(color)
+            .opacity(0.2)
+          case .year:
+            RectangleMark(
+              xStart: .value("Date", self.range.lowerBound, unit: .year),
+              xEnd: .value("Date", self.range.upperBound, unit: .year),
+              yStart: .value("Hour", range.lowerBound),
+              yEnd: .value("Hour", range.upperBound)
+            )
+            .foregroundStyle(color)
+            .opacity(0.2)
+          }
         }
       }
 
 //      RuleMark(xStart: .value("Date", rangeInt.lowerBound), xEnd: .value("Date", rangeInt.upperBound), y: .value("Hour", 12))
 //        .foregroundStyle(.red)
     }
-    .chartYScale(domain: 0...24)
-    .chartYAxis {
-      AxisMarks(format: ChartHourFormat(), values: [6, 12, 18])
+    .if(granularity != .day) {
+      $0.chartYScale(domain: 0...24)
+        .chartYAxis {
+          AxisMarks(format: ChartHourFormat(), values: [6, 12, 18])
+        }
     }
     .chartXAxis {
       switch granularity {

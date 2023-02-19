@@ -9,18 +9,28 @@ import SwiftUI
 
 struct ExportScreen: View {
 
-//  let logFetchRequest: NSFetchRequest<TrackerLog>
+  let trackers: [Tracker]
+  let logs: [TrackerLog]
 
   @Environment(\.managedObjectContext)
   private var viewContext
 
-//  static func allLogs() -> ExportScreen {
-//    let allLogs = TrackerLog.fetchRequest()
-//    allLogs.sortDescriptors = []
-//
-//
-//    return ExportScreen(logFetchRequest: <#T##NSFetchRequest<TrackerLog>#>, fields: <#T##[String]#>)
-//  }
+  init(trackers: [Tracker]? = nil) {
+
+    let viewContext = PersistenceController.shared.container.viewContext
+
+    if let trackers {
+      self.trackers = trackers
+    } else {
+      let allTrackers = Tracker.fetchRequest()
+      self.trackers = (try? viewContext.fetch(allTrackers)) ?? []
+    }
+
+    let allLogs = TrackerLog.fetchRequest()
+    allLogs.predicate = NSPredicate(format: "tracker in %@", self.trackers)
+    allLogs.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerLog.timestamp!, ascending: false)]
+    self.logs = (try? viewContext.fetch(allLogs)) ?? []
+  }
 
   @State private var data: URL?
 
@@ -35,13 +45,6 @@ struct ExportScreen: View {
   }
 
   private func export() -> URL {
-    let allLogs = TrackerLog.fetchRequest()
-    allLogs.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerLog.timestamp!, ascending: false)]
-    let logs = (try? viewContext.fetch(allLogs)) ?? []
-
-    let allTrackers = Tracker.fetchRequest()
-    let trackers = (try? viewContext.fetch(allTrackers)) ?? []
-
     let fields = trackers.flatMap { tracker in
       tracker.allFields.map { field in
         "\(tracker.title!.abreviated).\(field.title!)"

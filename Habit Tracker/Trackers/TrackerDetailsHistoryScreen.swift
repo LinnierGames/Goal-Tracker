@@ -76,7 +76,7 @@ struct TrackerDetailsHistoryScreen: View {
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
           SheetLink {
-            ExportScreen()
+            ExportScreen(trackers: [tracker])
           } label: {
             Image(systemName: "square.and.arrow.up")
           }
