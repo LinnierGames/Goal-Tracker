@@ -15,6 +15,7 @@ struct TrackersScreen: View {
 
   @FetchRequest(sortDescriptors: [SortDescriptor(\Tracker.title)])
   private var trackers: FetchedResults<Tracker>
+  @State private var query = ""
 
   var body: some View {
     NavigationView {
@@ -30,6 +31,14 @@ struct TrackersScreen: View {
         }
       }
       .navigationTitle("Trackers")
+
+      .searchable(text: $query)
+      .onChange(of: query) { newValue in
+        trackers.nsPredicate = query.isEmpty ? nil : NSPredicate(
+          format: "%K CONTAINS[cd] %@", #keyPath(Tracker.title), query
+        )
+      }
+
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
           SheetLink {

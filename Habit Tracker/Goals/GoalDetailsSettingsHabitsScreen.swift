@@ -50,19 +50,23 @@ struct GoalDetailsSettingsTrackersScreen: View {
     }
     .toolbar {
       SheetLink {
-        TrackerPickerScreen(title: "Select Tracker to Add", subtitle: goal.title!, didPick: { tracker in
-          isShowingAddTrackerPicker = false
+        TrackerPickerScreen(
+          title: "Select Tracker to Add",
+          subtitle: goal.title!,
+          didPick: { tracker in
+            isShowingAddTrackerPicker = false
 
-          let newTracker = GoalTrackerCriteria(context: viewContext)
-          newTracker.tracker = tracker
-          newTracker.goal = goal
+            let newTracker = GoalTrackerCriteria(context: viewContext)
+            newTracker.tracker = tracker
+            newTracker.goal = goal
 
-          goal.addToTrackers(newTracker)
+            goal.addToTrackers(newTracker)
 
-          try! viewContext.save()
-        }, disabled: { tracker in
-          trackerCriterias.map(\.tracker).contains(where: { $0 == tracker })
-        })
+            try! viewContext.save()
+          }, disabled: { tracker in
+            trackerCriterias.map(\.tracker).contains(where: { $0 == tracker })
+          }, disabledReason: { _ in "already added" }
+        )
       } label: {
         Image(systemName: "plus")
       }
