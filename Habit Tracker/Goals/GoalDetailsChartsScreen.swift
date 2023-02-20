@@ -22,7 +22,8 @@ struct GoalDetailsChartsScreen: View {
   @Environment(\.managedObjectContext)
   private var viewContext
 
-  @StateObject private var dateRangePickerViewModel = DateRangePickerViewModel(intialDate: Date())
+  @StateObject private var dateRangePickerViewModel =
+    DateRangePickerViewModel(intialDate: Date(), intialWindow: .week)
 
   init(_ goal: Goal) {
     self.goal = goal
@@ -209,7 +210,7 @@ private struct ChartCell: View {
 
   var body: some View {
     SheetLink {
-      TrackerDetailScreen(tracker)
+      TrackerDetailScreen(tracker, dateRange: picker.selectedDate, dateRangeWindow: picker.selectedDateWindow)
     } label: {
       HStack {
         Text(chart.tracker!.tracker!.title!)

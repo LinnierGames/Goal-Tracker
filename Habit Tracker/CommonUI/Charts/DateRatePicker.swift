@@ -5,6 +5,7 @@
 //  Created by Erick Sanchez on 2/9/23.
 //
 
+import Combine
 import SwiftUI
 
 enum DateWindow: String, CaseIterable, Identifiable {
@@ -12,24 +13,32 @@ enum DateWindow: String, CaseIterable, Identifiable {
   case day, week, month, year
 }
 
+typealias DateRangePickerUpdate = (
+  window: DateWindow, range: ClosedRange<Date>
+)
+
 class DateRangePickerViewModel: ObservableObject {
-  @Published var selectedDateWindow = DateWindow.week {
+  @Published var selectedDateWindow: DateWindow {
     didSet {
       updateStartDateToNewWindow()
     }
   }
-  @Published var selectedDate: Date
+  @Published var selectedDate: Date {
+    didSet {
+      didUpdateRangePublisher.send((selectedDateWindow, startDate...endDate))
+    }
+  }
 
-  init(intialDate: Date) {
-    let calendar = Calendar.current
-    let sunday = calendar.date(
-      from: calendar.dateComponents(
-        [.yearForWeekOfYear, .weekOfYear],
-        from: intialDate
-      )
-    )
+  private let didUpdateRangePublisher = PassthroughSubject<DateRangePickerUpdate, Never>()
+  var didUpdateRange: AnyPublisher<DateRangePickerUpdate, Never> {
+    didUpdateRangePublisher.eraseToAnyPublisher()
+  }
 
-    self.selectedDate = calendar.date(byAdding: .day, value: 0, to: sunday!)!
+  init(intialDate: Date, intialWindow: DateWindow) {
+    self.selectedDate = intialDate
+    self.selectedDateWindow = intialWindow
+    
+    updateStartDateToNewWindow()
   }
 
   var selectedDateLabel: String {

@@ -85,13 +85,7 @@ struct TrackerPlotChart: View, ChartTools {
             .map { Double($0) }
           let sum = hours
             .reduce(0, +)
-
           let count = entriesForRange.count
-
-//          let distance =
-//            upperBound.timeIntervalSinceReferenceDate - lowerBound.timeIntervalSinceReferenceDate
-//          let halfTheDistance = distance / 2
-//          let halfTheDistanceAfterTheLowerBound = lowerBound.addingTimeInterval(halfTheDistance)
 
           return [(day, 1, Double(sum) / Double(count), hours)]
         }
@@ -160,9 +154,6 @@ struct TrackerPlotChart: View, ChartTools {
           }
         }
       }
-
-//      RuleMark(xStart: .value("Date", rangeInt.lowerBound), xEnd: .value("Date", rangeInt.upperBound), y: .value("Hour", 12))
-//        .foregroundStyle(.red)
     }
     .if(granularity != .day) {
       $0.chartYScale(domain: 0...24)

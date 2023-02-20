@@ -10,17 +10,28 @@ import MetricKit
 import SwiftUI
 
 struct TrackerDetailsChartScreen: View {
+  let dateRange: Date
+  let dateRangeWindow: DateWindow
+
   @ObservedObject var tracker: Tracker
 
-  @StateObject private var datePickerViewModel = DateRangePickerViewModel(intialDate: Date())
+  @StateObject private var datePickerViewModel: DateRangePickerViewModel
 
   @FetchRequest
   private var entries: FetchedResults<TrackerLog>
 
-  @Environment(\.managedObjectContext) private var viewContext
+  @Environment(\.managedObjectContext)
+  private var viewContext
 
-  init(_ tracker: Tracker) {
+  @Environment(\.healthKitSync)
+  private var healthKitSync
+
+  init(_ tracker: Tracker, dateRange: Date = Date(), dateRangeWindow: DateWindow = .week) {
+    self.dateRange = dateRange
+    self.dateRangeWindow = dateRangeWindow
     self.tracker = tracker
+    self._datePickerViewModel =
+      StateObject(wrappedValue: DateRangePickerViewModel(intialDate: dateRange, intialWindow: dateRangeWindow))
     self._entries = FetchRequest(
       sortDescriptors: [SortDescriptor(\TrackerLog.timestamp)],
       predicate: NSPredicate(format: "tracker = %@", tracker)
@@ -48,6 +59,10 @@ struct TrackerDetailsChartScreen: View {
       .padding(.horizontal)
 
       .navigationTitle(tracker.title!)
+
+      .onReceive(datePickerViewModel.didUpdateRange) { _, range in
+        healthKitSync
+      }
     }
   }
 
