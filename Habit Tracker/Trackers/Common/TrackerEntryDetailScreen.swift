@@ -26,6 +26,20 @@ struct TrackerEntryDetailScreen: View {
         DatePicker(selection: $log.timestamp.mapOptional(defaultValue: Date())) {
           Label("Date", systemImage: "calendar")
         }
+
+        if log.endDate != nil {
+          DatePicker(selection: $log.endDate.mapOptional(defaultValue: Date())) {
+            Label("End Date", systemImage: "calendar")
+          }
+        } else {
+          HStack {
+            Label("End Date", systemImage: "calendar")
+            Spacer()
+            Button("Add End Date") {
+              log.endDate = log.timestamp!.addingTimeInterval(.init(hours: 1))
+            }
+          }
+        }
       }
 
       Section("Fields") {
@@ -42,6 +56,9 @@ struct TrackerEntryDetailScreen: View {
 //    }
 
     .onChange(of: log.timestamp) { _ in
+      try! viewContext.save()
+    }
+    .onChange(of: log.endDate) { _ in
       try! viewContext.save()
     }
   }
