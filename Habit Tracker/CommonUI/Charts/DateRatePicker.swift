@@ -59,6 +59,11 @@ class DateRangePickerViewModel: ObservableObject {
     }
   }
 
+  func moveDateToToday() {
+    selectedDate = Date()
+    updateStartDateToNewWindow()
+  }
+
   func moveDateForward() {
     let calendar = Calendar.current
     switch selectedDateWindow {
@@ -115,61 +120,6 @@ class DateRangePickerViewModel: ObservableObject {
   }
 }
 
-
-private class DateRangePickerViewModel2: ObservableObject {
-  @Binding var selectedDateWindow: DateWindow
-  @Binding var selectedDate: Date
-
-  init(selectedDate: Binding<Date>, selectedDateWindow: Binding<DateWindow>) {
-    self._selectedDateWindow = selectedDateWindow
-    self._selectedDate = selectedDate
-  }
-
-  var selectedDateLabel: String {
-    DateFormatter.localizedString(from: selectedDate, dateStyle: .long, timeStyle: .none)
-  }
-
-  var startDate: Date { selectedDate }
-  var endDate: Date {
-    switch selectedDateWindow {
-    case .day:
-      return selectedDate.addingTimeInterval(.init(days: 1))
-    case .week:
-      return selectedDate.addingTimeInterval(.init(days: 7))
-    case .month:
-      return selectedDate.addingTimeInterval(.init(days: 31))
-    case .year:
-      return selectedDate.addingTimeInterval(.init(days: 365))
-    }
-  }
-
-  func moveDateForward() {
-    switch selectedDateWindow {
-    case .day:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: 1))
-    case .week:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: 7))
-    case .month:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: 31))
-    case .year:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: 365))
-    }
-  }
-
-  func moveDateBackward() {
-    switch selectedDateWindow {
-    case .day:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: -1))
-    case .week:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: -7))
-    case .month:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: -31))
-    case .year:
-      selectedDate = selectedDate.addingTimeInterval(.init(days: -365))
-    }
-  }
-}
-
 struct DateRangePicker: View {
   @ObservedObject private var viewModel: DateRangePickerViewModel
 
@@ -189,7 +139,7 @@ struct DateRangePicker: View {
           .cornerRadius(8)
       }
       Spacer()
-      Text(viewModel.selectedDateLabel)
+      Button(viewModel.selectedDateLabel, action: viewModel.moveDateToToday)
       Spacer()
       Button(action: viewModel.moveDateForward) {
         Image(systemName: "chevron.right")
