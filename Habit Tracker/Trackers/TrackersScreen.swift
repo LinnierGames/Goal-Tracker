@@ -40,7 +40,12 @@ struct TrackersScreen: View {
       }
 
       .toolbar {
-        ToolbarItem(placement: .navigationBarLeading) {
+        ToolbarItemGroup(placement: .navigationBarLeading) {
+          SheetLink {
+            ImportScreen()
+          } label: {
+            Image(systemName: "square.and.arrow.down")
+          }
           SheetLink {
             ExportScreen()
           } label: {

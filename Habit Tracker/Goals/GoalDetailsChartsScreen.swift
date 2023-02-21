@@ -200,6 +200,9 @@ private struct ChartCell: View {
 
   @State private var showEditorForChart: GoalChart?
 
+  @EnvironmentObject
+  private var sync: ExternalSyncManager
+
   @Environment(\.managedObjectContext)
   private var viewContext
 
@@ -244,6 +247,13 @@ private struct ChartCell: View {
         NavigationView {
           GoalDetailsChartEditScreen(chart)
         }
+      }
+
+      .onAppear {
+        sync.syncDateRange(tracker: tracker, range: picker.startDate...picker.endDate)
+      }
+      .onReceive(picker.didUpdateRange) { _, range in
+        sync.syncDateRange(tracker: tracker, range: range)
       }
     }
   }

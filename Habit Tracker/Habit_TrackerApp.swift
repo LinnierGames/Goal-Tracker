@@ -11,6 +11,11 @@ import SwiftUI
 struct Tracker_TrackerApp: App {
   let persistenceController = PersistenceController.shared
 
+  @ObservedObject var syncManager =
+    ExternalSyncManager()
+      .attach(source: HealthKitSync())
+      .sync()
+
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
   var body: some Scene {
@@ -34,25 +39,8 @@ struct Tracker_TrackerApp: App {
           }
       }
       .environment(\.managedObjectContext, persistenceController.container.viewContext)
+      .environmentObject(syncManager)
     }
-  }
-}
-
-struct OldApp: View {
-  let persistenceController: PersistenceController
-
-  var body: some View {
-    TabView {
-      DataCollectorScreen()
-        .tabItem {
-          Label("Data", systemImage: "antenna.radiowaves.left.and.right")
-        }
-      ReportsScreen()
-        .tabItem {
-          Label("Reports", systemImage: "newspaper")
-        }
-    }
-    .environment(\.managedObjectContext, persistenceController.container.viewContext)
   }
 }
 

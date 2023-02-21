@@ -20,5 +20,85 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8CD92CFE-5229-4939-8710-DAEDD34B95FB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Habit Tracker/Services/HealthKit+Sleep.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "execute(sampleType:samplePredicate:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C285E432-B5A8-4DB7-8933-70E451285535"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Habit Tracker/Services/HealthKit+Sleep.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "sleepData(date:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C285E432-B5A8-4DB7-8933-70E451285535 - 8e5103299dc3f2d6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.HKSampleQuery, Swift.Optional&lt;Swift.Array&lt;__C.HKSample&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (Swift.CheckedContinuation&lt;Swift.Array&lt;Habit_Tracker.SleepSample&gt;, Swift.Error&gt;) -&gt; () in Habit_Tracker.HealthKitService.sleepData(date: Swift.ClosedRange&lt;Foundation.Date&gt;) async throws -&gt; Swift.Array&lt;Habit_Tracker.SleepSample&gt;"
+                  moduleName = "Habit Tracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/Habit%20Tracker/Services/HealthKit+Sleep.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "67"
+                  endingLineNumber = "67"
+                  offsetFromSymbolStart = "392">
+               </Location>
+               <Location
+                  uuid = "C285E432-B5A8-4DB7-8933-70E451285535 - 85763aab50243e3f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.HKCategorySample) -&gt; Habit_Tracker.SleepSample in closure #1 (__C.HKSampleQuery, Swift.Optional&lt;Swift.Array&lt;__C.HKSample&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (Swift.CheckedContinuation&lt;Swift.Array&lt;Habit_Tracker.SleepSample&gt;, Swift.Error&gt;) -&gt; () in Habit_Tracker.HealthKitService.sleepData(date: Swift.ClosedRange&lt;Foundation.Date&gt;) async throws -&gt; Swift.Array&lt;Habit_Tracker.SleepSample&gt;"
+                  moduleName = "Habit Tracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/Habit%20Tracker/Services/HealthKit+Sleep.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "464">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F0879D1F-D10C-4F02-9784-B2749BD303FD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Habit Tracker/Services/HealthKit+Sleep.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "sleepData(date:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

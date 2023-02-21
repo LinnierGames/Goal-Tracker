@@ -23,8 +23,8 @@ struct TrackerDetailsChartScreen: View {
   @Environment(\.managedObjectContext)
   private var viewContext
 
-  @Environment(\.healthKitSync)
-  private var healthKitSync
+  @EnvironmentObject
+  private var sync: ExternalSyncManager
 
   init(_ tracker: Tracker, dateRange: Date = Date(), dateRangeWindow: DateWindow = .week) {
     self.dateRange = dateRange
@@ -60,8 +60,11 @@ struct TrackerDetailsChartScreen: View {
 
       .navigationTitle(tracker.title!)
 
+      .onAppear {
+        sync.syncDateRange(tracker: tracker, range: datePickerViewModel.startDate...datePickerViewModel.endDate)
+      }
       .onReceive(datePickerViewModel.didUpdateRange) { _, range in
-        healthKitSync
+        sync.syncDateRange(tracker: tracker, range: range)
       }
     }
   }

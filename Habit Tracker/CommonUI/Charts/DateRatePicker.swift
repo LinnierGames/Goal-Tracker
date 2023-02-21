@@ -37,7 +37,7 @@ class DateRangePickerViewModel: ObservableObject {
   init(intialDate: Date, intialWindow: DateWindow) {
     self.selectedDate = intialDate
     self.selectedDateWindow = intialWindow
-    
+
     updateStartDateToNewWindow()
   }
 

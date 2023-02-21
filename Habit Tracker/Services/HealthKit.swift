@@ -5,16 +5,11 @@
 //  Created by Erick Sanchez on 2/18/23.
 //
 
-import DeviceActivity
-import ScreenTime
-
-class ScreenTimeService {
-  
-}
-
 import HealthKit
 
 class HealthKitService {
+
+  static let shared = HealthKitService()
 
   let store = HKHealthStore()
 
