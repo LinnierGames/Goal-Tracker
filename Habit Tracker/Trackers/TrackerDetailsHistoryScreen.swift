@@ -39,6 +39,16 @@ struct TrackerDetailsHistoryScreen: View {
                 TrackerEntryDetailScreen(tracker: tracker, log: log)
               } label: {
                 VStack(alignment: .leading) {
+//                  if let endDate = log.endDate {
+//                    let startDate = log.timestamp!
+//                    if startDate > endDate {
+//                      Text(endDate..<startDate, format: .interval)
+//                    } else {
+//                      Text(startDate..<endDate, format: .interval)
+//                    }
+//                  } else {
+//                    Text(log.timestampFormat)
+//                  }
                   Text(log.timestampFormat)
 
                   TrackerLogFieldValuesList(tracker: tracker, log: log) { field, value in

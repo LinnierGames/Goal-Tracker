@@ -30,14 +30,27 @@ struct TrackerEntryDetailScreen: View {
         if log.endDate != nil {
           DatePicker(selection: $log.endDate.mapOptional(defaultValue: Date())) {
             Label("End Date", systemImage: "calendar")
+          }.swipeActions {
+            Button(action: {
+              log.endDate = nil
+            }, title: "Remove", systemImage: "x.circle.fill")
           }
         } else {
           HStack {
             Label("End Date", systemImage: "calendar")
             Spacer()
             Button("Add End Date") {
-              log.endDate = log.timestamp!.addingTimeInterval(.init(hours: 1))
+              log.endDate = Date()
             }
+          }
+        }
+      } footer: {
+        if let endDate = log.endDate {
+          let startDate = log.timestamp!
+          if startDate > endDate {
+            Text("Duration: \(endDate..<startDate, format: .timeDuration)")
+          } else {
+            Text("Duration: \(startDate..<endDate, format: .timeDuration)")
           }
         }
       }
