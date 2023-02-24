@@ -168,7 +168,7 @@ struct TrackerPlotChart: View, ChartTools {
       }
 
       // Color the sections of the day
-      if granularity != .day {
+      if granularity != .day && false {
         ForEach(
           [
             (0...6, Color.gray),
@@ -202,9 +202,9 @@ struct TrackerPlotChart: View, ChartTools {
       }
     }
     .if(granularity != .day) {
-      $0.chartYScale(domain: 0...24)
+      $0//.chartYScale(domain: 0...24)
         .chartYAxis {
-          AxisMarks(format: ChartHourFormat(), values: [6, 12, 18])
+          AxisMarks(format: ChartHourFormat()/*, values: [6, 12, 18]*/)
         }
     }
     .chartXAxis {

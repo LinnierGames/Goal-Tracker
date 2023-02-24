@@ -73,6 +73,11 @@ enum ChartDate: Int16, CaseIterable, Identifiable {
 }
 
 extension GoalChart {
+  // TODO: Use name override for chart name
+//  @objc var name: String {
+//    nameOverride ?? tracker?.tracker?.title ?? ""
+//  }
+
   var kind: ChartKind {
     get {
       ChartKind(rawValue: kindRawValue)!

@@ -216,7 +216,7 @@ private struct ChartCell: View {
       TrackerDetailScreen(tracker, dateRange: picker.selectedDate, dateRangeWindow: picker.selectedDateWindow)
     } label: {
       HStack {
-        Text(chart.tracker!.tracker!.title!)
+        Text(chart.nameOverride ?? chart.tracker!.tracker!.title!)
           .foregroundColor(.primary)
         Spacer()
 

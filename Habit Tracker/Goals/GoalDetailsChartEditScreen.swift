@@ -13,6 +13,8 @@ struct GoalDetailsChartEditScreen: View {
   private let startDate: Date
   private let endDate: Date
 
+  @State private var nameOverride: String
+
   @Environment(\.managedObjectContext)
   private var viewContext
 
@@ -26,6 +28,7 @@ struct GoalDetailsChartEditScreen: View {
     )
     self.startDate = calendar.date(byAdding: .day, value: 0, to: sunday!)!
     self.endDate = startDate.addingTimeInterval(.init(days: 7))
+    self._nameOverride = State(initialValue: chart.nameOverride ?? "")
   }
 
   var body: some View {
@@ -36,6 +39,20 @@ struct GoalDetailsChartEditScreen: View {
       .listStyle(.insetGrouped)
 
       Section {
+        HStack {
+          Text("Chart Name")
+          TextField(chart.tracker!.tracker!.title!, text: $nameOverride)
+            .multilineTextAlignment(.trailing)
+            .onSubmit {
+              if nameOverride.isEmpty {
+                chart.nameOverride = nil
+              } else {
+                chart.nameOverride = nameOverride
+              }
+              try! viewContext.save()
+            }
+            .submitLabel(.done)
+        }
         Picker("Chart Type", selection: $chart.kind) {
           ForEach(ChartKind.allCases) { kind in
             Text(kind.stringValue).tag(kind)
@@ -67,7 +84,7 @@ struct GoalDetailsChartEditScreen: View {
   @ViewBuilder
   func makeChart() -> some View {
     HStack {
-      Text(chart.tracker!.tracker!.title!)
+      Text(chart.nameOverride ?? chart.tracker!.tracker!.title!)
         .foregroundColor(.primary)
       Spacer()
       switch chart.kind {

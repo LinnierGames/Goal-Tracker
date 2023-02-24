@@ -13,6 +13,7 @@
         <attribute name="dateRawValue" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="heightRawValue" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="kindRawValue" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="nameOverride" optional="YES" attributeType="String"/>
         <relationship name="section" maxCount="1" deletionRule="Nullify" destinationEntity="GoalChartSection" inverseName="charts" inverseEntity="GoalChartSection"/>
         <relationship name="tracker" maxCount="1" deletionRule="Nullify" destinationEntity="GoalTrackerCriteria" inverseName="charts" inverseEntity="GoalTrackerCriteria"/>
     </entity>
