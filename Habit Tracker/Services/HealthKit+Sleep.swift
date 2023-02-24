@@ -70,7 +70,7 @@ extension HealthKitService {
           let sleepTimeForOneDay = sample.endDate.timeIntervalSince(sample.startDate)
           return SleepSample(id: id, start: startDate, end: endDate, duration: sleepTimeForOneDay)
         }.reduce(into: [String: SleepSample]()) { (partialResult, sample: SleepSample) in
-          let key = keyFormatter.string(from: sample.start)
+          let key = keyFormatter.string(from: sample.end)
 
           if let maxSample = partialResult[key], sample.duration > maxSample.duration {
             partialResult[key] = sample

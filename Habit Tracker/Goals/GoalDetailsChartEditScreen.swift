@@ -46,6 +46,11 @@ struct GoalDetailsChartEditScreen: View {
             Text(size.stringValue).tag(size)
           }
         }
+        Picker("Date to use", selection: $chart.logDate) {
+          ForEach(ChartDate.allCases) { date in
+            Text(date.stringValue).tag(date)
+          }
+        }
       }
       .listStyle(.grouped)
     }
@@ -62,7 +67,7 @@ struct GoalDetailsChartEditScreen: View {
   @ViewBuilder
   func makeChart() -> some View {
     HStack {
-      Text(chart.tracker!.tracker!.title!) // TODO: remove tracker name
+      Text(chart.tracker!.tracker!.title!)
         .foregroundColor(.primary)
       Spacer()
       switch chart.kind {
@@ -78,6 +83,7 @@ struct GoalDetailsChartEditScreen: View {
         TrackerPlotChart(
           chart.tracker!.tracker!,
           range: startDate...endDate,
+          logDate: chart.logDate,
           granularity: .week,
           context: viewContext
         )

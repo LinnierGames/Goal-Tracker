@@ -17,6 +17,7 @@ struct TrackerPlotChart: View, ChartTools {
   @ObservedObject var tracker: Tracker
   var range: ClosedRange<Date>
 
+  var logDate: ChartDate
   var granularity: DateWindow
 
   enum Width {
@@ -40,22 +41,42 @@ struct TrackerPlotChart: View, ChartTools {
   init(
     _ tracker: Tracker,
     range: ClosedRange<Date>,
+    logDate: ChartDate,
     granularity: DateWindow, width: Width = .full,
     context: NSManagedObjectContext
   ) {
     self.tracker = tracker
     self.range = range
+    self.logDate = logDate
     self.granularity = granularity
     self.width = width
 
+    typealias Result = [(Date, Int, Double, [Double])]
     self.data = Self.strideChartMarks(range: range, granularity: granularity)
-      .map { day, lowerBound, upperBound -> [(Date, Int, Double, [Double])] in
+      .map { day, lowerBound, upperBound -> Result in
         let entriesForRange: [TrackerLog] = {
           let fetch = TrackerLog.fetchRequest()
-          fetch.predicate = NSPredicate(
-            format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
-            tracker, lowerBound as NSDate, upperBound as NSDate
-          )
+          switch logDate {
+          case .start:
+            fetch.predicate = NSPredicate(
+              format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
+              tracker, lowerBound as NSDate, upperBound as NSDate
+            )
+          case .end:
+            fetch.predicate = NSPredicate(
+              format: "tracker = %@ AND endDate >= %@ AND endDate < %@",
+              tracker, lowerBound as NSDate, upperBound as NSDate
+            )
+          case .both:
+            fetch.predicate = NSPredicate(
+              format: "tracker = %@ AND "
+              + "((timestamp >= %@ AND timestamp < %@) OR"
+              + "(endDate >= %@ AND endDate < %@))",
+              tracker,
+              lowerBound as NSDate, upperBound as NSDate,
+              lowerBound as NSDate, upperBound as NSDate
+            )
+          }
 
           guard let results = try? context.fetch(fetch) else {
             assertionFailure()
@@ -69,13 +90,38 @@ struct TrackerPlotChart: View, ChartTools {
         case .day:
           return [(day, entriesForRange.count, 0.0, [])]
         case .week, .month:
-          return entriesForRange.map { entry in
+          return entriesForRange.compactMap { entry -> [Double]? in
             let formatter = DateFormatter()
             formatter.dateFormat = "HH"
-            let hour = formatter.string(from: entry.timestamp!)
 
-            return Double(hour) ?? 0
-          }.map { hour in
+
+            switch logDate {
+            case .start:
+              let hour = formatter.string(from: entry.timestamp!)
+              return [Double(hour) ?? 0]
+            case .end:
+              guard let endDate = entry.endDate else { return [0] }
+              let hour = formatter.string(from: endDate)
+              return [Double(hour) ?? 0]
+            case .both:
+              var hours = [Double]()
+
+              let startDate = entry.timestamp!
+              if startDate >= lowerBound, startDate < upperBound {
+                let hour = formatter.string(from: entry.timestamp!)
+                hours.append(Double(hour) ?? 0)
+              }
+
+              if let endDate = entry.endDate, endDate >= lowerBound, endDate < upperBound {
+                let hour = formatter.string(from: endDate)
+                hours.append(Double(hour) ?? 0)
+              }
+
+              return hours
+            }
+          }
+          .flatMap { $0 }
+          .map { hour in
             (day, 1, hour, [])
           }
         case .year:

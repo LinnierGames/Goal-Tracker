@@ -1,27 +1,11 @@
 //
-//  Goal.swift
-//  Tracker Tracker
+//  GoalChart.swift
+//  Habit Tracker
 //
-//  Created by Erick Sanchez on 1/19/23.
+//  Created by Erick Sanchez on 2/24/23.
 //
 
 import Foundation
-
-extension Goal {
-  var allTrackers: [GoalTrackerCriteria] {
-    trackers?.allManagedObjects() ?? []
-  }
-
-  var allChartSections: [GoalChartSection] {
-    chartSections?.allManagedObjects() ?? []
-  }
-}
-
-extension GoalChartSection {
-  var allCharts: [GoalChart] {
-    charts?.allManagedObjects() ?? []
-  }
-}
 
 enum ChartKind: Int16, CaseIterable, Identifiable {
   case count
@@ -71,6 +55,23 @@ enum ChartSize: Int16, CaseIterable, Identifiable {
   }
 }
 
+enum ChartDate: Int16, CaseIterable, Identifiable {
+  case start, end, both
+
+  var id: Int16 { self.rawValue }
+
+  var stringValue: String {
+    switch self {
+    case .start:
+      return "Start"
+    case .end:
+      return "End"
+    case .both:
+      return "Both"
+    }
+  }
+}
+
 extension GoalChart {
   var kind: ChartKind {
     get {
@@ -87,6 +88,15 @@ extension GoalChart {
     }
     set {
       heightRawValue = newValue.rawValue
+    }
+  }
+
+  var logDate: ChartDate {
+    get {
+      ChartDate(rawValue: dateRawValue)!
+    }
+    set {
+      dateRawValue = newValue.rawValue
     }
   }
 }

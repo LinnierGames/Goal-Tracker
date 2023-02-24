@@ -233,6 +233,7 @@ private struct ChartCell: View {
           TrackerPlotChart(
             chart.tracker!.tracker!,
             range: picker.startDate...picker.endDate,
+            logDate: chart.logDate,
             granularity: picker.selectedDateWindow, width: .short,
             context: viewContext
           )

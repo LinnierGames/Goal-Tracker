@@ -27,13 +27,14 @@
 		E104FCE5297D9BDA003AF448 /* TrackerEntryDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104FCE4297D9BDA003AF448 /* TrackerEntryDetailScreen.swift */; };
 		E104FCE7297DA796003AF448 /* GoalDetailsChartsEditScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104FCE6297DA796003AF448 /* GoalDetailsChartsEditScreen.swift */; };
 		E108119E29A48C120016312D /* ScreenTimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E108119D29A48C120016312D /* ScreenTimeService.swift */; };
+		E10811A029A937320016312D /* GoalChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = E108119F29A937320016312D /* GoalChart.swift */; };
 		E10AFC0B27DF18D5000965D9 /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10AFC0A27DF18D5000965D9 /* FilePicker.swift */; };
 		E11A949C2977BAB500FDCE41 /* TrackerDetailsSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A949B2977BAB500FDCE41 /* TrackerDetailsSettingsScreen.swift */; };
 		E11A949E2977BD1100FDCE41 /* Binding+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A949D2977BD1100FDCE41 /* Binding+Helpers.swift */; };
 		E11A94A02977CD2400FDCE41 /* TodayScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A949F2977CD2400FDCE41 /* TodayScreen.swift */; };
 		E11A94A22977CFE900FDCE41 /* Button+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A12977CFE900FDCE41 /* Button+Helpers.swift */; };
 		E11A94A42977D17100FDCE41 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A32977D17100FDCE41 /* Tracker.swift */; };
-		E11A94A6297A53AA00FDCE41 /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A5297A53AA00FDCE41 /* Goals.swift */; };
+		E11A94A6297A53AA00FDCE41 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A5297A53AA00FDCE41 /* Goal.swift */; };
 		E11A94A8297A53D600FDCE41 /* NSSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A7297A53D600FDCE41 /* NSSet.swift */; };
 		E11A94B0297A628D00FDCE41 /* GoalHabitChartPickerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94AF297A628D00FDCE41 /* GoalHabitChartPickerScreen.swift */; };
 		E11A94B2297A647C00FDCE41 /* Charts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94B1297A647C00FDCE41 /* Charts.swift */; };
@@ -56,7 +57,7 @@
 		E13F21CA2975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift */; };
 		E15FB390298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15FB38F298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift */; };
 		E15FB392298774E600A88FD0 /* TrackerLogFieldScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15FB391298774E600A88FD0 /* TrackerLogFieldScreen.swift */; };
-		E15FB395298B16EB00A88FD0 /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A5297A53AA00FDCE41 /* Goals.swift */; };
+		E15FB395298B16EB00A88FD0 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A5297A53AA00FDCE41 /* Goal.swift */; };
 		E15FB396298B16EB00A88FD0 /* NSSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A7297A53D600FDCE41 /* NSSet.swift */; };
 		E15FB397298B16EB00A88FD0 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A32977D17100FDCE41 /* Tracker.swift */; };
 		E16290E129A0D4BC009EED1C /* ExportScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16290E029A0D4BC009EED1C /* ExportScreen.swift */; };
@@ -153,13 +154,14 @@
 		E104FCE4297D9BDA003AF448 /* TrackerEntryDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerEntryDetailScreen.swift; sourceTree = "<group>"; };
 		E104FCE6297DA796003AF448 /* GoalDetailsChartsEditScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsChartsEditScreen.swift; sourceTree = "<group>"; };
 		E108119D29A48C120016312D /* ScreenTimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenTimeService.swift; sourceTree = "<group>"; };
+		E108119F29A937320016312D /* GoalChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalChart.swift; sourceTree = "<group>"; };
 		E10AFC0A27DF18D5000965D9 /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
 		E11A949B2977BAB500FDCE41 /* TrackerDetailsSettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerDetailsSettingsScreen.swift; sourceTree = "<group>"; };
 		E11A949D2977BD1100FDCE41 /* Binding+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Binding+Helpers.swift"; sourceTree = "<group>"; };
 		E11A949F2977CD2400FDCE41 /* TodayScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayScreen.swift; sourceTree = "<group>"; };
 		E11A94A12977CFE900FDCE41 /* Button+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+Helpers.swift"; sourceTree = "<group>"; };
 		E11A94A32977D17100FDCE41 /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
-		E11A94A5297A53AA00FDCE41 /* Goals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goals.swift; sourceTree = "<group>"; };
+		E11A94A5297A53AA00FDCE41 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		E11A94A7297A53D600FDCE41 /* NSSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSet.swift; sourceTree = "<group>"; };
 		E11A94AF297A628D00FDCE41 /* GoalHabitChartPickerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalHabitChartPickerScreen.swift; sourceTree = "<group>"; };
 		E11A94B1297A647C00FDCE41 /* Charts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Charts.swift; sourceTree = "<group>"; };
@@ -511,7 +513,8 @@
 				E16290EA29A3F52C009EED1C /* Tracker+HealthKit.swift */,
 				E16290EC29A43856009EED1C /* TrackerLog.swift */,
 				E16290EF29A43909009EED1C /* TrackerLog+HealthKit.swift */,
-				E11A94A5297A53AA00FDCE41 /* Goals.swift */,
+				E11A94A5297A53AA00FDCE41 /* Goal.swift */,
+				E108119F29A937320016312D /* GoalChart.swift */,
 				E11A94A7297A53D600FDCE41 /* NSSet.swift */,
 			);
 			path = CoreData;
@@ -704,6 +707,7 @@
 				E1C10D64298101C500825BCC /* NavigationSheetLink.swift in Sources */,
 				E11A94A02977CD2400FDCE41 /* TodayScreen.swift in Sources */,
 				E104203D27DBA16600051F2A /* Persistence.swift in Sources */,
+				E10811A029A937320016312D /* GoalChart.swift in Sources */,
 				E1C10D6729820A8200825BCC /* GoalDetailsChartEditScreen.swift in Sources */,
 				E1C10D6B29832BE100825BCC /* Range+Extensions.swift in Sources */,
 				E104204027DBA16600051F2A /* Habit_Tracker.xcdatamodeld in Sources */,
@@ -731,7 +735,7 @@
 				E1EF452A2995501E00DC5CC1 /* TrackerLogFieldValuesList.swift in Sources */,
 				E104204827DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift in Sources */,
 				E104204927DBA28600051F2A /* FeelingSleepy+CoreDataProperties.swift in Sources */,
-				E11A94A6297A53AA00FDCE41 /* Goals.swift in Sources */,
+				E11A94A6297A53AA00FDCE41 /* Goal.swift in Sources */,
 				E184F4E127E5ACE100BB2F2C /* Spinner.swift in Sources */,
 				E1C10D58297FB76500825BCC /* SiriButton.swift in Sources */,
 			);
@@ -749,7 +753,7 @@
 				E1EF4519298B9C5600DC5CC1 /* Common.swift in Sources */,
 				E16290EE29A43899009EED1C /* TrackerLog.swift in Sources */,
 				E104207727DBB4B400051F2A /* Habit_Tracker.xcdatamodeld in Sources */,
-				E15FB395298B16EB00A88FD0 /* Goals.swift in Sources */,
+				E15FB395298B16EB00A88FD0 /* Goal.swift in Sources */,
 				E1EF451B298B9C7A00DC5CC1 /* INLogTrackerIntentHandler.swift in Sources */,
 				E15FB396298B16EB00A88FD0 /* NSSet.swift in Sources */,
 				E104206727DBA43600051F2A /* IntentHandler.swift in Sources */,

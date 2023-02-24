@@ -10,6 +10,7 @@
         <relationship name="trackers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalTrackerCriteria" inverseName="goal" inverseEntity="GoalTrackerCriteria"/>
     </entity>
     <entity name="GoalChart" representedClassName="GoalChart" syncable="YES" codeGenerationType="class">
+        <attribute name="dateRawValue" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="heightRawValue" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="kindRawValue" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="section" maxCount="1" deletionRule="Nullify" destinationEntity="GoalChartSection" inverseName="charts" inverseEntity="GoalChartSection"/>
