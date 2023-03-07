@@ -39,6 +39,7 @@
         <relationship name="fields" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TrackerLogField" inverseName="tracker" inverseEntity="TrackerLogField"/>
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalTrackerCriteria" inverseName="tracker" inverseEntity="GoalTrackerCriteria"/>
         <relationship name="logs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TrackerLog" inverseName="tracker" inverseEntity="TrackerLog"/>
+        <relationship name="tags" toMany="YES" deletionRule="Nullify" destinationEntity="TrackerTag" inverseName="trackers" inverseEntity="TrackerTag"/>
     </entity>
     <entity name="TrackerLog" representedClassName="TrackerLog" syncable="YES" codeGenerationType="class">
         <attribute name="competionRawValue" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -62,5 +63,9 @@
         <attribute name="stringValue" optional="YES" attributeType="String"/>
         <relationship name="field" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrackerLogField" inverseName="values" inverseEntity="TrackerLogField"/>
         <relationship name="log" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrackerLog" inverseName="values" inverseEntity="TrackerLog"/>
+    </entity>
+    <entity name="TrackerTag" representedClassName="TrackerTag" syncable="YES" codeGenerationType="class">
+        <attribute name="title" attributeType="String" defaultValueString="Untitled"/>
+        <relationship name="trackers" toMany="YES" deletionRule="Nullify" destinationEntity="Tracker" inverseName="tags" inverseEntity="Tracker"/>
     </entity>
 </model>

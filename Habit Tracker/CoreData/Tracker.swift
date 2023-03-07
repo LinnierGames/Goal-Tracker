@@ -18,6 +18,10 @@ extension Tracker {
     logs?.allManagedObjects() ?? []
   }
 
+  var allTags: [TrackerTag] {
+    tags?.allManagedObjects() ?? []
+  }
+
   var allFields: [TrackerLogField] {
     fields?.allManagedObjects() ?? []
   }
@@ -53,5 +57,15 @@ extension Tracker {
     }
 
     return (managedObjectID, hasFields)
+  }
+}
+
+extension TrackerTag {
+  var allTrackers: [Tracker] {
+    trackers?.allManagedObjects() ?? []
+  }
+
+  func contains(_ tracker: Tracker) -> Bool {
+    allTrackers.contains(tracker)
   }
 }

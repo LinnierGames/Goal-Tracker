@@ -52,6 +52,15 @@ struct TrackerDetailsSettingsScreen: View {
 
         Section {
           NavigationLink {
+            TrackerDetailsSettingsTagsScreen(tracker)
+          } label: {
+            HStack {
+              Label("Tags", systemImage: "tag")
+              Spacer()
+              Text(tracker.tags!.count, format: .number)
+            }
+          }
+          NavigationLink {
             TrackerDetailsSettingsFieldsScreen(tracker)
           } label: {
             HStack {

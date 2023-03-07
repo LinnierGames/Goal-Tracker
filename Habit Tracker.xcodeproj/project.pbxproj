@@ -80,6 +80,7 @@
 		E19D36BD27E83D8800AF0490 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19D36BC27E83D8800AF0490 /* ShareViewController.swift */; };
 		E19D36C027E83D8800AF0490 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E19D36BE27E83D8800AF0490 /* MainInterface.storyboard */; };
 		E19D36C427E83D8800AF0490 /* HabitImportShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E19D36BA27E83D8800AF0490 /* HabitImportShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E1AEE24229B7ECC100255806 /* TrackerDetailsSettingsTagsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AEE24129B7ECC100255806 /* TrackerDetailsSettingsTagsScreen.swift */; };
 		E1C10D56297FB74F00825BCC /* SiriShortcutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D55297FB74F00825BCC /* SiriShortcutViewController.swift */; };
 		E1C10D58297FB76500825BCC /* SiriButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D57297FB76500825BCC /* SiriButton.swift */; };
 		E1C10D5A297FB85100825BCC /* ShortcutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D59297FB85100825BCC /* ShortcutManager.swift */; };
@@ -212,6 +213,7 @@
 		E19D36BF27E83D8800AF0490 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		E19D36C127E83D8800AF0490 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E19D36C827E84C3E00AF0490 /* HabitImportShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HabitImportShareExtension.entitlements; sourceTree = "<group>"; };
+		E1AEE24129B7ECC100255806 /* TrackerDetailsSettingsTagsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerDetailsSettingsTagsScreen.swift; sourceTree = "<group>"; };
 		E1C10D55297FB74F00825BCC /* SiriShortcutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriShortcutViewController.swift; sourceTree = "<group>"; };
 		E1C10D57297FB76500825BCC /* SiriButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriButton.swift; sourceTree = "<group>"; };
 		E1C10D59297FB85100825BCC /* ShortcutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutManager.swift; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 				E13F21BB2974FA6100E1D4FD /* TrackerDetailsChartsScreen.swift */,
 				E13F21BD2974FA7900E1D4FD /* TrackerDetailsHistoryScreen.swift */,
 				E11A949B2977BAB500FDCE41 /* TrackerDetailsSettingsScreen.swift */,
+				E1AEE24129B7ECC100255806 /* TrackerDetailsSettingsTagsScreen.swift */,
 				E15FB38F298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift */,
 				E16290E829A3F30A009EED1C /* ImportScreen.swift */,
 				E16290E029A0D4BC009EED1C /* ExportScreen.swift */,
@@ -725,6 +728,7 @@
 				E1CD70ED27DDEF6A0098DE0B /* CollectedDataScreen.swift in Sources */,
 				E1C10D5E2980545500825BCC /* GoalDetailsSettingsScreen.swift in Sources */,
 				E1C10D5A297FB85100825BCC /* ShortcutManager.swift in Sources */,
+				E1AEE24229B7ECC100255806 /* TrackerDetailsSettingsTagsScreen.swift in Sources */,
 				E13F21B4297490B400E1D4FD /* TimeInterval+Date.swift in Sources */,
 				E13F21B62974911D00E1D4FD /* Date+Extensions.swift in Sources */,
 				E16290F229A43C98009EED1C /* ExternalSyncManager.swift in Sources */,

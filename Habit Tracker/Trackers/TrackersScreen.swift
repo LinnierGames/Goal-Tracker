@@ -23,11 +23,27 @@ struct TrackersScreen: View {
         NavigationSheetLink {
           TrackerDetailScreen(tracker)
         } label: {
-          Text(tracker.title ?? "Untitled")
-            .foregroundColor(.primary)
-            .contextMenu {
-              Button(action: { addLog(for: tracker) }, title: "Add log", systemImage: "plus")
+
+          // MARK: Tracker cell
+          HStack {
+            Text(tracker.title ?? "Untitled")
+              .foregroundColor(.primary)
+
+            if !tracker.allTags.isEmpty {
+              Spacer()
+
+              HStack(spacing: 4) {
+                ForEach(tracker.allTags) { tag in
+                  Text("#" + tag.title!)
+                    .foregroundColor(.gray)
+                    .font(.caption)
+                }
+              }
             }
+          }
+          .contextMenu {
+            Button(action: { addLog(for: tracker) }, title: "Add log", systemImage: "plus")
+          }
         }
       }
       .navigationTitle("Trackers")
