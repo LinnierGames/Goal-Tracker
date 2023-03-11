@@ -10,7 +10,7 @@ import SwiftUI
 struct TrackerPickerScreen: View {
   let title: String
   let subtitle: String
-  let didPick: (Tracker) -> Void
+  let didPick: ([Tracker]) -> Void
   let disabled: (Tracker) -> Bool
   let disabledReason: (Tracker) -> String
 
@@ -21,10 +21,12 @@ struct TrackerPickerScreen: View {
   @Environment(\.dismiss)
   private var dismiss
 
+  @State private var selection = Set<Tracker>()
+
   init(
     title: String,
     subtitle: String,
-    didPick: @escaping (Tracker) -> Void,
+    didPick: @escaping ([Tracker]) -> Void,
     disabled: @escaping (Tracker) -> Bool = { _ in false },
     disabledReason: @escaping (Tracker) -> String = { _ in "" }
   ) {
@@ -37,7 +39,7 @@ struct TrackerPickerScreen: View {
 
   var body: some View {
     NavigationView {
-      List(trackers) { tracker in
+      List(trackers, selection: $selection) { tracker in
         let isDisabled = disabled(tracker)
         HStack {
           Text(tracker.title!)
@@ -49,13 +51,11 @@ struct TrackerPickerScreen: View {
               .font(.caption)
           }
         }
-        .contentShape(Rectangle())
-        .onTapGesture {
-          didPick(tracker)
-          dismiss()
-        }
         .disabled(isDisabled)
+        .tag(tracker)
       }
+      .environment(\.editMode, .constant(.active))
+
       .navigationBarTitleDisplayMode(.inline)
 
       .searchable(text: $query)
@@ -71,6 +71,13 @@ struct TrackerPickerScreen: View {
             Text(title).font(.headline)
             Text(subtitle).font(.subheadline)
           }
+        }
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Button("Add") {
+            didPick(Array(selection))
+            dismiss()
+          }
+          .disabled(selection.isEmpty)
         }
       }
     }

@@ -53,14 +53,16 @@ struct GoalDetailsSettingsTrackersScreen: View {
         TrackerPickerScreen(
           title: "Select Tracker to Add",
           subtitle: goal.title!,
-          didPick: { tracker in
+          didPick: { trackers in
             isShowingAddTrackerPicker = false
 
-            let newTracker = GoalTrackerCriteria(context: viewContext)
-            newTracker.tracker = tracker
-            newTracker.goal = goal
+            for tracker in trackers {
+              let newTracker = GoalTrackerCriteria(context: viewContext)
+              newTracker.tracker = tracker
+              newTracker.goal = goal
 
-            goal.addToTrackers(newTracker)
+              goal.addToTrackers(newTracker)
+            }
 
             try! viewContext.save()
           }, disabled: { tracker in

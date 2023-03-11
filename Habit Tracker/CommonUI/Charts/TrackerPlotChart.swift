@@ -95,6 +95,7 @@ struct TrackerPlotChart: View, ChartTools {
             formatter.dateFormat = "HH"
 
 
+            // TODO: display different plot symbols for start/end dates
             switch logDate {
             case .start:
               let hour = formatter.string(from: entry.timestamp!)
@@ -168,7 +169,7 @@ struct TrackerPlotChart: View, ChartTools {
       }
 
       // Color the sections of the day
-      if granularity != .day && false {
+      if granularity != .day {
         ForEach(
           [
             (0...6, Color.gray),
@@ -202,9 +203,9 @@ struct TrackerPlotChart: View, ChartTools {
       }
     }
     .if(granularity != .day) {
-      $0//.chartYScale(domain: 0...24)
+      $0.chartYScale(domain: 0...24)
         .chartYAxis {
-          AxisMarks(format: ChartHourFormat()/*, values: [6, 12, 18]*/)
+          AxisMarks(format: ChartHourFormat(), values: [6, 12, 18])
         }
     }
     .chartXAxis {
