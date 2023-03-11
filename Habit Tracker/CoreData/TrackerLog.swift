@@ -23,6 +23,24 @@ extension TrackerLog {
     formatter.dateFormat = "MMM yyyy, 'week' F"
     return formatter.string(from: timestamp!)
   }
+
+  static func copy(_ log: TrackerLog, in context: NSManagedObjectContext) -> TrackerLog {
+    let copy = TrackerLog(context: context)
+    copy.timestamp = log.timestamp
+    copy.endDate = log.endDate
+    copy.competionRawValue = log.competionRawValue
+    copy.notes = log.notes
+    copy.externalDataSourceID = log.externalDataSourceID
+
+    copy.tracker = log.tracker
+
+    for value in log.allValues {
+      let copyValue = TrackerLogValue.copy(value, in: context)
+      copy.addToValues(copyValue)
+    }
+
+    return copy
+  }
 }
 
 enum TrackerLogFieldType: Int16, CaseIterable, Identifiable {
@@ -104,6 +122,19 @@ extension TrackerLogValue {
     case .boolean:
       return boolValue ? "True" : "False"
     }
+  }
+
+  static func copy(_ value: TrackerLogValue, in context: NSManagedObjectContext) -> TrackerLogValue {
+    let copy = TrackerLogValue(context: context)
+    copy.boolValue = value.boolValue
+    copy.doubleValue = value.doubleValue
+    copy.integerValue = value.integerValue
+    copy.stringValue = value.stringValue
+
+    copy.field = value.field
+    copy.log = value.log
+
+    return copy
   }
 }
 

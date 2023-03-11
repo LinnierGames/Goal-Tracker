@@ -69,12 +69,24 @@ struct TrackerDetailsHistoryScreen: View {
                     .font(.caption2)
                   }
                 }
-              }
-            }
-            .onDelete { index in
-              withAnimation {
-                viewContext.delete(section[index.first!])
-                try! viewContext.save()
+                .swipeActions {
+                  Button(role: .destructive) {
+                    withAnimation {
+                      viewContext.delete(log)
+                      try! viewContext.save()
+                    }
+                  } label: {
+                    Label("Delete", systemImage: "trash")
+                  }
+                  Button {
+                    withAnimation {
+                      _ = TrackerLog.copy(log, in: viewContext)
+                      try! viewContext.save()
+                    }
+                  } label: {
+                    Label("Copy", systemImage: "rectangle.on.rectangle")
+                  }
+                }
               }
             }
           }
