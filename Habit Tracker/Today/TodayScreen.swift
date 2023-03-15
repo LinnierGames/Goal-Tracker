@@ -133,6 +133,9 @@ struct TodayTrackerCell: View {
         }
       }
     }
+    .contextMenu {
+      Button(action: addLog, title: "Add Log", systemImage: "plus")
+    }
   }
 
   private func markAsCompleted() {
@@ -143,6 +146,14 @@ struct TodayTrackerCell: View {
       newLog.timestamp = Date()
       tracker.addToLogs(newLog)
     }
+
+    try! viewContext.save()
+  }
+
+  private func addLog() {
+    let newLog = TrackerLog(context: viewContext)
+    newLog.timestamp = Date()
+    tracker.addToLogs(newLog)
 
     try! viewContext.save()
   }
