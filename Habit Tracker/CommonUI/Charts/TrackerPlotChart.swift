@@ -25,6 +25,8 @@ struct TrackerPlotChart: View, ChartTools {
   }
   var width: Width
 
+  var annotations: [GoalChartAnnotation]
+
   private struct Data: Identifiable {
     var id: TimeInterval { timestamp.timeIntervalSince1970 }
 
@@ -43,12 +45,14 @@ struct TrackerPlotChart: View, ChartTools {
     range: ClosedRange<Date>,
     logDate: ChartDate,
     granularity: DateWindow, width: Width = .full,
+    annotations: [GoalChartAnnotation],
     context: NSManagedObjectContext
   ) {
     self.tracker = tracker
     self.range = range
     self.logDate = logDate
     self.granularity = granularity
+    self.annotations = annotations
     self.width = width
 
     typealias Result = [(Date, Int, Double, [Double])]
@@ -145,62 +149,11 @@ struct TrackerPlotChart: View, ChartTools {
 
   var body: some View {
     Chart {
-      ForEach(data) { entry in
-        switch granularity {
-        case .day:
-          BarMark(x: .value("Date", entry.timestamp, unit: .hour), y: .value("Count", entry.count))
-        case .week, .month:
-          PointMark(x: .value("Date", entry.timestamp, unit: .day), y: .value("Hour", entry.hour))
-        case .year:
-          let barHeight: Double = 0.2
-          ForEach(entry.hours) { hour in
-            BarMark(
-              x: .value("Date", entry.timestamp, unit: .month),
-              yStart: .value("Hour", hour + barHeight),
-              yEnd: .value("Hour", hour - barHeight),
-              width: 12
-            )
-            .opacity(0.4)
-          }
+      chartData()
 
-          LineMark(x: .value("Date", entry.timestamp, unit: .month), y: .value("Hour", entry.hour))
-            .symbol(BasicChartSymbolShape.circle)
-        }
-      }
+      chartBackgrounds()
 
-      // Color the sections of the day
-      if granularity != .day {
-        ForEach(
-          [
-            (0...6, Color.gray),
-            (6...12, Color.orange),
-            (12...18, Color.yellow),
-            (18...24, Color.gray)
-          ],
-          id: \.0
-        ) { range, color in
-          switch granularity {
-          case .day, .week, .month:
-            RectangleMark(
-              xStart: .value("Date", self.range.lowerBound),
-              xEnd: .value("Date", self.range.upperBound),
-              yStart: .value("Hour", range.lowerBound),
-              yEnd: .value("Hour", range.upperBound)
-            )
-            .foregroundStyle(color)
-            .opacity(0.2)
-          case .year:
-            RectangleMark(
-              xStart: .value("Date", self.range.lowerBound, unit: .year),
-              xEnd: .value("Date", self.range.upperBound, unit: .year),
-              yStart: .value("Hour", range.lowerBound),
-              yEnd: .value("Hour", range.upperBound)
-            )
-            .foregroundStyle(color)
-            .opacity(0.2)
-          }
-        }
-      }
+      chartAnnotations()
     }
     .if(granularity != .day) {
       $0.chartYScale(domain: 0...24)
@@ -230,6 +183,84 @@ struct TrackerPlotChart: View, ChartTools {
           format: ChartDayFormat(.monthOfTheYear(style: width == .full ? .medium : .short)),
           values: Self.strideDates(range: range, granularity: granularity)
         )
+      }
+    }
+  }
+
+  @ChartContentBuilder
+  private func chartData() -> some ChartContent {
+    ForEach(data) { entry in
+      switch granularity {
+      case .day:
+        BarMark(x: .value("Date", entry.timestamp, unit: .hour), y: .value("Count", entry.count))
+      case .week, .month:
+        PointMark(x: .value("Date", entry.timestamp, unit: .day), y: .value("Hour", entry.hour))
+      case .year:
+        let barHeight: Double = 0.2
+        ForEach(entry.hours) { hour in
+          BarMark(
+            x: .value("Date", entry.timestamp, unit: .month),
+            yStart: .value("Hour", hour + barHeight),
+            yEnd: .value("Hour", hour - barHeight),
+            width: 12
+          )
+          .opacity(0.4)
+        }
+
+        LineMark(x: .value("Date", entry.timestamp, unit: .month), y: .value("Hour", entry.hour))
+          .symbol(BasicChartSymbolShape.circle)
+      }
+    }
+  }
+
+  // Color the sections of the day
+  @ChartContentBuilder
+  private func chartBackgrounds() -> some ChartContent {
+    if granularity != .day {
+      ForEach(
+        [
+          (0...6, Color.gray),
+          (6...12, Color.orange),
+          (12...18, Color.yellow),
+          (18...24, Color.gray)
+        ],
+        id: \.0
+      ) { range, color in
+        switch granularity {
+        case .day, .week, .month:
+          RectangleMark(
+            xStart: .value("Date", self.range.lowerBound),
+            xEnd: .value("Date", self.range.upperBound),
+            yStart: .value("Hour", range.lowerBound),
+            yEnd: .value("Hour", range.upperBound)
+          )
+          .foregroundStyle(color)
+          .opacity(0.2)
+        case .year:
+          RectangleMark(
+            xStart: .value("Date", self.range.lowerBound, unit: .year),
+            xEnd: .value("Date", self.range.upperBound, unit: .year),
+            yStart: .value("Hour", range.lowerBound),
+            yEnd: .value("Hour", range.upperBound)
+          )
+          .foregroundStyle(color)
+          .opacity(0.2)
+        }
+      }
+    }
+  }
+
+  @ChartContentBuilder
+  private func chartAnnotations() -> some ChartContent {
+    ForEach(annotations) { annotation in
+      switch annotation.kind {
+      case .line:
+        RuleMark(y: .value("Hour", annotation.yValue!.doubleValue))
+          .lineStyle(.init(lineWidth: 0.5, dash: [5, 2]))
+      case .point:
+        RuleMark(y: .value("Hour", 1))
+        // TODO: Draw points
+//          PointMark(x: .value("Date", range.lowerBound, unit: .day), y: .value("Hour", entry.hour))
       }
     }
   }

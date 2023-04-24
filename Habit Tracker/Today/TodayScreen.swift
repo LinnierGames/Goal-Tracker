@@ -112,7 +112,7 @@ struct TodayTrackerCell: View {
 
             NavigationSheetLink(buttonOnly: true) {
               NavigationView {
-                TrackerEntryDetailScreen(tracker: tracker, log: entry)
+                TrackerLogDetailScreen(tracker: tracker, log: entry)
               }
             } label: {
               Image(systemName: "bookmark.circle")

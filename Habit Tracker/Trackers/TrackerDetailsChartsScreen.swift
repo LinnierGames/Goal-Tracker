@@ -56,6 +56,7 @@ struct TrackerDetailsChartScreen: View {
             range: datePickerViewModel.startDate...datePickerViewModel.endDate,
             logDate: .both,
             granularity: datePickerViewModel.selectedDateWindow,
+            annotations: [],
             context: viewContext
           ).frame(height: 196)
         }

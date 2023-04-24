@@ -83,6 +83,7 @@ private struct GoalCellDetailView: View {
     )
   }
 
+
   var body: some View {
     VStack(alignment: .leading) {
       ForEach(sections) { section in

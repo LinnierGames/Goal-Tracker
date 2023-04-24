@@ -35,59 +35,7 @@ struct TrackerDetailsHistoryScreen: View {
         ForEach(logs) { section in
           Section(section.id) {
             ForEach(section) { log in
-              NavigationLink {
-                TrackerEntryDetailScreen(tracker: tracker, log: log)
-              } label: {
-                VStack(alignment: .leading) {
-//                  if let endDate = log.endDate {
-//                    let startDate = log.timestamp!
-//                    if startDate > endDate {
-//                      Text(endDate..<startDate, format: .interval)
-//                    } else {
-//                      Text(startDate..<endDate, format: .interval)
-//                    }
-//                  } else {
-//                    Text(log.timestampFormat)
-//                  }
-                  Text(log.timestampFormat)
-
-                  TrackerLogFieldValuesList(tracker: tracker, log: log) { field, value in
-                    HStack {
-                      Text(field.title!)
-                      Spacer()
-                      switch value {
-                      case .string(let string):
-                        Text(string)
-                      case .integer(let int):
-                        Text(int, format: .number)
-                      case .double(let double):
-                        Text(double, format: .number)
-                      case .boolean(let bool):
-                        Text(bool ? "True" : "False")
-                      }
-                    }
-                    .font(.caption2)
-                  }
-                }
-                .swipeActions {
-                  Button(role: .destructive) {
-                    withAnimation {
-                      viewContext.delete(log)
-                      try! viewContext.save()
-                    }
-                  } label: {
-                    Label("Delete", systemImage: "trash")
-                  }
-                  Button {
-                    withAnimation {
-                      _ = TrackerLog.copy(log, in: viewContext)
-                      try! viewContext.save()
-                    }
-                  } label: {
-                    Label("Copy", systemImage: "rectangle.on.rectangle")
-                  }
-                }
-              }
+              TrackerLogRow(tracker: tracker, log: log)
             }
           }
         }
@@ -117,6 +65,70 @@ struct TrackerDetailsHistoryScreen: View {
             Image(systemName: "plus")
           }
         }
+      }
+    }
+  }
+}
+
+private struct TrackerLogRow: View {
+  @ObservedObject var tracker: Tracker
+  @ObservedObject var log: TrackerLog
+
+  @Environment(\.managedObjectContext)
+  private var viewContext
+
+  var body: some View {
+    NavigationLink {
+      TrackerLogDetailScreen(tracker: tracker, log: log)
+    } label: {
+      VStack(alignment: .leading) {
+//                  if let endDate = log.endDate {
+//                    let startDate = log.timestamp!
+//                    if startDate > endDate {
+//                      Text(endDate..<startDate, format: .interval)
+//                    } else {
+//                      Text(startDate..<endDate, format: .interval)
+//                    }
+//                  } else {
+//                    Text(log.timestampFormat)
+//                  }
+        Text(log.timestampFormat)
+
+        TrackerLogFieldValuesList(tracker: tracker, log: log) { field, value in
+          HStack {
+            Text(field.title!)
+            Spacer()
+            switch value {
+            case .string(let string):
+              Text(string)
+            case .integer(let int):
+              Text(int, format: .number)
+            case .double(let double):
+              Text(double, format: .number)
+            case .boolean(let bool):
+              Text(bool ? "True" : "False")
+            }
+          }
+          .font(.caption2)
+        }
+      }
+    }
+    .swipeActions {
+      Button(role: .destructive) {
+        withAnimation {
+          viewContext.delete(log)
+          try! viewContext.save()
+        }
+      } label: {
+        Label("Delete", systemImage: "trash")
+      }
+      Button {
+        withAnimation {
+          _ = TrackerLog.copy(log, in: viewContext)
+          try! viewContext.save()
+        }
+      } label: {
+        Label("Copy", systemImage: "rectangle.on.rectangle")
       }
     }
   }

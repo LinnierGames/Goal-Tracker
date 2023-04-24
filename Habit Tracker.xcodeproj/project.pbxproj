@@ -24,7 +24,7 @@
 		E104207627DBB2F600051F2A /* FeelingSleepy+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104204627DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift */; };
 		E104207727DBB4B400051F2A /* Habit_Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E104203E27DBA16600051F2A /* Habit_Tracker.xcdatamodeld */; };
 		E104FCE3297C4A17003AF448 /* TrackerBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104FCE2297C4A17003AF448 /* TrackerBarChart.swift */; };
-		E104FCE5297D9BDA003AF448 /* TrackerEntryDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104FCE4297D9BDA003AF448 /* TrackerEntryDetailScreen.swift */; };
+		E104FCE5297D9BDA003AF448 /* TrackerLogDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104FCE4297D9BDA003AF448 /* TrackerLogDetailScreen.swift */; };
 		E104FCE7297DA796003AF448 /* GoalDetailsChartsEditScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E104FCE6297DA796003AF448 /* GoalDetailsChartsEditScreen.swift */; };
 		E108119E29A48C120016312D /* ScreenTimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E108119D29A48C120016312D /* ScreenTimeService.swift */; };
 		E10811A029A937320016312D /* GoalChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = E108119F29A937320016312D /* GoalChart.swift */; };
@@ -54,7 +54,7 @@
 		E13F21C42975284900E1D4FD /* GoalDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */; };
 		E13F21C62975287100E1D4FD /* TrackerPickerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C52975287100E1D4FD /* TrackerPickerScreen.swift */; };
 		E13F21C82975D5A000E1D4FD /* GoalDetailsChartsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */; };
-		E13F21CA2975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift */; };
+		E13F21CA2975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift */; };
 		E15FB390298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15FB38F298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift */; };
 		E15FB392298774E600A88FD0 /* TrackerLogFieldScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15FB391298774E600A88FD0 /* TrackerLogFieldScreen.swift */; };
 		E15FB395298B16EB00A88FD0 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11A94A5297A53AA00FDCE41 /* Goal.swift */; };
@@ -81,6 +81,7 @@
 		E19D36C027E83D8800AF0490 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E19D36BE27E83D8800AF0490 /* MainInterface.storyboard */; };
 		E19D36C427E83D8800AF0490 /* HabitImportShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E19D36BA27E83D8800AF0490 /* HabitImportShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E1AEE24229B7ECC100255806 /* TrackerDetailsSettingsTagsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AEE24129B7ECC100255806 /* TrackerDetailsSettingsTagsScreen.swift */; };
+		E1BE6DC429F594E1001FA1A5 /* GoalChartAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE6DC329F594E1001FA1A5 /* GoalChartAnnotation.swift */; };
 		E1C10D56297FB74F00825BCC /* SiriShortcutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D55297FB74F00825BCC /* SiriShortcutViewController.swift */; };
 		E1C10D58297FB76500825BCC /* SiriButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D57297FB76500825BCC /* SiriButton.swift */; };
 		E1C10D5A297FB85100825BCC /* ShortcutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D59297FB85100825BCC /* ShortcutManager.swift */; };
@@ -152,7 +153,7 @@
 		E104207127DBA5AF00051F2A /* Habit Tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Habit Tracker.entitlements"; sourceTree = "<group>"; };
 		E104207327DBACE200051F2A /* Habit-Tracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Habit-Tracker-Info.plist"; sourceTree = SOURCE_ROOT; };
 		E104FCE2297C4A17003AF448 /* TrackerBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerBarChart.swift; sourceTree = "<group>"; };
-		E104FCE4297D9BDA003AF448 /* TrackerEntryDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerEntryDetailScreen.swift; sourceTree = "<group>"; };
+		E104FCE4297D9BDA003AF448 /* TrackerLogDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerLogDetailScreen.swift; sourceTree = "<group>"; };
 		E104FCE6297DA796003AF448 /* GoalDetailsChartsEditScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsChartsEditScreen.swift; sourceTree = "<group>"; };
 		E108119D29A48C120016312D /* ScreenTimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenTimeService.swift; sourceTree = "<group>"; };
 		E108119F29A937320016312D /* GoalChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalChart.swift; sourceTree = "<group>"; };
@@ -183,7 +184,7 @@
 		E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailScreen.swift; sourceTree = "<group>"; };
 		E13F21C52975287100E1D4FD /* TrackerPickerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerPickerScreen.swift; sourceTree = "<group>"; };
 		E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsChartsScreen.swift; sourceTree = "<group>"; };
-		E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsSettingsHabitsScreen.swift; sourceTree = "<group>"; };
+		E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsSettingsTrackersScreen.swift; sourceTree = "<group>"; };
 		E15FB38F298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerDetailsSettingsFieldsScreen.swift; sourceTree = "<group>"; };
 		E15FB391298774E600A88FD0 /* TrackerLogFieldScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerLogFieldScreen.swift; sourceTree = "<group>"; };
 		E15FB393298B0DAF00A88FD0 /* IceBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceBox.swift; sourceTree = "<group>"; };
@@ -214,6 +215,7 @@
 		E19D36C127E83D8800AF0490 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E19D36C827E84C3E00AF0490 /* HabitImportShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HabitImportShareExtension.entitlements; sourceTree = "<group>"; };
 		E1AEE24129B7ECC100255806 /* TrackerDetailsSettingsTagsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerDetailsSettingsTagsScreen.swift; sourceTree = "<group>"; };
+		E1BE6DC329F594E1001FA1A5 /* GoalChartAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalChartAnnotation.swift; sourceTree = "<group>"; };
 		E1C10D55297FB74F00825BCC /* SiriShortcutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriShortcutViewController.swift; sourceTree = "<group>"; };
 		E1C10D57297FB76500825BCC /* SiriButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriButton.swift; sourceTree = "<group>"; };
 		E1C10D59297FB85100825BCC /* ShortcutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutManager.swift; sourceTree = "<group>"; };
@@ -388,7 +390,7 @@
 				E104FCE6297DA796003AF448 /* GoalDetailsChartsEditScreen.swift */,
 				E1C10D6629820A8200825BCC /* GoalDetailsChartEditScreen.swift */,
 				E1C10D5D2980545500825BCC /* GoalDetailsSettingsScreen.swift */,
-				E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift */,
+				E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -430,7 +432,7 @@
 			isa = PBXGroup;
 			children = (
 				E13F21C52975287100E1D4FD /* TrackerPickerScreen.swift */,
-				E104FCE4297D9BDA003AF448 /* TrackerEntryDetailScreen.swift */,
+				E104FCE4297D9BDA003AF448 /* TrackerLogDetailScreen.swift */,
 				E15FB391298774E600A88FD0 /* TrackerLogFieldScreen.swift */,
 				E1EF45292995501E00DC5CC1 /* TrackerLogFieldValuesList.swift */,
 			);
@@ -518,6 +520,7 @@
 				E16290EF29A43909009EED1C /* TrackerLog+HealthKit.swift */,
 				E11A94A5297A53AA00FDCE41 /* Goal.swift */,
 				E108119F29A937320016312D /* GoalChart.swift */,
+				E1BE6DC329F594E1001FA1A5 /* GoalChartAnnotation.swift */,
 				E11A94A7297A53D600FDCE41 /* NSSet.swift */,
 			);
 			path = CoreData;
@@ -681,8 +684,9 @@
 				E12E2C8F27E237FB002AD960 /* KeyPath.swift in Sources */,
 				E12BC20727E2488700580111 /* CSVFile.swift in Sources */,
 				E1EF452E29960B1400DC5CC1 /* ChartTools.swift in Sources */,
-				E13F21CA2975D5B000E1D4FD /* GoalDetailsSettingsHabitsScreen.swift in Sources */,
+				E13F21CA2975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift in Sources */,
 				E1C10D6D2983328E00825BCC /* Formats.swift in Sources */,
+				E1BE6DC429F594E1001FA1A5 /* GoalChartAnnotation.swift in Sources */,
 				E13F21C62975287100E1D4FD /* TrackerPickerScreen.swift in Sources */,
 				E1C10D6929832B1800825BCC /* TrackerPlotChart.swift in Sources */,
 				E16290F029A43909009EED1C /* TrackerLog+HealthKit.swift in Sources */,
@@ -696,7 +700,7 @@
 				E13F21C02974FA9A00E1D4FD /* ImportDataScreen.swift in Sources */,
 				E104207227DBAC5800051F2A /* Intents.intentdefinition in Sources */,
 				E1EF452C299602DC00DC5CC1 /* DateRatePicker.swift in Sources */,
-				E104FCE5297D9BDA003AF448 /* TrackerEntryDetailScreen.swift in Sources */,
+				E104FCE5297D9BDA003AF448 /* TrackerLogDetailScreen.swift in Sources */,
 				E13F21B0297336E300E1D4FD /* ButtonFill.swift in Sources */,
 				E16290E529A1F6EE009EED1C /* HealthKit+Sleep.swift in Sources */,
 				E1C10D622980595C00825BCC /* ActionSheetLink.swift in Sources */,
@@ -928,6 +932,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Habit Tracker/Preview Content\"";
 				DEVELOPMENT_TEAM = 8U3L6K9JA6;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 8U3L6K9JA6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Habit-Tracker-Info.plist";
@@ -948,6 +953,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.linniergames.Habit-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Habit Tracker Dev Profile";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Habit Tracker Dev Profile";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -966,6 +972,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Habit Tracker/Preview Content\"";
 				DEVELOPMENT_TEAM = 8U3L6K9JA6;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 8U3L6K9JA6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Habit-Tracker-Info.plist";
@@ -986,6 +993,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.linniergames.Habit-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Habit Tracker Dev Profile";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Habit Tracker Dev Profile";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1027,7 +1035,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 8U3L6K9JA6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HabitIntents/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = HabitIntents;

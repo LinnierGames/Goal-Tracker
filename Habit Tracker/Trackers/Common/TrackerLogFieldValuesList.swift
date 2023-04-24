@@ -8,39 +8,39 @@
 import CoreData
 import SwiftUI
 
+enum TrackerLogFieldValue {
+  case string(String)
+  case integer(Int)
+  case boolean(Bool)
+  case double(Double)
+
+  var stringValue: String {
+    switch self {
+    case .string(let value):
+      return value
+    case .integer(let value):
+      return String(value)
+    case .double(let value):
+      return String(value)
+    case .boolean(let value):
+      return value ? "True" : "False"
+    }
+  }
+
+  var boolValue: Bool {
+    switch self {
+    case .string, .integer, .double:
+      return false
+    case .boolean(let value):
+      return value
+    }
+  }
+}
+
 /// List builder for fields with existing values
 struct TrackerLogFieldValuesList<Content: View>: View {
   @ObservedObject var tracker: Tracker
   @ObservedObject var log: TrackerLog
-
-  enum TrackerLogFieldValue {
-    case string(String)
-    case integer(Int)
-    case boolean(Bool)
-    case double(Double)
-
-    var stringValue: String {
-      switch self {
-      case .string(let value):
-        return value
-      case .integer(let value):
-        return String(value)
-      case .double(let value):
-        return String(value)
-      case .boolean(let value):
-        return value ? "True" : "False"
-      }
-    }
-
-    var boolValue: Bool {
-      switch self {
-      case .string, .integer, .double:
-        return false
-      case .boolean(let value):
-        return value
-      }
-    }
-  }
 
   private let content: (TrackerLogField, TrackerLogFieldValue) -> Content
 

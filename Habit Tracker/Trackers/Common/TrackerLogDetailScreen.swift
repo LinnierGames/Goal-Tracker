@@ -8,7 +8,7 @@
 import CoreData
 import SwiftUI
 
-struct TrackerEntryDetailScreen: View {
+struct TrackerLogDetailScreen: View {
   @ObservedObject var tracker: Tracker
   @ObservedObject var log: TrackerLog
 

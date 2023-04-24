@@ -104,4 +104,8 @@ extension GoalChart {
       dateRawValue = newValue.rawValue
     }
   }
+
+  var allAnnotations: [GoalChartAnnotation] {
+    annotations?.allManagedObjects() ?? []
+  }
 }

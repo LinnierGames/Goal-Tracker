@@ -225,7 +225,8 @@ private struct ChartCell: View {
           TrackerBarChart(
             chart.tracker!.tracker!,
             range: picker.startDate...picker.endDate,
-            granularity: picker.selectedDateWindow, width: .short,
+            granularity: picker.selectedDateWindow,
+            width: .short,
             context: viewContext
           )
           .frame(width: 196, height: chart.height.floatValue)
@@ -234,7 +235,9 @@ private struct ChartCell: View {
             chart.tracker!.tracker!,
             range: picker.startDate...picker.endDate,
             logDate: chart.logDate,
-            granularity: picker.selectedDateWindow, width: .short,
+            granularity: picker.selectedDateWindow,
+            width: .short,
+            annotations: chart.allAnnotations,
             context: viewContext
           )
           .frame(width: 196, height: chart.height.floatValue)
