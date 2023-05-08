@@ -98,6 +98,38 @@
             endingLineNumber = "82"
             landmarkName = "sleepData(date:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F0879D1F-D10C-4F02-9784-B2749BD303FD - 8e5103299dc3f0e7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.HKSampleQuery, Swift.Optional&lt;Swift.Array&lt;__C.HKSample&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (Swift.CheckedContinuation&lt;Swift.Array&lt;Habit_Tracker.SleepSample&gt;, Swift.Error&gt;) -&gt; () in Habit_Tracker.HealthKitService.sleepData(date: Swift.ClosedRange&lt;Foundation.Date&gt;) async throws -&gt; Swift.Array&lt;Habit_Tracker.SleepSample&gt;"
+                  moduleName = "Habit Tracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/Habit%20Tracker/Services/HealthKit+Sleep.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "82"
+                  endingLineNumber = "82"
+                  offsetFromSymbolStart = "1220">
+               </Location>
+               <Location
+                  uuid = "F0879D1F-D10C-4F02-9784-B2749BD303FD - 8e5103299dc3f0e7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.HKSampleQuery, Swift.Optional&lt;Swift.Array&lt;__C.HKSample&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (Swift.CheckedContinuation&lt;Swift.Array&lt;Habit_Tracker.SleepSample&gt;, Swift.Error&gt;) -&gt; () in Habit_Tracker.HealthKitService.sleepData(date: Swift.ClosedRange&lt;Foundation.Date&gt;) async throws -&gt; Swift.Array&lt;Habit_Tracker.SleepSample&gt;"
+                  moduleName = "Habit Tracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/esericksanc/Developer/My-Projects/Goals/iOS-App/Habit%20Tracker/Services/HealthKit+Sleep.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "82"
+                  endingLineNumber = "82"
+                  offsetFromSymbolStart = "1236">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

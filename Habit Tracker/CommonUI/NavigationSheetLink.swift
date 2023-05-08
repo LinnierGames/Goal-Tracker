@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Pretend cheveron sheet
 struct NavigationSheetLink<Destination: View, Label: View>: View {
   let buttonOnly: Bool
   let destination: () -> Destination
@@ -14,6 +15,10 @@ struct NavigationSheetLink<Destination: View, Label: View>: View {
 
   @State private var isShowingSheet = false
 
+  /// Init
+  ///
+  /// - Parameters:
+  ///   - buttonOnly: 'false' to show the navigation cheveron
   init(
     buttonOnly: Bool = false,
     @ViewBuilder destination: @escaping () -> Destination,
