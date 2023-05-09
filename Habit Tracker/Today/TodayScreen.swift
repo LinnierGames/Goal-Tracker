@@ -116,6 +116,7 @@ struct TodayTrackerCell: View {
               }
             } label: {
               Image(systemName: "bookmark.circle")
+                .foregroundColor(.primary)
             }
           }
         }

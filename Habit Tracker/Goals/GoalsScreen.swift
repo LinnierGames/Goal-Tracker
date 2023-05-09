@@ -144,6 +144,7 @@ private struct TrackerGridRow: View {
     } label: {
       HStack(spacing: 0) {
         Text(tracker.title ?? "Untitled")
+          .foregroundColor(.primary)
           .font(.caption2)
           .lineLimit(1)
           .padding(.trailing, 2)
@@ -155,13 +156,13 @@ private struct TrackerGridRow: View {
               TrackerLogDetailScreen(tracker: tracker, log: log)
             }
           } label: {
-            Image(systemName: "checkmark.circle.fill")
-              .foregroundColor(.green)
+            Image(systemName: "bookmark.circle")
+              .foregroundColor(.primary)
           }
         }
         Image(systemName: "chevron.forward")
+          .foregroundColor(.primary)
       }
-      .foregroundColor(.primary)
       .padding(6)
       .background(Color.secondary.opacity(0.5))
       .cornerRadius(8)
