@@ -45,6 +45,15 @@ struct GoalDetailsSettingsScreen: View {
         }
 
         Section {
+          HStack {
+            Spacer()
+            Button(goal.isArchived ? "Unarchive Goal" : "Archive Goal") {
+              goal.isArchived.toggle()
+              try! viewContext.save()
+            }
+            Spacer()
+          }
+
           ActionSheetLink(title: "Delete Goal") {
             Button("Delete Goal", role: .destructive) {
               viewContext.delete(goal)

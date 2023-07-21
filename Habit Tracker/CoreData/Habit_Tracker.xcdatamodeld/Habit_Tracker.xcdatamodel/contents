@@ -5,6 +5,7 @@
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="Goal" representedClassName="Goal" syncable="YES" codeGenerationType="class">
+        <attribute name="isArchived" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="chartSections" toMany="YES" deletionRule="Cascade" destinationEntity="GoalChartSection" inverseName="goal" inverseEntity="GoalChartSection"/>
         <relationship name="trackers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalTrackerCriteria" inverseName="goal" inverseEntity="GoalTrackerCriteria"/>

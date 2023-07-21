@@ -15,8 +15,17 @@ struct GoalsScreen: View {
 
   @AppStorage("SHOW_TRACKERS_IN_GOALS") private var showTrackers = true
 
-  @FetchRequest(sortDescriptors: [SortDescriptor(\.title)])
+  @FetchRequest(
+    sortDescriptors: [SortDescriptor(\.title)],
+    predicate: NSPredicate(format: "isArchived == NO")
+  )
   private var goals: FetchedResults<Goal>
+  
+  @FetchRequest(
+    sortDescriptors: [SortDescriptor(\.title)],
+    predicate: NSPredicate(format: "isArchived == YES")
+  )
+  private var archived: FetchedResults<Goal>
 
   @Environment(\.managedObjectContext)
   private var viewContext
@@ -27,6 +36,21 @@ struct GoalsScreen: View {
         LazyVStack {
           ForEach(goals) { goal in
             GoalCellDetailView(goal, showTrackers: showTrackers)
+          }
+
+          if !archived.isEmpty {
+            NavigationLink {
+              GoalsArchivedScreen()
+            } label: {
+              HStack {
+                Text("Acrhived Goals")
+                Spacer()
+                Text(archived.count, format: .number)
+              }
+              .padding()
+              .background(Color.secondary.opacity(0.2))
+              .cornerRadius(12)
+            }
           }
         }
         .navigationTitle("Goals")
@@ -96,21 +120,24 @@ private struct GoalCellDetailView: View {
             Text(goal.title!)
               .foregroundColor(.primary)
               .font(.title2)
+
+            Spacer()
           }
 
           // Goal sections names and chart
-          HStack(alignment: .top) {
-            VStack(alignment: .leading) {
-              ForEach(sections) { section in
-                Text(section.title!)
-              }
-            }
-            .foregroundColor(.primary)
-            .font(.caption)
-            Spacer()
-            RandomChart(.line)
-              .frame(width: 164, height: 32)
-          }
+          // TODO: Add grades
+//          HStack(alignment: .top) {
+//            VStack(alignment: .leading) {
+//              ForEach(sections) { section in
+//                Text(section.title!)
+//              }
+//            }
+//            .foregroundColor(.primary)
+//            .font(.caption)
+//            Spacer()
+//            RandomChart(.line)
+//              .frame(width: 164, height: 32)
+//          }
         }
       }
 
