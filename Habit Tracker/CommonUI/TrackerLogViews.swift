@@ -99,10 +99,17 @@ private struct ThisWeeksTrackerLogView: View {
               .strokeBorder()
               .frame(height: 16)
           } else {
-            Rectangle()
-              .strokeBorder()
-              .background(Color.green)
-              .frame(height: 16)
+            if Calendar.current.isDateInToday(date) {
+              Rectangle()
+                .strokeBorder()
+                .background(Color.green)
+                .frame(height: 16)
+            } else {
+              Rectangle()
+                .strokeBorder()
+                .background(Color.green.opacity(0.35))
+                .frame(height: 16)
+            }
           }
         }
       }

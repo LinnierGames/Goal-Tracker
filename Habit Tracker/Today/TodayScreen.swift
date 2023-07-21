@@ -96,25 +96,56 @@ struct TodayTrackerCell: View {
       NavigationSheetLink {
         TrackerDetailScreen(tracker)
       } label: {
-        HStack {
-          VStack(alignment: .leading) {
+        VStack {
+          HStack {
             Text(tracker.title!)
+              .lineLimit(1)
               .foregroundColor(.primary)
-            TrackerLogView.thisWeeks(tracker: tracker)
-          }
 
-          if let entry = entryOverride ?? tracker.mostRecentLog, isTrackerLoggedToday(tracker) {
             Spacer()
 
-            NavigationSheetLink(buttonOnly: true) {
-              NavigationView {
-                TrackerLogDetailScreen(tracker: tracker, log: entry)
+            if let entryOverride {
+              HStack {
+                Text("\(entryOverride.timestamp!, style: .time)")
+                  .font(.caption)
+                  .foregroundColor(.gray)
+
+                NavigationSheetLink(buttonOnly: true) {
+                  NavigationView {
+                    TrackerLogDetailScreen(tracker: tracker, log: entryOverride)
+                  }
+                } label: {
+                  Image(systemName: "bookmark.circle")
+                    .foregroundColor(.primary)
               }
-            } label: {
-              Image(systemName: "bookmark.circle")
-                .foregroundColor(.primary)
+              }
+            } else {
+              MostRecentLog(tracker: tracker) { log in
+                if isTrackerLoggedToday(tracker) {
+                  HStack {
+                    Text("\(log.timestamp!, style: .time)")
+                      .font(.caption)
+                      .foregroundColor(.gray)
+
+                    NavigationSheetLink(buttonOnly: true) {
+                      NavigationView {
+                        TrackerLogDetailScreen(tracker: tracker, log: log)
+                      }
+                    } label: {
+                      Image(systemName: "bookmark.circle")
+                        .foregroundColor(.primary)
+                    }
+                  }
+                } else {
+                  Text("\(log.timestamp!, style: .date) at \(log.timestamp!, style: .time)")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                }
+              }
             }
           }
+
+          TrackerLogView.thisWeeks(tracker: tracker)
         }
       }
     }
