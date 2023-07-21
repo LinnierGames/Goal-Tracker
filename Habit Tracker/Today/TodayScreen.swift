@@ -100,11 +100,7 @@ struct TodayTrackerCell: View {
           VStack(alignment: .leading) {
             Text(tracker.title!)
               .foregroundColor(.primary)
-            if let entry = entryOverride ?? tracker.mostRecentLog {
-              Text("\(entry.timestamp!, style: .date) at \(entry.timestamp!, style: .time)")
-                .font(.caption)
-                .foregroundColor(.gray)
-            }
+            TrackerLogView.thisWeeks(tracker: tracker)
           }
 
           if let entry = entryOverride ?? tracker.mostRecentLog, isTrackerLoggedToday(tracker) {

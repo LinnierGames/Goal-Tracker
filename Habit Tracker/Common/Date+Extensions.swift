@@ -12,6 +12,12 @@ extension Date {
     Calendar.current.startOfDay(for: self)
   }
 
+  var startOfWeek: Date {
+      let gregorian = Calendar(identifier: .gregorian)
+      guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { fatalError() }
+      return gregorian.date(byAdding: .day, value: 1, to: sunday)!
+  }
+
   func set(
     second: Int? = nil,
     minute: Int? = nil,
