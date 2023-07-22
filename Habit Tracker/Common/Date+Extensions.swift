@@ -59,4 +59,78 @@ extension Date {
 
     return date
   }
+
+  // today, yesterday, 2 days ago, x days ago, a week ago, x weeks ago, a month ago, x months ago, a year ago
+  var timeAgo: String {
+    let calendar = Calendar.current
+    let now = Date()
+
+    if calendar.isDateInToday(self) {
+      return "Today"
+    }
+
+    if calendar.isDateInYesterday(self) {
+      return "Yesterday"
+    } else if self < now {
+      let components = calendar.dateComponents([.day, .weekOfYear, .month, .year], from: self, to: now)
+      if components.year ?? 0 > 0 {
+        if components.year == 1 {
+          return "A year ago"
+        } else {
+          return "\(components.year!) years ago"
+        }
+      } else if components.month ?? 0 > 0 {
+        if components.month == 1 {
+          return "A month ago"
+        } else {
+          return "\(components.month!) months ago"
+        }
+      } else if components.weekOfYear ?? 0 > 0 {
+        if components.weekOfYear == 1 {
+          return "A week ago"
+        } else {
+          return "\(components.weekOfYear!) weeks ago"
+        }
+      } else if components.day ?? 0 > 0 {
+        if components.day == 1 {
+          return "A day ago"
+        } else {
+          return "\(components.day!) days ago"
+        }
+      }
+    }
+
+    if calendar.isDateInTomorrow(self) {
+      return "Tomorrow"
+    } else if self > now {
+      let components = calendar.dateComponents([.day, .weekOfYear, .month, .year], from: now, to: self)
+      if components.year ?? 0 > 0 {
+        if components.year == 1 {
+          return "In a year"
+        } else {
+          return "In \(components.year!) years"
+        }
+      } else if components.month ?? 0 > 0 {
+        if components.month == 1 {
+          return "In a month"
+        } else {
+          return "In \(components.month!) months"
+        }
+      } else if components.weekOfYear ?? 0 > 0 {
+        if components.weekOfYear == 1 {
+          return "In a week"
+        } else {
+          return "In \(components.weekOfYear!) weeks"
+        }
+      } else if components.day ?? 0 > 0 {
+        if components.day == 1 {
+          return "In a day"
+        } else {
+          return "In \(components.day!) days"
+        }
+      }
+    }
+
+    return ""
+  }
 }

@@ -87,11 +87,11 @@ struct TodayTrackerCell: View {
 
   var body: some View {
     HStack {
-      let trackedForToday = isTrackerLoggedToday(tracker)
-      Image(systemName: trackedForToday ? "checkmark.circle.fill" : "checkmark.circle")
-        .imageScale(.large)
-        .foregroundColor(trackedForToday ? .green : .primary)
-        .onTapGesture(perform: markAsCompleted)
+//      let trackedForToday = isTrackerLoggedToday(tracker)
+//      Image(systemName: trackedForToday ? "checkmark.circle.fill" : "checkmark.circle")
+//        .imageScale(.large)
+//        .foregroundColor(trackedForToday ? .green : .primary)
+//        .onTapGesture(perform: markAsCompleted)
 
       NavigationSheetLink {
         TrackerDetailScreen(tracker)
@@ -137,7 +137,7 @@ struct TodayTrackerCell: View {
                     }
                   }
                 } else {
-                  Text("\(log.timestamp!, style: .date) at \(log.timestamp!, style: .time)")
+                  Text(log.timestamp!.timeAgo)
                     .font(.caption)
                     .foregroundColor(.gray)
                 }
