@@ -76,7 +76,11 @@ struct TrackerLogView<Content: View>: View {
 
 extension TrackerLogView where Content == EmptyView {
   static func thisWeeks(tracker: Tracker) -> some View {
-    ThisWeeksTrackerLogView(tracker: tracker)
+    ThisWeeksTrackerLogView(tracker: tracker, window: .week)
+  }
+
+  static func dateRange(tracker: Tracker, window: DateWindow) -> some View {
+    ThisWeeksTrackerLogView(tracker: tracker, window: window)
   }
 }
 
@@ -84,10 +88,50 @@ private struct ThisWeeksTrackerLogView: View {
   @ObservedObject var tracker: Tracker
   private let dates: [Date]
 
-  init(tracker: Tracker) {
+  init(tracker: Tracker, window: DateWindow) {
     self._tracker = ObservedObject(initialValue: tracker)
-    let startOfWeek = Date().startOfWeek
-    self.dates = Array(stride(from: startOfWeek, to: startOfWeek.addingTimeInterval(.init(days: 7)), by: .init(days: 1)))
+
+    let now = Date()
+    let start: Date
+    let calendar = Calendar.current
+    switch window {
+    case .day:
+      start = now.midnight
+    case .week:
+      let sunday = calendar.date(
+        from: calendar.dateComponents(
+          [.yearForWeekOfYear, .weekOfYear],
+          from: now
+        )
+      )
+
+      start = calendar.date(byAdding: .day, value: 0, to: sunday!)!
+    case .month:
+      start = now.set(day: 1)
+    case .year:
+      start = now.set(day: 1, month: 1)
+    }
+
+    let end: Date
+    switch window {
+    case .day:
+      end = calendar.date(byAdding: .day, value: 1, to: start)!
+    case .week:
+      end = calendar.date(byAdding: .weekOfYear, value: 1, to: start)!
+    case .month:
+      end = calendar.date(byAdding: .month, value: 1, to: start)!
+    case .year:
+      end = calendar.date(byAdding: .year, value: 1, to: start)!
+    }
+
+    let step: TimeInterval
+    if window == .day {
+      step = .init(hours: 1)
+    } else {
+      step = .init(days: 1)
+    }
+
+    self.dates = Array(stride(from: start, to: end, by: step))
   }
 
   var body: some View {

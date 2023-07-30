@@ -53,22 +53,48 @@ struct TodayScreen: View {
   )
   private var logsForToday: FetchedResults<TrackerLog>
 
+  private enum ViewStyle: String {
+    case weekly, monthly, yealy
+
+    var dateWindow: DateWindow {
+      switch self {
+      case .weekly:
+        return .week
+      case .monthly:
+        return .month
+      case .yealy:
+        return .year
+      }
+    }
+  }
+  @AppStorage("TODAY_SCREEN_VIEW_STYLE") private var viewStyle = ViewStyle.weekly
+
   var body: some View {
     NavigationView {
       List {
         ForEach(trackers) { tracker in
-          TodayTrackerCell(tracker)
+          TodayTrackerCell(tracker, dateWindow: viewStyle.dateWindow)
         }
 
         if !logsForToday.isEmpty {
           Section("Other Trackers") {
             ForEach(logsForToday) { log in
-              TodayTrackerCell(log.tracker!, entryOverride: log)
+              TodayTrackerCell(log.tracker!, dateWindow: viewStyle.dateWindow, entryOverride: log)
             }
           }
         }
       }
       .navigationTitle("Today")
+      .toolbar {
+        ToolbarItem {
+          Picker("", selection: $viewStyle) {
+            Text("W").tag(ViewStyle.weekly)
+            Text("M").tag(ViewStyle.monthly)
+            Text("Y").tag(ViewStyle.yealy)
+          }
+          .pickerStyle(.segmented)
+        }
+      }
     }
   }
 }
@@ -76,12 +102,14 @@ struct TodayScreen: View {
 struct TodayTrackerCell: View {
   let entryOverride: TrackerLog?
   @ObservedObject var tracker: Tracker
+  let dateWindow: DateWindow
 
   @Environment(\.managedObjectContext)
   private var viewContext
 
-  init(_ tracker: Tracker, entryOverride: TrackerLog? = nil) {
+  init(_ tracker: Tracker, dateWindow: DateWindow, entryOverride: TrackerLog? = nil) {
     self.tracker = tracker
+    self.dateWindow = dateWindow
     self.entryOverride = entryOverride
   }
 
@@ -145,7 +173,7 @@ struct TodayTrackerCell: View {
             }
           }
 
-          TrackerLogView.thisWeeks(tracker: tracker)
+          TrackerLogView.dateRange(tracker: tracker, window: dateWindow)
         }
       }
     }
