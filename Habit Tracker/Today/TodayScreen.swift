@@ -90,7 +90,8 @@ struct TodayScreen: View {
           Picker("", selection: $viewStyle) {
             Text("W").tag(ViewStyle.weekly)
             Text("M").tag(ViewStyle.monthly)
-            Text("Y").tag(ViewStyle.yealy)
+            // TODO: Compute the year in Today view
+//            Text("Y").tag(ViewStyle.yealy)
           }
           .pickerStyle(.segmented)
         }
@@ -132,45 +133,7 @@ struct TodayTrackerCell: View {
 
             Spacer()
 
-            if let entryOverride {
-              HStack {
-                Text("\(entryOverride.timestamp!, style: .time)")
-                  .font(.caption)
-                  .foregroundColor(.gray)
-
-                NavigationSheetLink(buttonOnly: true) {
-                  NavigationView {
-                    TrackerLogDetailScreen(tracker: tracker, log: entryOverride)
-                  }
-                } label: {
-                  Image(systemName: "bookmark.circle")
-                    .foregroundColor(.primary)
-              }
-              }
-            } else {
-              MostRecentLog(tracker: tracker) { log in
-                if isTrackerLoggedToday(tracker) {
-                  HStack {
-                    Text("\(log.timestamp!, style: .time)")
-                      .font(.caption)
-                      .foregroundColor(.gray)
-
-                    NavigationSheetLink(buttonOnly: true) {
-                      NavigationView {
-                        TrackerLogDetailScreen(tracker: tracker, log: log)
-                      }
-                    } label: {
-                      Image(systemName: "bookmark.circle")
-                        .foregroundColor(.primary)
-                    }
-                  }
-                } else {
-                  Text(log.timestamp!.timeAgo)
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                }
-              }
-            }
+            mostRecentLog()
           }
 
           TrackerLogView.dateRange(tracker: tracker, window: dateWindow)
@@ -191,6 +154,47 @@ struct TodayTrackerCell: View {
     }
     .contextMenu {
       Button(action: addLog, title: "Add Log", systemImage: "plus")
+    }
+  }
+
+  @ViewBuilder
+  private func mostRecentLog() -> some View {
+    if let entryOverride {
+      HStack {
+        Text("\(entryOverride.timestamp!, style: .time)")
+          .font(.caption)
+          .foregroundColor(.gray)
+
+        NavigationSheetLink(buttonOnly: true) {
+          NavigationView {
+            TrackerLogDetailScreen(tracker: tracker, log: entryOverride)
+          }
+        } label: {
+          Image(systemName: "bookmark.circle")
+            .foregroundColor(.primary)
+        }
+      }
+    } else {
+      MostRecentLog(tracker: tracker) { log in
+        if isTrackerLoggedToday(tracker) {
+          NavigationSheetLink(buttonOnly: true) {
+            NavigationView {
+              TrackerLogDetailScreen(tracker: tracker, log: log)
+            }
+          } label: {
+            Text("Today, \(log.timestamp!, style: .time)")
+              .font(.caption)
+              .foregroundColor(.gray)
+              .padding(.vertical, 4)
+              .padding(.horizontal, 8)
+              .background(Capsule().stroke(Color.gray))
+          }
+        } else {
+          Text(log.timestamp!.timeAgo)
+            .font(.caption)
+            .foregroundColor(.gray)
+        }
+      }
     }
   }
 
