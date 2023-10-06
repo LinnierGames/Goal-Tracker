@@ -145,13 +145,6 @@ struct TodayTrackerCell: View {
         Label("Done", systemImage: "checkmark")
       }
     }
-    .if(tracker.showInTodayView) {
-      $0.swipeActions(edge: .trailing) {
-        Button(action: hideFromTodayView) {
-          Label("Hide", systemImage: "eye.slash")
-        }
-      }
-    }
     .contextMenu {
       Button(action: addLog, title: "Add Log", systemImage: "plus")
     }
