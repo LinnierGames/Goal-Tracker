@@ -35,6 +35,20 @@ struct TrackerDetailsSettingsScreen: View {
               }
               .submitLabel(.done)
           }
+          NavigationLink {
+            TextEditorScreen(text: $tracker.notes.mapOptional(defaultValue: ""))
+              .onDisappear {
+                try! viewContext.save()
+              }
+          } label: {
+            VStack(alignment: .leading, spacing: 12) {
+              Label("Notes", systemImage: "square.text.square")
+              if !(tracker.notes?.isEmpty ?? true) {
+                Text(tracker.notes ?? "")
+                  .lineLimit(10)
+              }
+            }
+          }
         }
 
         Section {
