@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct SheetLink<Destination: View, Label: View>: View {
+  let fullScreen: Bool
   let destination: Destination
   let label: Label
 
   @State private var isShowingSheet = false
 
-  init(@ViewBuilder destination: () -> Destination, @ViewBuilder label: () -> Label) {
+  init(fullScreen: Bool = false, @ViewBuilder destination: () -> Destination, @ViewBuilder label: () -> Label) {
+    self.fullScreen = fullScreen
     self.destination = destination()
     self.label = label()
   }
@@ -24,8 +26,14 @@ struct SheetLink<Destination: View, Label: View>: View {
     } label: {
       label
     }
-    .sheet(isPresented: $isShowingSheet) {
-      destination
+    .if(fullScreen) {
+      $0.fullScreenCover(isPresented: $isShowingSheet) {
+        destination
+      }
+    }.if(!fullScreen) {
+      $0.sheet(isPresented: $isShowingSheet) {
+        destination
+      }
     }
   }
 }

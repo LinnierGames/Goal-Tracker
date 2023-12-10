@@ -53,8 +53,19 @@ struct GoalsScreen: View {
             }
           }
         }
-        .navigationTitle("Goals")
-        .toolbar {
+      }
+      .padding(.horizontal)
+
+      .navigationTitle("Goals")
+      .toolbar {
+        ToolbarItemGroup(placement: .topBarLeading) {
+          SheetLink(fullScreen: true) {
+            GoalDashboardsScreen()
+          } label: {
+            Image(systemName: "list.bullet.clipboard")
+          }
+        }
+        ToolbarItemGroup(placement: .topBarTrailing) {
           Button { withAnimation { showTrackers.toggle() } } label: {
             Image(systemName: showTrackers ? "eye.fill" : "eye")
           }
@@ -63,7 +74,6 @@ struct GoalsScreen: View {
           }
         }
       }
-      .padding(.horizontal)
     }
     .alert("Add Goal", isPresented: $isNewGoalAlertShowing, actions: {
       TextField("Title", text: $newGoalTitle)

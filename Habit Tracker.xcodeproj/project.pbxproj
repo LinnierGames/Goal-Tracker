@@ -73,6 +73,7 @@
 		E16290F429A43DBF009EED1C /* HealthKitSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16290F329A43DBF009EED1C /* HealthKitSync.swift */; };
 		E16A9EA427E0E01A007092CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16A9EA327E0E01A007092CD /* AppDelegate.swift */; };
 		E16A9EA827E0E8FD007092CD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = E16A9EA727E0E8FD007092CD /* Moya */; };
+		E17F97E02B259A6D00A62346 /* GoalDashboardsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17F97DF2B259A6D00A62346 /* GoalDashboardsScreen.swift */; };
 		E184F4E127E5ACE100BB2F2C /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184F4E027E5ACE100BB2F2C /* Spinner.swift */; };
 		E184F4E327E5AEC800BB2F2C /* AlertContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184F4E227E5AEC800BB2F2C /* AlertContent.swift */; };
 		E184F4E727E5BA1E00BB2F2C /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184F4E627E5BA1E00BB2F2C /* PDFView.swift */; };
@@ -204,6 +205,7 @@
 		E16290F329A43DBF009EED1C /* HealthKitSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitSync.swift; sourceTree = "<group>"; };
 		E16A9EA327E0E01A007092CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E16A9EA927E0F51D007092CD /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		E17F97DF2B259A6D00A62346 /* GoalDashboardsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDashboardsScreen.swift; sourceTree = "<group>"; };
 		E184F4E027E5ACE100BB2F2C /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
 		E184F4E227E5AEC800BB2F2C /* AlertContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertContent.swift; sourceTree = "<group>"; };
 		E184F4E427E5B0F000BB2F2C /* ReportsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsScreen.swift; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 			children = (
 				E11A94AE297A628A00FDCE41 /* Common */,
 				E13F21C12974FAA800E1D4FD /* GoalsScreen.swift */,
+				E17F97DF2B259A6D00A62346 /* GoalDashboardsScreen.swift */,
 				E1BA80512A6A3D9900388928 /* GoalsArchivedScreen.swift */,
 				E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */,
 				E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */,
@@ -690,6 +693,7 @@
 				E12BC20527E2451100580111 /* RemoteStoreAPI.swift in Sources */,
 				E16A9EA427E0E01A007092CD /* AppDelegate.swift in Sources */,
 				E16290ED29A43856009EED1C /* TrackerLog.swift in Sources */,
+				E17F97E02B259A6D00A62346 /* GoalDashboardsScreen.swift in Sources */,
 				E12E2C8F27E237FB002AD960 /* KeyPath.swift in Sources */,
 				E12BC20727E2488700580111 /* CSVFile.swift in Sources */,
 				E1EF452E29960B1400DC5CC1 /* ChartTools.swift in Sources */,
