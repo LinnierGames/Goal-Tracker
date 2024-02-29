@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// TODO: try Conversational Intents for "Mark eating "cearal" for "breakfast"
+
 @main
 struct Tracker_TrackerApp: App {
   let persistenceController = PersistenceController.shared

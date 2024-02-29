@@ -125,18 +125,22 @@ struct TodayTrackerCell: View {
       NavigationSheetLink {
         TrackerDetailScreen(tracker)
       } label: {
-        VStack {
-          HStack {
-            Text(tracker.title!)
-              .lineLimit(1)
-              .foregroundColor(.primary)
+        HStack {
+          VStack {
+            HStack {
+              Text(tracker.title!)
+                .lineLimit(1)
+                .foregroundColor(.primary)
 
-            Spacer()
+              Spacer()
 
-            mostRecentLog()
+              mostRecentLog()
+            }
+
+            TrackerLogView.dateRange(tracker: tracker, window: dateWindow)
           }
 
-          TrackerLogView.dateRange(tracker: tracker, window: dateWindow)
+          actionButton()
         }
       }
     }
@@ -151,21 +155,42 @@ struct TodayTrackerCell: View {
   }
 
   @ViewBuilder
+  private func actionButton() -> some View {
+    Button {
+      markAsCompleted()
+    } label: {
+      if isTrackerLoggedToday(tracker) {
+        RoundedRectangle(cornerRadius: 4)
+          .foregroundStyle(.green)
+          .frame(width: 48, height: 48)
+          .overlay(
+            Image(systemName: "checkmark")
+              .foregroundStyle(.white)
+          )
+      } else {
+        RoundedRectangle(cornerRadius: 4)
+          .stroke(.gray, lineWidth: 0.5)
+          .frame(width: 48, height: 48)
+      }
+    }
+    .buttonStyle(.borderless)
+  }
+
+
+  @ViewBuilder
   private func mostRecentLog() -> some View {
     if let entryOverride {
-      HStack {
-        Text("\(entryOverride.timestamp!, style: .time)")
+      NavigationSheetLink(buttonOnly: true) {
+        NavigationView {
+          TrackerLogDetailScreen(tracker: tracker, log: entryOverride)
+        }
+      } label: {
+        Text("Today, \(entryOverride.timestamp!, style: .time)")
           .font(.caption)
           .foregroundColor(.gray)
-
-        NavigationSheetLink(buttonOnly: true) {
-          NavigationView {
-            TrackerLogDetailScreen(tracker: tracker, log: entryOverride)
-          }
-        } label: {
-          Image(systemName: "bookmark.circle")
-            .foregroundColor(.primary)
-        }
+          .padding(.vertical, 4)
+          .padding(.horizontal, 8)
+          .background(Capsule().stroke(Color.gray))
       }
     } else {
       MostRecentLog(tracker: tracker) { log in

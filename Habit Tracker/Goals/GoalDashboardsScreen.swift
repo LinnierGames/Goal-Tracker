@@ -34,7 +34,7 @@ struct GoalDashboardsScreen: View {
 
   private var sleepSection: some View {
     Section {
-      TrackerView("Exercise", context: viewContext) { tracker in
+      TrackerView("Exercise") { tracker in
         Text("Tracker found!")
 //        DidCompleteChart(
 //          tracker: tracker,
@@ -54,37 +54,40 @@ import CoreData
 struct TrackerView<Content: View>: View {
   let trackerName: String
   let content: (Tracker) -> Content
-  let tracker: Tracker?
+  @State private var tracker: Tracker?
+
+  @Environment(\.managedObjectContext) var viewContext
 
   init(
     _ trackerName: String,
-    context: NSManagedObjectContext,
     @ViewBuilder content: @escaping (Tracker) -> Content
   ) {
     self.trackerName = trackerName
     self.content = content
-
-    do {
-      let trackerByName = Tracker.fetchRequest()
-      trackerByName.predicate = NSPredicate(format: "title == %@", trackerName)
-
-      let result = try context.fetch(trackerByName)
-
-      if let tracker = result.first {
-        self.tracker = tracker
-      } else {
-        self.tracker = nil
-      }
-    } catch {
-      self.tracker = nil
-    }
   }
 
   var body: some View {
-    if let tracker {
-      content(tracker)
-    } else {
-      Text("Tracker not found: \(trackerName)")
+    Group {
+      if let tracker {
+        content(tracker)
+      } else {
+        Text("Tracker not found: \(trackerName)")
+      }
+    }.onAppear {
+      do {
+        let trackerByName = Tracker.fetchRequest()
+        trackerByName.predicate = NSPredicate(format: "title == %@", trackerName)
+
+        let result = try viewContext.fetch(trackerByName)
+
+        if let tracker = result.first {
+          self.tracker = tracker
+        } else {
+          self.tracker = nil
+        }
+      } catch {
+        self.tracker = nil
+      }
     }
   }
 }
