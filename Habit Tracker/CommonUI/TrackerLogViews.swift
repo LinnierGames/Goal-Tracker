@@ -139,9 +139,16 @@ private struct ThisWeeksTrackerLogView: View {
       ForEach(dates, id: \.timeIntervalSince1970) { date in
         TrackerLogView(tracker: tracker, date: date) { logs in
           if logs.isEmpty {
-            Rectangle()
-              .strokeBorder()
-              .frame(height: 16)
+            if Calendar.current.isDateInToday(date) {
+              Rectangle()
+                .strokeBorder()
+                .background(Color.blue.opacity(0.35))
+                .frame(height: 16)
+            } else {
+              Rectangle()
+                .strokeBorder()
+                .frame(height: 16)
+            }
           } else {
             if Calendar.current.isDateInToday(date) {
               Rectangle()
