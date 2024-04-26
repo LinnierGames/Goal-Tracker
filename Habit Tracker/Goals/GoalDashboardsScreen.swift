@@ -20,20 +20,10 @@ struct GoalDashboardsScreen: View {
         DateRangePicker(viewModel: dateRange)
           .padding(.horizontal)
 
-        Form {
-          Section {
-            goToBed()
-            getOutOfBed()
-          } header: {
-            Text("Sleep")
-          }
-
-          Section {
-            exercise()
-          } header: {
-            Text("Activeness")
-          }
-        }
+        TabView {
+          feelingEnergizedTab()
+          eatingHealthyTab()
+        }.tabViewStyle(.page)
       }
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
@@ -46,15 +36,96 @@ struct GoalDashboardsScreen: View {
     .environmentObject(dateRange)
   }
 
+  func eatingHealthyTab() -> some View {
+    VStack {
+      Text("Eating Healthy")
+        .font(.title2)
+
+      Form {
+        Section {
+          exercise()
+        } header: {
+          Text("Activeness")
+        }
+      }
+    }
+  }
+
+  func feelingEnergizedTab() -> some View {
+    VStack {
+      Text("Feeling Energized")
+        .font(.title2)
+
+      Form {
+        Section {
+          goToBed()
+          getOutOfBed()
+        } header: {
+          Text("Bed times")
+        }
+        Section {
+          noseRinse()
+          usedCPAP()
+          naps()
+        } header: {
+          Text("Sleep Hygiene")
+        }
+
+        Section {
+          fullBodyStretch()
+          exercise()
+        } header: {
+          Text("Activeness")
+        }
+
+        Section {
+          feelingTired()
+        } header: {
+          Text("Results")
+        }
+      }
+    }
+  }
+
+  func fullBodyStretch() -> some View {
+    ATrackerView("Full body stretch") { tracker in
+      DidCompleteChart(tracker: tracker)
+    }
+  }
+
+  func naps() -> some View {
+    ATrackerView("💤 Nap") { tracker in
+      DidCompleteChart(tracker: tracker, negateColors: true) { logs, _ in
+        Text(logs.count, format: .number)
+          .font(.system(size: 6))
+      }
+    }
+  }
+
+  func feelingTired() -> some View {
+    ATrackerView("🥱 Feeling Tired") { tracker in
+      DidCompleteChart(tracker: tracker, negateColors: true) { logs, _ in
+        Text(logs.count, format: .number)
+          .font(.system(size: 6))
+      }
+    }
+  }
+
+  func usedCPAP() -> some View {
+    ATrackerView("Used CPAP") { tracker in
+      DidCompleteChart(tracker: tracker)
+    }
+  }
+
+  func noseRinse() -> some View {
+    ATrackerView("Nose Rinse") { tracker in
+      DidCompleteChart(tracker: tracker)
+    }
+  }
+
   func exercise() -> some View {
     ATrackerView("Exercise") { tracker in
-      DidCompleteChart(tracker: tracker) { logs in
-        if logs.isEmpty {
-          .red.opacity(0.35)
-        } else {
-          .green
-        }
-      } label: { logs in
+      DidCompleteChart(tracker: tracker) { logs, _ in
         let duration: TimeInterval = logs.reduce(into: 0) { sum, log in
           guard let startTime = log.timestamp, let endTime = log.endDate else {
             return
@@ -97,7 +168,7 @@ struct GoalDashboardsScreen: View {
     return ATrackerView("Go To Bed") { tracker in
       DidCompleteChart(
         tracker: tracker,
-        daily: { logs in
+        daily: { logs, _ in
           if logs.isEmpty {
             return .gray.opacity(0.35)
           } else if let _ = matchesPredicate(logs: logs) {
@@ -105,7 +176,7 @@ struct GoalDashboardsScreen: View {
           } else {
             return .red.opacity(0.35)
           }
-        }, label: { logs in
+        }, label: { logs, _ in
           if let log = matchesPredicate(logs: logs), let timestamp = log.timestamp {
             Text(timestamp, format: .time)
               .font(.system(size: 6))
@@ -147,7 +218,7 @@ struct GoalDashboardsScreen: View {
       } label: {
         DidCompleteChart(
           tracker: tracker,
-          daily: { logs in
+          daily: { logs, _ in
             if logs.isEmpty {
               return .gray.opacity(0.35)
             } else if let _ = matchesPredicate(logs: logs) {
@@ -155,7 +226,7 @@ struct GoalDashboardsScreen: View {
             } else {
               return .red.opacity(0.35)
             }
-          }, label: { logs in
+          }, label: { logs, _ in
             if let log = matchesPredicate(logs: logs), let timestamp = log.timestamp {
               Text(timestamp, format: .time)
                 .font(.system(size: 6))
@@ -204,17 +275,49 @@ struct DidCompleteChart<Label: View>: View {
   @ObservedObject var tracker: Tracker
   @EnvironmentObject var dateRange: DateRangePickerViewModel
 
-  let daily: ([TrackerLog]) -> Color
-  let label: ([TrackerLog]) -> Label
+  let daily: ([TrackerLog], Date) -> Color
+  let label: ([TrackerLog], Date) -> Label
 
   init(
     tracker: Tracker,
-    daily: @escaping ([TrackerLog]) -> Color,
+    daily: @escaping ([TrackerLog], Date) -> Color,
     @ViewBuilder
-    label: @escaping ([TrackerLog]) -> Label
+    label: @escaping ([TrackerLog], Date) -> Label
   ) {
     self.tracker = tracker
     self.daily = daily
+    self.label = label
+  }
+
+  init(
+    tracker: Tracker,
+    negateColors: Bool = false
+  ) where Label == EmptyView {
+    self.tracker = tracker
+    self.daily = { logs, date in
+      if logs.isEmpty {
+        negateColors ? .green : .red.opacity(0.35)
+      } else {
+        negateColors ? .red.opacity(0.35) : .green
+      }
+    }
+    self.label = { _,_ in EmptyView() }
+  }
+
+  init(
+    tracker: Tracker, 
+    negateColors: Bool = false,
+    @ViewBuilder
+    label: @escaping ([TrackerLog], Date) -> Label
+  ) {
+    self.tracker = tracker
+    self.daily = { logs, date in
+      if logs.isEmpty {
+        negateColors ? .green : .red.opacity(0.35)
+      } else {
+        negateColors ? .red.opacity(0.35) : .green
+      }
+    }
     self.label = label
   }
 
@@ -231,9 +334,19 @@ struct DidCompleteChart<Label: View>: View {
     HStack(spacing: -1) {
       ForEach(dates, id: \.timeIntervalSince1970) { date in
         TrackerLogView(tracker: tracker, date: date) { results in
-          daily(Array(results))
-            .border(Color.black)
-            .overlay(label(Array(results)))
+          if results.isEmpty, date >= Date().midnight {
+            if Calendar.current.isDateInToday(date) {
+              Color.blue.opacity(0.35)
+                .border(.white)
+            } else if date > Date() {
+              Color.clear
+                .border(.white)
+            }
+          } else {
+            daily(Array(results), date)
+              .border(.white)
+              .overlay(label(Array(results), date))
+          }
         }
       }
     }
