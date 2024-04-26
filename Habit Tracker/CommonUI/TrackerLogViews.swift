@@ -42,6 +42,7 @@ struct MostRecentLog<Content: View>: View {
   }
 }
 
+/// Provide logs for the given tracker and predicate and display its `label`
 struct TrackerLogView<Content: View>: View {
   @ObservedObject var tracker: Tracker
 

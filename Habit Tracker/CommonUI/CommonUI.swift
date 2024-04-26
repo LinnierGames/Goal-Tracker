@@ -33,3 +33,15 @@ struct TextEditorScreen: View {
     }
   }
 }
+
+extension FormatStyle where Self == TimeDateFormatStyle {
+  static var time: TimeDateFormatStyle {
+    TimeDateFormatStyle()
+  }
+}
+
+struct TimeDateFormatStyle: FormatStyle, Codable, Hashable {
+  func format(_ value: Date) -> String {
+    DateFormatter.localizedString(from: value, dateStyle: .none, timeStyle: .short)
+  }
+}
