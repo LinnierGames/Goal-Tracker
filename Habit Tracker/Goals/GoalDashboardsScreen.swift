@@ -43,6 +43,18 @@ struct GoalDashboardsScreen: View {
 
       Form {
         Section {
+          eatEachMeal()
+        } header: {
+          Text("Meals")
+        }
+
+        Section {
+          exercise()
+        } header: {
+          Text("Diets")
+        }
+
+        Section {
           exercise()
         } header: {
           Text("Activeness")
@@ -84,6 +96,23 @@ struct GoalDashboardsScreen: View {
           Text("Results")
         }
       }
+    }
+  }
+
+  func eatEachMeal() -> some View {
+    TrackersView(
+      trackerNames: "🍔 Eat Breakfast", "🍖 Eat Lunch", "🍱 Eat Dinner"
+    ) { breakfast, lunch, dinner in
+      TrackerPlotChart(
+        breakfast, lunch, dinner,
+        range: dateRange.startDate...dateRange.endDate,
+        logDate: .both,
+        granularity: dateRange.selectedDateWindow,
+        width: .short,
+        annotations: [],
+        context: viewContext
+      )
+      .frame(height: 132)
     }
   }
 
@@ -392,6 +421,91 @@ struct TrackerView<Content: View>: View {
         }
       } catch {
         self.tracker = nil
+      }
+    }
+  }
+}
+
+struct TrackersView<Label: View>: View {
+  let trackerNames: [String]
+  let content: ([Tracker]) -> Label
+
+  @State private var missingTrackers: [String] = []
+  @State private var trackers: [Tracker] = []
+
+  @Environment(\.managedObjectContext) var viewContext
+
+  init(
+    trackerNames t1: String,
+    _ t2: String,
+    @ViewBuilder
+    label: @escaping (Tracker, Tracker) -> Label
+  ) {
+    trackerNames = [t1, t2]
+    content = { trackers in
+      label(trackers[0], trackers[1])
+    }
+  }
+  
+  init(
+    trackerNames t1: String,
+    _ t2: String,
+    _ t3: String,
+    @ViewBuilder
+    label: @escaping (Tracker, Tracker, Tracker) -> Label
+  ) {
+    trackerNames = [t1, t2, t3]
+    content = { trackers in
+      label(trackers[0], trackers[1], trackers[2])
+    }
+  }
+
+  init(
+    trackerNames t1: String,
+    _ t2: String,
+    _ t3: String,
+    _ t4: String,
+    @ViewBuilder
+    label: @escaping (Tracker, Tracker, Tracker, Tracker) -> Label
+  ) {
+    trackerNames = [t1, t2, t3, t4]
+    content = { trackers in
+      label(trackers[0], trackers[1], trackers[2], trackers[3])
+    }
+  }
+
+  var body: some View {
+    Group {
+      if trackers.isEmpty {
+        Text("Trackers not found: \(missingTrackers.joined(separator: ", "))")
+      } else {
+        content(trackers)
+      }
+    }.onAppear {
+      do {
+        var foundTrackers: [Tracker] = []
+        for trackerName in trackerNames {
+          let trackerByName = Tracker.fetchRequest()
+          trackerByName.predicate = NSPredicate(format: "title == %@", trackerName)
+
+          let result = try viewContext.fetch(trackerByName)
+
+          if let tracker = result.first {
+            foundTrackers.append(tracker)
+          } else {
+            missingTrackers.append(trackerName)
+          }
+        }
+
+        guard foundTrackers.count == trackerNames.count else {
+          return
+        }
+
+        trackers = foundTrackers
+      } catch {
+        trackers = []
+        missingTrackers = []
+        assertionFailure("Failed to fetch: \(error)")
       }
     }
   }

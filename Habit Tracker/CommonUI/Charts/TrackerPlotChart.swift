@@ -14,7 +14,6 @@ extension Double: Identifiable {
 }
 
 struct TrackerPlotChart: View, ChartTools {
-  @ObservedObject var tracker: Tracker
   var range: ClosedRange<Date>
 
   var logDate: ChartDate
@@ -34,6 +33,7 @@ struct TrackerPlotChart: View, ChartTools {
     let count: Int // count for that timestamp
     let hour: Double
     let hours: [Double]
+    let tracker: Tracker
   }
   private var data: [Data]
 
@@ -41,24 +41,23 @@ struct TrackerPlotChart: View, ChartTools {
   private var viewContext
 
   init(
-    _ tracker: Tracker,
+    _ trackers: Tracker...,
     range: ClosedRange<Date>,
     logDate: ChartDate,
     granularity: DateWindow, width: Width = .full,
     annotations: [GoalChartAnnotation],
     context: NSManagedObjectContext
   ) {
-    self.tracker = tracker
     self.range = range
     self.logDate = logDate
     self.granularity = granularity
     self.annotations = annotations
     self.width = width
 
-    typealias Result = [(Date, Int, Double, [Double])]
+    typealias Result = [(x: Date, y: Int, y2: Double, y3: [Double], Tracker)]
     self.data = Self.strideChartMarks(range: range, granularity: granularity)
       .map { day, lowerBound, upperBound -> Result in
-        let entriesForRange: [TrackerLog] = {
+        func logs(for tracker: Tracker) -> [TrackerLog] {
           let fetch = TrackerLog.fetchRequest()
           switch logDate {
           case .start:
@@ -88,62 +87,69 @@ struct TrackerPlotChart: View, ChartTools {
           }
 
           return results
-        }()
+        }
 
         switch granularity {
         case .day:
-          return [(day, entriesForRange.count, 0.0, [])]
+          return trackers.map { tracker in
+            (day, logs(for: tracker).count, 0.0, [], tracker)
+          }
         case .week, .month:
-          return entriesForRange.compactMap { entry -> [Double]? in
-            let formatter = DateFormatter()
-            formatter.dateFormat = "HH"
+          return trackers.flatMap { tracker in
+            logs(for: tracker).compactMap { entry -> [Double]? in
+              let formatter = DateFormatter()
+              formatter.dateFormat = "HH"
 
 
-            // TODO: display different plot symbols for start/end dates
-            switch logDate {
-            case .start:
-              let hour = formatter.string(from: entry.timestamp!)
-              return [Double(hour) ?? 0]
-            case .end:
-              guard let endDate = entry.endDate else { return [0] }
-              let hour = formatter.string(from: endDate)
-              return [Double(hour) ?? 0]
-            case .both:
-              var hours = [Double]()
-
-              let startDate = entry.timestamp!
-              if startDate >= lowerBound, startDate < upperBound {
+              // TODO: display different plot symbols for start/end dates
+              switch logDate {
+              case .start:
                 let hour = formatter.string(from: entry.timestamp!)
-                hours.append(Double(hour) ?? 0)
-              }
-
-              if let endDate = entry.endDate, endDate >= lowerBound, endDate < upperBound {
+                return [Double(hour) ?? 0]
+              case .end:
+                guard let endDate = entry.endDate else { return [0] }
                 let hour = formatter.string(from: endDate)
-                hours.append(Double(hour) ?? 0)
-              }
+                return [Double(hour) ?? 0]
+              case .both:
+                var hours = [Double]()
 
-              return hours
+                let startDate = entry.timestamp!
+                if startDate >= lowerBound, startDate < upperBound {
+                  let hour = formatter.string(from: entry.timestamp!)
+                  hours.append(Double(hour) ?? 0)
+                }
+
+                if let endDate = entry.endDate, endDate >= lowerBound, endDate < upperBound {
+                  let hour = formatter.string(from: endDate)
+                  hours.append(Double(hour) ?? 0)
+                }
+
+                return hours
+              }
+            }
+            .flatMap { $0 }
+            .map { hour in
+              (day, 1, hour, [], tracker)
             }
           }
-          .flatMap { $0 }
-          .map { hour in
-            (day, 1, hour, [])
-          }
         case .year:
-          guard !entriesForRange.isEmpty else { return [] }
-          let hours = entriesForRange
-            .map { Calendar.current.dateComponents([.hour], from: $0.timestamp!).hour! }
-            .map { Double($0) }
-          let sum = hours
-            .reduce(0, +)
-          let count = entriesForRange.count
+          return trackers.flatMap { tracker -> Result in
+            let entriesForRange = logs(for: tracker)
+            guard !entriesForRange.isEmpty else { return [] }
+            let hours = entriesForRange
+              .map { Calendar.current.dateComponents([.hour], from: $0.timestamp!).hour! }
+              .map { Double($0) }
+            let sum = hours
+              .reduce(0, +)
+            let count = entriesForRange.count
 
-          return [(day, 1, Double(sum) / Double(count), hours)]
+            return [(day, 1, Double(sum) / Double(count), hours, tracker)]
+          }
         }
       }
       .flatMap { $0 }
-      .map { timestamp, count, hour, hours in
-        Data(timestamp: timestamp, count: count, hour: hour, hours: hours)
+      .map { timestamp, count, hour, hours, tracker in
+        Data(timestamp: timestamp, count: count, hour: hour, hours: hours, tracker: tracker)
       }
   }
 
@@ -193,8 +199,10 @@ struct TrackerPlotChart: View, ChartTools {
       switch granularity {
       case .day:
         BarMark(x: .value("Date", entry.timestamp, unit: .hour), y: .value("Count", entry.count))
+          .foregroundStyle(by: .value("Tracker", entry.tracker.title ?? ""))
       case .week, .month:
         PointMark(x: .value("Date", entry.timestamp, unit: .day), y: .value("Hour", entry.hour))
+          .foregroundStyle(by: .value("Tracker", entry.tracker.title ?? ""))
       case .year:
         let barHeight: Double = 0.2
         ForEach(entry.hours) { hour in
@@ -205,10 +213,16 @@ struct TrackerPlotChart: View, ChartTools {
             width: 12
           )
           .opacity(0.4)
+          .foregroundStyle(by: .value("Tracker", entry.tracker.title ?? ""))
         }
 
-        LineMark(x: .value("Date", entry.timestamp, unit: .month), y: .value("Hour", entry.hour))
-          .symbol(BasicChartSymbolShape.circle)
+        LineMark(
+          x: .value("Date", entry.timestamp, unit: .month),
+          y: .value("Hour", entry.hour),
+          series: .value("Tracker", entry.tracker.title ?? "")
+        )
+        .symbol(BasicChartSymbolShape.circle)
+        .foregroundStyle(by: .value("Tracker", entry.tracker.title ?? ""))
       }
     }
   }
