@@ -45,3 +45,38 @@ struct TimeDateFormatStyle: FormatStyle, Codable, Hashable {
     DateFormatter.localizedString(from: value, dateStyle: .none, timeStyle: .short)
   }
 }
+
+extension FormatStyle where Self == DurationFormatStyle {
+  static var duration: DurationFormatStyle {
+    DurationFormatStyle(unitsOverride: [])
+  }
+
+  static func duration(units: NSCalendar.Unit = []) -> DurationFormatStyle {
+    DurationFormatStyle(unitsOverride: units)
+  }
+}
+
+extension NSCalendar.Unit: Codable, Hashable {}
+
+struct DurationFormatStyle: FormatStyle, Codable, Hashable {
+  let unitsOverride: NSCalendar.Unit
+
+  func format(_ seconds: Double) -> String {
+    let formatter = DateComponentsFormatter()
+
+    if unitsOverride.isEmpty {
+      if seconds >= 60 {
+        formatter.allowedUnits = [.hour, .minute]
+      } else {
+        formatter.allowedUnits = [.second]
+      }
+    } else {
+      formatter.allowedUnits = unitsOverride
+    }
+
+    formatter.unitsStyle = .short
+    let seconds = DateComponents(second: Int(seconds))
+
+    return formatter.string(from: seconds) ?? "0 min"
+  }
+}

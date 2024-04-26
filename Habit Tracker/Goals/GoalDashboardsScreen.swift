@@ -21,7 +21,18 @@ struct GoalDashboardsScreen: View {
           .padding(.horizontal)
 
         Form {
-          sleepSection
+          Section {
+            goToBed()
+            getOutOfBed()
+          } header: {
+            Text("Sleep")
+          }
+
+          Section {
+            exercise()
+          } header: {
+            Text("Activeness")
+          }
         }
       }
       .toolbar {
@@ -35,12 +46,30 @@ struct GoalDashboardsScreen: View {
     .environmentObject(dateRange)
   }
 
-  private var sleepSection: some View {
-    Section {
-      goToBed()
-      getOutOfBed()
-    } header: {
-      Text("Sleep")
+  func exercise() -> some View {
+    ATrackerView("Exercise") { tracker in
+      DidCompleteChart(tracker: tracker) { logs in
+        if logs.isEmpty {
+          .red.opacity(0.35)
+        } else {
+          .green
+        }
+      } label: { logs in
+        let duration: TimeInterval = logs.reduce(into: 0) { sum, log in
+          guard let startTime = log.timestamp, let endTime = log.endDate else {
+            return
+          }
+
+          sum += endTime.timeIntervalSince(startTime)
+        }
+
+        if duration > 0 {
+          Text(duration, format: .duration)
+            .font(.system(size: 6))
+        } else {
+          EmptyView()
+        }
+      }
     }
   }
 
@@ -158,7 +187,7 @@ struct ATrackerView<Label: View>: View {
 
   var body: some View {
     TrackerView(tracker) { tracker in
-      SheetLink {
+      NavigationSheetLink(buttonOnly: true) {
         TrackerDetailScreen(tracker, dateRange: dateRange.selectedDate, dateRangeWindow: dateRange.selectedDateWindow)
       } label: {
         VStack(alignment: .leading) {
