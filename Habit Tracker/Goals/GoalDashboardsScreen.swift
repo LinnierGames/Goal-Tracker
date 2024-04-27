@@ -26,7 +26,7 @@ struct GoalDashboardsScreen: View {
             feelingEnergizedTab()
             eatingHealthyTab()
             postureTab()
-          }.tabViewStyle(.page)
+          }.tabViewStyle(.page(indexDisplayMode: .never))
         }
       }
       .toolbar {
@@ -182,7 +182,7 @@ struct GoalDashboardsScreen: View {
     TrackerView("🌯 Eat Fast Food") { tracker in
       NavigationLink {
         HistogramChart(
-          tracker: tracker,
+          tracker,
           range: dateRange.startDate...dateRange.endDate
         ) { logs in
           logs.compactMap { log in
@@ -191,6 +191,7 @@ struct GoalDashboardsScreen: View {
             })?.string
           }
         }
+        .navigationTitle("Eat Fast Food: Restaurants")
       } label: {
         Text("View Restaurants")
       }
@@ -214,15 +215,39 @@ struct GoalDashboardsScreen: View {
       .frame(height: 132)
     }
 
-    TrackersView(
-      trackerNames: "🍔 Eat Breakfast", "🍖 Eat Lunch", "🍱 Eat Dinner"
-    ) { breakfast, lunch, dinner in
-      NavigationLink {
-        Text("TODO: multiple trackers for histogram")
-      } label: {
-        Text("View Meals")
+    TrackerView("🍔 Eat Breakfast") { breakfast in
+      TrackerView("🍖 Eat Lunch") { lunch in
+        TrackerView("🍱 Eat Dinner") { dinner in
+          NavigationLink {
+            HistogramChart(
+              breakfast,
+              range: dateRange.startDate...dateRange.endDate
+            ) { logs in
+              logs.compactMap { log in
+                log.allValues.first(where: {
+                  $0.field?.title == "Food"
+                })?.string
+              }
+              .map { $0.split(separator: ", ").map(String.init) }
+              .flatMap { $0 }
+            }
+            .navigationTitle("Meals: Food")
+          } label: {
+            Text("View Foods")
+          }
+        }
       }
     }
+    // TODO: Create ManyTrackerView
+//    TrackersView(
+//      trackerNames: "🍔 Eat Breakfast", "🍖 Eat Lunch", "🍱 Eat Dinner"
+//    ) { breakfast, lunch, dinner in
+//      NavigationLink {
+//        Text("TODO: multiple trackers for histogram")
+//      } label: {
+//        Text("View Meals")
+//      }
+//    }
   }
 
   func upperBodyStretch() -> some View {
@@ -246,11 +271,30 @@ struct GoalDashboardsScreen: View {
     }
   }
 
+  @ViewBuilder
   func feelingTired() -> some View {
     ATrackerView("🥱 Feeling Tired") { tracker in
       DidCompleteChart(tracker: tracker, negateColors: true) { logs, _ in
         Text(logs.count, format: .number)
           .font(.system(size: 6))
+      }
+    }
+
+    TrackerView("🥱 Feeling Tired") { tracker in
+      NavigationLink {
+        HistogramChart(
+          tracker,
+          range: dateRange.startDate...dateRange.endDate
+        ) { logs in
+          logs.compactMap { log in
+            log.allValues.first(where: {
+              $0.field?.title == "Activity"
+            })?.string
+          }
+        }
+        .navigationTitle("Feeling Tired: Activities")
+      } label: {
+        Text("View Activities")
       }
     }
   }

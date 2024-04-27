@@ -13,6 +13,16 @@ struct HistogramChart: View {
   let range: ClosedRange<Date>
   let histogram: (FetchedResults<TrackerLog>) -> [String]
 
+  init(
+    _ tracker: Tracker,
+    range: ClosedRange<Date>,
+    histogram: @escaping (FetchedResults<TrackerLog>) -> [String]
+  ) {
+    self.tracker = tracker
+    self.range = range
+    self.histogram = histogram
+  }
+
   var body: some View {
     TrackerLogView(
       tracker: tracker,
