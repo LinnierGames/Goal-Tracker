@@ -25,6 +25,7 @@ struct GoalDashboardsScreen: View {
           TabView {
             feelingEnergizedTab()
             eatingHealthyTab()
+            postureTab()
           }.tabViewStyle(.page)
         }
       }
@@ -53,7 +54,8 @@ struct GoalDashboardsScreen: View {
         }
 
         Section {
-          exercise()
+          cooked()
+          ateASnack()
         } header: {
           Text("Diets")
         }
@@ -62,6 +64,13 @@ struct GoalDashboardsScreen: View {
           exercise()
         } header: {
           Text("Activeness")
+        }
+
+        Section {
+          oohBoi()
+          feelingTired()
+        } header: {
+          Text("Results")
         }
       }
     }
@@ -103,6 +112,60 @@ struct GoalDashboardsScreen: View {
     }
   }
 
+  func postureTab() -> some View {
+    VStack {
+      Text("Improve Posture")
+        .font(.title2)
+
+      Form {
+        Section {
+          upperBodyStretch()
+          fullBodyStretch()
+          physicalTherapy()
+          exercise()
+        } header: {
+          Text("Improvements")
+        }
+
+        Section {
+          feelingBackPain()
+        } header: {
+          Text("Results")
+        }
+      }
+    }
+  }
+
+  func feelingBackPain() -> some View {
+    ATrackerView("😣 Upper Back Pain") { tracker in
+      DidCompleteChart(tracker: tracker, negateColors: true)
+    }
+  }
+
+  func physicalTherapy() -> some View {
+    ATrackerView("Physical Therapy") { tracker in
+      DidCompleteChart(tracker: tracker)
+    }
+  }
+
+  func oohBoi() -> some View {
+    ATrackerView("💩 Ooh Boi") { tracker in
+      DidCompleteChart(tracker: tracker, negateColors: true)
+    }
+  }
+
+  func ateASnack() -> some View {
+    ATrackerView("🌭 Ate a Snack") { tracker in
+      DidCompleteChart(tracker: tracker)
+    }
+  }
+
+  func cooked() -> some View {
+    ATrackerView("🧑‍🍳 Cooked") { tracker in
+      DidCompleteChart(tracker: tracker)
+    }
+  }
+
   @ViewBuilder
   func fastFood() -> some View {
     ATrackerView("🌯 Eat Fast Food") { tracker in
@@ -118,42 +181,23 @@ struct GoalDashboardsScreen: View {
 
     TrackerView("🌯 Eat Fast Food") { tracker in
       NavigationLink {
-        TrackerLogView(
+        HistogramChart(
           tracker: tracker,
           range: dateRange.startDate...dateRange.endDate
         ) { logs in
-          let restaurants = logs.compactMap { log in
-            log.allValues.first(where: { $0.field?.title == "Restaurant" })?.string
-          }.reduce(into: [String: Int]()) { partialResult, restaurant in
-            partialResult[restaurant, default: 0] += 1
-          }.map { $0 }.sorted(by: \.value, order: .reverse)
-
-          ScrollView(.vertical) {
-            Chart {
-              ForEach(restaurants, id: \.key) { restaurant, count in
-                BarMark(
-                  x: .value("Count", count),
-                  y: .value("Restaurant", restaurant)
-                )
-              }
-            }
-            .frame(height: 48 * CGFloat(restaurants.count))
+          logs.compactMap { log in
+            log.allValues.first(where: {
+              $0.field?.title == "Restaurant"
+            })?.string
           }
-            //      HistogramChart(
-            //        tracker,
-            //        range: dateRange.startDate...dateRange.endDate,
-            //        granularity: dateRange.selectedDateWindow,
-            //        context: viewContext
-            //      ) { logs in
-            //
-            //      }
-          }
+        }
       } label: {
         Text("View Restaurants")
       }
     }
   }
 
+  @ViewBuilder
   func eatEachMeal() -> some View {
     TrackersView(
       trackerNames: "🍔 Eat Breakfast", "🍖 Eat Lunch", "🍱 Eat Dinner"
@@ -168,6 +212,22 @@ struct GoalDashboardsScreen: View {
         context: viewContext
       )
       .frame(height: 132)
+    }
+
+    TrackersView(
+      trackerNames: "🍔 Eat Breakfast", "🍖 Eat Lunch", "🍱 Eat Dinner"
+    ) { breakfast, lunch, dinner in
+      NavigationLink {
+        Text("TODO: multiple trackers for histogram")
+      } label: {
+        Text("View Meals")
+      }
+    }
+  }
+
+  func upperBodyStretch() -> some View {
+    ATrackerView("Upper body stretch") { tracker in
+      DidCompleteChart(tracker: tracker)
     }
   }
 
@@ -361,6 +421,7 @@ struct DidCompleteChart<Label: View>: View {
 
   let daily: ([TrackerLog], Date) -> Color
   let label: ([TrackerLog], Date) -> Label
+  let negateColors: Bool
 
   init(
     tracker: Tracker,
@@ -371,6 +432,7 @@ struct DidCompleteChart<Label: View>: View {
     self.tracker = tracker
     self.daily = daily
     self.label = label
+    self.negateColors = false
   }
 
   init(
@@ -386,6 +448,7 @@ struct DidCompleteChart<Label: View>: View {
       }
     }
     self.label = { _,_ in EmptyView() }
+    self.negateColors = negateColors
   }
 
   init(
@@ -403,6 +466,7 @@ struct DidCompleteChart<Label: View>: View {
       }
     }
     self.label = label
+    self.negateColors = negateColors
   }
 
   var dates: [Date] {
@@ -419,24 +483,70 @@ struct DidCompleteChart<Label: View>: View {
   var body: some View {
     HStack(spacing: -1) {
       ForEach(dates, id: \.timeIntervalSince1970) { date in
-        TrackerLogView(tracker: tracker, date: date) { results in
-          if results.isEmpty, date >= Date().midnight {
-            if Calendar.current.isDateInToday(date) {
-              Color.blue.opacity(0.35)
+        switch dateRange.selectedDateWindow {
+        case .day, .week, .month:
+          TrackerLogView(tracker: tracker, date: date) { results in
+            if results.isEmpty, date >= Date().midnight {
+              if Calendar.current.isDateInToday(date) {
+                Color.blue.opacity(0.35)
+                  .border(.white)
+              } else if date > Date() {
+                Color.clear
+                  .border(.white)
+              }
+            } else {
+              daily(Array(results), date)
                 .border(.white)
-            } else if date > Date() {
-              Color.clear
-                .border(.white)
+                .overlay(label(Array(results), date))
             }
-          } else {
-            daily(Array(results), date)
-              .border(.white)
-              .overlay(label(Array(results), date))
+          }
+        case .year:
+          let endDate = Calendar.current.date(
+            byAdding: .month, value: 1, to: date
+          )!
+
+          TrackerLogView(tracker: tracker, range: date...endDate) { results in
+            if results.isEmpty, date >= Date().midnight {
+              if Calendar.current.isDateInToday(date) {
+                Color.blue.opacity(0.35)
+                  .border(.white)
+              } else if date > Date() {
+                Color.clear
+                  .border(.white)
+              }
+            } else {
+              let completion = min(CGFloat(results.count) / 30, 1)
+              GeometryReader { p in
+                Rectangle()
+                  .stroke()
+                  .background(
+                    Group {
+                      negateColors ? Color.red : Color.green
+                    }
+                    .frame(height: p.size.height * completion)
+                    .frame(height: p.size.height, alignment: .bottom)
+                  )
+              }
+            }
           }
         }
       }
     }
   }
+}
+
+#Preview {
+
+  GeometryReader { p in
+    Rectangle()
+      .stroke()
+      .background(
+        Color.green
+          .frame(height: p.size.height * 0.37)
+          .frame(height: p.size.height, alignment: .bottom)
+      )
+  }
+  .frame(width: 32, height: 32)
 }
 
 import CoreData

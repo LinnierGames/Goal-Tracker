@@ -56,6 +56,7 @@
 		E13F21C82975D5A000E1D4FD /* GoalDetailsChartsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */; };
 		E13F21CA2975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift */; };
 		E15B2D4B2BDC7E0B009C8B17 /* Collection+Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D4A2BDC7E0B009C8B17 /* Collection+Sort.swift */; };
+		E15B2D4D2BDCAEA7009C8B17 /* TrackerHistogramChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D4C2BDCAEA7009C8B17 /* TrackerHistogramChart.swift */; };
 		E15F44CC2AE9914400706BC6 /* CommonUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15F44CB2AE9914400706BC6 /* CommonUI.swift */; };
 		E15FB390298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15FB38F298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift */; };
 		E15FB392298774E600A88FD0 /* TrackerLogFieldScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15FB391298774E600A88FD0 /* TrackerLogFieldScreen.swift */; };
@@ -191,6 +192,7 @@
 		E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsChartsScreen.swift; sourceTree = "<group>"; };
 		E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsSettingsTrackersScreen.swift; sourceTree = "<group>"; };
 		E15B2D4A2BDC7E0B009C8B17 /* Collection+Sort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Sort.swift"; sourceTree = "<group>"; };
+		E15B2D4C2BDCAEA7009C8B17 /* TrackerHistogramChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerHistogramChart.swift; sourceTree = "<group>"; };
 		E15F44CB2AE9914400706BC6 /* CommonUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUI.swift; sourceTree = "<group>"; };
 		E15FB38F298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerDetailsSettingsFieldsScreen.swift; sourceTree = "<group>"; };
 		E15FB391298774E600A88FD0 /* TrackerLogFieldScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerLogFieldScreen.swift; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 				E1EF452B299602DC00DC5CC1 /* DateRangePicker.swift */,
 				E104FCE2297C4A17003AF448 /* TrackerBarChart.swift */,
 				E1C10D6829832B1800825BCC /* TrackerPlotChart.swift */,
+				E15B2D4C2BDCAEA7009C8B17 /* TrackerHistogramChart.swift */,
 			);
 			path = Charts;
 			sourceTree = "<group>";
@@ -761,6 +764,7 @@
 				E15FB390298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift in Sources */,
 				E11A949C2977BAB500FDCE41 /* TrackerDetailsSettingsScreen.swift in Sources */,
 				E1EF452A2995501E00DC5CC1 /* TrackerLogFieldValuesList.swift in Sources */,
+				E15B2D4D2BDCAEA7009C8B17 /* TrackerHistogramChart.swift in Sources */,
 				E104204827DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift in Sources */,
 				E104204927DBA28600051F2A /* FeelingSleepy+CoreDataProperties.swift in Sources */,
 				E11A94A6297A53AA00FDCE41 /* Goal.swift in Sources */,
