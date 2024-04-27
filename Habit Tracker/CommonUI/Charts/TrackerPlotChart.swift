@@ -14,8 +14,9 @@ extension Double: Identifiable {
 }
 
 struct TrackerPlotChart: View, ChartTools {
-  var range: ClosedRange<Date>
+  let trackers: [Tracker]
 
+  var range: ClosedRange<Date>
   var logDate: ChartDate
   var granularity: DateWindow
 
@@ -48,6 +49,7 @@ struct TrackerPlotChart: View, ChartTools {
     annotations: [GoalChartAnnotation],
     context: NSManagedObjectContext
   ) {
+    self.trackers = trackers
     self.range = range
     self.logDate = logDate
     self.granularity = granularity
@@ -199,10 +201,14 @@ struct TrackerPlotChart: View, ChartTools {
       switch granularity {
       case .day:
         BarMark(x: .value("Date", entry.timestamp, unit: .hour), y: .value("Count", entry.count))
-          .foregroundStyle(by: .value("Tracker", entry.tracker.title ?? ""))
+          .if(trackers.count > 1) {
+            $0.foregroundStyle(by: .value("Tracker", entry.tracker.title ?? ""))
+          }
       case .week, .month:
         PointMark(x: .value("Date", entry.timestamp, unit: .day), y: .value("Hour", entry.hour))
-          .foregroundStyle(by: .value("Tracker", entry.tracker.title ?? ""))
+          .if(trackers.count > 1) {
+            $0.foregroundStyle(by: .value("Tracker", entry.tracker.title ?? ""))
+          }
       case .year:
         let barHeight: Double = 0.2
         ForEach(entry.hours) { hour in
@@ -213,7 +219,9 @@ struct TrackerPlotChart: View, ChartTools {
             width: 12
           )
           .opacity(0.4)
-          .foregroundStyle(by: .value("Tracker", entry.tracker.title ?? ""))
+          .if(trackers.count > 1) {
+            $0.foregroundStyle(by: .value("Tracker", entry.tracker.title ?? ""))
+          }
         }
 
         LineMark(
@@ -222,7 +230,9 @@ struct TrackerPlotChart: View, ChartTools {
           series: .value("Tracker", entry.tracker.title ?? "")
         )
         .symbol(BasicChartSymbolShape.circle)
-        .foregroundStyle(by: .value("Tracker", entry.tracker.title ?? ""))
+        .if(trackers.count > 1) {
+          $0.foregroundStyle(by: .value("Tracker", entry.tracker.title ?? ""))
+        }
       }
     }
   }
@@ -241,7 +251,7 @@ struct TrackerPlotChart: View, ChartTools {
         id: \.0
       ) { range, color in
         switch granularity {
-        case .day, .week, .month:
+        case .day, .week, .month, .year:
           RectangleMark(
             xStart: .value("Date", self.range.lowerBound),
             xEnd: .value("Date", self.range.upperBound),
@@ -250,15 +260,15 @@ struct TrackerPlotChart: View, ChartTools {
           )
           .foregroundStyle(color)
           .opacity(0.2)
-        case .year:
-          RectangleMark(
-            xStart: .value("Date", self.range.lowerBound, unit: .year),
-            xEnd: .value("Date", self.range.upperBound, unit: .year),
-            yStart: .value("Hour", range.lowerBound),
-            yEnd: .value("Hour", range.upperBound)
-          )
-          .foregroundStyle(color)
-          .opacity(0.2)
+//        case .year:
+//          RectangleMark(
+//            xStart: .value("Date", self.range.lowerBound, unit: .year),
+//            xEnd: .value("Date", self.range.upperBound, unit: .year),
+//            yStart: .value("Hour", range.lowerBound),
+//            yEnd: .value("Hour", range.upperBound)
+//          )
+//          .foregroundStyle(color)
+//          .opacity(0.2)
         }
       }
     }

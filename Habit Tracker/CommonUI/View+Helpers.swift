@@ -76,3 +76,15 @@ extension View {
     modifer(self, item)
   }
 }
+
+import Charts
+
+extension ChartContent {
+  @ChartContentBuilder public func `if`<T>(_ condition: Bool, transform: (Self) -> T) -> some ChartContent where T: ChartContent {
+      if condition {
+          transform(self)
+      } else {
+          self
+      }
+  }
+}

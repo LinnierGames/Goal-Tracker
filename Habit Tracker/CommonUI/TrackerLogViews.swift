@@ -50,7 +50,8 @@ struct TrackerLogView<Content: View>: View {
 
   @FetchRequest
   private var logs: FetchedResults<TrackerLog>
-
+  
+  /// Log view for the given day
   init(tracker: Tracker, date: Date, @ViewBuilder label: @escaping (FetchedResults<TrackerLog>) -> Content) {
     self.tracker = tracker
     let fetch = TrackerLog.fetchRequest()
@@ -60,6 +61,26 @@ struct TrackerLogView<Content: View>: View {
     fetch.predicate = NSPredicate(
       format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
       tracker, midnight as NSDate, tomorrow as NSDate
+    )
+
+    self._logs = FetchRequest(fetchRequest: fetch)
+    self.label = label
+  }
+
+  /// Log view for the given date range
+  init(
+    tracker: Tracker,
+    range: ClosedRange<Date>,
+    @ViewBuilder label: @escaping (FetchedResults<TrackerLog>) -> Content
+  ) {
+    self.tracker = tracker
+    let fetch = TrackerLog.fetchRequest()
+    fetch.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerLog.timestamp, ascending: false)]
+    let lowerBound = range.lowerBound.midnight
+    let upperBound = range.upperBound.midnight.addingTimeInterval(.init(days: 1))
+    fetch.predicate = NSPredicate(
+      format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
+      tracker, lowerBound as NSDate, upperBound as NSDate
     )
 
     self._logs = FetchRequest(fetchRequest: fetch)

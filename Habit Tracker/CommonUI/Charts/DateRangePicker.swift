@@ -34,6 +34,8 @@ class DateRangePickerViewModel: ObservableObject {
     didUpdateRangePublisher.eraseToAnyPublisher()
   }
 
+  private let calendar = Calendar.current
+
   init(intialDate: Date, intialWindow: DateWindow) {
     self.selectedDate = intialDate
     self.selectedDateWindow = intialWindow
@@ -52,10 +54,10 @@ class DateRangePickerViewModel: ObservableObject {
       return selectedDate.addingTimeInterval(.init(days: 1))
     case .week:
       return selectedDate.addingTimeInterval(.init(days: 7))
-    case .month, .year:
+    case .month:
       return selectedDate.addingTimeInterval(.init(days: 31))
-//    case .year:
-//      return selectedDate.addingTimeInterval(.init(days: 365))
+    case .year:
+      return calendar.date(byAdding: .year, value: 1, to: selectedDate)!
     }
   }
 
@@ -65,7 +67,6 @@ class DateRangePickerViewModel: ObservableObject {
   }
 
   func moveDateForward() {
-    let calendar = Calendar.current
     switch selectedDateWindow {
     case .day:
       selectedDate = calendar.date(byAdding: .day, value: 1, to: selectedDate)!

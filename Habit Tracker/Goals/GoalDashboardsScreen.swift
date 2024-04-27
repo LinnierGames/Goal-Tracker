@@ -5,6 +5,7 @@
 //  Created by Erick Sanchez on 12/9/23.
 //
 
+import Charts
 import SwiftUI
 
 struct GoalDashboardsScreen: View {
@@ -20,10 +21,12 @@ struct GoalDashboardsScreen: View {
         DateRangePicker(viewModel: dateRange)
           .padding(.horizontal)
 
-        TabView {
-          feelingEnergizedTab()
-          eatingHealthyTab()
-        }.tabViewStyle(.page)
+        NavigationView {
+          TabView {
+            feelingEnergizedTab()
+            eatingHealthyTab()
+          }.tabViewStyle(.page)
+        }
       }
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
@@ -44,6 +47,7 @@ struct GoalDashboardsScreen: View {
       Form {
         Section {
           eatEachMeal()
+          fastFood()
         } header: {
           Text("Meals")
         }
@@ -95,6 +99,57 @@ struct GoalDashboardsScreen: View {
         } header: {
           Text("Results")
         }
+      }
+    }
+  }
+
+  @ViewBuilder
+  func fastFood() -> some View {
+    ATrackerView("🌯 Eat Fast Food") { tracker in
+      TrackerBarChart(
+        tracker,
+        range: dateRange.startDate...dateRange.endDate,
+        granularity: dateRange.selectedDateWindow,
+        width: .short,
+        context: viewContext
+      )
+      .frame(height: 64)
+    }
+
+    TrackerView("🌯 Eat Fast Food") { tracker in
+      NavigationLink {
+        TrackerLogView(
+          tracker: tracker,
+          range: dateRange.startDate...dateRange.endDate
+        ) { logs in
+          let restaurants = logs.compactMap { log in
+            log.allValues.first(where: { $0.field?.title == "Restaurant" })?.string
+          }.reduce(into: [String: Int]()) { partialResult, restaurant in
+            partialResult[restaurant, default: 0] += 1
+          }.map { $0 }.sorted(by: \.value, order: .reverse)
+
+          ScrollView(.vertical) {
+            Chart {
+              ForEach(restaurants, id: \.key) { restaurant, count in
+                BarMark(
+                  x: .value("Count", count),
+                  y: .value("Restaurant", restaurant)
+                )
+              }
+            }
+            .frame(height: 48 * CGFloat(restaurants.count))
+          }
+            //      HistogramChart(
+            //        tracker,
+            //        range: dateRange.startDate...dateRange.endDate,
+            //        granularity: dateRange.selectedDateWindow,
+            //        context: viewContext
+            //      ) { logs in
+            //
+            //      }
+          }
+      } label: {
+        Text("View Restaurants")
       }
     }
   }
@@ -273,12 +328,12 @@ struct GoalDashboardsScreen: View {
 }
 
 
-/// Base view for all hardcoded tracker rows
+/// Base view for single hardcoded tracker rows
 struct ATrackerView<Label: View>: View {
   let tracker: String
   let label: (Tracker) -> Label
 
-  init(_ tracker: String, label: @escaping (Tracker) -> Label) {
+  init(_ tracker: String, @ViewBuilder label: @escaping (Tracker) -> Label) {
     self.tracker = tracker
     self.label = label
   }
@@ -354,8 +409,10 @@ struct DidCompleteChart<Label: View>: View {
     switch dateRange.selectedDateWindow {
     case .day:
       Array(stride(from: dateRange.startDate, to: dateRange.endDate, by: .init(hours: 1)))
-    case .week, .month, .year:
+    case .week, .month:
       Array(stride(from: dateRange.startDate, to: dateRange.endDate, by: .init(days: 1)))
+    case .year:
+      Array(stride(from: dateRange.startDate, to: dateRange.endDate, by: .init(days: 30)))
     }
   }
 
@@ -432,6 +489,7 @@ struct TrackersView<Label: View>: View {
 
   @State private var missingTrackers: [String] = []
   @State private var trackers: [Tracker] = []
+  @State private var detailTracker: Tracker?
 
   @Environment(\.managedObjectContext) var viewContext
 
@@ -479,7 +537,19 @@ struct TrackersView<Label: View>: View {
       if trackers.isEmpty {
         Text("Trackers not found: \(missingTrackers.joined(separator: ", "))")
       } else {
-        content(trackers)
+
+        // TODO: Abstract this out to another layer (e.g. ATrackerView)
+        Menu {
+          ForEach(trackers) { tracker in
+            Button {
+              detailTracker = tracker
+            } label: {
+              Text(tracker.title ?? "")
+            }
+          }
+        } label: {
+          content(trackers)
+        }
       }
     }.onAppear {
       do {
@@ -507,6 +577,8 @@ struct TrackersView<Label: View>: View {
         missingTrackers = []
         assertionFailure("Failed to fetch: \(error)")
       }
+    }.sheet(item: $detailTracker) { tracker in
+      TrackerDetailScreen(tracker)
     }
   }
 }
