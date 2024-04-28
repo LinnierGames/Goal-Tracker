@@ -60,6 +60,8 @@
 		E15B2D532BDDB556009C8B17 /* SwiftUI+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D522BDDB556009C8B17 /* SwiftUI+Extensions.swift */; };
 		E15B2D552BDDB71A009C8B17 /* Sanitize+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D542BDDB71A009C8B17 /* Sanitize+String.swift */; };
 		E15B2D572BDE1FD0009C8B17 /* TrackerLog+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D562BDE1FD0009C8B17 /* TrackerLog+SwiftUI.swift */; };
+		E15B2D592BDE230B009C8B17 /* DidCompleteChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D582BDE230B009C8B17 /* DidCompleteChart.swift */; };
+		E15B2D5B2BDE25AA009C8B17 /* iOSPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D5A2BDE25AA009C8B17 /* iOSPopover.swift */; };
 		E15F44CC2AE9914400706BC6 /* CommonUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15F44CB2AE9914400706BC6 /* CommonUI.swift */; };
 		E15FB390298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15FB38F298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift */; };
 		E15FB392298774E600A88FD0 /* TrackerLogFieldScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15FB391298774E600A88FD0 /* TrackerLogFieldScreen.swift */; };
@@ -199,6 +201,8 @@
 		E15B2D522BDDB556009C8B17 /* SwiftUI+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Extensions.swift"; sourceTree = "<group>"; };
 		E15B2D542BDDB71A009C8B17 /* Sanitize+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sanitize+String.swift"; sourceTree = "<group>"; };
 		E15B2D562BDE1FD0009C8B17 /* TrackerLog+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackerLog+SwiftUI.swift"; sourceTree = "<group>"; };
+		E15B2D582BDE230B009C8B17 /* DidCompleteChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidCompleteChart.swift; sourceTree = "<group>"; };
+		E15B2D5A2BDE25AA009C8B17 /* iOSPopover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOSPopover.swift; sourceTree = "<group>"; };
 		E15F44CB2AE9914400706BC6 /* CommonUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUI.swift; sourceTree = "<group>"; };
 		E15FB38F298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerDetailsSettingsFieldsScreen.swift; sourceTree = "<group>"; };
 		E15FB391298774E600A88FD0 /* TrackerLogFieldScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerLogFieldScreen.swift; sourceTree = "<group>"; };
@@ -369,6 +373,7 @@
 				E1C10D6C2983328E00825BCC /* Formats.swift */,
 				E1EF452D29960B1400DC5CC1 /* ChartTools.swift */,
 				E1EF452B299602DC00DC5CC1 /* DateRangePicker.swift */,
+				E15B2D582BDE230B009C8B17 /* DidCompleteChart.swift */,
 				E104FCE2297C4A17003AF448 /* TrackerBarChart.swift */,
 				E1C10D6829832B1800825BCC /* TrackerPlotChart.swift */,
 				E15B2D4C2BDCAEA7009C8B17 /* TrackerHistogramChart.swift */,
@@ -388,6 +393,7 @@
 				E1C10D612980595C00825BCC /* ActionSheetLink.swift */,
 				E1C10D63298101C500825BCC /* NavigationSheetLink.swift */,
 				E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */,
+				E15B2D5A2BDE25AA009C8B17 /* iOSPopover.swift */,
 				E10AFC0A27DF18D5000965D9 /* FilePicker.swift */,
 				E184F4E627E5BA1E00BB2F2C /* PDFView.swift */,
 				E1E90F552A096C43004C67FE /* TrackerLogViews.swift */,
@@ -730,6 +736,7 @@
 				E15B2D552BDDB71A009C8B17 /* Sanitize+String.swift in Sources */,
 				E11A94A8297A53D600FDCE41 /* NSSet.swift in Sources */,
 				E13F21C02974FA9A00E1D4FD /* ImportDataScreen.swift in Sources */,
+				E15B2D592BDE230B009C8B17 /* DidCompleteChart.swift in Sources */,
 				E104207227DBAC5800051F2A /* Intents.intentdefinition in Sources */,
 				E1EF452C299602DC00DC5CC1 /* DateRangePicker.swift in Sources */,
 				E104FCE5297D9BDA003AF448 /* TrackerLogDetailScreen.swift in Sources */,
@@ -777,6 +784,7 @@
 				E11A949C2977BAB500FDCE41 /* TrackerDetailsSettingsScreen.swift in Sources */,
 				E1EF452A2995501E00DC5CC1 /* TrackerLogFieldValuesList.swift in Sources */,
 				E15B2D4D2BDCAEA7009C8B17 /* TrackerHistogramChart.swift in Sources */,
+				E15B2D5B2BDE25AA009C8B17 /* iOSPopover.swift in Sources */,
 				E104204827DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift in Sources */,
 				E104204927DBA28600051F2A /* FeelingSleepy+CoreDataProperties.swift in Sources */,
 				E11A94A6297A53AA00FDCE41 /* Goal.swift in Sources */,

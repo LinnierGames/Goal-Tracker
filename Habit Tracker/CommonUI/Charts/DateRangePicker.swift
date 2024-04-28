@@ -25,6 +25,7 @@ class DateRangePickerViewModel: ObservableObject {
   }
   @Published var selectedDate: Date {
     didSet {
+      endDateOverride = nil
       didUpdateRangePublisher.send((selectedDateWindow, startDate...endDate))
     }
   }
@@ -44,18 +45,30 @@ class DateRangePickerViewModel: ObservableObject {
   }
 
   var selectedDateLabel: String {
-    DateFormatter.localizedString(from: selectedDate, dateStyle: .long, timeStyle: .none)
+    if let endDateOverride {
+      let formatter = DateIntervalFormatter()
+      formatter.dateStyle = .short
+      formatter.timeStyle = .none
+      return formatter.string(from: selectedDate, to: endDateOverride)
+    } else {
+      return DateFormatter.localizedString(from: selectedDate, dateStyle: .long, timeStyle: .none)
+    }
   }
 
   var startDate: Date { selectedDate }
+  private var endDateOverride: Date?
   var endDate: Date {
+    if let endDateOverride {
+      return endDateOverride
+    }
+
     switch selectedDateWindow {
     case .day:
-      return selectedDate.addingTimeInterval(.init(days: 1))
+      return calendar.date(byAdding: .day, value: 1, to: selectedDate)!
     case .week:
-      return selectedDate.addingTimeInterval(.init(days: 7))
+      return calendar.date(byAdding: .weekOfMonth, value: 1, to: selectedDate)!
     case .month:
-      return selectedDate.addingTimeInterval(.init(days: 31))
+      return calendar.date(byAdding: .month, value: 1, to: selectedDate)!
     case .year:
       return calendar.date(byAdding: .year, value: 1, to: selectedDate)!
     }
@@ -93,6 +106,11 @@ class DateRangePickerViewModel: ObservableObject {
     }
   }
 
+  func moveToCustomDate(start: Date, end: Date) {
+    selectedDate = start
+    endDateOverride = end
+  }
+
   private func updateStartDateToNewWindow() {
     let calendar = Calendar.current
     switch selectedDateWindow {
@@ -124,39 +142,98 @@ class DateRangePickerViewModel: ObservableObject {
 struct DateRangePicker: View {
   @ObservedObject private var viewModel: DateRangePickerViewModel
 
+  @State private var isShowingDatePicker = false
+
   init(viewModel: DateRangePickerViewModel) {
     self._viewModel = ObservedObject(wrappedValue: viewModel)
   }
 
   var body: some View {
+    VStack {
 
-    // Range Picker
-    HStack {
-      Button(action: viewModel.moveDateBackward) {
-        Image(systemName: "chevron.left")
-          .foregroundColor(.black)
-          .padding()
-          .background(Color.yellow.grayscale(1))
-          .cornerRadius(8)
+      // Range Picker
+      HStack {
+        Button(action: viewModel.moveDateBackward) {
+          Image(systemName: "chevron.left")
+            .foregroundColor(.black)
+            .padding()
+            .background(Color.yellow.grayscale(1))
+            .cornerRadius(8)
+        }
+        Spacer()
+        Button(viewModel.selectedDateLabel, action: viewModel.moveDateToToday)
+        Spacer()
+        Button(action: viewModel.moveDateForward) {
+          Image(systemName: "chevron.right")
+            .foregroundColor(.black)
+            .padding()
+            .background(Color.yellow.grayscale(1))
+            .cornerRadius(8)
+        }
       }
-      Spacer()
-      Button(viewModel.selectedDateLabel, action: viewModel.moveDateToToday)
-      Spacer()
-      Button(action: viewModel.moveDateForward) {
-        Image(systemName: "chevron.right")
-          .foregroundColor(.black)
-          .padding()
-          .background(Color.yellow.grayscale(1))
-          .cornerRadius(8)
+
+      // Window Picker
+      HStack {
+        Picker("", selection: $viewModel.selectedDateWindow) {
+          ForEach(DateWindow.allCases) { window in
+            Text(window.rawValue.capitalized)
+          }
+        }
+        .pickerStyle(.segmented)
+
+        Button(
+          action: {
+            isShowingDatePicker = true
+          }, systemImage: "calendar"
+        )
+        .iosPopover(isPresented: $isShowingDatePicker) {
+          DatePickerPopover(
+            startDate: viewModel.startDate,
+            endDate: viewModel.endDate
+          ) { startDate, endDate in
+            viewModel.moveToCustomDate(start: startDate, end: endDate)
+          }
+        }
       }
     }
+  }
 
-    // Window Picker
-    Picker("", selection: $viewModel.selectedDateWindow) {
-      ForEach(DateWindow.allCases) { window in
-        Text(window.rawValue.capitalized)
+  struct DatePickerPopover: View {
+    @State private var startDate = Date()
+    @State private var endDate = Date()
+
+    let didDisappear: (Date, Date) -> Void
+
+    init(
+      startDate: Date,
+      endDate: Date,
+      didDisappear: @escaping (Date, Date) -> Void
+    ) {
+      self.startDate = startDate
+      self.endDate = endDate
+      self.didDisappear = didDisappear
+    }
+
+    var body: some View {
+      VStack {
+        DatePicker(
+          "Start",
+          selection: $startDate,
+          in: ...endDate,
+          displayedComponents: .date
+        )
+        DatePicker(
+          "End",
+          selection: $endDate,
+          in: startDate...,
+          displayedComponents: .date
+        )
+      }
+      .padding()
+      .onDisappear {
+        didDisappear(startDate, endDate)
       }
     }
-    .pickerStyle(.segmented)
   }
 }
+
