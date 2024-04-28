@@ -9,9 +9,9 @@ import Charts
 import SwiftUI
 
 struct GoalDashboardsScreen: View {
-  @Environment(\.dismiss) var dismiss
   @Environment(\.managedObjectContext) var viewContext
 
+  @State private var childNavigation = NavigationPath()
   @StateObject private var dateRange =
     DateRangePickerViewModel(intialDate: Date(), intialWindow: .week)
 
@@ -21,17 +21,30 @@ struct GoalDashboardsScreen: View {
         DateRangePicker(viewModel: dateRange)
           .padding(.horizontal)
 
-        NavigationView {
-          TabView {
-            feelingEnergizedTab()
-            eatingHealthyTab()
-            postureTab()
-          }.tabViewStyle(.page(indexDisplayMode: .never))
+        NavigationStack(path: $childNavigation) {
+          GeometryReader { p in
+            ScrollView(.horizontal) {
+              LazyHStack(spacing: 0) {
+                feelingEnergizedTab()
+                  .frame(width: p.size.width)
+                eatingHealthyTab()
+                  .frame(width: p.size.width)
+                postureTab()
+                  .frame(width: p.size.width)
+              }
+            }
+            .scrollTargetBehavior(.paging)
+            .scrollIndicators(.hidden)
+          }
         }
       }
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
-          Button("Done", action: dismiss.callAsFunction)
+          SheetLink {
+            GoalsScreen()
+          } label: {
+            Label("old", systemImage: "list.bullet.clipboard")
+          }
         }
       }
       .navigationTitle("Dashboards")
@@ -83,11 +96,12 @@ struct GoalDashboardsScreen: View {
 
       Form {
         Section {
-          goToBed()
           getOutOfBed()
+          goToBed()
         } header: {
           Text("Bed times")
         }
+
         Section {
           noseRinse()
           usedCPAP()
@@ -160,9 +174,27 @@ struct GoalDashboardsScreen: View {
     }
   }
 
+  @ViewBuilder
   func cooked() -> some View {
     ATrackerView("🧑‍🍳 Cooked") { tracker in
       DidCompleteChart(tracker: tracker)
+    }
+    TrackerView("🧑‍🍳 Cooked") { tracker in
+      NavigationLink {
+        HistogramChart(
+          tracker,
+          range: dateRange.startDate...dateRange.endDate
+        ) { logs in
+          logs.compactMap { log in
+            log.allValues.first(where: {
+              $0.field?.title == "Food"
+            })?.string.sanitize(.capitalized, .whitespaceTrimmed)
+          }
+        }
+        .navigationTitle("Exercise: Recipes")
+      } label: {
+        Text("View Recipes")
+      }
     }
   }
 
@@ -188,7 +220,7 @@ struct GoalDashboardsScreen: View {
           logs.compactMap { log in
             log.allValues.first(where: {
               $0.field?.title == "Restaurant"
-            })?.string
+            })?.string.sanitize(.capitalized, .whitespaceTrimmed)
           }
         }
         .navigationTitle("Eat Fast Food: Restaurants")
@@ -200,7 +232,7 @@ struct GoalDashboardsScreen: View {
 
   @ViewBuilder
   func eatEachMeal() -> some View {
-    TrackersView(
+    ManyTrackersView(
       trackerNames: "🍔 Eat Breakfast", "🍖 Eat Lunch", "🍱 Eat Dinner"
     ) { breakfast, lunch, dinner in
       TrackerPlotChart(
@@ -215,39 +247,47 @@ struct GoalDashboardsScreen: View {
       .frame(height: 132)
     }
 
-    TrackerView("🍔 Eat Breakfast") { breakfast in
-      TrackerView("🍖 Eat Lunch") { lunch in
-        TrackerView("🍱 Eat Dinner") { dinner in
-          NavigationLink {
-            HistogramChart(
-              breakfast,
-              range: dateRange.startDate...dateRange.endDate
-            ) { logs in
-              logs.compactMap { log in
-                log.allValues.first(where: {
-                  $0.field?.title == "Food"
-                })?.string
-              }
-              .map { $0.split(separator: ", ").map(String.init) }
-              .flatMap { $0 }
-            }
-            .navigationTitle("Meals: Food")
-          } label: {
-            Text("View Foods")
+    StateView(Optional<Tracker>.none) { selectedTracker in
+      TrackersView(
+        trackerNames: "🍔 Eat Breakfast", "🍖 Eat Lunch", "🍱 Eat Dinner"
+      ) { breakfast, lunch, dinner in
+        Menu {
+          Button("Breakfast") {
+            selectedTracker.wrappedValue = breakfast
           }
+          Button("Lunch") {
+            selectedTracker.wrappedValue = lunch
+          }
+          Button("Dinner") {
+            selectedTracker.wrappedValue = dinner
+          }
+        } label: {
+          HStack {
+            Text("View Foods")
+            Spacer()
+            Image(systemName: "chevron.right")
+              .foregroundStyle(.gray)
+          }
+          .foregroundStyle(.foreground)
+          .contentShape(Rectangle())
+        }
+        .navigationDestination(item: selectedTracker) { tracker in
+          HistogramChart(
+            tracker, // TODO: multiple trackers for histogram
+            range: dateRange.startDate...dateRange.endDate
+          ) { logs in
+            logs.compactMap { log in
+              log.allValues.first(where: {
+                $0.field?.title == "Food"
+              })?.string.sanitize(.capitalized, .whitespaceTrimmed)
+            }
+            .map { $0.split(separator: ", ").map(String.init) }
+            .flatMap { $0 }
+          }
+          .navigationTitle("\(tracker.title ?? "Meals"): Food")
         }
       }
     }
-    // TODO: Create ManyTrackerView
-//    TrackersView(
-//      trackerNames: "🍔 Eat Breakfast", "🍖 Eat Lunch", "🍱 Eat Dinner"
-//    ) { breakfast, lunch, dinner in
-//      NavigationLink {
-//        Text("TODO: multiple trackers for histogram")
-//      } label: {
-//        Text("View Meals")
-//      }
-//    }
   }
 
   func upperBodyStretch() -> some View {
@@ -279,7 +319,7 @@ struct GoalDashboardsScreen: View {
           .font(.system(size: 6))
       }
     }
-
+    
     TrackerView("🥱 Feeling Tired") { tracker in
       NavigationLink {
         HistogramChart(
@@ -289,7 +329,7 @@ struct GoalDashboardsScreen: View {
           logs.compactMap { log in
             log.allValues.first(where: {
               $0.field?.title == "Activity"
-            })?.string
+            })?.string.sanitize(.capitalized, .whitespaceTrimmed)
           }
         }
         .navigationTitle("Feeling Tired: Activities")
@@ -311,6 +351,7 @@ struct GoalDashboardsScreen: View {
     }
   }
 
+  @ViewBuilder
   func exercise() -> some View {
     ATrackerView("Exercise") { tracker in
       DidCompleteChart(tracker: tracker) { logs, _ in
@@ -330,42 +371,64 @@ struct GoalDashboardsScreen: View {
         }
       }
     }
+
+    TrackerView("Exercise") { tracker in
+      NavigationLink {
+        HistogramChart(
+          tracker,
+          range: dateRange.startDate...dateRange.endDate
+        ) { logs in
+          logs.compactMap { log in
+            log.allValues.first(where: {
+              $0.field?.title == "Workout"
+            })?.string.sanitize(.capitalized, .whitespaceTrimmed)
+          }
+        }
+        .navigationTitle("Exercise: Workouts")
+      } label: {
+        Text("View Workouts")
+      }
+    }
   }
 
   func goToBed() -> some View {
-    func matchesPredicate(logs: [TrackerLog]) -> TrackerLog? {
-      for log in logs {
-        guard let timestamp = log.timestamp else { continue }
+    func matchesPredicate(log: TrackerLog) -> Bool {
+      guard let timestamp = log.timestamp else { return false }
 
-        let components = Calendar.current.dateComponents([.hour, .minute], from: timestamp)
-        let (hour, minute) = (components.hour ?? 0, components.minute ?? 0)
-
-        // log.timestamp isBetween 10pm and 11:45pm
-        if hour == 23, minute < 45 {
-          return log
-        } else if hour == 22 {
-          return log
-        }
-
-        continue
+      let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: timestamp)
+      guard
+        let hour = components.hour,
+        let minute = components.minute
+      else {
+        assertionFailure("missing date component")
+        return false
       }
 
-      return nil
+      // log.timestamp isBetween 10pm and 11:45pm
+      if hour == 23, minute < 45 {
+        return true
+      } else if hour == 22 {
+        return true
+      }
+
+      return false
     }
 
-    return ATrackerView("Go To Bed") { tracker in
+    return ATrackerView("Go To Bed", title: "💤 Go to bed") { tracker in
       DidCompleteChart(
         tracker: tracker,
         daily: { logs, _ in
           if logs.isEmpty {
             return .gray.opacity(0.35)
-          } else if let _ = matchesPredicate(logs: logs) {
+          } else if logs.contains(where: matchesPredicate(log:)) {
             return .green
           } else {
             return .red.opacity(0.35)
           }
+        }, monthly: { logs in
+          (logs.filter(matchesPredicate(log:)).count, 30)
         }, label: { logs, _ in
-          if let log = matchesPredicate(logs: logs), let timestamp = log.timestamp {
+          if let log = logs.first(where: matchesPredicate(log:)), let timestamp = log.timestamp {
             Text(timestamp, format: .time)
               .font(.system(size: 6))
           } else if let first = logs.first, let timestamp = first.timestamp {
@@ -380,27 +443,42 @@ struct GoalDashboardsScreen: View {
   }
 
   func getOutOfBed() -> some View {
-    func matchesPredicate(logs: [TrackerLog]) -> TrackerLog? {
-      for log in logs {
-        guard let timestamp = log.timestamp else { continue }
+    func matchesPredicate(log: TrackerLog) -> Bool {
+      guard let timestamp = log.timestamp else { return false }
 
-        let components = Calendar.current.dateComponents([.hour, .minute], from: timestamp)
-        let (hour, minute) = (components.hour ?? 0, components.minute ?? 0)
+      let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: timestamp)
+      guard
+        let hour = components.hour,
+        let minute = components.minute,
+        let weekday = components.weekday.flatMap(Weekday.init(rawValue:))
+      else {
+        assertionFailure("missing date component")
+        return false
+      }
+
+      switch weekday {
+      case .saturday, .sunday:
+
+        // log.timestamp isBetween 7am and 9:10am
+        if hour == 9, minute < 10 {
+          return true
+        } else if hour == 7 || hour == 8 {
+          return true
+        }
+      default:
 
         // log.timestamp isBetween 6am and 8:10am
         if hour == 8, minute < 10 {
-          return log
+          return true
         } else if hour == 6 || hour == 7 {
-          return log
+          return true
         }
-
-        continue
       }
 
-      return nil
+      return false
     }
 
-    return ATrackerView("Get Out Of Bed") { tracker in
+    return ATrackerView("Get Out Of Bed", title: "☀️ Get out of bed") { tracker in
       SheetLink {
         TrackerDetailScreen(tracker, dateRange: dateRange.selectedDate, dateRangeWindow: dateRange.selectedDateWindow)
       } label: {
@@ -409,13 +487,15 @@ struct GoalDashboardsScreen: View {
           daily: { logs, _ in
             if logs.isEmpty {
               return .gray.opacity(0.35)
-            } else if let _ = matchesPredicate(logs: logs) {
+            } else if logs.contains(where: matchesPredicate(log:)) {
               return .green
             } else {
               return .red.opacity(0.35)
             }
+          }, monthly: { logs in
+            (logs.filter(matchesPredicate(log:)).count, 30)
           }, label: { logs, _ in
-            if let log = matchesPredicate(logs: logs), let timestamp = log.timestamp {
+            if let log = logs.first(where: matchesPredicate(log:)), let timestamp = log.timestamp {
               Text(timestamp, format: .time)
                 .font(.system(size: 6))
             } else if let first = logs.first, let timestamp = first.timestamp {
@@ -435,10 +515,12 @@ struct GoalDashboardsScreen: View {
 /// Base view for single hardcoded tracker rows
 struct ATrackerView<Label: View>: View {
   let tracker: String
+  let title: String
   let label: (Tracker) -> Label
 
-  init(_ tracker: String, @ViewBuilder label: @escaping (Tracker) -> Label) {
+  init(_ tracker: String, title: String = "", @ViewBuilder label: @escaping (Tracker) -> Label) {
     self.tracker = tracker
+    self.title = title.isEmpty ? tracker : title
     self.label = label
   }
 
@@ -450,7 +532,7 @@ struct ATrackerView<Label: View>: View {
         TrackerDetailScreen(tracker, dateRange: dateRange.selectedDate, dateRangeWindow: dateRange.selectedDateWindow)
       } label: {
         VStack(alignment: .leading) {
-          Text(self.tracker)
+          Text(title)
           label(tracker)
         }
       }
@@ -464,17 +546,20 @@ struct DidCompleteChart<Label: View>: View {
   @EnvironmentObject var dateRange: DateRangePickerViewModel
 
   let daily: ([TrackerLog], Date) -> Color
+  let monthly: (any Collection<TrackerLog>) -> (completed: Int, total: Int)
   let label: ([TrackerLog], Date) -> Label
   let negateColors: Bool
 
   init(
     tracker: Tracker,
     daily: @escaping ([TrackerLog], Date) -> Color,
+    monthly: @escaping (any Collection<TrackerLog>) -> (completed: Int, total: Int),
     @ViewBuilder
     label: @escaping ([TrackerLog], Date) -> Label
   ) {
     self.tracker = tracker
     self.daily = daily
+    self.monthly = monthly
     self.label = label
     self.negateColors = false
   }
@@ -490,6 +575,9 @@ struct DidCompleteChart<Label: View>: View {
       } else {
         negateColors ? .red.opacity(0.35) : .green
       }
+    }
+    self.monthly = { logs in
+      (logs.count, 30)
     }
     self.label = { _,_ in EmptyView() }
     self.negateColors = negateColors
@@ -508,6 +596,9 @@ struct DidCompleteChart<Label: View>: View {
       } else {
         negateColors ? .red.opacity(0.35) : .green
       }
+    }
+    self.monthly = { logs in
+      (logs.count, 30)
     }
     self.label = label
     self.negateColors = negateColors
@@ -559,7 +650,8 @@ struct DidCompleteChart<Label: View>: View {
                   .border(.white)
               }
             } else {
-              let completion = min(CGFloat(results.count) / 30, 1)
+              let monthly = monthly(results)
+              let completion: CGFloat = min(CGFloat(monthly.completed) / CGFloat(monthly.total), 1)
               GeometryReader { p in
                 Rectangle()
                   .stroke()
@@ -577,20 +669,6 @@ struct DidCompleteChart<Label: View>: View {
       }
     }
   }
-}
-
-#Preview {
-
-  GeometryReader { p in
-    Rectangle()
-      .stroke()
-      .background(
-        Color.green
-          .frame(height: p.size.height * 0.37)
-          .frame(height: p.size.height, alignment: .bottom)
-      )
-  }
-  .frame(width: 32, height: 32)
 }
 
 import CoreData
@@ -615,6 +693,7 @@ struct TrackerView<Content: View>: View {
     Group {
       if let tracker {
         content(tracker)
+          .addLogContextMenu(viewContext: viewContext, tracker: tracker)
       } else {
         Text("Tracker not found: \(trackerName)")
       }
@@ -635,6 +714,129 @@ struct TrackerView<Content: View>: View {
       }
     }
   }
+}
+
+extension View {
+  func erasedToAnyView() -> AnyView {
+    AnyView(self)
+  }
+}
+
+struct ManyTrackersView<Label: View>: View {
+  @State private var detailTracker: Tracker?
+
+  let content: (@escaping (Tracker) -> Void) -> AnyView
+
+  init(
+    trackerNames t1: String,
+    _ t2: String,
+    @ViewBuilder
+    label: @escaping (Tracker, Tracker) -> Label
+  ) {
+    content = { presentTracker in
+      TrackersView(trackerNames: t1, t2) { t1, t2 in
+        Menu {
+          Button {
+            presentTracker(t1)
+          } label: {
+            Text(t1.title ?? "")
+          }
+          Button {
+            presentTracker(t2)
+          } label: {
+            Text(t2.title ?? "")
+          }
+        } label: {
+          label(t1, t2)
+        }
+      }.erasedToAnyView()
+    }
+  }
+
+  init(
+    trackerNames t1: String,
+    _ t2: String,
+    _ t3: String,
+    @ViewBuilder
+    label: @escaping (Tracker, Tracker, Tracker) -> Label
+  ) {
+    content = { presentTracker in
+      TrackersView(trackerNames: t1, t2, t3) { t1, t2, t3 in
+        Menu {
+          Button {
+            presentTracker(t1)
+          } label: {
+            Text(t1.title ?? "")
+          }
+          Button {
+            presentTracker(t2)
+          } label: {
+            Text(t2.title ?? "")
+          }
+          Button {
+            presentTracker(t3)
+          } label: {
+            Text(t3.title ?? "")
+          }
+        } label: {
+          label(t1, t2, t3)
+        }
+      }.erasedToAnyView()
+    }
+  }
+
+  init(
+    trackerNames t1: String,
+    _ t2: String,
+    _ t3: String,
+    _ t4: String,
+    @ViewBuilder
+    label: @escaping (Tracker, Tracker, Tracker, Tracker) -> Label
+  ) {
+    content = { presentTracker in
+      TrackersView(trackerNames: t1, t2, t3, t4) { t1, t2, t3, t4 in
+        Menu {
+          Button {
+            presentTracker(t1)
+          } label: {
+            Text(t1.title ?? "")
+          }
+          Button {
+            presentTracker(t2)
+          } label: {
+            Text(t2.title ?? "")
+          }
+          Button {
+            presentTracker(t3)
+          } label: {
+            Text(t3.title ?? "")
+          }
+          Button {
+            presentTracker(t4)
+          } label: {
+            Text(t4.title ?? "")
+          }
+        } label: {
+          label(t1, t2, t3, t4)
+        }
+      }.erasedToAnyView()
+    }
+  }
+
+  var body: some View {
+    content {
+      detailTracker = $0
+    }
+    .sheet(item: $detailTracker) { tracker in
+      TrackerDetailScreen(tracker)
+    }
+  }
+
+//  var body: some View {
+//    TrackersView
+//
+//    // TODO: Abstract this out to another layer (e.g. ATrackerView)
+//  }
 }
 
 struct TrackersView<Label: View>: View {
@@ -691,19 +893,8 @@ struct TrackersView<Label: View>: View {
       if trackers.isEmpty {
         Text("Trackers not found: \(missingTrackers.joined(separator: ", "))")
       } else {
-
-        // TODO: Abstract this out to another layer (e.g. ATrackerView)
-        Menu {
-          ForEach(trackers) { tracker in
-            Button {
-              detailTracker = tracker
-            } label: {
-              Text(tracker.title ?? "")
-            }
-          }
-        } label: {
-          content(trackers)
-        }
+        content(trackers)
+          .addLogContextMenu(viewContext: viewContext, trackers: trackers)
       }
     }.onAppear {
       do {
@@ -731,8 +922,6 @@ struct TrackersView<Label: View>: View {
         missingTrackers = []
         assertionFailure("Failed to fetch: \(error)")
       }
-    }.sheet(item: $detailTracker) { tracker in
-      TrackerDetailScreen(tracker)
     }
   }
 }

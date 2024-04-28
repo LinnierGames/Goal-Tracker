@@ -58,13 +58,6 @@ struct GoalsScreen: View {
 
       .navigationTitle("Goals")
       .toolbar {
-        ToolbarItemGroup(placement: .topBarLeading) {
-          SheetLink(fullScreen: true) {
-            GoalDashboardsScreen()
-          } label: {
-            Image(systemName: "list.bullet.clipboard")
-          }
-        }
         ToolbarItemGroup(placement: .topBarTrailing) {
           Button { withAnimation { showTrackers.toggle() } } label: {
             Image(systemName: showTrackers ? "eye.fill" : "eye")

@@ -86,14 +86,6 @@ struct TodayScreen: View {
       }
       .navigationTitle("Today")
       .toolbar {
-        ToolbarItemGroup(placement: .topBarLeading) {
-          SheetLink(fullScreen: true) {
-            GoalDashboardsScreen()
-          } label: {
-            Image(systemName: "list.bullet.clipboard")
-          }
-        }
-
         ToolbarItem(placement: .topBarTrailing) {
           Picker("", selection: $viewStyle) {
             Text("W").tag(ViewStyle.weekly)

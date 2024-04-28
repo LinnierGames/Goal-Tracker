@@ -20,3 +20,13 @@ extension TimeInterval {
     self.init(hours: 24 * days)
   }
 }
+
+enum Weekday: Int {
+  case sunday = 1
+  case monday
+  case tuesday
+  case wednesday
+  case thursday
+  case friday
+  case saturday
+}

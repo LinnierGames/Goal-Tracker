@@ -57,6 +57,9 @@
 		E13F21CA2975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift */; };
 		E15B2D4B2BDC7E0B009C8B17 /* Collection+Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D4A2BDC7E0B009C8B17 /* Collection+Sort.swift */; };
 		E15B2D4D2BDCAEA7009C8B17 /* TrackerHistogramChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D4C2BDCAEA7009C8B17 /* TrackerHistogramChart.swift */; };
+		E15B2D532BDDB556009C8B17 /* SwiftUI+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D522BDDB556009C8B17 /* SwiftUI+Extensions.swift */; };
+		E15B2D552BDDB71A009C8B17 /* Sanitize+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D542BDDB71A009C8B17 /* Sanitize+String.swift */; };
+		E15B2D572BDE1FD0009C8B17 /* TrackerLog+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D562BDE1FD0009C8B17 /* TrackerLog+SwiftUI.swift */; };
 		E15F44CC2AE9914400706BC6 /* CommonUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15F44CB2AE9914400706BC6 /* CommonUI.swift */; };
 		E15FB390298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15FB38F298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift */; };
 		E15FB392298774E600A88FD0 /* TrackerLogFieldScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15FB391298774E600A88FD0 /* TrackerLogFieldScreen.swift */; };
@@ -193,6 +196,9 @@
 		E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsSettingsTrackersScreen.swift; sourceTree = "<group>"; };
 		E15B2D4A2BDC7E0B009C8B17 /* Collection+Sort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Sort.swift"; sourceTree = "<group>"; };
 		E15B2D4C2BDCAEA7009C8B17 /* TrackerHistogramChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerHistogramChart.swift; sourceTree = "<group>"; };
+		E15B2D522BDDB556009C8B17 /* SwiftUI+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Extensions.swift"; sourceTree = "<group>"; };
+		E15B2D542BDDB71A009C8B17 /* Sanitize+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sanitize+String.swift"; sourceTree = "<group>"; };
+		E15B2D562BDE1FD0009C8B17 /* TrackerLog+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackerLog+SwiftUI.swift"; sourceTree = "<group>"; };
 		E15F44CB2AE9914400706BC6 /* CommonUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUI.swift; sourceTree = "<group>"; };
 		E15FB38F298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerDetailsSettingsFieldsScreen.swift; sourceTree = "<group>"; };
 		E15FB391298774E600A88FD0 /* TrackerLogFieldScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerLogFieldScreen.swift; sourceTree = "<group>"; };
@@ -391,6 +397,8 @@
 				E13F21AF297336E300E1D4FD /* ButtonFill.swift */,
 				E11A94A12977CFE900FDCE41 /* Button+Helpers.swift */,
 				E11A94B1297A647C00FDCE41 /* Charts.swift */,
+				E15B2D522BDDB556009C8B17 /* SwiftUI+Extensions.swift */,
+				E15B2D562BDE1FD0009C8B17 /* TrackerLog+SwiftUI.swift */,
 			);
 			path = CommonUI;
 			sourceTree = "<group>";
@@ -477,6 +485,7 @@
 				E16290F129A43C98009EED1C /* ExternalSyncManager.swift */,
 				E16290F329A43DBF009EED1C /* HealthKitSync.swift */,
 				E15B2D4A2BDC7E0B009C8B17 /* Collection+Sort.swift */,
+				E15B2D542BDDB71A009C8B17 /* Sanitize+String.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -695,6 +704,7 @@
 				E104FCE3297C4A17003AF448 /* TrackerBarChart.swift in Sources */,
 				E1C10D56297FB74F00825BCC /* SiriShortcutViewController.swift in Sources */,
 				E11A94A22977CFE900FDCE41 /* Button+Helpers.swift in Sources */,
+				E15B2D572BDE1FD0009C8B17 /* TrackerLog+SwiftUI.swift in Sources */,
 				E184F4E327E5AEC800BB2F2C /* AlertContent.swift in Sources */,
 				E12BC20527E2451100580111 /* RemoteStoreAPI.swift in Sources */,
 				E16A9EA427E0E01A007092CD /* AppDelegate.swift in Sources */,
@@ -716,6 +726,8 @@
 				E13F21C82975D5A000E1D4FD /* GoalDetailsChartsScreen.swift in Sources */,
 				E13F21AE297330CD00E1D4FD /* TrackersScreen.swift in Sources */,
 				E11A949E2977BD1100FDCE41 /* Binding+Helpers.swift in Sources */,
+				E15B2D532BDDB556009C8B17 /* SwiftUI+Extensions.swift in Sources */,
+				E15B2D552BDDB71A009C8B17 /* Sanitize+String.swift in Sources */,
 				E11A94A8297A53D600FDCE41 /* NSSet.swift in Sources */,
 				E13F21C02974FA9A00E1D4FD /* ImportDataScreen.swift in Sources */,
 				E104207227DBAC5800051F2A /* Intents.intentdefinition in Sources */,

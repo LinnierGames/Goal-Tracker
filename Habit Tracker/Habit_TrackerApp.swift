@@ -35,7 +35,7 @@ struct Tracker_TrackerApp: App {
           .tabItem {
             Label("Trackers", systemImage: "text.book.closed")
           }
-        GoalsScreen()
+        GoalDashboardsScreen()
           .tabItem {
             Label("Goals", systemImage: "star.fill")
           }
