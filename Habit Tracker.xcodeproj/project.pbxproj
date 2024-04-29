@@ -103,6 +103,8 @@
 		E1C10D6929832B1800825BCC /* TrackerPlotChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D6829832B1800825BCC /* TrackerPlotChart.swift */; };
 		E1C10D6B29832BE100825BCC /* Range+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D6A29832BE100825BCC /* Range+Extensions.swift */; };
 		E1C10D6D2983328E00825BCC /* Formats.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D6C2983328E00825BCC /* Formats.swift */; };
+		E1C1DCB22BDF312A00C3A4A9 /* GoalDashboardsScreen+Tabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C1DCB12BDF312A00C3A4A9 /* GoalDashboardsScreen+Tabs.swift */; };
+		E1C1DCB42BDF313A00C3A4A9 /* GoalDashboardsScreen+Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C1DCB32BDF313A00C3A4A9 /* GoalDashboardsScreen+Tracker.swift */; };
 		E1CD70EB27DDE7850098DE0B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CD70EA27DDE7850098DE0B /* HealthKit.framework */; };
 		E1CD70ED27DDEF6A0098DE0B /* CollectedDataScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */; };
 		E1E90F562A096C43004C67FE /* TrackerLogViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E90F552A096C43004C67FE /* TrackerLogViews.swift */; };
@@ -249,6 +251,8 @@
 		E1C10D6829832B1800825BCC /* TrackerPlotChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerPlotChart.swift; sourceTree = "<group>"; };
 		E1C10D6A29832BE100825BCC /* Range+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Range+Extensions.swift"; sourceTree = "<group>"; };
 		E1C10D6C2983328E00825BCC /* Formats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formats.swift; sourceTree = "<group>"; };
+		E1C1DCB12BDF312A00C3A4A9 /* GoalDashboardsScreen+Tabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoalDashboardsScreen+Tabs.swift"; sourceTree = "<group>"; };
+		E1C1DCB32BDF313A00C3A4A9 /* GoalDashboardsScreen+Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoalDashboardsScreen+Tracker.swift"; sourceTree = "<group>"; };
 		E1CD70E827DDDD630098DE0B /* HealthKit2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKit2.swift; sourceTree = "<group>"; };
 		E1CD70EA27DDE7850098DE0B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectedDataScreen.swift; sourceTree = "<group>"; };
@@ -415,6 +419,8 @@
 				E11A94AE297A628A00FDCE41 /* Common */,
 				E13F21C12974FAA800E1D4FD /* GoalsScreen.swift */,
 				E17F97DF2B259A6D00A62346 /* GoalDashboardsScreen.swift */,
+				E1C1DCB12BDF312A00C3A4A9 /* GoalDashboardsScreen+Tabs.swift */,
+				E1C1DCB32BDF313A00C3A4A9 /* GoalDashboardsScreen+Tracker.swift */,
 				E1BA80512A6A3D9900388928 /* GoalsArchivedScreen.swift */,
 				E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */,
 				E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */,
@@ -728,6 +734,7 @@
 				E16290F029A43909009EED1C /* TrackerLog+HealthKit.swift in Sources */,
 				E108119E29A48C120016312D /* ScreenTimeService.swift in Sources */,
 				E16290E329A1F14E009EED1C /* HealthKit.swift in Sources */,
+				E1C1DCB22BDF312A00C3A4A9 /* GoalDashboardsScreen+Tabs.swift in Sources */,
 				E11A94B2297A647C00FDCE41 /* Charts.swift in Sources */,
 				E13F21C82975D5A000E1D4FD /* GoalDetailsChartsScreen.swift in Sources */,
 				E13F21AE297330CD00E1D4FD /* TrackersScreen.swift in Sources */,
@@ -781,6 +788,7 @@
 				E13F21C22974FAA800E1D4FD /* GoalsScreen.swift in Sources */,
 				E10AFC0B27DF18D5000965D9 /* FilePicker.swift in Sources */,
 				E15FB390298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift in Sources */,
+				E1C1DCB42BDF313A00C3A4A9 /* GoalDashboardsScreen+Tracker.swift in Sources */,
 				E11A949C2977BAB500FDCE41 /* TrackerDetailsSettingsScreen.swift in Sources */,
 				E1EF452A2995501E00DC5CC1 /* TrackerLogFieldValuesList.swift in Sources */,
 				E15B2D4D2BDCAEA7009C8B17 /* TrackerHistogramChart.swift in Sources */,

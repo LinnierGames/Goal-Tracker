@@ -77,6 +77,8 @@ extension ChartTools {
     case .month:
       return Array(stride(from: range.lowerBound, to: range.upperBound, by: .init(days: 7)))
     case .year:
+      // TODO: support multi-year ranges
+//      return Array(Swift.stride(from: range.lowerBound, to: range.upperBound, by: .init(days: 30)))
       let calendar = Calendar.current
       guard let monthRange = calendar.range(of: .month, in: .year, for: range.lowerBound) else {
         return []

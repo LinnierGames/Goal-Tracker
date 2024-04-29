@@ -6,6 +6,7 @@
 //
 
 import Combine
+import CoreData
 import SwiftUI
 
 private class ViewModel: ObservableObject {
@@ -20,15 +21,20 @@ private class ViewModel: ObservableObject {
 
   /// Called when a certain managed object context has been saved from an external process. It should also be called on the context's queue.
   func viewContextDidSaveExternally() {
-    let viewContext = PersistenceController.shared.container.viewContext
-    viewContext.perform {
-      // `refreshAllObjects` only refreshes objects from which the cache is invalid. With a staleness intervall of -1 the cache never invalidates.
-      // We set the `stalenessInterval` to 0 to make sure that changes in the app extension get processed correctly.
-      viewContext.stalenessInterval = 0
-      viewContext.refreshAllObjects()
-      viewContext.stalenessInterval = -1
+    PersistenceController.shared.container.performBackgroundTask { child in
+      child.performAndWait {
+        // `refreshAllObjects` only refreshes objects from which the cache is invalid. With a staleness interval of -1 the cache never invalidates.
+        // We set the `stalenessInterval` to 0 to make sure that changes in the app extension get processed correctly.
+        child.stalenessInterval = 0
+        child.refreshAllObjects()
+        child.stalenessInterval = -1
+      }
 
-      self.objectWillChange.send()
+      try! child.save()
+
+      DispatchQueue.main.async {
+        self.objectWillChange.send()
+      }
     }
   }
 }
