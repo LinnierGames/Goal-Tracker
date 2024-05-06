@@ -12,8 +12,8 @@ import SwiftUI
 struct GoalDashboardsScreen: View {
   @Environment(\.managedObjectContext) var viewContext
 
-  @State private var childNavigation = NavigationPath()
-  @StateObject private var dateRange =
+  @State var childNavigation = NavigationPath()
+  @StateObject var dateRange =
     DateRangePickerViewModel(intialDate: Date(), intialWindow: .week)
 
   var body: some View {
@@ -27,11 +27,11 @@ struct GoalDashboardsScreen: View {
             ScrollView(.horizontal) {
               LazyHStack(spacing: 0) {
                 feelingEnergizedTab()
-                  .frame(width: p.size.width)
+                  .frame(width: max(p.size.width, 1))
                 eatingHealthyTab()
-                  .frame(width: p.size.width)
+                  .frame(width: max(p.size.width, 1))
                 postureTab()
-                  .frame(width: p.size.width)
+                  .frame(width: max(p.size.width, 1))
               }
             }
             .scrollTargetBehavior(.paging)
@@ -46,6 +46,9 @@ struct GoalDashboardsScreen: View {
           } label: {
             Label("old", systemImage: "list.bullet.clipboard")
           }
+        }
+        ToolbarItem(placement: .topBarTrailing) {
+          EditButton()
         }
       }
       .navigationTitle("Dashboards")
@@ -65,9 +68,11 @@ struct ATrackerView<Label: View>: View {
     self.tracker = tracker
     self.title = title.isEmpty ? tracker : title
     self.label = label
+    _labelHeight = AppStorage(wrappedValue: Int16ToInt<ChartSize>(rawValue: 0)!, tracker)
   }
 
   @EnvironmentObject var dateRange: DateRangePickerViewModel
+  @AppStorage var labelHeight: Int16ToInt<ChartSize>
 
   var body: some View {
     TrackerView(tracker) { tracker in
@@ -77,6 +82,25 @@ struct ATrackerView<Label: View>: View {
         VStack(alignment: .leading) {
           Text(title)
           label(tracker)
+            .frame(height: labelHeight.from.floatValue * 0.6)
+        }
+        .overlay(alignment: .trailing) {
+          Menu {
+            Button("XL") {
+              labelHeight = .init(.extraLarge)
+            }
+            Button("L") {
+              labelHeight = .init(.large)
+            }
+            Button("M") {
+              labelHeight = .init(.medium)
+            }
+            Button("S") {
+              labelHeight = .init(.small)
+            }
+          } label: {
+            Image(systemName: "arrow.up.left.and.down.right.and.arrow.up.right.and.down.left")
+          }
         }
       }
     }
@@ -86,6 +110,7 @@ struct ATrackerView<Label: View>: View {
 struct ManyTrackersView<Label: View>: View {
   @State private var detailTracker: Tracker?
 
+  let id: String
   let content: (@escaping (Tracker) -> Void) -> AnyView
 
   init(
@@ -94,6 +119,8 @@ struct ManyTrackersView<Label: View>: View {
     @ViewBuilder
     label: @escaping (Tracker, Tracker) -> Label
   ) {
+    id = t1 + t2
+    _labelHeight = AppStorage(wrappedValue: Int16ToInt<ChartSize>(rawValue: 0)!, id)
     content = { presentTracker in
       TrackersView(trackerNames: t1, t2) { t1, t2 in
         Menu {
@@ -121,6 +148,8 @@ struct ManyTrackersView<Label: View>: View {
     @ViewBuilder
     label: @escaping (Tracker, Tracker, Tracker) -> Label
   ) {
+    id = t1 + t2 + t3
+    _labelHeight = AppStorage(wrappedValue: Int16ToInt<ChartSize>(rawValue: 0)!, id)
     content = { presentTracker in
       TrackersView(trackerNames: t1, t2, t3) { t1, t2, t3 in
         Menu {
@@ -154,6 +183,8 @@ struct ManyTrackersView<Label: View>: View {
     @ViewBuilder
     label: @escaping (Tracker, Tracker, Tracker, Tracker) -> Label
   ) {
+    id = t1 + t2 + t4
+    _labelHeight = AppStorage(wrappedValue: Int16ToInt<ChartSize>(rawValue: 0)!, id)
     content = { presentTracker in
       TrackersView(trackerNames: t1, t2, t3, t4) { t1, t2, t3, t4 in
         Menu {
@@ -184,13 +215,54 @@ struct ManyTrackersView<Label: View>: View {
     }
   }
 
+  @AppStorage var labelHeight: Int16ToInt<ChartSize>
+
   var body: some View {
     content {
       detailTracker = $0
     }
+    .overlay(alignment: .trailing) {
+      Menu {
+        Button("XL") {
+          labelHeight = .init(.extraLarge)
+        }
+        Button("L") {
+          labelHeight = .init(.large)
+        }
+        Button("M") {
+          labelHeight = .init(.medium)
+        }
+        Button("S") {
+          labelHeight = .init(.small)
+        }
+      } label: {
+        Image(systemName: "arrow.up.left.and.down.right.and.arrow.up.right.and.down.left")
+      }
+    }
+    .frame(height: labelHeight.from.floatValue * 2)
     .sheet(item: $detailTracker) { tracker in
       TrackerDetailScreen(tracker)
     }
+  }
+}
+
+struct Int16ToInt<From>: RawRepresentable where From: RawRepresentable, From.RawValue == Int16 {
+  let from: From
+
+  init(_ from: From) {
+    self.from = from
+  }
+
+  init?(rawValue: Int) {
+    guard let from = From(rawValue: Int16(rawValue)) else {
+      return nil
+    }
+
+    self.from = from
+  }
+  
+  var rawValue: Int {
+    Int(from.rawValue)
   }
 }
 

@@ -35,6 +35,7 @@ struct TrackerPlotChart: View, ChartTools {
     let hour: Double
     let hours: [Double]
     let tracker: Tracker
+    let style: () -> AnyView
   }
   private var data: [Data]
 
@@ -56,8 +57,78 @@ struct TrackerPlotChart: View, ChartTools {
     self.annotations = annotations
     self.width = width
 
-    typealias Result = [(x: Date, y: Int, y2: Double, y3: [Double], Tracker)]
-    self.data = Self.strideChartMarks(range: range, granularity: granularity)
+    self.data = Self.makeData(
+      trackers: trackers.map { t in
+        (t, { BasicChartSymbolShape.circle.erasedToAnyView() })
+      },
+      range: range,
+      logDate: logDate,
+      granularity: granularity,
+      annotations: annotations,
+      context: context
+    )
+  }
+
+  init(
+    _ trackers: (tracker: Tracker, symbol: BasicChartSymbolShape)...,
+    range: ClosedRange<Date>,
+    logDate: ChartDate,
+    granularity: DateWindow, width: Width = .full,
+    annotations: [GoalChartAnnotation],
+    context: NSManagedObjectContext
+  ) {
+    self.trackers = trackers.map(\.tracker)
+    self.range = range
+    self.logDate = logDate
+    self.granularity = granularity
+    self.annotations = annotations
+    self.width = width
+
+    self.data = Self.makeData(
+      trackers: trackers.map { t, s in (t, { s.erasedToAnyView() }) },
+      range: range,
+      logDate: logDate,
+      granularity: granularity,
+      annotations: annotations,
+      context: context
+    )
+  }
+
+  init(
+    _ trackers: (tracker: Tracker, symbol: () -> AnyView)...,
+    range: ClosedRange<Date>,
+    logDate: ChartDate,
+    granularity: DateWindow, width: Width = .full,
+    annotations: [GoalChartAnnotation],
+    context: NSManagedObjectContext
+  ) {
+    self.trackers = trackers.map(\.tracker)
+    self.range = range
+    self.logDate = logDate
+    self.granularity = granularity
+    self.annotations = annotations
+    self.width = width
+
+    self.data = Self.makeData(
+      trackers: trackers,
+      range: range,
+      logDate: logDate,
+      granularity: granularity,
+      annotations: annotations,
+      context: context
+    )
+  }
+
+  typealias Result = [(x: Date, y: Int, y2: Double, y3: [Double], Tracker, () -> AnyView)]
+  private static func makeData(
+    trackers: [(Tracker, () -> AnyView)],
+    range: ClosedRange<Date>,
+    logDate: ChartDate,
+    granularity: DateWindow, width: Width = .full,
+    annotations: [GoalChartAnnotation],
+    context: NSManagedObjectContext
+  ) -> [Data] {
+    Self.strideChartMarks(range: range, granularity: granularity)
       .map { day, lowerBound, upperBound -> Result in
         func logs(for tracker: Tracker) -> [TrackerLog] {
           let fetch = TrackerLog.fetchRequest()
@@ -93,11 +164,11 @@ struct TrackerPlotChart: View, ChartTools {
 
         switch granularity {
         case .day:
-          return trackers.map { tracker in
-            (day, logs(for: tracker).count, 0.0, [], tracker)
+          return trackers.map { tracker, style in
+            (day, logs(for: tracker).count, 0.0, [], tracker, style)
           }
         case .week, .month:
-          return trackers.flatMap { tracker in
+          return trackers.flatMap { tracker, style in
             logs(for: tracker).compactMap { entry -> [Double]? in
               let formatter = DateFormatter()
               formatter.dateFormat = "HH"
@@ -131,11 +202,11 @@ struct TrackerPlotChart: View, ChartTools {
             }
             .flatMap { $0 }
             .map { hour in
-              (day, 1, hour, [], tracker)
+              (day, 1, hour, [], tracker, style)
             }
           }
         case .year:
-          return trackers.flatMap { tracker -> Result in
+          return trackers.flatMap { tracker, style -> Result in
             let entriesForRange = logs(for: tracker)
             guard !entriesForRange.isEmpty else { return [] }
             let hours = entriesForRange
@@ -145,14 +216,12 @@ struct TrackerPlotChart: View, ChartTools {
               .reduce(0, +)
             let count = entriesForRange.count
 
-            return [(day, 1, Double(sum) / Double(count), hours, tracker)]
+            return [(day, 1, Double(sum) / Double(count), hours, tracker, style)]
           }
         }
       }
       .flatMap { $0 }
-      .map { timestamp, count, hour, hours, tracker in
-        Data(timestamp: timestamp, count: count, hour: hour, hours: hours, tracker: tracker)
-      }
+      .map(Data.init)
   }
 
   var body: some View {
@@ -206,6 +275,7 @@ struct TrackerPlotChart: View, ChartTools {
           }
       case .week, .month:
         PointMark(x: .value("Date", entry.timestamp, unit: .day), y: .value("Hour", entry.hour))
+//          .symbol { entry.style().frame(width: 8, height: 8) } // FIXME: views are not colored by style
           .if(trackers.count > 1) {
             $0.foregroundStyle(by: .value("Tracker", entry.tracker.title ?? ""))
           }
@@ -229,7 +299,7 @@ struct TrackerPlotChart: View, ChartTools {
           y: .value("Hour", entry.hour),
           series: .value("Tracker", entry.tracker.title ?? "")
         )
-        .symbol(BasicChartSymbolShape.circle)
+//        .symbol { entry.style().frame(width: 8, height: 8) }
         .if(trackers.count > 1) {
           $0.foregroundStyle(by: .value("Tracker", entry.tracker.title ?? ""))
         }

@@ -11,7 +11,8 @@ extension TrackerLog {
   var allValues: [TrackerLogValue] {
     values?.allManagedObjects() ?? []
   }
-
+  
+  /// Formatted string
   @objc var timestampFormat: String {
     let formatter = DateFormatter()
     formatter.dateFormat = "EEEE, d 'at' HH:mm"

@@ -5,9 +5,67 @@
 //  Created by Erick Sanchez on 4/28/24.
 //
 
+import Charts
 import SwiftUI
 
+let BasicPlotSymbol = BasicChartSymbolShape.circle
+
 extension GoalDashboardsScreen {
+  func feelingEnergizedTab() -> some View {
+    VStack {
+      Text("Feeling Energized")
+        .font(.title2)
+
+      Form {
+        Section {
+//          ManyTrackersView(
+//            trackerNames: "Breakfast", "Lunch", "Dinner", "Fast Food"
+//          ) { breakfast, lunch, dinner, fastFood in
+//            TrackerPlotChart(
+//              (breakfast, { BasicPlotSymbol.erasedToAnyView() }),
+//              (lunch, { BasicPlotSymbol.erasedToAnyView() }),
+//              (dinner, { BasicPlotSymbol.erasedToAnyView() }),
+//              (fastFood, { BasicPlotSymbol.erasedToAnyView() }),
+//              range: dateRange.startDate...dateRange.endDate,
+//              logDate: .both,
+//              granularity: dateRange.selectedDateWindow,
+//              width: .short,
+//              annotations: [],
+//              context: viewContext
+//            )
+//          }
+
+          getOutOfBed(includeExtraCharts: true)
+          goToBed(includeExtraCharts: true)
+        } header: {
+          Text("Bed times")
+        }
+
+        Section {
+          noseRinse()
+          usedCPAP()
+          naps()
+        } header: {
+          Text("Sleep Hygiene")
+        }
+
+        Section {
+          fullBodyStretch()
+          exercise()
+        } header: {
+          Text("Activeness")
+        }
+
+        Section {
+          feelingTired()
+          feelingTiredDuringMeals()
+        } header: {
+          Text("Results")
+        }
+      }
+    }
+  }
+
   func eatingHealthyTab() -> some View {
     VStack {
       Text("Eating Healthy")
@@ -36,43 +94,6 @@ extension GoalDashboardsScreen {
 
         Section {
           oohBoi()
-          feelingTired()
-        } header: {
-          Text("Results")
-        }
-      }
-    }
-  }
-
-  func feelingEnergizedTab() -> some View {
-    VStack {
-      Text("Feeling Energized")
-        .font(.title2)
-
-      Form {
-        Section {
-          getOutOfBed()
-          goToBed()
-        } header: {
-          Text("Bed times")
-        }
-
-        Section {
-          noseRinse()
-          usedCPAP()
-          naps()
-        } header: {
-          Text("Sleep Hygiene")
-        }
-
-        Section {
-          fullBodyStretch()
-          exercise()
-        } header: {
-          Text("Activeness")
-        }
-
-        Section {
           feelingTired()
         } header: {
           Text("Results")
@@ -163,7 +184,6 @@ extension GoalDashboardsScreen {
         width: .short,
         context: viewContext
       )
-      .frame(height: 64)
     }
 
     TrackerView("🌯 Eat Fast Food") { tracker in
@@ -188,10 +208,10 @@ extension GoalDashboardsScreen {
   @ViewBuilder
   func eatEachMeal() -> some View {
     ManyTrackersView(
-      trackerNames: "🍔 Eat Breakfast", "🍖 Eat Lunch", "🍱 Eat Dinner"
-    ) { breakfast, lunch, dinner in
+      trackerNames: "🍔 Eat Breakfast", "🍖 Eat Lunch", "🍱 Eat Dinner", "🌯 Eat Fast Food"
+    ) { breakfast, lunch, dinner, fastFood in
       TrackerPlotChart(
-        breakfast, lunch, dinner,
+        (breakfast, .circle), (lunch, .circle), (dinner, .circle), (fastFood, .asterisk),
         range: dateRange.startDate...dateRange.endDate,
         logDate: .both,
         granularity: dateRange.selectedDateWindow,
@@ -199,7 +219,6 @@ extension GoalDashboardsScreen {
         annotations: [],
         context: viewContext
       )
-      .frame(height: 132)
     }
 
     StateView(Optional<Tracker>.none) { selectedTracker in
@@ -294,6 +313,41 @@ extension GoalDashboardsScreen {
     }
   }
 
+  @ViewBuilder
+  func feelingTiredDuringMeals() -> some View {
+    ManyTrackersView(
+      trackerNames: "🥱 Feeling Tired", "🍔 Eat Breakfast", "🍖 Eat Lunch", "🍱 Eat Dinner"
+    ) { feelingTired, breakfast, lunch, dinner in
+      TrackerPlotChart(
+        (breakfast, .circle), (lunch, .circle), (dinner, .circle), (feelingTired, .asterisk),
+        range: dateRange.startDate...dateRange.endDate,
+        logDate: .both,
+        granularity: dateRange.selectedDateWindow,
+        width: .short,
+        annotations: [],
+        context: viewContext
+      )
+    }
+
+    TrackerView("🥱 Feeling Tired") { tracker in
+      NavigationLink {
+        HistogramChart(
+          tracker,
+          range: dateRange.startDate...dateRange.endDate
+        ) { logs in
+          logs.compactMap { log in
+            log.allValues.first(where: {
+              $0.field?.title == "Activity"
+            })?.string.sanitize(.capitalized, .whitespaceTrimmed)
+          }
+        }
+        .navigationTitle("Feeling Tired: Activities")
+      } label: {
+        Text("View Activities")
+      }
+    }
+  }
+
   func usedCPAP() -> some View {
     ATrackerView("Used CPAP") { tracker in
       DidCompleteChart(tracker: tracker)
@@ -346,7 +400,7 @@ extension GoalDashboardsScreen {
     }
   }
 
-  func goToBed() -> some View {
+  func goToBed(includeExtraCharts: Bool = false) -> some View {
     func matchesPredicate(log: TrackerLog) -> Bool {
       guard let timestamp = log.timestamp else { return false }
 
@@ -369,35 +423,72 @@ extension GoalDashboardsScreen {
       return false
     }
 
-    return ATrackerView("Go To Bed", title: "💤 Go to bed") { tracker in
-      DidCompleteChart(
-        tracker: tracker,
-        daily: { logs, _ in
-          if logs.isEmpty {
-            return .gray.opacity(0.35)
-          } else if logs.contains(where: matchesPredicate(log:)) {
-            return .green
-          } else {
-            return .red.opacity(0.35)
+    @ViewBuilder
+    func builder() -> some View {
+      ATrackerView("Go To Bed", title: "💤 Go to bed") { tracker in
+        DidCompleteChart(
+          tracker: tracker,
+          daily: { logs, _ in
+            if logs.isEmpty {
+              .gray.opacity(0.35)
+            } else if logs.contains(where: matchesPredicate(log:)) {
+              .green
+            } else {
+              .red.opacity(0.35)
+            }
+          }, monthly: { logs in
+            (logs.filter(matchesPredicate(log:)).count, 30)
+          }, label: { logs, _ in
+            if let log = logs.first(where: matchesPredicate(log:)), let timestamp = log.timestamp {
+              Text(timestamp, format: .time)
+                .font(.system(size: 6))
+            } else if let first = logs.first, let timestamp = first.timestamp {
+              Text(timestamp, format: .time)
+                .font(.system(size: 6))
+            } else {
+              EmptyView()
+            }
           }
-        }, monthly: { logs in
-          (logs.filter(matchesPredicate(log:)).count, 30)
-        }, label: { logs, _ in
-          if let log = logs.first(where: matchesPredicate(log:)), let timestamp = log.timestamp {
-            Text(timestamp, format: .time)
-              .font(.system(size: 6))
-          } else if let first = logs.first, let timestamp = first.timestamp {
-            Text(timestamp, format: .time)
-              .font(.system(size: 6))
-          } else {
-            EmptyView()
-          }
+        )
+      }
+
+      if includeExtraCharts {
+        TrackerView("Go To Bed") { tracker in
+          DidCompleteChart(
+            tracker: tracker,
+            daily: { logs, _ in
+              if logs.isEmpty {
+                .gray.opacity(0.35)
+              } else if let log = logs.first(where: matchesPredicate(log:)), let timestamp = log.timestamp {
+                if let sleepy = log.allValues.first(where: { $0.field?.title == "Feeling sleepy" })?.boolValue {
+                  sleepy ? .green : .red
+                } else {
+                  .clear
+                }
+              } else {
+                .red.opacity(0.35)
+              }
+            }, monthly: { logs in
+              (logs.filter(matchesPredicate(log:)).count, 30)
+            }, label: { logs, _ in
+              if let log = logs.first(where: matchesPredicate(log:)), let timestamp = log.timestamp {
+                if let sleepy = log.allValues.first(where: { $0.field?.title == "Feeling sleepy" })?.boolValue {
+                  Text(sleepy ? "😴" : "😬")
+                }
+              } else if let first = logs.first, let timestamp = first.timestamp {
+                Text(timestamp, format: .time)
+                  .font(.system(size: 6))
+              }
+            }
+          )
         }
-      )
+      }
     }
+
+    return builder()
   }
 
-  func getOutOfBed() -> some View {
+  func getOutOfBed(includeExtraCharts: Bool = false) -> some View {
     func matchesPredicate(log: TrackerLog) -> Bool {
       guard let timestamp = log.timestamp else { return false }
 
@@ -433,19 +524,18 @@ extension GoalDashboardsScreen {
       return false
     }
 
-    return ATrackerView("Get Out Of Bed", title: "☀️ Get out of bed") { tracker in
-      SheetLink {
-        TrackerDetailScreen(tracker, dateRange: dateRange.selectedDate, dateRangeWindow: dateRange.selectedDateWindow)
-      } label: {
+    @ViewBuilder
+    func builder() -> some View {
+      ATrackerView("Get Out Of Bed", title: "☀️ Get out of bed") { tracker in
         DidCompleteChart(
           tracker: tracker,
           daily: { logs, _ in
             if logs.isEmpty {
-              return .gray.opacity(0.35)
+              .gray.opacity(0.35)
             } else if logs.contains(where: matchesPredicate(log:)) {
-              return .green
+              .green
             } else {
-              return .red.opacity(0.35)
+              .red.opacity(0.35)
             }
           }, monthly: { logs in
             (logs.filter(matchesPredicate(log:)).count, 30)
@@ -456,12 +546,44 @@ extension GoalDashboardsScreen {
             } else if let first = logs.first, let timestamp = first.timestamp {
               Text(timestamp, format: .time)
                 .font(.system(size: 6))
-            } else {
-              EmptyView()
             }
           }
         )
       }
+
+      if includeExtraCharts {
+        TrackerView("Get Out Of Bed") { tracker in
+          DidCompleteChart(
+            tracker: tracker,
+            daily: { logs, _ in
+              if logs.isEmpty {
+                .gray.opacity(0.35)
+              } else if let log = logs.first(where: matchesPredicate(log:)), let timestamp = log.timestamp {
+                if let refreshed = log.allValues.first(where: { $0.field?.title == "Feel well rested" })?.boolValue {
+                  refreshed ? .green : .red
+                } else {
+                  .clear
+                }
+              } else {
+                .red.opacity(0.35)
+              }
+            }, monthly: { logs in
+              (logs.filter(matchesPredicate(log:)).count, 30)
+            }, label: { logs, _ in
+              if let log = logs.first(where: matchesPredicate(log:)), let timestamp = log.timestamp {
+                if let refreshed = log.allValues.first(where: { $0.field?.title == "Feel well rested" })?.boolValue {
+                  Text(refreshed ? "😌" : "😪")
+                }
+              } else if let first = logs.first, let timestamp = first.timestamp {
+                Text(timestamp, format: .time)
+                  .font(.system(size: 6))
+              }
+            }
+          )
+        }
+      }
     }
+
+    return builder()
   }
 }

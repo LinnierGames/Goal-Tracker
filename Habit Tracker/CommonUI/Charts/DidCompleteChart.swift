@@ -97,9 +97,44 @@ struct DidCompleteChart<Label: View>: View {
                   .border(.white)
               }
             } else {
-              daily(Array(results), date)
-                .border(.white)
-                .overlay(label(Array(results), date))
+              if results.isEmpty {
+                daily(Array(results), date)
+                  .border(.white)
+                  .overlay(label(Array(results), date))
+              } else if results.count == 1 {
+                SheetLink {
+                  NavigationStack {
+                    TrackerLogDetailScreen(tracker: tracker, log: results[0])
+                  }
+                } label: {
+                  daily(Array(results), date)
+                    .border(.white)
+                    .overlay(label(Array(results), date))
+                }
+                .buttonStyle(.borderless)
+              } else {
+                StateView(Optional<TrackerLog>.none) { selectedLog in
+                  Menu {
+                    ForEach(results) { log in
+                      Button {
+                        selectedLog.wrappedValue = log
+                      } label: {
+                        Text(log.timestampFormat)
+                      }
+                    }
+                  } label: {
+                    daily(Array(results), date)
+                      .border(.white)
+                      .overlay(label(Array(results), date))
+                  }
+                  .menuStyle(.borderlessButton)
+                  .sheet(item: selectedLog) { log in
+                    NavigationStack {
+                      TrackerLogDetailScreen(tracker: tracker, log: log)
+                    }
+                  }
+                }
+              }
             }
           }
         case .year:
