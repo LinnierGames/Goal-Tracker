@@ -16,6 +16,8 @@ struct GoalDashboardsScreen: View {
   @StateObject var dateRange =
     DateRangePickerViewModel(intialDate: Date(), intialWindow: .week)
 
+  @State private var scrollPage: String? = "energy"
+
   var body: some View {
     NavigationView {
       VStack {
@@ -23,19 +25,74 @@ struct GoalDashboardsScreen: View {
           .padding(.horizontal)
 
         NavigationStack(path: $childNavigation) {
+          // Using tab view breaks sheets
+//          TabView {
+//              feelingEnergizedTab()
+//              eatingHealthyTab()
+//              postureTab()
+//          }
+//          .tabViewStyle(.page)
           GeometryReader { p in
-            ScrollView(.horizontal) {
-              LazyHStack(spacing: 0) {
-                feelingEnergizedTab()
-                  .frame(width: max(p.size.width, 1))
-                eatingHealthyTab()
-                  .frame(width: max(p.size.width, 1))
-                postureTab()
-                  .frame(width: max(p.size.width, 1))
+            ZStack {
+              ScrollView(.horizontal) {
+                LazyHStack(spacing: 0) {
+                  feelingEnergizedTab()
+                    .frame(width: max(p.size.width, 1))
+                    .id("energy")
+                  eatingHealthyTab()
+                    .frame(width: max(p.size.width, 1))
+                    .id("healthy")
+                  postureTab()
+                    .frame(width: max(p.size.width, 1))
+                    .id("posture")
+                }
+                .scrollTargetLayout()
               }
+              .scrollTargetBehavior(.paging)
+              .scrollIndicators(.hidden)
+              .scrollPosition(id: $scrollPage, anchor: .topLeading)
+
+              HStack {
+                Button {
+                  withAnimation { scrollPage = "energy" }
+                } label: {
+                  VStack {
+                    Image(systemName: "bolt.square")
+                    Text("Energy")
+                      .font(.caption2)
+                  }
+                  .padding(.horizontal, 6)
+                  .foregroundStyle(scrollPage == "energy" ? .yellow : .accentColor)
+                }
+                Button {
+                  withAnimation { scrollPage = "healthy" }
+                } label: {
+                  VStack {
+                    Image(systemName: "stethoscope.circle")
+                    Text("Diet")
+                      .font(.caption2)
+                  }
+                  .padding(.horizontal, 6)
+                  .foregroundStyle(scrollPage == "healthy" ? .pink : .accentColor)
+                }
+                Button {
+                  withAnimation { scrollPage = "posture" }
+                } label: {
+                  VStack {
+                    Image(systemName: "figure.stand")
+                    Text("Posture")
+                      .font(.caption2)
+                  }
+                  .padding(.horizontal, 6)
+                  .foregroundStyle(scrollPage == "posture" ? .brown : .accentColor)
+                }
+              }
+              .padding()
+              .background(Color(UIColor.systemGroupedBackground))
+              .clipShape(RoundedRectangle(cornerRadius: 12))
+              .padding(.bottom)
+              .frame(maxHeight: .infinity, alignment: .bottom)
             }
-            .scrollTargetBehavior(.paging)
-            .scrollIndicators(.hidden)
           }
         }
       }

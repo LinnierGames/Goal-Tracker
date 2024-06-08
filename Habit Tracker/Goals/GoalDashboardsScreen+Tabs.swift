@@ -63,6 +63,7 @@ extension GoalDashboardsScreen {
           Text("Results")
         }
       }
+      .safeAreaPadding(.bottom, 64)
     }
   }
 
@@ -99,6 +100,7 @@ extension GoalDashboardsScreen {
           Text("Results")
         }
       }
+      .safeAreaPadding(.bottom, 64)
     }
   }
 
@@ -123,6 +125,7 @@ extension GoalDashboardsScreen {
           Text("Results")
         }
       }
+      .safeAreaPadding(.bottom, 64)
     }
   }
 
@@ -459,7 +462,7 @@ extension GoalDashboardsScreen {
             daily: { logs, _ in
               if logs.isEmpty {
                 .gray.opacity(0.35)
-              } else if let log = logs.first(where: matchesPredicate(log:)), let timestamp = log.timestamp {
+              } else if let log = logs.first {
                 if let sleepy = log.allValues.first(where: { $0.field?.title == "Feeling sleepy" })?.boolValue {
                   sleepy ? .green : .red
                 } else {
@@ -471,13 +474,12 @@ extension GoalDashboardsScreen {
             }, monthly: { logs in
               (logs.filter(matchesPredicate(log:)).count, 30)
             }, label: { logs, _ in
-              if let log = logs.first(where: matchesPredicate(log:)), let timestamp = log.timestamp {
+              if let log = logs.first {
                 if let sleepy = log.allValues.first(where: { $0.field?.title == "Feeling sleepy" })?.boolValue {
                   Text(sleepy ? "😴" : "😬")
+                } else {
+                  Text("")
                 }
-              } else if let first = logs.first, let timestamp = first.timestamp {
-                Text(timestamp, format: .time)
-                  .font(.system(size: 6))
               }
             }
           )
@@ -558,7 +560,7 @@ extension GoalDashboardsScreen {
             daily: { logs, _ in
               if logs.isEmpty {
                 .gray.opacity(0.35)
-              } else if let log = logs.first(where: matchesPredicate(log:)), let timestamp = log.timestamp {
+              } else if let log = logs.first {
                 if let refreshed = log.allValues.first(where: { $0.field?.title == "Feel well rested" })?.boolValue {
                   refreshed ? .green : .red
                 } else {
@@ -570,13 +572,12 @@ extension GoalDashboardsScreen {
             }, monthly: { logs in
               (logs.filter(matchesPredicate(log:)).count, 30)
             }, label: { logs, _ in
-              if let log = logs.first(where: matchesPredicate(log:)), let timestamp = log.timestamp {
+              if let log = logs.first {
                 if let refreshed = log.allValues.first(where: { $0.field?.title == "Feel well rested" })?.boolValue {
                   Text(refreshed ? "😌" : "😪")
+                } else {
+                  Text("")
                 }
-              } else if let first = logs.first, let timestamp = first.timestamp {
-                Text(timestamp, format: .time)
-                  .font(.system(size: 6))
               }
             }
           )
