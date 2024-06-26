@@ -192,6 +192,7 @@ struct DateRangePicker: View {
             endDate: viewModel.endDate
           ) { startDate, endDate in
             viewModel.moveToCustomDate(start: startDate, end: endDate)
+            isShowingDatePicker = false
           }
         }
       }
@@ -215,19 +216,39 @@ struct DateRangePicker: View {
     }
 
     var body: some View {
-      VStack {
-        DatePicker(
-          "Start",
-          selection: $startDate,
-          in: ...endDate,
-          displayedComponents: .date
-        )
-        DatePicker(
-          "End",
-          selection: $endDate,
-          in: startDate...,
-          displayedComponents: .date
-        )
+      VStack(spacing: 18) {
+        VStack {
+          Text("Date Ranges")
+          DatePicker(
+            "Start",
+            selection: $startDate,
+            in: ...endDate,
+            displayedComponents: .date
+          )
+          DatePicker(
+            "End",
+            selection: $endDate,
+            in: startDate...,
+            displayedComponents: .date
+          )
+        }
+
+        VStack {
+          Text("Days Ago")
+          HStack {
+            ForEach([7, 14, 30, 60, 90], id: \.self) { daysAgo in
+              Button {
+                let firstDay = Date(timeIntervalSinceNow: .init(days: -daysAgo))
+                let nextDay = Date().midnight.addingTimeInterval(.init(days: 1))
+                startDate = firstDay
+                endDate = nextDay
+              } label: {
+                Text(daysAgo, format: .number)
+              }
+              .buttonStyle(BorderedProminentButtonStyle())
+            }
+          }
+        }
       }
       .padding()
       .onDisappear {
@@ -237,3 +258,11 @@ struct DateRangePicker: View {
   }
 }
 
+#Preview {
+  VStack {
+    DateRangePicker(viewModel: DateRangePickerViewModel(intialDate: Date(), intialWindow: .week))
+      .padding()
+
+    Spacer()
+  }
+}

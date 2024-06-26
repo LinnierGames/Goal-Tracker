@@ -115,7 +115,7 @@ struct GoalDashboardsScreen: View {
   }
 }
 
-/// Base view for single hardcoded tracker rows
+/// Base view for single hardcoded tracker rows with basic navigation
 struct ATrackerView<Label: View>: View {
   let tracker: String
   let title: String
@@ -164,6 +164,7 @@ struct ATrackerView<Label: View>: View {
   }
 }
 
+/// Base view for many hardcoded tracker rows with basic navigation
 struct ManyTrackersView<Label: View>: View {
   @State private var detailTracker: Tracker?
 

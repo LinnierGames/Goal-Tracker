@@ -63,7 +63,7 @@ extension GoalDashboardsScreen {
           Text("Results")
         }
       }
-      .safeAreaPadding(.bottom, 64)
+      .safeAreaPadding(.bottom, 72)
     }
   }
 
@@ -100,7 +100,7 @@ extension GoalDashboardsScreen {
           Text("Results")
         }
       }
-      .safeAreaPadding(.bottom, 64)
+      .safeAreaPadding(.bottom, 72)
     }
   }
 
@@ -125,7 +125,7 @@ extension GoalDashboardsScreen {
           Text("Results")
         }
       }
-      .safeAreaPadding(.bottom, 64)
+      .safeAreaPadding(.bottom, 72)
     }
   }
 
@@ -180,13 +180,7 @@ extension GoalDashboardsScreen {
   @ViewBuilder
   func fastFood() -> some View {
     ATrackerView("🌯 Eat Fast Food") { tracker in
-      TrackerBarChart(
-        tracker,
-        range: dateRange.startDate...dateRange.endDate,
-        granularity: dateRange.selectedDateWindow,
-        width: .short,
-        context: viewContext
-      )
+      DidCompleteChart(tracker: tracker, negateColors: true)
     }
 
     TrackerView("🌯 Eat Fast Food") { tracker in
