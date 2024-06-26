@@ -26,6 +26,7 @@ class DateRangePickerViewModel: ObservableObject {
   @Published var selectedDate: Date {
     didSet {
       endDateOverride = nil
+      rangeTitleOverride = nil
       didUpdateRangePublisher.send((selectedDateWindow, startDate...endDate))
     }
   }
@@ -45,7 +46,9 @@ class DateRangePickerViewModel: ObservableObject {
   }
 
   var selectedDateLabel: String {
-    if let endDateOverride {
+    if let rangeTitleOverride {
+      return rangeTitleOverride
+    } else if let endDateOverride {
       let formatter = DateIntervalFormatter()
       formatter.dateStyle = .short
       formatter.timeStyle = .none
@@ -57,6 +60,9 @@ class DateRangePickerViewModel: ObservableObject {
 
   var startDate: Date { selectedDate }
   private var endDateOverride: Date?
+
+  /// Override to show for the picker's title
+  private var rangeTitleOverride: String?
   var endDate: Date {
     if let endDateOverride {
       return endDateOverride
@@ -106,9 +112,10 @@ class DateRangePickerViewModel: ObservableObject {
     }
   }
 
-  func moveToCustomDate(start: Date, end: Date) {
+  func moveToCustomDate(start: Date, end: Date, title: String? = nil) {
     selectedDate = start
     endDateOverride = end
+    rangeTitleOverride = title
   }
 
   private func updateStartDateToNewWindow() {
@@ -190,9 +197,8 @@ struct DateRangePicker: View {
           DatePickerPopover(
             startDate: viewModel.startDate,
             endDate: viewModel.endDate
-          ) { startDate, endDate in
-            viewModel.moveToCustomDate(start: startDate, end: endDate)
-            isShowingDatePicker = false
+          ) { startDate, endDate, titleOverride in
+            viewModel.moveToCustomDate(start: startDate, end: endDate, title: titleOverride)
           }
         }
       }
@@ -202,17 +208,20 @@ struct DateRangePicker: View {
   struct DatePickerPopover: View {
     @State private var startDate = Date()
     @State private var endDate = Date()
+    @State private var didCommit = false
 
-    let didDisappear: (Date, Date) -> Void
+    @Environment(\.dismiss) var dismiss
+
+    let completion: (Date, Date, String?) -> Void
 
     init(
       startDate: Date,
       endDate: Date,
-      didDisappear: @escaping (Date, Date) -> Void
+      completion: @escaping (Date, Date, String?) -> Void
     ) {
       self.startDate = startDate
       self.endDate = endDate
-      self.didDisappear = didDisappear
+      self.completion = completion
     }
 
     var body: some View {
@@ -242,6 +251,7 @@ struct DateRangePicker: View {
                 let nextDay = Date().midnight.addingTimeInterval(.init(days: 1))
                 startDate = firstDay
                 endDate = nextDay
+                commit(titleOverride: "\(daysAgo) days ago")
               } label: {
                 Text(daysAgo, format: .number)
               }
@@ -252,8 +262,15 @@ struct DateRangePicker: View {
       }
       .padding()
       .onDisappear {
-        didDisappear(startDate, endDate)
+        commit()
       }
+    }
+
+    func commit(titleOverride: String? = nil) {
+      guard !didCommit else { return }
+      didCommit = true
+      completion(startDate, endDate, titleOverride)
+//      dismiss()
     }
   }
 }
