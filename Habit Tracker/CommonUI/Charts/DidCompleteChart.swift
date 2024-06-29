@@ -38,9 +38,9 @@ struct DidCompleteChart<Label: View>: View {
     self.tracker = tracker
     self.daily = { logs, date in
       if logs.isEmpty {
-        negateColors ? .green : .red.opacity(0.35)
+        negateColors ? .green : .red
       } else {
-        negateColors ? .red.opacity(0.35) : .green
+        negateColors ? .red : .green
       }
     }
     self.monthly = { logs in
@@ -59,9 +59,9 @@ struct DidCompleteChart<Label: View>: View {
     self.tracker = tracker
     self.daily = { logs, date in
       if logs.isEmpty {
-        negateColors ? .green : .red.opacity(0.35)
+        negateColors ? .green : .red
       } else {
-        negateColors ? .red.opacity(0.35) : .green
+        negateColors ? .red : .green
       }
     }
     self.monthly = { logs in
@@ -98,9 +98,9 @@ struct DidCompleteChart<Label: View>: View {
               }
             } else {
               if results.isEmpty {
-                daily(Array(results), date)
+                daily([], date)
                   .border(.white)
-                  .overlay(label(Array(results), date))
+                  .overlay(label([], date))
               } else if results.count == 1 {
                 SheetLink {
                   NavigationStack {

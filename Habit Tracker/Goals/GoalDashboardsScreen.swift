@@ -36,6 +36,9 @@ struct GoalDashboardsScreen: View {
             ZStack {
               ScrollView(.horizontal) {
                 LazyHStack(spacing: 0) {
+                  chickieTab()
+                    .frame(width: max(p.size.width, 1))
+                    .id("chickie")
                   feelingEnergizedTab()
                     .frame(width: max(p.size.width, 1))
                     .id("energy")
@@ -53,6 +56,17 @@ struct GoalDashboardsScreen: View {
               .scrollPosition(id: $scrollPage, anchor: .topLeading)
 
               HStack {
+                Button {
+                  withAnimation { scrollPage = "chickie" }
+                } label: {
+                  VStack {
+                    Image(systemName: "heart.circle")
+                    Text("Chickie")
+                      .font(.caption2)
+                  }
+                  .padding(.horizontal, 6)
+                  .foregroundStyle(scrollPage == "chickie" ? .purple : .accentColor)
+                }
                 Button {
                   withAnimation { scrollPage = "energy" }
                 } label: {

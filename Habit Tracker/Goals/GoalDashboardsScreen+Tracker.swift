@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Find the `Tracker` given the hardcoded tracker names
 struct TrackersView<Label: View>: View {
   let trackerNames: [String]
   let content: ([Tracker]) -> Label

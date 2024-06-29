@@ -28,8 +28,8 @@ struct HistogramChart: View {
       tracker: tracker,
       range: range.lowerBound...range.upperBound
     ) { logs in
-      let histogram = histogram(logs).reduce(into: [String: Int]()) { partialResult, restaurant in
-        partialResult[restaurant, default: 0] += 1
+      let histogram = histogram(logs).reduce(into: [String: Int]()) {
+        $0[$1, default: 0] += 1
       }.map { $0 }.sorted(by: \.value, order: .reverse)
 
       ScrollView(.vertical) {
@@ -39,6 +39,12 @@ struct HistogramChart: View {
               x: .value("value", value),
               y: .value("key", key)
             )
+            .annotation(position: .automatic, alignment: .trailing) {
+              Text(value, format: .number)
+                .font(.caption)
+                .padding(.horizontal, 10)
+                .foregroundStyle(.white)
+            }
           }
         }
         .frame(height: 48 * CGFloat(histogram.count))

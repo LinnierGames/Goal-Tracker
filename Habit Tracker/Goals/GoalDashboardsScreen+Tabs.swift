@@ -11,6 +11,58 @@ import SwiftUI
 let BasicPlotSymbol = BasicChartSymbolShape.circle
 
 extension GoalDashboardsScreen {
+  func chickieTab() -> some View {
+    VStack {
+      Text("Chickie!")
+        .font(.title2)
+
+      Form {
+        Section {
+          ATrackerView("⛹️‍♂️ Doing Something Unique") { tracker in
+            DidCompleteChart(tracker: tracker)
+          }
+          ATrackerView("🍫 Date Night") { tracker in
+            DidCompleteChart(tracker: tracker)
+          }
+          ATrackerView("🎥 GT Movies") { tracker in
+            DidCompleteChart(tracker: tracker)
+          }
+          ATrackerView("💐 Do something romantic") { tracker in
+            DidCompleteChart(tracker: tracker)
+          }
+          ATrackerView("🔦 GT Concert") { tracker in
+            DidCompleteChart(tracker: tracker)
+          }
+        }
+
+        Section {
+          ATrackerView("🗣️ Discussion") { tracker in
+            DidCompleteChart(tracker: tracker)
+          }
+
+          TrackerView("🗣️ Discussion") { tracker in
+            NavigationLink {
+              HistogramChart(
+                tracker,
+                range: dateRange.startDate...dateRange.endDate
+              ) { logs in
+                logs.compactMap { log in
+                  log.allValues.first(where: {
+                    $0.field?.title == "Topic"
+                  })?.string.sanitize(.capitalized, .whitespaceTrimmed)
+                }
+              }
+              .navigationTitle("🗣️ Discussion: Topcis")
+            } label: {
+              Text("View Topics")
+            }
+          }
+        }
+      }
+      .safeAreaPadding(.bottom, 72)
+    }
+  }
+
   func feelingEnergizedTab() -> some View {
     VStack {
       Text("Feeling Energized")
@@ -290,6 +342,17 @@ extension GoalDashboardsScreen {
           .font(.system(size: 6))
       }
     }
+    ManyTrackersView(trackerNames: "🥱 Feeling Tired", "🥱 Feeling Tired") { tracker, _ in
+      TrackerPlotChart(
+        (tracker, .circle),
+        range: dateRange.startDate...dateRange.endDate,
+        logDate: .start,
+        granularity: dateRange.selectedDateWindow,
+        width: .short,
+        annotations: [],
+        context: viewContext
+      )
+    }
 
     TrackerView("🥱 Feeling Tired") { tracker in
       NavigationLink {
@@ -324,24 +387,6 @@ extension GoalDashboardsScreen {
         annotations: [],
         context: viewContext
       )
-    }
-
-    TrackerView("🥱 Feeling Tired") { tracker in
-      NavigationLink {
-        HistogramChart(
-          tracker,
-          range: dateRange.startDate...dateRange.endDate
-        ) { logs in
-          logs.compactMap { log in
-            log.allValues.first(where: {
-              $0.field?.title == "Activity"
-            })?.string.sanitize(.capitalized, .whitespaceTrimmed)
-          }
-        }
-        .navigationTitle("Feeling Tired: Activities")
-      } label: {
-        Text("View Activities")
-      }
     }
   }
 
@@ -431,7 +476,7 @@ extension GoalDashboardsScreen {
             } else if logs.contains(where: matchesPredicate(log:)) {
               .green
             } else {
-              .red.opacity(0.35)
+              .red
             }
           }, monthly: { logs in
             (logs.filter(matchesPredicate(log:)).count, 30)
@@ -463,7 +508,7 @@ extension GoalDashboardsScreen {
                   .clear
                 }
               } else {
-                .red.opacity(0.35)
+                .red
               }
             }, monthly: { logs in
               (logs.filter(matchesPredicate(log:)).count, 30)
@@ -531,7 +576,7 @@ extension GoalDashboardsScreen {
             } else if logs.contains(where: matchesPredicate(log:)) {
               .green
             } else {
-              .red.opacity(0.35)
+              .red
             }
           }, monthly: { logs in
             (logs.filter(matchesPredicate(log:)).count, 30)
@@ -561,7 +606,7 @@ extension GoalDashboardsScreen {
                   .clear
                 }
               } else {
-                .red.opacity(0.35)
+                .red
               }
             }, monthly: { logs in
               (logs.filter(matchesPredicate(log:)).count, 30)
