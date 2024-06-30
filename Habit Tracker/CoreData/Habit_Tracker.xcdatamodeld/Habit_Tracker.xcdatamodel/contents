@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22222" systemVersion="23A344" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23B92" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="FeelingSleepy" representedClassName="FeelingSleepy" syncable="YES">
         <attribute name="activity" attributeType="String"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
@@ -45,6 +45,7 @@
         <attribute name="notes" attributeType="String" defaultValueString=""/>
         <attribute name="showInTodayView" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String" defaultValueString="Untitled Habit"/>
+        <attribute name="todayViewRank" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="fields" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TrackerLogField" inverseName="tracker" inverseEntity="TrackerLogField"/>
         <relationship name="goals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GoalTrackerCriteria" inverseName="tracker" inverseEntity="GoalTrackerCriteria"/>
         <relationship name="logs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TrackerLog" inverseName="tracker" inverseEntity="TrackerLog"/>

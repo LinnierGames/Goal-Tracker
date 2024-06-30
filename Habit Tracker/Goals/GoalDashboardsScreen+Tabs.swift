@@ -218,7 +218,7 @@ extension GoalDashboardsScreen {
         ) { logs in
           logs.compactMap { log in
             log.allValues.first(where: {
-              $0.field?.title == "Food"
+              $0.field?.title == "Dish"
             })?.string.sanitize(.capitalized, .whitespaceTrimmed)
           }
         }

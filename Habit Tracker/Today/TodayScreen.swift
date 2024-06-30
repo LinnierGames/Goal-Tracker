@@ -7,6 +7,7 @@
 
 import Combine
 import CoreData
+import Rankable
 import SwiftUI
 
 private class ViewModel: ObservableObject {
@@ -56,7 +57,7 @@ struct TodayScreen: View {
   @Environment(\.managedObjectContext) private var viewContext
 
   @FetchRequest(
-    sortDescriptors: [SortDescriptor(\Tracker.title!)],
+    sortDescriptors: [SortDescriptor(\Tracker.todayViewRank)],
     predicate: NSPredicate(format: "showInTodayView == YES")
   )
   private var trackers: FetchedResults<Tracker>
@@ -93,6 +94,17 @@ struct TodayScreen: View {
         ForEach(trackers) { tracker in
           TodayTrackerCell(tracker, dateWindow: viewStyle.dateWindow)
         }
+        .onMove(perform: { indices, newOffset in
+          guard let source = indices.first else { return }
+
+          Rankable.moveElement(
+            source: source,
+            destination: newOffset > source ? newOffset - 1 : newOffset,
+            elements: trackers
+          )
+
+          try! viewContext.save()
+        })
 
         if !logsForToday.isEmpty {
           Section("Other Trackers") {
@@ -169,6 +181,35 @@ struct TodayTrackerCell: View {
     }
     .contextMenu {
       Button(action: addLog, title: "Add Log", systemImage: "plus")
+    } preview: {
+      VStack(alignment: .leading) {
+        Text(tracker.title ?? "Untitled")
+          .font(.title)
+        Text(tracker.notes ?? "")
+
+        VStack {
+          let startOfYear = Date().set(day: 1, month: 1)
+          let endOfYear = Date().set(day: 31, month: 12)
+          TrackerBarChart(
+            tracker,
+            range: startOfYear...endOfYear,
+            granularity: .year,
+            width: .short,
+            context: viewContext
+          ).frame(height: 196)
+          TrackerPlotChart(
+            tracker,
+            range: startOfYear...endOfYear,
+            logDate: .both,
+            granularity: .year,
+            width: .short,
+            annotations: [],
+            context: viewContext
+          ).frame(height: 196)
+        }
+      }
+      .frame(maxWidth: .infinity)
+      .frame(height: 600)
     }
   }
 
@@ -263,5 +304,12 @@ struct TodayTrackerCell: View {
       tracker.showInTodayView = false
       try! viewContext.save()
     }
+  }
+}
+
+extension Tracker: RankableObject {
+  public var rank: Int {
+    get { Int(todayViewRank) }
+    set { todayViewRank = Int16(newValue) }
   }
 }

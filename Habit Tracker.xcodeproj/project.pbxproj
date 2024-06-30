@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -107,6 +107,7 @@
 		E1C1DCB42BDF313A00C3A4A9 /* GoalDashboardsScreen+Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C1DCB32BDF313A00C3A4A9 /* GoalDashboardsScreen+Tracker.swift */; };
 		E1CD70EB27DDE7850098DE0B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CD70EA27DDE7850098DE0B /* HealthKit.framework */; };
 		E1CD70ED27DDEF6A0098DE0B /* CollectedDataScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CD70EC27DDEF6A0098DE0B /* CollectedDataScreen.swift */; };
+		E1E743AE2C311C040069BA29 /* Rankable in Frameworks */ = {isa = PBXBuildFile; productRef = E1E743AD2C311C040069BA29 /* Rankable */; };
 		E1E90F562A096C43004C67FE /* TrackerLogViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E90F552A096C43004C67FE /* TrackerLogViews.swift */; };
 		E1EF4519298B9C5600DC5CC1 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF4518298B9C5600DC5CC1 /* Common.swift */; };
 		E1EF451B298B9C7A00DC5CC1 /* INLogTrackerIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EF451A298B9C7A00DC5CC1 /* INLogTrackerIntentHandler.swift */; };
@@ -274,6 +275,7 @@
 			files = (
 				E16A9EA827E0E8FD007092CD /* Moya in Frameworks */,
 				E1CD70EB27DDE7850098DE0B /* HealthKit.framework in Frameworks */,
+				E1E743AE2C311C040069BA29 /* Rankable in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,6 +600,7 @@
 			name = "Habit Tracker";
 			packageProductDependencies = (
 				E16A9EA727E0E8FD007092CD /* Moya */,
+				E1E743AD2C311C040069BA29 /* Rankable */,
 			);
 			productName = "Habit Tracker";
 			productReference = E104203027DBA16500051F2A /* Habit Tracker.app */;
@@ -669,6 +672,7 @@
 			mainGroup = E104202727DBA16500051F2A;
 			packageReferences = (
 				E16A9EA627E0E8FD007092CD /* XCRemoteSwiftPackageReference "Moya" */,
+				E1E743AC2C311C040069BA29 /* XCLocalSwiftPackageReference "../../Rankable" */,
 			);
 			productRefGroup = E104203127DBA16500051F2A /* Products */;
 			projectDirPath = "";
@@ -1201,6 +1205,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		E1E743AC2C311C040069BA29 /* XCLocalSwiftPackageReference "../../Rankable" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../Rankable;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		E16A9EA627E0E8FD007092CD /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -1217,6 +1228,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E16A9EA627E0E8FD007092CD /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
+		};
+		E1E743AD2C311C040069BA29 /* Rankable */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Rankable;
 		};
 /* End XCSwiftPackageProductDependency section */
 
