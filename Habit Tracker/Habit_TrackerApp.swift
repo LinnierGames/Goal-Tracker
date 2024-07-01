@@ -20,6 +20,8 @@ struct Tracker_TrackerApp: App {
 
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
+  @State private var exitAppUponBackgrounding: Task<Void, Never>?
+
   var body: some Scene {
     WindowGroup {
       TabView {
@@ -39,6 +41,22 @@ struct Tracker_TrackerApp: App {
           .tabItem {
             Label("Goals", systemImage: "star.fill")
           }
+      }
+      .onReceive(
+        NotificationCenter.default.publisher(
+        for: UIApplication.didEnterBackgroundNotification)
+      ) { _ in
+          exitAppUponBackgrounding = Task {
+            try? await Task.sleep(for: .seconds(10), tolerance: .seconds(5))
+            guard !Task.isCancelled else { return }
+            exit(0)
+          }
+      }
+      .onReceive(
+        NotificationCenter.default.publisher(
+        for: UIApplication.willEnterForegroundNotification)
+      ) { _ in
+          exitAppUponBackgrounding?.cancel()
       }
       .environment(\.managedObjectContext, persistenceController.container.viewContext)
       .environmentObject(syncManager)

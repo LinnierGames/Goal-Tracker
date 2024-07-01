@@ -182,34 +182,35 @@ struct TodayTrackerCell: View {
     .contextMenu {
       Button(action: addLog, title: "Add Log", systemImage: "plus")
     } preview: {
-      VStack(alignment: .leading) {
-        Text(tracker.title ?? "Untitled")
-          .font(.title)
-        Text(tracker.notes ?? "")
+      NavigationStack {
+        VStack(alignment: .leading) {
+          Text(tracker.title ?? "Untitled")
+            .font(.title)
+          Text(tracker.notes ?? "")
 
-        VStack {
-          let startOfYear = Date().set(day: 1, month: 1)
-          let endOfYear = Date().set(day: 31, month: 12)
-          TrackerBarChart(
-            tracker,
-            range: startOfYear...endOfYear,
-            granularity: .year,
-            width: .short,
-            context: viewContext
-          ).frame(height: 196)
-          TrackerPlotChart(
-            tracker,
-            range: startOfYear...endOfYear,
-            logDate: .both,
-            granularity: .year,
-            width: .short,
-            annotations: [],
-            context: viewContext
-          ).frame(height: 196)
+          VStack {
+            let startOfYear = Date().set(day: 1, month: 1)
+            let endOfYear = Date().set(day: 31, month: 12)
+            TrackerBarChart(
+              tracker,
+              range: startOfYear...endOfYear,
+              granularity: .year,
+              width: .short,
+              context: viewContext
+            )
+            TrackerPlotChart(
+              tracker,
+              range: startOfYear...endOfYear,
+              logDate: .both,
+              granularity: .year,
+              width: .short,
+              annotations: [],
+              context: viewContext
+            )
+          }
         }
+        .padding()
       }
-      .frame(maxWidth: .infinity)
-      .frame(height: 600)
     }
   }
 
