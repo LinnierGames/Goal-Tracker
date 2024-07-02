@@ -152,7 +152,7 @@ struct TodayTrackerCell: View {
 //        .foregroundColor(trackedForToday ? .green : .primary)
 //        .onTapGesture(perform: markAsCompleted)
 
-      NavigationSheetLink {
+      SheetLink {
         TrackerDetailScreen(tracker)
       } label: {
         HStack {
@@ -168,15 +168,12 @@ struct TodayTrackerCell: View {
             }
 
             TrackerLogView.dateRange(tracker: tracker, window: dateWindow)
+              .foregroundStyle(.white)
+//            DidCompleteChart(tracker: tracker)
           }
 
           actionButton()
         }
-      }
-    }
-    .swipeActions(edge: .leading) {
-      Button(action: markAsCompleted) {
-        Label("Done", systemImage: "checkmark")
       }
     }
     .contextMenu {
@@ -216,26 +213,51 @@ struct TodayTrackerCell: View {
 
   @ViewBuilder
   private func actionButton() -> some View {
-    Button {
-      markAsCompleted()
-    } label: {
-      if isTrackerLoggedToday(tracker) {
-        RoundedRectangle(cornerRadius: 4)
-          .foregroundStyle(.green)
-          .frame(width: 48, height: 48)
-          .overlay(
-            Image(systemName: "checkmark")
-              .foregroundStyle(.white)
-          )
+    Menu {
+      if tracker.isBadTracker {
+        Button("Completed", systemImage: TrackerLogCompletion.complete.systemName) {
+          markAsCompleted(completion: .complete)
+        }
+        Button("Skip", systemImage: TrackerLogCompletion.skip.systemName) {
+          markAsCompleted(completion: .skip)
+        }
       } else {
-        RoundedRectangle(cornerRadius: 4)
-          .stroke(.gray, lineWidth: 0.5)
-          .frame(width: 48, height: 48)
+        Button("Missed", systemImage: TrackerLogCompletion.missed.systemName) {
+          markAsCompleted(completion: .missed)
+        }
+        Button("Skip", systemImage: TrackerLogCompletion.skip.systemName) {
+          markAsCompleted(completion: .skip)
+        }
+      }
+    } label: {
+      TrackerLogView(tracker: tracker, date: Date()) { logs in
+        if let log = logs.first {
+          RoundedRectangle(cornerRadius: 4)
+            .foregroundStyle(log.completionColor)
+            .frame(width: 48, height: 48)
+            .overlay(
+              log.completionLabel
+                .foregroundStyle(.white)
+            )
+        } else {
+          RoundedRectangle(cornerRadius: 4)
+            .stroke(.gray, lineWidth: 0.5)
+            .frame(width: 48, height: 48)
+            .overlay(
+              tracker.completionLabel
+                .foregroundStyle(.gray)
+            )
+        }
+      }
+    } primaryAction: {
+      if tracker.isBadTracker {
+        markAsCompleted(completion: .missed)
+      } else {
+        markAsCompleted(completion: .complete)
       }
     }
     .buttonStyle(.borderless)
   }
-
 
   @ViewBuilder
   private func mostRecentLog() -> some View {
@@ -276,12 +298,13 @@ struct TodayTrackerCell: View {
     }
   }
 
-  private func markAsCompleted() {
+  private func markAsCompleted(completion: TrackerLogCompletion) {
     if let log = tracker.mostRecentLog, Calendar.current.isDateInToday(log.timestamp!) {
       viewContext.delete(log)
     } else {
       let newLog = TrackerLog(context: viewContext)
       newLog.timestamp = Date()
+      newLog.completion = completion
       tracker.addToLogs(newLog)
     }
 

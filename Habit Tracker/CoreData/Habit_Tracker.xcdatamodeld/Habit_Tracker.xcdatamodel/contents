@@ -42,6 +42,7 @@
     </entity>
     <entity name="Tracker" representedClassName="Tracker" syncable="YES" codeGenerationType="class">
         <attribute name="externalDataSource" optional="YES" attributeType="String"/>
+        <attribute name="isBadTracker" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="notes" attributeType="String" defaultValueString=""/>
         <attribute name="showInTodayView" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String" defaultValueString="Untitled Habit"/>
@@ -52,7 +53,7 @@
         <relationship name="tags" toMany="YES" deletionRule="Nullify" destinationEntity="TrackerTag" inverseName="trackers" inverseEntity="TrackerTag"/>
     </entity>
     <entity name="TrackerLog" representedClassName="TrackerLog" syncable="YES" codeGenerationType="class">
-        <attribute name="competionRawValue" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="completionRawValue" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="externalDataSourceID" optional="YES" attributeType="String"/>
         <attribute name="notes" attributeType="String" defaultValueString=""/>

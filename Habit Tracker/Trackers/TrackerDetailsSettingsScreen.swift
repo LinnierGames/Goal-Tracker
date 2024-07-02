@@ -35,6 +35,9 @@ struct TrackerDetailsSettingsScreen: View {
               }
               .submitLabel(.done)
           }
+          Toggle(isOn: $tracker.isBadTracker) {
+            Label("Is Bad Tracker?", systemImage: tracker.isBadTracker ? "xmark.seal.fill" : "checkmark.seal.fill")
+          }
           NavigationLink {
             TextEditorScreen(text: $tracker.notes.mapOptional(defaultValue: ""))
               .onDisappear {
@@ -128,7 +131,10 @@ struct TrackerDetailsSettingsScreen: View {
       .listStyle(.grouped)
       .navigationTitle(tracker.title!)
 
-      .onChange(of: tracker.showInTodayView) { _ in
+      .onChange(of: tracker.showInTodayView) {
+        try! viewContext.save()
+      }
+      .onChange(of: tracker.isBadTracker) {
         try! viewContext.save()
       }
     }

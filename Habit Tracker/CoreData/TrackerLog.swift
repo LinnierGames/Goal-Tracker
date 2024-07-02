@@ -6,8 +6,46 @@
 //
 
 import CoreData
+import SwiftUI
+
+enum TrackerLogCompletion: Int16 {
+  case complete = 0, missed, skip
+
+  var systemName: String {
+    switch self {
+    case .complete: "checkmark"
+    case .missed: "xmark"
+    case .skip: "chevron.forward.2"
+    }
+  }
+}
 
 extension TrackerLog {
+  var completion: TrackerLogCompletion {
+    get { TrackerLogCompletion(rawValue: completionRawValue) ?? .complete }
+    set { completionRawValue = newValue.rawValue }
+  }
+
+  var completionColor: Color {
+    if let tracker {
+      switch completion {
+      case .complete: tracker.isBadTracker ? .red : .green
+      case .missed: tracker.isBadTracker ? .green : .red
+      case .skip: .gray
+      }
+    } else {
+      switch completion {
+      case .complete: .green
+      case .missed: .red
+      case .skip: .gray
+      }
+    }
+  }
+
+  var completionLabel: some View {
+    Image(systemName: completion.systemName)
+  }
+
   var allValues: [TrackerLogValue] {
     values?.allManagedObjects() ?? []
   }
@@ -29,7 +67,7 @@ extension TrackerLog {
     let copy = TrackerLog(context: context)
     copy.timestamp = log.timestamp
     copy.endDate = log.endDate
-    copy.competionRawValue = log.competionRawValue
+    copy.completionRawValue = log.completionRawValue
     copy.notes = log.notes
     copy.externalDataSourceID = log.externalDataSourceID
 

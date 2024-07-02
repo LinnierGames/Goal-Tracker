@@ -6,8 +6,19 @@
 //
 
 import CoreData
+import SwiftUI
 
 extension Tracker {
+
+  @ViewBuilder
+  var completionLabel: some View {
+    if isBadTracker {
+      Image(systemName: "xmark")
+    } else {
+      Image(systemName: "checkmark")
+    }
+  }
+
   var mostRecentLog: TrackerLog? {
     allLogs
       .sorted { $0.timestamp! > $1.timestamp! }
