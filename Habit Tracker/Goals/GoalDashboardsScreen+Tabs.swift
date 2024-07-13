@@ -63,6 +63,8 @@ extension GoalDashboardsScreen {
     }
   }
 
+  // MARK: - Tabs
+
   func feelingEnergizedTab() -> some View {
     VStack {
       Text("Feeling Energized")
@@ -126,17 +128,14 @@ extension GoalDashboardsScreen {
 
       Form {
         Section {
+          diet()
+        } header: {
+          Text("Cooking and fast food")
+        }
+        Section {
           eatEachMeal()
           fastFood()
-        } header: {
-          Text("Meals")
-        }
-
-        Section {
           cooked()
-          ateASnack()
-        } header: {
-          Text("Diets")
         }
 
         Section {
@@ -180,6 +179,8 @@ extension GoalDashboardsScreen {
       .safeAreaPadding(.bottom, 72)
     }
   }
+
+  // MARK: - Charts
 
   func feelingBackPain() -> some View {
     ATrackerView("😣 Upper Back Pain") { tracker in
@@ -251,6 +252,83 @@ extension GoalDashboardsScreen {
       } label: {
         Text("View Restaurants")
       }
+    }
+  }
+
+  func diet() -> some View {
+    func makeChart(meal: Tracker) -> some View {
+      DidCompleteChart(
+        tracker: meal
+      ) { _, _ in
+        Color.clear
+      } monthly: { logs in
+        (1, 1)
+      } label: { mealLogs, date in
+        TrackersView(
+          trackerNames: "🌯 Eat Fast Food", "🧑‍🍳 Cooked"
+        ) { fastFood, cooked in
+          if
+            let min = mealLogs.min(
+              by: { $0.timestamp < $1.timestamp }
+            )?.timestamp?.addingTimeInterval(-.init(minutes: 5)),
+            let max = mealLogs.max(
+              by: { $0.timestamp < $1.timestamp }
+            )?.timestamp?.addingTimeInterval(.init(minutes: 5))
+          {
+            let dateRangeForMeal = min...max
+            TrackerLogView(
+              tracker: fastFood,
+              range2: dateRangeForMeal
+            ) { fastFood in
+              if fastFood.isEmpty {
+                TrackerLogView(
+                  tracker: cooked,
+                  range2: dateRangeForMeal
+                ) { cooked in
+                  if cooked.isEmpty {
+                    Color.green
+                  } else {
+                    Color.orange
+                  }
+                }
+              } else {
+                Color.red
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return Group {
+      ATrackerView("🍔 Eat Breakfast") { breakfast in
+        makeChart(meal: breakfast)
+      }
+
+      ATrackerView("🍖 Eat Lunch") { lunch in
+        makeChart(meal: lunch)
+      }
+
+      ATrackerView("🍱 Eat Dinner") { lunch in
+        makeChart(meal: lunch)
+      }
+
+      HStack {
+        HStack(spacing: 4) {
+          Rectangle().frame(width: 8, height: 8).foregroundStyle(.green)
+          Text("Meal")
+        }
+        HStack(spacing: 4) {
+          Rectangle().frame(width: 8, height: 8).foregroundStyle(.yellow)
+          Text("🧑‍🍳 Cooked")
+        }
+        HStack(spacing: 4) {
+          Rectangle().frame(width: 8, height: 8).foregroundStyle(.red)
+          Text("🌯 Eat Fast Food")
+        }
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .font(.caption)
     }
   }
 

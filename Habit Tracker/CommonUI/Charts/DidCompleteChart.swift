@@ -99,8 +99,8 @@ struct DidCompleteChart<Label: View>: View {
             } else {
               if results.isEmpty {
                 daily([], date)
-                  .border(.white)
                   .overlay(label([], date))
+                  .border(.white)
               } else if results.count == 1 {
                 SheetLink {
                   NavigationStack {
@@ -108,8 +108,8 @@ struct DidCompleteChart<Label: View>: View {
                   }
                 } label: {
                   daily(Array(results), date)
-                    .border(.white)
                     .overlay(label(Array(results), date))
+                    .border(.white)
                 }
                 .buttonStyle(.borderless)
               } else {
@@ -124,8 +124,8 @@ struct DidCompleteChart<Label: View>: View {
                     }
                   } label: {
                     daily(Array(results), date)
-                      .border(.white)
                       .overlay(label(Array(results), date))
+                      .border(.white)
                   }
                   .menuStyle(.borderlessButton)
                   .sheet(item: selectedLog) { log in
