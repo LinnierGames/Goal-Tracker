@@ -12,9 +12,62 @@ let BasicPlotSymbol = BasicChartSymbolShape.circle
 
 #Preview {
   Form {
+    TabHeader(title: "Health!", systemName: "heart.fill", color: .red) {
+      Text("dsalfks asf jsdafl sj fklsf ")
+      Text("dsalfks asf jsdafl ")
+
+      LazyHGrid(rows: [.init(), .init()], content: {
+        GoalCapsule(goal: "sdfa", style: .increase)
+        GoalCapsule(goal: "ff", style: .increase)
+        GoalCapsule(goal: "sddffa", style: .increase)
+        GoalCapsule(goal: "sdffffffdfa", style: .decrease)
+        GoalCapsule(goal: "sdsfdfa", style: .increase)
+        GoalCapsule(goal: "sdfdfa", style: .increase)
+        GoalCapsule(goal: "sdfa", style: .increase)
+        GoalCapsule(goal: "sdfa", style: .increase)
+      })
+    }
 
     Section {
       Text("Sup")
+    }
+  }
+}
+
+struct GoalCapsule: View {
+  enum Style {
+    case increase, decrease
+
+    var color: Color {
+      switch self {
+      case .increase: .green
+      case .decrease: .red
+      }
+    }
+
+    var badge: Image {
+      switch self {
+      case .increase: Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
+      case .decrease: Image(systemName: "chart.line.downtrend.xyaxis.circle.fill")
+      }
+    }
+  }
+
+  let goal: String
+  let style: Style
+
+  var body: some View {
+    HStack(spacing: 2) {
+      style.badge
+        .foregroundStyle(style.color)
+      Text(goal)
+        .lineLimit(1)
+    }
+    .padding(.trailing, 4)
+    .padding(4)
+    .background {
+      Capsule()
+        .foregroundStyle(style.color.opacity(0.2))
     }
   }
 }
@@ -117,7 +170,7 @@ extension GoalDashboardsScreen {
         VStack(spacing: 12) {
           Text("Get consistent on **bedtime**, **duration**, **quality**, and **wakeup time**")
           Text("Stay **active** during the day, use **CPAP**, **nose Rx**")
-          Text("Should reduce **day-time sleepiness**")
+          GoalCapsule(goal: "Day-time sleepiness", style: .decrease)
         }
       }
 
@@ -160,7 +213,10 @@ extension GoalDashboardsScreen {
       TabHeader(title: "Eating Healthy", systemName: "stethoscope.circle", color: .red) {
         VStack(spacing: 12) {
           Text("Cook and eat healthier")
-          Text("Should reduce **bathroom problems** and **day-time sleepiness**")
+          HStack {
+            GoalCapsule(goal: "Bathroom problems", style: .decrease)
+            GoalCapsule(goal: "Sleepiness", style: .decrease)
+          }
         }
       }
 
@@ -196,7 +252,10 @@ extension GoalDashboardsScreen {
       TabHeader(title: "Improve Posture", systemName: "figure.stand", color: .brown) {
         VStack(spacing: 12) {
           Text("Strengthen my **posture**")
-          Text("Should reduce **back pains** and improve **posture**")
+          HStack {
+            GoalCapsule(goal: "Back pains", style: .decrease)
+            GoalCapsule(goal: "Posture", style: .increase)
+          }
         }
       }
 
@@ -641,7 +700,6 @@ extension GoalDashboardsScreen {
       if includeExtraCharts {
         TrackerView("Go To Bed") { tracker in
           VStack(alignment: .leading) {
-            Text("Feeling awake")
             DidCompleteChart(
               tracker: tracker,
               daily: { logs, _ in
@@ -668,6 +726,10 @@ extension GoalDashboardsScreen {
                 }
               }
             )
+            .frame(height: 38)
+            Text("Feeling awake")
+              .font(.caption2)
+              .foregroundStyle(.gray)
           }
         }
       }
@@ -744,7 +806,6 @@ extension GoalDashboardsScreen {
       if includeExtraCharts {
         TrackerView("Get Out Of Bed") { tracker in
           VStack(alignment: .leading) {
-            Text("Feeling sleepy")
             DidCompleteChart(
               tracker: tracker,
               daily: { logs, _ in
@@ -771,6 +832,10 @@ extension GoalDashboardsScreen {
                 }
               }
             )
+            .frame(height: 38)
+            Text("Feeling sleepy")
+              .font(.caption2)
+              .foregroundStyle(.gray)
           }
         }
       }
