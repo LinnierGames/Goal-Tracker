@@ -34,11 +34,11 @@ struct DidCompleteChart<Label: View>: View {
   init(
     tracker: Tracker,
     negateColors: Bool = false
-  ) where Label == EmptyView {
+  ) where Label == AnyView {
     self.tracker = tracker
     self.daily = { logs, date in
       if logs.isEmpty {
-        negateColors ? .green : .red
+        negateColors ? .green : .red // TODO: Use tracker's habit to mark incomplete dates as red or clear
       } else {
         negateColors ? .red : .green
       }
@@ -46,7 +46,15 @@ struct DidCompleteChart<Label: View>: View {
     self.monthly = { logs in
       (logs.count, 30)
     }
-    self.label = { _,_ in EmptyView() }
+    self.label = { logs,_ in
+      if logs.count > 1 {
+        Text(logs.count, format: .number)
+          .foregroundStyle(.white)
+          .erasedToAnyView()
+      } else {
+        EmptyView().erasedToAnyView()
+      }
+    }
     self.negateColors = negateColors
   }
 

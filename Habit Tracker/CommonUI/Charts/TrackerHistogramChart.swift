@@ -52,3 +52,57 @@ struct HistogramChart: View {
     }
   }
 }
+
+struct HistogramTable: View {
+  @ObservedObject var tracker: Tracker
+  let fieldKey: String
+
+  @EnvironmentObject var datePicker: DateRangePickerViewModel
+
+  var body: some View {
+    TrackerLogView(tracker: tracker, range: datePicker.startDate...datePicker.endDate) { logs in
+      let uniqueFieldValues = logs.compactMap { log in
+        log.allValues.first(where: {
+          $0.field?.title == fieldKey
+        })?.string.sanitize(.capitalized, .whitespaceTrimmed)
+      }.reduce(into: Set()) { histogram, fieldValue in
+        histogram.insert(fieldValue)
+      }.sorted(by: \.self)
+
+      ForEach(uniqueFieldValues, id: \.self) { fieldValue in
+        VStack(alignment: .leading) {
+          Text(fieldValue)
+          DidCompleteChart(
+            tracker: tracker
+          ) { logs, _ in
+            if filter(forFieldValue: fieldValue, fieldKey: fieldKey, logs).isEmpty {
+              Color.clear
+            } else {
+              Color.green
+            }
+          } monthly: { logs in
+            (filter(forFieldValue: fieldValue, fieldKey: fieldKey, logs).count, 30)
+          } label: { logs, _ in
+            Text(
+              filter(forFieldValue: fieldValue, fieldKey: fieldKey, logs).count,
+              format: .number
+            )
+            .foregroundStyle(.white)
+          }
+        }
+      }
+    }
+  }
+
+  private func filter<Logs: Collection>(
+    forFieldValue fieldValue: String,
+    fieldKey: String,
+    _ logs: Logs
+  ) -> [TrackerLog] where Logs.Element == TrackerLog {
+    logs.filter { log in
+      log.allValues.first(where: {
+        $0.field?.title == fieldKey
+      })?.string.sanitize(.capitalized, .whitespaceTrimmed) == fieldValue
+    }
+  }
+}

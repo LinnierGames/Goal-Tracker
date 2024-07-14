@@ -17,14 +17,19 @@ struct GoalDashboardsScreen: View {
     DateRangePickerViewModel(intialDate: Date(), intialWindow: .week)
 
   @State private var scrollPage: String? = "energy"
+  @State private var showDatePicker = false
 
   var body: some View {
     NavigationView {
       VStack {
-        DateRangePicker(viewModel: dateRange)
-          .padding(.horizontal)
-
         NavigationStack(path: $childNavigation) {
+          Color.clear
+            .frame(height: 0)
+            .iosPopover(isPresented: $showDatePicker) {
+              DateRangePicker(viewModel: dateRange)
+                .padding()
+            }
+
           // Using tab view breaks sheets
 //          TabView {
 //              feelingEnergizedTab()
@@ -119,7 +124,9 @@ struct GoalDashboardsScreen: View {
           }
         }
         ToolbarItem(placement: .topBarTrailing) {
-          EditButton()
+          Button("", systemImage: "calendar") {
+            showDatePicker = true
+          }
         }
       }
       .navigationTitle("Dashboards")
