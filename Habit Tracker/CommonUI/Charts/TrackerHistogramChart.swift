@@ -56,8 +56,19 @@ struct HistogramChart: View {
 struct HistogramTable: View {
   @ObservedObject var tracker: Tracker
   let fieldKey: String
+  let negateColors: Bool
 
   @EnvironmentObject var datePicker: DateRangePickerViewModel
+
+  init(
+    tracker: Tracker,
+    fieldKey: String,
+    negateColors: Bool = false
+  ) {
+    self.tracker = tracker
+    self.fieldKey = fieldKey
+    self.negateColors = negateColors
+  }
 
   var body: some View {
     TrackerLogView(tracker: tracker, range: datePicker.startDate...datePicker.endDate) { logs in
@@ -76,21 +87,26 @@ struct HistogramTable: View {
             tracker: tracker
           ) { logs, _ in
             if filter(forFieldValue: fieldValue, fieldKey: fieldKey, logs).isEmpty {
-              Color.clear
+              .clear
             } else {
-              Color.green
+              negateColors ? .red : .green
             }
           } monthly: { logs in
             (filter(forFieldValue: fieldValue, fieldKey: fieldKey, logs).count, 30)
           } label: { logs, _ in
-            Text(
-              filter(forFieldValue: fieldValue, fieldKey: fieldKey, logs).count,
-              format: .number
-            )
-            .foregroundStyle(.white)
+            let numberOfLogs = filter(forFieldValue: fieldValue, fieldKey: fieldKey, logs).count
+
+            if numberOfLogs > 1 {
+              Text(
+                numberOfLogs,
+                format: .number
+              )
+              .foregroundStyle(.white)
+            }
           }
         }
       }
+      .padding(.vertical)
     }
   }
 

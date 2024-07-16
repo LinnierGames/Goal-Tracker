@@ -83,7 +83,7 @@ struct TabHeader<Header: View>: View {
       Image(systemName: systemName)
         .resizable()
         .aspectRatio(contentMode: .fit)
-        .opacity(0.4)
+//        .opacity(0.8)
         .foregroundStyle(color)
         .frame(width: 48, height: 48)
 
@@ -170,7 +170,10 @@ extension GoalDashboardsScreen {
         VStack(spacing: 12) {
           Text("Get consistent on **bedtime**, **duration**, **quality**, and **wakeup time**")
           Text("Stay **active** during the day, use **CPAP**, **nose Rx**")
-          GoalCapsule(goal: "Day-time sleepiness", style: .decrease)
+          HStack {
+            GoalCapsule(goal: "Energy", style: .increase)
+            GoalCapsule(goal: "Day-time sleepiness", style: .decrease)
+          }
         }
       }
 
@@ -183,6 +186,7 @@ extension GoalDashboardsScreen {
 
       Section {
         noseRinse()
+        stuffyNose()
         nightlySnacks()
         usedCPAP()
       } header: {
@@ -198,8 +202,8 @@ extension GoalDashboardsScreen {
       }
 
       Section {
-        feelingTired()
         naps()
+        feelingTired()
         feelingTiredDuringMeals()
       } header: {
         Text("Results")
@@ -239,6 +243,7 @@ extension GoalDashboardsScreen {
 
       Section {
         oohBoi()
+        feelingGassy()
         feelingTired()
       } header: {
         Text("Results")
@@ -253,8 +258,8 @@ extension GoalDashboardsScreen {
         VStack(spacing: 12) {
           Text("Strengthen my **posture**")
           HStack {
-            GoalCapsule(goal: "Back pains", style: .decrease)
             GoalCapsule(goal: "Posture", style: .increase)
+            GoalCapsule(goal: "Back pains", style: .decrease)
           }
         }
       }
@@ -293,6 +298,12 @@ extension GoalDashboardsScreen {
 
   func oohBoi() -> some View {
     ATrackerView("💩 Ooh Boi") { tracker in
+      DidCompleteChart(tracker: tracker, negateColors: true)
+    }
+  }
+
+  func feelingGassy() -> some View {
+    ATrackerView("⛽️ Feeling Gassy") { tracker in
       DidCompleteChart(tracker: tracker, negateColors: true)
     }
   }
@@ -357,7 +368,7 @@ extension GoalDashboardsScreen {
       }
 
       DisclosureGroup {
-        HistogramTable(tracker: tracker, fieldKey: "Restaurant")
+        HistogramTable(tracker: tracker, fieldKey: "Restaurant", negateColors: true)
       } label: {
         Text("View Restaurant Table")
       }
@@ -524,7 +535,6 @@ extension GoalDashboardsScreen {
       DidCompleteChart(tracker: tracker, negateColors: true)
     }
 
-    // ManyTrackers has a higher height
     ManyTrackersView(trackerNames: "🥱 Feeling Tired", "🥱 Feeling Tired") { tracker, _ in
       TrackerPlotChart(
         (tracker, .circle),
@@ -555,7 +565,7 @@ extension GoalDashboardsScreen {
       }
 
       DisclosureGroup {
-        HistogramTable(tracker: tracker, fieldKey: "Activity")
+        HistogramTable(tracker: tracker, fieldKey: "Activity", negateColors: true)
       } label: {
         Text("View Activities Table")
       }
@@ -567,15 +577,19 @@ extension GoalDashboardsScreen {
     ManyTrackersView(
       trackerNames: "🥱 Feeling Tired", "🍔 Eat Breakfast", "🍖 Eat Lunch", "🍱 Eat Dinner"
     ) { feelingTired, breakfast, lunch, dinner in
-      TrackerPlotChart(
-        (breakfast, .circle), (lunch, .circle), (dinner, .circle), (feelingTired, .asterisk),
-        range: dateRange.startDate...dateRange.endDate,
-        logDate: .both,
-        granularity: dateRange.selectedDateWindow,
-        width: .short,
-        annotations: [],
-        context: viewContext
-      )
+      VStack(alignment: .leading) {
+        TrackerPlotChart(
+          (breakfast, .circle), (lunch, .circle), (dinner, .circle), (feelingTired, .asterisk),
+          range: dateRange.startDate...dateRange.endDate,
+          logDate: .both,
+          granularity: dateRange.selectedDateWindow,
+          width: .short,
+          annotations: [],
+          context: viewContext
+        )
+        Text("Do you feel sleepy shortly after eating?")
+          .footer()
+      }
     }
   }
 
@@ -588,6 +602,12 @@ extension GoalDashboardsScreen {
   func noseRinse() -> some View {
     ATrackerView("Nose Rinse") { tracker in
       DidCompleteChart(tracker: tracker)
+    }
+  }
+
+  func stuffyNose() -> some View {
+    ATrackerView("👃 Stuffy Nose") { tracker in
+      DidCompleteChart(tracker: tracker, negateColors: true)
     }
   }
 
@@ -612,6 +632,7 @@ extension GoalDashboardsScreen {
         if duration > 0 {
           Text(duration, format: .duration)
             .font(.system(size: 6))
+            .foregroundStyle(.white)
         } else {
           EmptyView()
         }
@@ -698,6 +719,18 @@ extension GoalDashboardsScreen {
       }
 
       if includeExtraCharts {
+        ManyTrackersView(trackerNames: "Go To Bed", "Go To Bed") { tracker, _ in
+          TrackerPlotChart(
+            (tracker, .circle),
+            range: dateRange.startDate...dateRange.endDate,
+            logDate: .start,
+            granularity: dateRange.selectedDateWindow,
+            width: .short,
+            annotations: [],
+            context: viewContext
+          )
+        }
+
         TrackerView("Go To Bed") { tracker in
           VStack(alignment: .leading) {
             DidCompleteChart(
@@ -727,9 +760,8 @@ extension GoalDashboardsScreen {
               }
             )
             .frame(height: 38)
-            Text("Feeling awake")
-              .font(.caption2)
-              .foregroundStyle(.gray)
+            Text("Feeling sleepy")
+              .footer()
           }
         }
       }
@@ -804,6 +836,18 @@ extension GoalDashboardsScreen {
       }
 
       if includeExtraCharts {
+        ManyTrackersView(trackerNames: "Get Out Of Bed", "Get Out Of Bed") { tracker, _ in
+          TrackerPlotChart(
+            (tracker, .circle),
+            range: dateRange.startDate...dateRange.endDate,
+            logDate: .start,
+            granularity: dateRange.selectedDateWindow,
+            width: .short,
+            annotations: [],
+            context: viewContext
+          )
+        }
+
         TrackerView("Get Out Of Bed") { tracker in
           VStack(alignment: .leading) {
             DidCompleteChart(
@@ -833,9 +877,8 @@ extension GoalDashboardsScreen {
               }
             )
             .frame(height: 38)
-            Text("Feeling sleepy")
-              .font(.caption2)
-              .foregroundStyle(.gray)
+            Text("Feeling fresh")
+              .footer()
           }
         }
       }

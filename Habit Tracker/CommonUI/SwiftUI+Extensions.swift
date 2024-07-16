@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+extension View {
+  func footer() -> some View {
+    self
+      .font(.caption2)
+      .foregroundStyle(.gray)
+  }
+}
+
 struct StateView<T, V: View>: View {
   @State private var state: T
   let view: (T, Binding<T>) -> V
