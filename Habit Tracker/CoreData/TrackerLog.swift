@@ -8,8 +8,10 @@
 import CoreData
 import SwiftUI
 
-enum TrackerLogCompletion: Int16 {
+enum TrackerLogCompletion: Int16, Identifiable {
   case complete = 0, missed, skip
+
+  var id: Self { self }
 
   var systemName: String {
     switch self {
@@ -17,6 +19,49 @@ enum TrackerLogCompletion: Int16 {
     case .missed: "xmark"
     case .skip: "chevron.forward.2"
     }
+  }
+
+  func color(isTrackerBad: Bool) -> Color {
+    switch self {
+    case .complete: isTrackerBad ? .red : .green
+    case .missed: isTrackerBad ? .green : .red
+    case .skip: .gray
+    }
+  }
+}
+
+struct TrackerLogCompletionView: View {
+  @Binding var completion: TrackerLogCompletion
+  let isTrackerBad: Bool
+
+  init(_ completion: Binding<TrackerLogCompletion>, isTrackerBad: Bool) {
+    self._completion = completion
+    self.isTrackerBad = isTrackerBad
+  }
+
+  var body: some View {
+    HStack(spacing: 0) {
+      ForEach([.complete, .missed, .skip]) { (option: TrackerLogCompletion) in
+        Button {
+          withAnimation {
+            completion = option
+          }
+        } label: {
+          if option == completion {
+            Image(systemName: option.systemName)
+              .foregroundStyle(.white)
+              .padding()
+              .background(option.color(isTrackerBad: isTrackerBad))
+          } else {
+            Image(systemName: option.systemName)
+              .foregroundStyle(.white)
+              .padding()
+          }
+        }
+        .buttonStyle(.borderless)
+      }
+    }
+    .clipShape(RoundedRectangle(cornerRadius: 12))
   }
 }
 
