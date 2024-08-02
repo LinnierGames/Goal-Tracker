@@ -55,6 +55,8 @@ private class ViewModel: ObservableObject {
 struct TodayScreen: View {
   @StateObject private var viewModel = ViewModel()
   @Environment(\.managedObjectContext) private var viewContext
+  @StateObject var dateRange =
+    DateRangePickerViewModel(intialDate: Date(), intialWindow: .week)
 
   @FetchRequest(
     sortDescriptors: [SortDescriptor(\Tracker.todayViewRank)],
@@ -72,86 +74,70 @@ struct TodayScreen: View {
   )
   private var logsForToday: FetchedResults<TrackerLog>
 
-  private enum ViewStyle: String {
-    case weekly, monthly, yealy
-
-    var dateWindow: DateWindow {
-      switch self {
-      case .weekly:
-        return .week
-      case .monthly:
-        return .month
-      case .yealy:
-        return .year
-      }
-    }
-  }
-  @AppStorage("TODAY_SCREEN_VIEW_STYLE") private var viewStyle = ViewStyle.weekly
+  @State private var showDatePicker = false
 
   var body: some View {
     NavigationView {
-      List {
-        ForEach(trackers) { tracker in
-          TodayTrackerCell(tracker, dateWindow: viewStyle.dateWindow)
+      VStack {
+        Color.clear
+          .frame(height: 0)
+          .iosPopover(isPresented: $showDatePicker) {
+            DateRangePicker(viewModel: dateRange)
+              .padding()
+          }
+
+        List {
+          ForEach(trackers) { tracker in
+            TodayTrackerCell(tracker)
+          }
+          .onMove(perform: { indices, newOffset in
+            guard let source = indices.first else { return }
+
+            Rankable.moveElement(
+              source: source,
+              destination: newOffset > source ? newOffset - 1 : newOffset,
+              elements: trackers
+            )
+
+            try! viewContext.save()
+          })
+
+          if !logsForToday.isEmpty {
+            Section("Other Trackers") {
+              ForEach(logsForToday) { log in
+                TodayTrackerCell(log.tracker!, entryOverride: log)
+              }
+            }
+          }
         }
-        .onMove(perform: { indices, newOffset in
-          guard let source = indices.first else { return }
-
-          Rankable.moveElement(
-            source: source,
-            destination: newOffset > source ? newOffset - 1 : newOffset,
-            elements: trackers
-          )
-
-          try! viewContext.save()
-        })
-
-        if !logsForToday.isEmpty {
-          Section("Other Trackers") {
-            ForEach(logsForToday) { log in
-              TodayTrackerCell(log.tracker!, dateWindow: viewStyle.dateWindow, entryOverride: log)
+        .navigationTitle("Today")
+        .toolbar {
+          ToolbarItem(placement: .topBarTrailing) {
+            Button("", systemImage: "calendar") {
+              showDatePicker = true
             }
           }
         }
       }
-      .navigationTitle("Today")
-      .toolbar {
-        ToolbarItem(placement: .topBarTrailing) {
-          Picker("", selection: $viewStyle) {
-            Text("W").tag(ViewStyle.weekly)
-            Text("M").tag(ViewStyle.monthly)
-            // TODO: Compute the year in Today view
-//            Text("Y").tag(ViewStyle.yealy)
-          }
-          .pickerStyle(.segmented)
-        }
-      }
     }
+    .environmentObject(dateRange)
   }
 }
 
 struct TodayTrackerCell: View {
-  let entryOverride: TrackerLog?
   @ObservedObject var tracker: Tracker
-  let dateWindow: DateWindow
+  let entryOverride: TrackerLog?
 
   @Environment(\.managedObjectContext)
   private var viewContext
 
-  init(_ tracker: Tracker, dateWindow: DateWindow, entryOverride: TrackerLog? = nil) {
+  init(_ tracker: Tracker, entryOverride: TrackerLog? = nil) {
     self.tracker = tracker
-    self.dateWindow = dateWindow
     self.entryOverride = entryOverride
   }
 
   var body: some View {
     HStack {
-//      let trackedForToday = isTrackerLoggedToday(tracker)
-//      Image(systemName: trackedForToday ? "checkmark.circle.fill" : "checkmark.circle")
-//        .imageScale(.large)
-//        .foregroundColor(trackedForToday ? .green : .primary)
-//        .onTapGesture(perform: markAsCompleted)
-
       SheetLink {
         TrackerDetailScreen(tracker)
       } label: {
@@ -167,9 +153,7 @@ struct TodayTrackerCell: View {
               mostRecentLog()
             }
 
-            TrackerLogView.dateRange(tracker: tracker, window: dateWindow)
-              .foregroundStyle(.white)
-//            DidCompleteChart(tracker: tracker)
+            DidCompleteChart(tracker: tracker)
           }
 
           actionButton()
