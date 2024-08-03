@@ -409,10 +409,12 @@ extension GoalDashboardsScreen {
                     Color.green
                   } else {
                     Color.orange
+                      .overlay { Text("🧑‍🍳") }
                   }
                 }
               } else {
                 Color.red
+                  .overlay { Text("🌯") }
               }
             }
           }

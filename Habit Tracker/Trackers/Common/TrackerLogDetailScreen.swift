@@ -23,16 +23,6 @@ struct TrackerLogDetailScreen: View {
   var body: some View {
     List {
       Section {
-//        Picker(selection: $log.completion) {
-//          ForEach([.complete, .missed, .skip]) { (option: TrackerLogCompletion) in
-//            Image(systemName: option.systemName)
-//              .foregroundStyle(option.color(isTrackerBad: tracker.isBadTracker))
-//          }
-//        } label: {
-//          EmptyView()
-//        }
-//        .pickerStyle(.segmented)
-
         HStack {
           Text("Did you complete this?")
           Spacer()

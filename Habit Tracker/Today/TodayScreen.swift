@@ -153,7 +153,7 @@ struct TodayTrackerCell: View {
               mostRecentLog()
             }
 
-            DidCompleteChart(tracker: tracker)
+            DidCompleteChart(tracker: tracker, negateColors: tracker.isBadTracker)
           }
 
           actionButton()

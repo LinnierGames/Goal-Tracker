@@ -38,22 +38,53 @@ struct DidCompleteChart<Label: View>: View {
     self.tracker = tracker
     self.daily = { logs, date in
       if logs.isEmpty {
-        negateColors ? .green : .red // TODO: Use tracker's habit to mark incomplete dates as red or clear
+        negateColors ? .green : .red
       } else {
-        negateColors ? .red : .green
+        if logs.contains(where: { $0.completion == .complete }) {
+          negateColors ? .red : .green
+        } else if logs.contains(where: { $0.completion == .missed }) {
+          negateColors ? .green : .red
+        } else { // Skipped
+          .gray
+        }
       }
     }
     self.monthly = { logs in
       (logs.count, 30)
     }
     self.label = { logs,_ in
-      if logs.count > 1 {
-        Text(logs.count, format: .number)
+      Group {
+        if logs.isEmpty {
+          EmptyView()
+        } else if logs.count > 1 {
+          Text(logs.count, format: .number)
+            .foregroundStyle(.white)
+        } else {
+          Group {
+            if logs.contains(where: { $0.completion == .complete }) {
+              if negateColors {
+                Image(systemName: TrackerLogCompletion.complete.systemName)
+                  .resizable()
+              } else {
+                EmptyView()
+              }
+            } else if logs.contains(where: { $0.completion == .missed }) {
+              if negateColors {
+                EmptyView()
+              } else {
+                Image(systemName: TrackerLogCompletion.missed.systemName)
+                  .resizable()
+              }
+            } else { // Skipped
+              Image(systemName: TrackerLogCompletion.skip.systemName)
+                .resizable()
+            }
+          }
           .foregroundStyle(.white)
-          .erasedToAnyView()
-      } else {
-        EmptyView().erasedToAnyView()
-      }
+          .aspectRatio(contentMode: .fit)
+          .frame(height: 10)
+        }
+      }.erasedToAnyView()
     }
     self.negateColors = negateColors
   }
@@ -69,7 +100,13 @@ struct DidCompleteChart<Label: View>: View {
       if logs.isEmpty {
         negateColors ? .green : .red
       } else {
-        negateColors ? .red : .green
+        if logs.contains(where: { $0.completion == .complete }) {
+          negateColors ? .red : .green
+        } else if logs.contains(where: { $0.completion == .missed }) {
+          negateColors ? .green : .red
+        } else { // Skipped
+          .gray
+        }
       }
     }
     self.monthly = { logs in
@@ -127,7 +164,7 @@ struct DidCompleteChart<Label: View>: View {
                       Button {
                         selectedLog.wrappedValue = log
                       } label: {
-                        Text(log.timestampFormat)
+                        SwiftUI.Label(log.timestampFormat, systemImage: log.completion.systemName)
                       }
                     }
                   } label: {
