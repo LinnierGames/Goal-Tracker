@@ -90,6 +90,24 @@ extension TrackerLog {
   var completionLabel: some View {
     Image(systemName: completion.systemName)
   }
+  
+  /// `true` if the log is the tracker's expected completion
+  var isTrackerCompletion: Bool {
+    if completion == .skip {
+      false
+    } else if let tracker {
+      if
+        tracker.isBadTracker && completion == .missed
+          || !tracker.isBadTracker && completion == .complete
+      {
+        true
+      } else {
+        false
+      }
+    } else {
+      false
+    }
+  }
 
   var allValues: [TrackerLogValue] {
     values?.allManagedObjects() ?? []

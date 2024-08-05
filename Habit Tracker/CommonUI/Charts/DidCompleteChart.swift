@@ -66,11 +66,11 @@ struct DidCompleteChart<Label: View>: View {
                 Image(systemName: TrackerLogCompletion.complete.systemName)
                   .resizable()
               } else {
-                EmptyView()
+                EmptyView() // Hide labels for expected completion logs
               }
             } else if logs.contains(where: { $0.completion == .missed }) {
               if negateColors {
-                EmptyView()
+                EmptyView() // Hide labels for expected completion logs
               } else {
                 Image(systemName: TrackerLogCompletion.missed.systemName)
                   .resizable()

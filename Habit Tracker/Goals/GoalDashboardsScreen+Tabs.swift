@@ -226,12 +226,12 @@ extension GoalDashboardsScreen {
 
       Section {
         diet()
+        eatEachMeal()
       } header: {
         Text("Cooking and fast food")
       }
       Section {
         fastFood()
-        eatEachMeal()
         cooked()
       }
 

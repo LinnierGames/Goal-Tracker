@@ -116,17 +116,29 @@ private struct TrackerLogRow: View {
         TrackerLogDetailScreen(tracker: tracker, log: log)
       } label: {
         VStack(alignment: .leading) {
-  //                  if let endDate = log.endDate {
-  //                    let startDate = log.timestamp!
-  //                    if startDate > endDate {
-  //                      Text(endDate..<startDate, format: .interval)
-  //                    } else {
-  //                      Text(startDate..<endDate, format: .interval)
-  //                    }
-  //                  } else {
-  //                    Text(log.timestampFormat)
-  //                  }
-          Text(log.timestampFormat)
+          HStack {
+            // TODO: Display range of time
+    //                  if let endDate = log.endDate {
+    //                    let startDate = log.timestamp!
+    //                    if startDate > endDate {
+    //                      Text(endDate..<startDate, format: .interval)
+    //                    } else {
+    //                      Text(startDate..<endDate, format: .interval)
+    //                    }
+    //                  } else {
+    //                    Text(log.timestampFormat)
+    //                  }
+            Text(log.timestampFormat)
+
+            if !log.isTrackerCompletion {
+              log.completionLabel
+                .scaleEffect(0.6)
+                .padding(.vertical, 2)
+                .padding(.horizontal, 4)
+                .background(log.completionColor)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+            }
+          }
 
           TrackerLogFieldValuesList(tracker: tracker, log: log) { field, value in
             HStack {
@@ -158,7 +170,17 @@ private struct TrackerLogRow: View {
         }
         Button {
           withAnimation {
-            _ = TrackerLog.copy(log, in: viewContext)
+            let copy = TrackerLog.copy(log, in: viewContext)
+
+            if let endDate = copy.endDate, let startDate = copy.timestamp {
+              let duration = endDate.timeIntervalSince(startDate)
+              let now = Date()
+              copy.timestamp = now
+              copy.endDate = now.addingTimeInterval(duration)
+            } else {
+              copy.timestamp = Date()
+            }
+
             try! viewContext.save()
           }
         } label: {
