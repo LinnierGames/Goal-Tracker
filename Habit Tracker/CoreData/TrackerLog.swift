@@ -240,6 +240,71 @@ extension TrackerLogValue {
   }
 }
 
+extension Array<TrackerLogValue> {
+  func filter(
+    fieldTitle: String,
+    predicate: KeyPath<TrackerLogValue, Bool>
+  ) -> [TrackerLogValue] {
+    filter { $0.field?.title == fieldTitle }
+      .filter { $0[keyPath: predicate] }
+  }
+  func filter(
+    fieldTitle: String,
+    predicate: (TrackerLogValue) -> Bool = { _ in true }
+  ) -> [TrackerLogValue] {
+    filter { $0.field?.title == fieldTitle }
+      .filter(predicate)
+  }
+
+  func contains(
+    fieldTitle: String,
+    predicate: (TrackerLogValue) -> Bool = { _ in true }
+  ) -> Bool {
+    filter { $0.field?.title == fieldTitle }
+      .contains(where: predicate)
+  }
+  func contains(
+    fieldTitle: String,
+    predicate: KeyPath<TrackerLogValue, Bool>
+  ) -> Bool {
+    filter { $0.field?.title == fieldTitle }
+      .contains { $0[keyPath: predicate] }
+  }
+
+  func first(
+    fieldTitle: String,
+    predicate: KeyPath<TrackerLogValue, Bool>
+  ) -> TrackerLogValue? {
+    guard
+      let valueByField = first(where: { $0.field?.title == fieldTitle })
+    else {
+      return nil
+    }
+
+    return if valueByField[keyPath: predicate] {
+      valueByField
+    } else {
+      nil
+    }
+  }
+  func first(
+    fieldTitle: String,
+    predicate: (TrackerLogValue) -> Bool = { _ in true }
+  ) -> TrackerLogValue? {
+    guard
+      let valueByField = first(where: { $0.field?.title == fieldTitle })
+    else {
+      return nil
+    }
+
+    return if predicate(valueByField) {
+      valueByField
+    } else {
+      nil
+    }
+  }
+}
+
 //Tracker
 //+ fields
 //++ title

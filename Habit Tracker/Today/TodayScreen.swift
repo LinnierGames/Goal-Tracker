@@ -154,6 +154,7 @@ struct TodayTrackerCell: View {
             }
 
             DidCompleteChart(tracker: tracker, negateColors: tracker.isBadTracker)
+              .highlightTodaysDate()
           }
 
           actionButton()

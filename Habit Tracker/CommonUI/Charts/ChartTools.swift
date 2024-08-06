@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 protocol ChartTools {
 }
@@ -96,3 +97,23 @@ extension ChartTools {
     }
   }
 }
+
+extension EnvironmentValues {
+  var highlightTodaysDate: Bool {
+    get { self[HighlightTodaysDateKey.self] }
+    set { self[HighlightTodaysDateKey.self] = newValue }
+  }
+}
+
+extension View {
+  func highlightTodaysDate() -> some View {
+    environment(\.highlightTodaysDate, true)
+  }
+}
+
+private struct HighlightTodaysDateKey: EnvironmentKey {
+  static var defaultValue: Bool {
+    false
+  }
+}
+

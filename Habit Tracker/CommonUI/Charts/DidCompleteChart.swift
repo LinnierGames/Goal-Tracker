@@ -127,9 +127,23 @@ struct DidCompleteChart<Label: View>: View {
     }
   }
 
+  @Environment(\.highlightTodaysDate) private var highlightTodaysDate
+
+  func dailyOpacity(for date: Date) -> CGFloat {
+    if highlightTodaysDate {
+      if Calendar.current.isDateInToday(date) {
+        return 1
+      } else {
+        return 0.35
+      }
+    } else {
+      return 1
+    }
+  }
+
   var body: some View {
     HStack(spacing: -1) {
-      ForEach(dates, id: \.timeIntervalSince1970) { date in
+      ForEach(dates, id: \.timeIntervalSinceReferenceDate) { date in
         switch dateRange.selectedDateWindow {
         case .day, .week, .month:
           TrackerLogView(tracker: tracker, date: date) { results in
@@ -145,6 +159,7 @@ struct DidCompleteChart<Label: View>: View {
               if results.isEmpty {
                 daily([], date)
                   .overlay(label([], date))
+                  .opacity(dailyOpacity(for: date))
                   .border(.white)
               } else if results.count == 1 {
                 SheetLink {
@@ -154,6 +169,7 @@ struct DidCompleteChart<Label: View>: View {
                 } label: {
                   daily(Array(results), date)
                     .overlay(label(Array(results), date))
+                    .opacity(dailyOpacity(for: date))
                     .border(.white)
                 }
                 .buttonStyle(.borderless)
@@ -170,6 +186,7 @@ struct DidCompleteChart<Label: View>: View {
                   } label: {
                     daily(Array(results), date)
                       .overlay(label(Array(results), date))
+                      .opacity(dailyOpacity(for: date))
                       .border(.white)
                   }
                   .menuStyle(.borderlessButton)

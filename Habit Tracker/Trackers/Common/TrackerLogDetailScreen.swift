@@ -33,6 +33,11 @@ struct TrackerLogDetailScreen: View {
         DatePicker(selection: $log.timestamp.mapOptional(defaultValue: Date())) {
           Label("Date", systemImage: "calendar")
         }
+        .swipeActions {
+          Button("Now") {
+            log.timestamp = Date()
+          }
+        }
 
         if log.endDate != nil {
           DatePicker(selection: $log.endDate.mapOptional(defaultValue: Date())) {

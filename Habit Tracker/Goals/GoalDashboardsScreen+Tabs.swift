@@ -143,9 +143,9 @@ extension GoalDashboardsScreen {
               range: dateRange.startDate...dateRange.endDate
             ) { logs in
               logs.compactMap { log in
-                log.allValues.first(where: {
-                  $0.field?.title == "Topic"
-                })?.string.sanitize(.capitalized, .whitespaceTrimmed)
+                log.allValues.first(
+                  fieldTitle: "Topic"
+                )?.string.sanitize(.capitalized, .whitespaceTrimmed)
               }
             }
             .navigationTitle("🗣️ Discussion: Topcis")
@@ -326,9 +326,9 @@ extension GoalDashboardsScreen {
           range: dateRange.startDate...dateRange.endDate
         ) { logs in
           logs.compactMap { log in
-            log.allValues.first(where: {
-              $0.field?.title == "Dish"
-            })?.string.sanitize(.capitalized, .whitespaceTrimmed)
+            log.allValues.first(
+              fieldTitle: "Dish"
+            )?.string.sanitize(.capitalized, .whitespaceTrimmed)
           }
         }
         .navigationTitle("Exercise: Recipes")
@@ -357,9 +357,9 @@ extension GoalDashboardsScreen {
           range: dateRange.startDate...dateRange.endDate
         ) { logs in
           logs.compactMap { log in
-            log.allValues.first(where: {
-              $0.field?.title == "Restaurant"
-            })?.string.sanitize(.capitalized, .whitespaceTrimmed)
+            log.allValues.first(
+              fieldTitle: "Restaurant"
+            )?.string.sanitize(.capitalized, .whitespaceTrimmed)
           }
         }
         .navigationTitle("Eat Fast Food: Restaurants")
@@ -406,7 +406,16 @@ extension GoalDashboardsScreen {
                   range2: dateRangeForMeal
                 ) { cooked in
                   if cooked.isEmpty {
-                    Color.green
+                    let isMealLeftover = mealLogs.contains {
+                      $0.allValues.contains(fieldTitle: "Leftovers", predicate: \.boolValue)
+                    }
+
+                    if isMealLeftover {
+                      Color.orange
+                        .overlay { Text("🍱") }
+                    } else {
+                      Color.green
+                    }
                   } else {
                     Color.orange
                       .overlay { Text("🧑‍🍳") }
@@ -500,9 +509,9 @@ extension GoalDashboardsScreen {
             range: dateRange.startDate...dateRange.endDate
           ) { logs in
             logs.compactMap { log in
-              log.allValues.first(where: {
-                $0.field?.title == "Food"
-              })?.string.sanitize(.capitalized, .whitespaceTrimmed)
+              log.allValues.first(
+                fieldTitle: "Food"
+              )?.string.sanitize(.capitalized, .whitespaceTrimmed)
             }
             .map { $0.split(separator: ", ").map(String.init) }
             .flatMap { $0 }
@@ -556,9 +565,9 @@ extension GoalDashboardsScreen {
           range: dateRange.startDate...dateRange.endDate
         ) { logs in
           logs.compactMap { log in
-            log.allValues.first(where: {
-              $0.field?.title == "Activity"
-            })?.string.sanitize(.capitalized, .whitespaceTrimmed)
+            log.allValues.first(
+              fieldTitle: "Activity"
+            )?.string.sanitize(.capitalized, .whitespaceTrimmed)
           }
         }
         .navigationTitle("Feeling Tired: Activities")
@@ -648,9 +657,9 @@ extension GoalDashboardsScreen {
           range: dateRange.startDate...dateRange.endDate
         ) { logs in
           logs.compactMap { log in
-            log.allValues.first(where: {
-              $0.field?.title == "Workout"
-            })?.string.sanitize(.capitalized, .whitespaceTrimmed)
+            log.allValues.first(
+              fieldTitle: "Workout"
+            )?.string.sanitize(.capitalized, .whitespaceTrimmed)
           }
         }
         .navigationTitle("Exercise: Workouts")
@@ -739,25 +748,26 @@ extension GoalDashboardsScreen {
               tracker: tracker,
               daily: { logs, _ in
                 if logs.isEmpty {
-                  .gray.opacity(0.35)
+                  return .gray.opacity(0.35)
                 } else if let log = logs.first {
-                  if let sleepy = log.allValues.first(where: { $0.field?.title == "Feeling sleepy" })?.boolValue {
-                    sleepy ? .green : .red
-                  } else {
-                    .clear
-                  }
+                  let sleepy = log.allValues.contains(fieldTitle: "Feeling sleepy", predicate: \.boolValue)
+                  return sleepy ? .green : .red
                 } else {
-                  .red
+                  return .red
                 }
               }, monthly: { logs in
-                (logs.filter(matchesPredicate(log:)).count, 30)
+                (
+                  logs.filter {
+                    $0.allValues.contains(
+                      fieldTitle: "Feeling sleepy", predicate: \.boolValue
+                    )
+                  }.count,
+                  30
+                )
               }, label: { logs, _ in
                 if let log = logs.first {
-                  if let sleepy = log.allValues.first(where: { $0.field?.title == "Feeling sleepy" })?.boolValue {
-                    Text(sleepy ? "😴" : "😬")
-                  } else {
-                    Text("")
-                  }
+                  let sleepy = log.allValues.contains(fieldTitle: "Feeling sleepy", predicate: \.boolValue)
+                  Text(sleepy ? "😴" : "😬")
                 }
               }
             )
@@ -856,25 +866,26 @@ extension GoalDashboardsScreen {
               tracker: tracker,
               daily: { logs, _ in
                 if logs.isEmpty {
-                  .gray.opacity(0.35)
+                  return .gray.opacity(0.35)
                 } else if let log = logs.first {
-                  if let refreshed = log.allValues.first(where: { $0.field?.title == "Feel well rested" })?.boolValue {
-                    refreshed ? .green : .red
-                  } else {
-                    .clear
-                  }
+                  let refreshed = log.allValues.contains(fieldTitle: "Feel well rested", predicate: \.boolValue)
+                  return refreshed ? .green : .red
                 } else {
-                  .red
+                  return .red
                 }
               }, monthly: { logs in
-                (logs.filter(matchesPredicate(log:)).count, 30)
+                (
+                  logs.filter {
+                    $0.allValues.contains(
+                      fieldTitle: "Feel well rested", predicate: \.boolValue
+                    )
+                  }.count,
+                  30
+                )
               }, label: { logs, _ in
                 if let log = logs.first {
-                  if let refreshed = log.allValues.first(where: { $0.field?.title == "Feel well rested" })?.boolValue {
-                    Text(refreshed ? "😌" : "😪")
-                  } else {
-                    Text("")
-                  }
+                  let refreshed = log.allValues.contains(fieldTitle: "Feel well rested", predicate: \.boolValue)
+                  Text(refreshed ? "😌" : "😪")
                 }
               }
             )
