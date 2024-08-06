@@ -31,7 +31,7 @@ struct TrackerDetailsChartScreen: View {
     self.dateRangeWindow = dateRangeWindow
     self.tracker = tracker
     self._datePickerViewModel =
-      StateObject(wrappedValue: DateRangePickerViewModel(intialDate: dateRange, intialWindow: dateRangeWindow))
+    StateObject(wrappedValue: DateRangePickerViewModel(intialDate: dateRange, intialWindow: dateRangeWindow))
     self._entries = FetchRequest(
       sortDescriptors: [SortDescriptor(\TrackerLog.timestamp)],
       predicate: NSPredicate(format: "tracker = %@", tracker)
@@ -40,11 +40,11 @@ struct TrackerDetailsChartScreen: View {
 
   var body: some View {
     NavigationView {
-      VStack {
+      Form {
         DateRangePicker(viewModel: datePickerViewModel)
 
         // Charts
-        VStack {
+        Section {
           TrackerBarChart(
             tracker,
             range: datePickerViewModel.startDate...datePickerViewModel.endDate,
@@ -63,9 +63,37 @@ struct TrackerDetailsChartScreen: View {
           ).frame(height: 196)
         }
 
-        Spacer()
+        ForEach(tracker.allFields) { field in
+          let fieldKey = field.title ?? ""
+
+          Section {
+            NavigationLink {
+              HistogramChart(
+                tracker,
+                range:
+                  datePickerViewModel.startDate...datePickerViewModel.endDate
+              ) { logs in
+                logs.compactMap { log in
+                  log.allValues.first(
+                    fieldTitle: fieldKey
+                  )?.string.sanitize(.capitalized, .whitespaceTrimmed)
+                }
+              }
+              .navigationTitle(fieldKey)
+            } label: {
+              Text("View \(fieldKey) Chart ")
+            }
+
+            DisclosureGroup {
+              HistogramTable(tracker: tracker, fieldKey: fieldKey)
+            } label: {
+              Text("View \(fieldKey) Table")
+            }
+          } header: {
+            Text(fieldKey)
+          }
+        }
       }
-      .padding(.horizontal)
 
       .navigationTitle(tracker.title!)
 
@@ -75,6 +103,8 @@ struct TrackerDetailsChartScreen: View {
       .onReceive(datePickerViewModel.didUpdateRange) { _, range in
         sync.syncDateRange(tracker: tracker, range: range)
       }
+
+      .environmentObject(datePickerViewModel)
     }
   }
 
@@ -92,33 +122,33 @@ struct TrackerDetailsChartScreen: View {
       to: datePickerViewModel.endDate.midnight,
       by: hour
     )
-    .map { day in
-      let nEntriesForDay: Int = {
-        let lowerBound = day.set(minute: 0)
-        let upperBound = day.set(minute: 0).addingTimeInterval(.init(hours: 1))
-        let fetch = TrackerLog.fetchRequest()
-        fetch.predicate = NSPredicate(
-          format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
-          tracker, lowerBound as NSDate, upperBound as NSDate
-        )
+      .map { day in
+        let nEntriesForDay: Int = {
+          let lowerBound = day.set(minute: 0)
+          let upperBound = day.set(minute: 0).addingTimeInterval(.init(hours: 1))
+          let fetch = TrackerLog.fetchRequest()
+          fetch.predicate = NSPredicate(
+            format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
+            tracker, lowerBound as NSDate, upperBound as NSDate
+          )
 
-        guard let results = try? viewContext.fetch(fetch) else {
-          assertionFailure()
-          return 0
-        }
+          guard let results = try? viewContext.fetch(fetch) else {
+            assertionFailure()
+            return 0
+          }
 
-        return results.count
-      }()
+          return results.count
+        }()
 
-      let formatter = DateFormatter()
-      formatter.dateFormat = "H"
-      let bucket = formatter.string(from: day)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "H"
+        let bucket = formatter.string(from: day)
 
-      return (timestamp: bucket, count: nEntriesForDay)
-    }
-    .map { timestamp, count in
-      Data(timestamp: timestamp, count: count)
-    }
+        return (timestamp: bucket, count: nEntriesForDay)
+      }
+      .map { timestamp, count in
+        Data(timestamp: timestamp, count: count)
+      }
 
     return Chart(data) { entry in
       BarMark(x: .value("Date", entry.timestamp), y: .value("TimeInterval", entry.count))
@@ -141,32 +171,32 @@ struct TrackerDetailsChartScreen: View {
       to: datePickerViewModel.endDate,
       by: day
     )
-    .map { day in
-      let nEntriesForDay: Int = {
-        let fetch = TrackerLog.fetchRequest()
-        fetch.predicate = NSPredicate(
-          format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
-          tracker, day.midnight as NSDate,
-          day.addingTimeInterval(.init(days: 1)).midnight as NSDate
-        )
+      .map { day in
+        let nEntriesForDay: Int = {
+          let fetch = TrackerLog.fetchRequest()
+          fetch.predicate = NSPredicate(
+            format: "tracker = %@ AND timestamp >= %@ AND timestamp < %@",
+            tracker, day.midnight as NSDate,
+            day.addingTimeInterval(.init(days: 1)).midnight as NSDate
+          )
 
-        guard let results = try? viewContext.fetch(fetch) else {
-          assertionFailure()
-          return 0
-        }
+          guard let results = try? viewContext.fetch(fetch) else {
+            assertionFailure()
+            return 0
+          }
 
-        return results.count
-      }()
+          return results.count
+        }()
 
-      let formatter = DateFormatter()
-      formatter.dateFormat = "dd"
-      let bucket = formatter.string(from: day)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd"
+        let bucket = formatter.string(from: day)
 
-      return (timestamp: bucket, count: nEntriesForDay)
-    }
-    .map { timestamp, count in
-      Data(timestamp: timestamp, count: count)
-    }
+        return (timestamp: bucket, count: nEntriesForDay)
+      }
+      .map { timestamp, count in
+        Data(timestamp: timestamp, count: count)
+      }
 
     return Chart(data) { entry in
       BarMark(x: .value("Date", entry.timestamp), y: .value("TimeInterval", entry.count))

@@ -73,9 +73,10 @@ struct HistogramTable: View {
   var body: some View {
     TrackerLogView(tracker: tracker, range: datePicker.startDate...datePicker.endDate) { logs in
       let uniqueFieldValues = logs.compactMap { log in
-        log.allValues.first(where: {
-          $0.field?.title == fieldKey
-        })?.string.sanitize(.capitalized, .whitespaceTrimmed)
+        log.allValues.first(
+          fieldTitle: fieldKey
+        )?.string.sanitize(.capitalized, .whitespaceTrimmed)
+        // TODO: Split by , in both charts
       }.reduce(into: Set()) { histogram, fieldValue in
         histogram.insert(fieldValue)
       }.sorted(by: \.self)
