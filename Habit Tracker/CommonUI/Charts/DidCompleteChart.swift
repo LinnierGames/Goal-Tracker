@@ -8,18 +8,19 @@
 import SwiftUI
 
 /// Color chart for the current window of the given tracker and predicate
-struct DidCompleteChart<Label: View>: View {
+struct DidCompleteChart<Daily: View, Label: View>: View {
   @ObservedObject var tracker: Tracker
   @EnvironmentObject var dateRange: DateRangePickerViewModel
 
-  let daily: ([TrackerLog], Date) -> Color
+  let daily: ([TrackerLog], Date) -> Daily
   let monthly: (any Collection<TrackerLog>) -> (completed: Int, total: Int)
   let label: ([TrackerLog], Date) -> Label
   let negateColors: Bool
 
   init(
     tracker: Tracker,
-    daily: @escaping ([TrackerLog], Date) -> Color,
+    @ViewBuilder
+    daily: @escaping ([TrackerLog], Date) -> Daily,
     monthly: @escaping (any Collection<TrackerLog>) -> (completed: Int, total: Int),
     @ViewBuilder
     label: @escaping ([TrackerLog], Date) -> Label
@@ -34,7 +35,7 @@ struct DidCompleteChart<Label: View>: View {
   init(
     tracker: Tracker,
     negateColors: Bool = false
-  ) where Label == AnyView {
+  ) where Daily == Color, Label == AnyView {
     self.tracker = tracker
     self.daily = { logs, date in
       if logs.isEmpty {
@@ -94,7 +95,7 @@ struct DidCompleteChart<Label: View>: View {
     negateColors: Bool = false,
     @ViewBuilder
     label: @escaping ([TrackerLog], Date) -> Label
-  ) {
+  ) where Daily == Color {
     self.tracker = tracker
     self.daily = { logs, date in
       if logs.isEmpty {

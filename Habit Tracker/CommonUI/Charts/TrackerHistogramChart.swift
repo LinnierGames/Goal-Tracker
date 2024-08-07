@@ -28,9 +28,15 @@ struct HistogramChart: View {
       tracker: tracker,
       range: range.lowerBound...range.upperBound
     ) { logs in
-      let histogram = histogram(logs).reduce(into: [String: Int]()) {
-        $0[$1, default: 0] += 1
-      }.map { $0 }.sorted(by: \.value, order: .reverse)
+      let histogram = histogram(logs)
+        .flatMap { fieldValue in
+          fieldValue.split(separator: ", ").map(String.init)
+        }
+        .reduce(into: [String: Int]()) {
+          $0[$1, default: 0] += 1
+        }
+        .map { $0 }
+        .sorted(by: \.value, order: .reverse)
 
       ScrollView(.vertical) {
         Chart {
@@ -72,14 +78,19 @@ struct HistogramTable: View {
 
   var body: some View {
     TrackerLogView(tracker: tracker, range: datePicker.startDate...datePicker.endDate) { logs in
-      let uniqueFieldValues = logs.compactMap { log in
-        log.allValues.first(
-          fieldTitle: fieldKey
-        )?.string.sanitize(.capitalized, .whitespaceTrimmed)
-        // TODO: Split by , in both charts
-      }.reduce(into: Set()) { histogram, fieldValue in
-        histogram.insert(fieldValue)
-      }.sorted(by: \.self)
+      let uniqueFieldValues = logs
+        .compactMap { log in
+          log.allValues.first(
+            fieldTitle: fieldKey
+          )?.string.sanitize(.capitalized, .whitespaceTrimmed)
+        }
+        .flatMap { fieldValue in
+          fieldValue.split(separator: ", ").map(String.init)
+        }
+        .reduce(into: Set()) { histogram, fieldValue in
+          histogram.insert(fieldValue)
+        }
+        .sorted(by: \.self)
 
       ForEach(uniqueFieldValues, id: \.self) { fieldValue in
         VStack(alignment: .leading) {
@@ -88,9 +99,9 @@ struct HistogramTable: View {
             tracker: tracker
           ) { logs, _ in
             if filter(forFieldValue: fieldValue, fieldKey: fieldKey, logs).isEmpty {
-              .clear
+              Color.clear
             } else {
-              negateColors ? .red : .green
+              negateColors ? Color.red : Color.green
             }
           } monthly: { logs in
             (filter(forFieldValue: fieldValue, fieldKey: fieldKey, logs).count, 30)
@@ -119,7 +130,8 @@ struct HistogramTable: View {
     logs.filter { log in
       log.allValues.first(where: {
         $0.field?.title == fieldKey
-      })?.string.sanitize(.capitalized, .whitespaceTrimmed) == fieldValue
+      })?.string.sanitize(.capitalized, .whitespaceTrimmed)
+        .localizedCaseInsensitiveContains(fieldValue) ?? false
     }
   }
 }

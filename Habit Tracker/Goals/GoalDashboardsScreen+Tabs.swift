@@ -513,8 +513,6 @@ extension GoalDashboardsScreen {
                 fieldTitle: "Food"
               )?.string.sanitize(.capitalized, .whitespaceTrimmed)
             }
-            .map { $0.split(separator: ", ").map(String.init) }
-            .flatMap { $0 }
           }
           .navigationTitle("\(tracker.title ?? "Meals"): Food")
         }
@@ -705,11 +703,11 @@ extension GoalDashboardsScreen {
           tracker: tracker,
           daily: { logs, _ in
             if logs.isEmpty {
-              .gray.opacity(0.35)
+              Color.gray.opacity(0.35)
             } else if logs.contains(where: matchesPredicate(log:)) {
-              .green
+              Color.green
             } else {
-              .red
+              Color.red
             }
           }, monthly: { logs in
             (logs.filter(matchesPredicate(log:)).count, 30)
@@ -748,12 +746,12 @@ extension GoalDashboardsScreen {
               tracker: tracker,
               daily: { logs, _ in
                 if logs.isEmpty {
-                  return .gray.opacity(0.35)
+                  Color.gray.opacity(0.35)
                 } else if let log = logs.first {
                   let sleepy = log.allValues.contains(fieldTitle: "Feeling sleepy", predicate: \.boolValue)
-                  return sleepy ? .green : .red
+                  sleepy ? Color.green : .red
                 } else {
-                  return .red
+                  Color.red
                 }
               }, monthly: { logs in
                 (
@@ -825,11 +823,11 @@ extension GoalDashboardsScreen {
           tracker: tracker,
           daily: { logs, _ in
             if logs.isEmpty {
-              .gray.opacity(0.35)
+              Color.gray.opacity(0.35)
             } else if logs.contains(where: matchesPredicate(log:)) {
-              .green
+              Color.green
             } else {
-              .red
+              Color.red
             }
           }, monthly: { logs in
             (logs.filter(matchesPredicate(log:)).count, 30)
@@ -866,12 +864,12 @@ extension GoalDashboardsScreen {
               tracker: tracker,
               daily: { logs, _ in
                 if logs.isEmpty {
-                  return .gray.opacity(0.35)
+                  Color.gray.opacity(0.35)
                 } else if let log = logs.first {
                   let refreshed = log.allValues.contains(fieldTitle: "Feel well rested", predicate: \.boolValue)
-                  return refreshed ? .green : .red
+                  refreshed ? Color.green : .red
                 } else {
-                  return .red
+                  Color.red
                 }
               }, monthly: { logs in
                 (

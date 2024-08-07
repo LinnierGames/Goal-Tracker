@@ -40,57 +40,58 @@ struct TrackerDetailsChartScreen: View {
 
   var body: some View {
     NavigationView {
-      Form {
+      VStack {
         DateRangePicker(viewModel: datePickerViewModel)
-
-        // Charts
-        Section {
-          TrackerBarChart(
-            tracker,
-            range: datePickerViewModel.startDate...datePickerViewModel.endDate,
-            granularity: datePickerViewModel.selectedDateWindow,
-            width: .short,
-            context: viewContext
-          ).frame(height: 196)
-          TrackerPlotChart(
-            tracker,
-            range: datePickerViewModel.startDate...datePickerViewModel.endDate,
-            logDate: .both,
-            granularity: datePickerViewModel.selectedDateWindow,
-            width: .short,
-            annotations: [],
-            context: viewContext
-          ).frame(height: 196)
-        }
-
-        ForEach(tracker.allFields) { field in
-          let fieldKey = field.title ?? ""
-
+        
+        Form {
           Section {
-            NavigationLink {
-              HistogramChart(
-                tracker,
-                range:
-                  datePickerViewModel.startDate...datePickerViewModel.endDate
-              ) { logs in
-                logs.compactMap { log in
-                  log.allValues.first(
-                    fieldTitle: fieldKey
-                  )?.string.sanitize(.capitalized, .whitespaceTrimmed)
-                }
-              }
-              .navigationTitle(fieldKey)
-            } label: {
-              Text("View \(fieldKey) Chart ")
-            }
+            TrackerBarChart(
+              tracker,
+              range: datePickerViewModel.startDate...datePickerViewModel.endDate,
+              granularity: datePickerViewModel.selectedDateWindow,
+              width: .short,
+              context: viewContext
+            ).frame(height: 196)
+            TrackerPlotChart(
+              tracker,
+              range: datePickerViewModel.startDate...datePickerViewModel.endDate,
+              logDate: .both,
+              granularity: datePickerViewModel.selectedDateWindow,
+              width: .short,
+              annotations: [],
+              context: viewContext
+            ).frame(height: 196)
+          }
 
-            DisclosureGroup {
-              HistogramTable(tracker: tracker, fieldKey: fieldKey)
-            } label: {
-              Text("View \(fieldKey) Table")
+          ForEach(tracker.allFields) { field in
+            let fieldKey = field.title ?? ""
+
+            Section {
+              NavigationLink {
+                HistogramChart(
+                  tracker,
+                  range:
+                    datePickerViewModel.startDate...datePickerViewModel.endDate
+                ) { logs in
+                  logs.compactMap { log in
+                    log.allValues.first(
+                      fieldTitle: fieldKey
+                    )?.string.sanitize(.capitalized, .whitespaceTrimmed)
+                  }
+                }
+                .navigationTitle(fieldKey)
+              } label: {
+                Text("View \(fieldKey) Chart ")
+              }
+
+              DisclosureGroup {
+                HistogramTable(tracker: tracker, fieldKey: fieldKey)
+              } label: {
+                Text("View \(fieldKey) Table")
+              }
+            } header: {
+              Text(fieldKey)
             }
-          } header: {
-            Text(fieldKey)
           }
         }
       }
