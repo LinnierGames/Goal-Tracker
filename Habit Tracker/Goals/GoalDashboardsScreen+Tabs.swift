@@ -227,6 +227,7 @@ extension GoalDashboardsScreen {
       Section {
         diet()
         eatEachMeal()
+        // TODO: Add histogram table of foods from all meals
       } header: {
         Text("Cooking and fast food")
       }
@@ -446,16 +447,16 @@ extension GoalDashboardsScreen {
 
       HStack {
         HStack(spacing: 4) {
-          Rectangle().frame(width: 8, height: 8).foregroundStyle(.green)
-          Text("Meal")
+          Rectangle().frame(width: 8, height: 8).foregroundStyle(.orange)
+          Text("🍱 Leftovers")
         }
         HStack(spacing: 4) {
-          Rectangle().frame(width: 8, height: 8).foregroundStyle(.yellow)
+          Rectangle().frame(width: 8, height: 8).foregroundStyle(.orange)
           Text("🧑‍🍳 Cooked")
         }
         HStack(spacing: 4) {
           Rectangle().frame(width: 8, height: 8).foregroundStyle(.red)
-          Text("🌯 Eat Fast Food")
+          Text("🌯 Fast Food")
         }
       }
       .frame(maxWidth: .infinity, alignment: .leading)

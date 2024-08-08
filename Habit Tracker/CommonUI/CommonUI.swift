@@ -46,6 +46,22 @@ struct TimeDateFormatStyle: FormatStyle, Codable, Hashable {
   }
 }
 
+extension FormatStyle where Self == DateFormatStyle {
+  static func format(_ format: String) -> DateFormatStyle {
+    DateFormatStyle(format: format)
+  }
+}
+
+struct DateFormatStyle: FormatStyle, Codable, Hashable {
+  let format: String
+
+  func format(_ value: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = format
+    return formatter.string(from: value)
+  }
+}
+
 extension FormatStyle where Self == DurationFormatStyle {
   static var duration: DurationFormatStyle {
     DurationFormatStyle(unitsOverride: [])

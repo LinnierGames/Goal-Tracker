@@ -78,44 +78,43 @@ struct TodayScreen: View {
 
   var body: some View {
     NavigationView {
-      VStack {
+      List {
+        ForEach(trackers) { tracker in
+          TodayTrackerCell(tracker)
+        }
+        .onMove(perform: { indices, newOffset in
+          guard let source = indices.first else { return }
+
+          Rankable.moveElement(
+            source: source,
+            destination: newOffset > source ? newOffset - 1 : newOffset,
+            elements: trackers
+          )
+
+          try! viewContext.save()
+        })
+
+        if !logsForToday.isEmpty {
+          Section("Other Trackers") {
+            ForEach(logsForToday) { log in
+              TodayTrackerCell(log.tracker!, entryOverride: log)
+            }
+          }
+        }
+      }
+      .overlay(alignment: .top) {
         Color.clear
           .frame(height: 0)
           .iosPopover(isPresented: $showDatePicker) {
             DateRangePicker(viewModel: dateRange)
               .padding()
           }
-
-        List {
-          ForEach(trackers) { tracker in
-            TodayTrackerCell(tracker)
-          }
-          .onMove(perform: { indices, newOffset in
-            guard let source = indices.first else { return }
-
-            Rankable.moveElement(
-              source: source,
-              destination: newOffset > source ? newOffset - 1 : newOffset,
-              elements: trackers
-            )
-
-            try! viewContext.save()
-          })
-
-          if !logsForToday.isEmpty {
-            Section("Other Trackers") {
-              ForEach(logsForToday) { log in
-                TodayTrackerCell(log.tracker!, entryOverride: log)
-              }
-            }
-          }
-        }
-        .navigationTitle("Today")
-        .toolbar {
-          ToolbarItem(placement: .topBarTrailing) {
-            Button("", systemImage: "calendar") {
-              showDatePicker = true
-            }
+      }
+      .navigationTitle("\(Date(), format: .format("EEE, MMM d"))")
+      .toolbar {
+        ToolbarItem(placement: .topBarTrailing) {
+          Button("", systemImage: "calendar") {
+            showDatePicker = true
           }
         }
       }

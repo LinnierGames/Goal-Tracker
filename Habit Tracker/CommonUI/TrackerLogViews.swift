@@ -87,7 +87,7 @@ struct TrackerLogView<Content: View>: View {
     self.label = label
   }
 
-  /// Log view for the given date range midnights
+  /// Log view for the given date range
   init(
     tracker: Tracker,
     range2 range: ClosedRange<Date>,
