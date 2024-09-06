@@ -55,6 +55,7 @@
 		E13F21C62975287100E1D4FD /* TrackerPickerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C52975287100E1D4FD /* TrackerPickerScreen.swift */; };
 		E13F21C82975D5A000E1D4FD /* GoalDetailsChartsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */; };
 		E13F21CA2975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift */; };
+		E15281CF2C8ABE90005F60CA /* GoalDashboardsScreen+Assessment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15281CE2C8ABE90005F60CA /* GoalDashboardsScreen+Assessment.swift */; };
 		E15B2D4B2BDC7E0B009C8B17 /* Collection+Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D4A2BDC7E0B009C8B17 /* Collection+Sort.swift */; };
 		E15B2D4D2BDCAEA7009C8B17 /* TrackerHistogramChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D4C2BDCAEA7009C8B17 /* TrackerHistogramChart.swift */; };
 		E15B2D532BDDB556009C8B17 /* SwiftUI+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15B2D522BDDB556009C8B17 /* SwiftUI+Extensions.swift */; };
@@ -199,6 +200,7 @@
 		E13F21C52975287100E1D4FD /* TrackerPickerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerPickerScreen.swift; sourceTree = "<group>"; };
 		E13F21C72975D5A000E1D4FD /* GoalDetailsChartsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsChartsScreen.swift; sourceTree = "<group>"; };
 		E13F21C92975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailsSettingsTrackersScreen.swift; sourceTree = "<group>"; };
+		E15281CE2C8ABE90005F60CA /* GoalDashboardsScreen+Assessment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoalDashboardsScreen+Assessment.swift"; sourceTree = "<group>"; };
 		E15B2D4A2BDC7E0B009C8B17 /* Collection+Sort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Sort.swift"; sourceTree = "<group>"; };
 		E15B2D4C2BDCAEA7009C8B17 /* TrackerHistogramChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerHistogramChart.swift; sourceTree = "<group>"; };
 		E15B2D522BDDB556009C8B17 /* SwiftUI+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Extensions.swift"; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 				E13F21C12974FAA800E1D4FD /* GoalsScreen.swift */,
 				E17F97DF2B259A6D00A62346 /* GoalDashboardsScreen.swift */,
 				E1C1DCB12BDF312A00C3A4A9 /* GoalDashboardsScreen+Tabs.swift */,
+				E15281CE2C8ABE90005F60CA /* GoalDashboardsScreen+Assessment.swift */,
 				E1C1DCB32BDF313A00C3A4A9 /* GoalDashboardsScreen+Tracker.swift */,
 				E1BA80512A6A3D9900388928 /* GoalsArchivedScreen.swift */,
 				E13F21C32975284900E1D4FD /* GoalDetailScreen.swift */,
@@ -754,6 +757,7 @@
 				E13F21B0297336E300E1D4FD /* ButtonFill.swift in Sources */,
 				E16290E529A1F6EE009EED1C /* HealthKit+Sleep.swift in Sources */,
 				E1C10D622980595C00825BCC /* ActionSheetLink.swift in Sources */,
+				E15281CF2C8ABE90005F60CA /* GoalDashboardsScreen+Assessment.swift in Sources */,
 				E1BA80522A6A3D9900388928 /* GoalsArchivedScreen.swift in Sources */,
 				E1E90F562A096C43004C67FE /* TrackerLogViews.swift in Sources */,
 				E13F21BC2974FA6100E1D4FD /* TrackerDetailsChartsScreen.swift in Sources */,

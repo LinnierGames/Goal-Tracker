@@ -22,6 +22,7 @@ private class ViewModel: ObservableObject {
 
   /// Called when a certain managed object context has been saved from an external process. It should also be called on the context's queue.
   func viewContextDidSaveExternally() {
+    return // i'm tired of waiting
     let viewContext = PersistenceController.shared.container.viewContext
     viewContext.perform {
       // `refreshAllObjects` only refreshes objects from which the cache is invalid. With a staleness interval of -1 the cache never invalidates.

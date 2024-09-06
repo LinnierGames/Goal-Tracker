@@ -8,8 +8,6 @@
 import Charts
 import SwiftUI
 
-let BasicPlotSymbol = BasicChartSymbolShape.circle
-
 #Preview {
   Form {
     TabHeader(title: "Health!", systemName: "heart.fill", color: .red) {
@@ -34,56 +32,48 @@ let BasicPlotSymbol = BasicChartSymbolShape.circle
   }
 }
 
-struct GoalCapsule: View {
-  enum Style {
-    case increase, decrease
-
-    var color: Color {
-      switch self {
-      case .increase: .green
-      case .decrease: .red
-      }
-    }
-
-    var badge: Image {
-      switch self {
-      case .increase: Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
-      case .decrease: Image(systemName: "chart.line.downtrend.xyaxis.circle.fill")
-      }
-    }
-  }
-
-  let goal: String
-  let style: Style
-
-  var body: some View {
-    HStack(spacing: 2) {
-      style.badge
-        .foregroundStyle(style.color)
-      Text(goal)
-        .lineLimit(1)
-    }
-    .padding(.trailing, 4)
-    .padding(4)
-    .background {
-      Capsule()
-        .foregroundStyle(style.color.opacity(0.2))
-    }
-  }
-}
-
-struct TabHeader<Header: View>: View {
+struct TabHeader<Header: View, Assessment: View>: View {
   let title: String
   let systemName: String
   let color: Color
-  @ViewBuilder let header: () -> Header
+  let header: () -> Header
+  let assessment: (() -> Assessment)?
+
+  init(
+    title: String,
+    systemName: String,
+    color: Color,
+    @ViewBuilder
+    header: @escaping () -> Header,
+    @ViewBuilder
+    assessment: @escaping () -> Assessment
+  ) {
+    self.title = title
+    self.systemName = systemName
+    self.color = color
+    self.header = header
+    self.assessment = assessment
+  }
+
+  init(
+    title: String,
+    systemName: String,
+    color: Color,
+    @ViewBuilder
+    header: @escaping () -> Header
+  ) where Assessment == EmptyView {
+    self.title = title
+    self.systemName = systemName
+    self.color = color
+    self.header = header
+    self.assessment = nil
+  }
 
   var body: some View {
     VStack {
       Image(systemName: systemName)
         .resizable()
         .aspectRatio(contentMode: .fit)
-//        .opacity(0.8)
         .foregroundStyle(color)
         .frame(width: 48, height: 48)
 
@@ -92,6 +82,18 @@ struct TabHeader<Header: View>: View {
           Circle()
             .foregroundStyle(color.opacity(0.2))
         )
+        .overlay(alignment: .bottomTrailing) {
+          if let assessment {
+            SheetLink {
+              NavigationStack {
+                assessment()
+              }
+            } label: {
+                Image(systemName: "list.bullet.clipboard")
+            }
+            .buttonStyle(.borderless)
+          }
+        }
       Text(title)
         .font(.title)
       header()
@@ -175,6 +177,8 @@ extension GoalDashboardsScreen {
             GoalCapsule(goal: "Day-time sleepiness", style: .decrease)
           }
         }
+      } assessment: {
+        sleepAssessment()
       }
 
       Section {
@@ -897,5 +901,43 @@ extension GoalDashboardsScreen {
     }
 
     return builder()
+  }
+}
+
+struct GoalCapsule: View {
+  enum Style {
+    case increase, decrease
+
+    var color: Color {
+      switch self {
+      case .increase: .green
+      case .decrease: .red
+      }
+    }
+
+    var badge: Image {
+      switch self {
+      case .increase: Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
+      case .decrease: Image(systemName: "chart.line.downtrend.xyaxis.circle.fill")
+      }
+    }
+  }
+
+  let goal: String
+  let style: Style
+
+  var body: some View {
+    HStack(spacing: 2) {
+      style.badge
+        .foregroundStyle(style.color)
+      Text(goal)
+        .lineLimit(1)
+    }
+    .padding(.trailing, 4)
+    .padding(4)
+    .background {
+      Capsule()
+        .foregroundStyle(style.color.opacity(0.2))
+    }
   }
 }
