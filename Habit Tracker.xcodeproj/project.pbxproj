@@ -90,6 +90,7 @@
 		E19D36C027E83D8800AF0490 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E19D36BE27E83D8800AF0490 /* MainInterface.storyboard */; };
 		E1AEE24229B7ECC100255806 /* TrackerDetailsSettingsTagsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AEE24129B7ECC100255806 /* TrackerDetailsSettingsTagsScreen.swift */; };
 		E1BA80522A6A3D9900388928 /* GoalsArchivedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA80512A6A3D9900388928 /* GoalsArchivedScreen.swift */; };
+		E1BE3A112F53781A00A295A2 /* ActivityScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A102F53781A00A295A2 /* ActivityScreen.swift */; };
 		E1BE6DC429F594E1001FA1A5 /* GoalChartAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE6DC329F594E1001FA1A5 /* GoalChartAnnotation.swift */; };
 		E1C10D56297FB74F00825BCC /* SiriShortcutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D55297FB74F00825BCC /* SiriShortcutViewController.swift */; };
 		E1C10D58297FB76500825BCC /* SiriButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D57297FB76500825BCC /* SiriButton.swift */; };
@@ -207,6 +208,7 @@
 		E19D36C827E84C3E00AF0490 /* HabitImportShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HabitImportShareExtension.entitlements; sourceTree = "<group>"; };
 		E1AEE24129B7ECC100255806 /* TrackerDetailsSettingsTagsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerDetailsSettingsTagsScreen.swift; sourceTree = "<group>"; };
 		E1BA80512A6A3D9900388928 /* GoalsArchivedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsArchivedScreen.swift; sourceTree = "<group>"; };
+		E1BE3A102F53781A00A295A2 /* ActivityScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityScreen.swift; sourceTree = "<group>"; };
 		E1BE6DC329F594E1001FA1A5 /* GoalChartAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalChartAnnotation.swift; sourceTree = "<group>"; };
 		E1C10D55297FB74F00825BCC /* SiriShortcutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriShortcutViewController.swift; sourceTree = "<group>"; };
 		E1C10D57297FB76500825BCC /* SiriButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriButton.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				E104203327DBA16500051F2A /* Habit_TrackerApp.swift */,
 				E11A94AC297A626C00FDCE41 /* Today */,
 				E11A94AB297A626600FDCE41 /* Data */,
+				E1BE3A0F2F53780F00A295A2 /* Activity */,
 				E11A94AA297A625D00FDCE41 /* Trackers */,
 				E11A94A9297A625200FDCE41 /* Goals */,
 				E12E2C9027E237FE002AD960 /* Common */,
@@ -507,6 +510,14 @@
 				E19D36C127E83D8800AF0490 /* Info.plist */,
 			);
 			path = HabitImportShareExtension;
+			sourceTree = "<group>";
+		};
+		E1BE3A0F2F53780F00A295A2 /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				E1BE3A102F53781A00A295A2 /* ActivityScreen.swift */,
+			);
+			path = Activity;
 			sourceTree = "<group>";
 		};
 		E1C10D54297FB74800825BCC /* Siri */ = {
@@ -736,6 +747,7 @@
 				E10811A029A937320016312D /* GoalChart.swift in Sources */,
 				E1C10D6729820A8200825BCC /* GoalDetailsChartEditScreen.swift in Sources */,
 				E1C10D6B29832BE100825BCC /* Range+Extensions.swift in Sources */,
+				E1BE3A112F53781A00A295A2 /* ActivityScreen.swift in Sources */,
 				E104204027DBA16600051F2A /* Habit_Tracker.xcdatamodeld in Sources */,
 				E104203427DBA16500051F2A /* Habit_TrackerApp.swift in Sources */,
 				E13F21BA2974FA4500E1D4FD /* TrackerDetailScreen.swift in Sources */,

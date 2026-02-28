@@ -19,10 +19,26 @@ struct ImportScreen: View {
   var body: some View {
     NavigationView {
       List {
+        fileSection()
         healthKitSection()
         deviceActivitySection()
       }
       .navigationTitle("Import")
+    }
+  }
+  
+  @ViewBuilder
+  private func fileSection() -> some View {
+    
+    Section("Files") {
+      Text("Import trackers and logs from a CSV")
+      
+      SheetLink {
+        ImportDataScreen()
+      } label: {
+        Text("Import")
+          .frame(maxWidth: .infinity, alignment: .leading)
+      }
     }
   }
 

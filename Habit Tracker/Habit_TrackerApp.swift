@@ -29,9 +29,9 @@ struct Tracker_TrackerApp: App {
           .tabItem {
             Label("Today", systemImage: "calendar")
           }
-        ImportDataScreen()
+        ActivityScreen()
           .tabItem {
-            Label("Import", systemImage: "square.and.arrow.down")
+            Label("Activity", systemImage: "chart.bar.doc.horizontal")
           }
         TrackersScreen()
           .tabItem {
