@@ -47,9 +47,9 @@ struct Tracker_TrackerApp: App {
         for: UIApplication.didEnterBackgroundNotification)
       ) { _ in
           exitAppUponBackgrounding = Task {
-            try? await Task.sleep(for: .seconds(10), tolerance: .seconds(5))
+            try? await Task.sleep(for: .seconds(4 * 60 * 60), tolerance: .seconds(5))
             guard !Task.isCancelled else { return }
-//            exit(0)
+            exit(0)
           }
       }
       .onReceive(
