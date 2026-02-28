@@ -35,14 +35,6 @@ struct PersistenceController {
         container = NSPersistentContainer(name: "Habit_Tracker")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
-        } else {
-          guard let fileContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.linniergames.Habit-Tracker") else {
-              fatalError("Shared file container could not be created.")
-          }
-
-          let storeURL = fileContainer.appendingPathComponent("Tracker_Tracker.sqlite")
-          let storeDescription = NSPersistentStoreDescription(url: storeURL)
-          container.persistentStoreDescriptions = [storeDescription]
         }
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in

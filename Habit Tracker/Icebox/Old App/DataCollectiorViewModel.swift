@@ -16,7 +16,8 @@ class DataCollectiorViewModel: ObservableObject {
   
   private let healthKitService = HealthKitService()
   private let networking = Networking.shared
-  private let ud = UserDefaults(suiteName: "group.com.linniergames.Tracker-Tracker")!
+//  private let ud = UserDefaults(suiteName: "group.com.linniergames.Tracker-Tracker")!
+  private let ud = UserDefaults.standard
 
   init() {
     self._isHealthKitGranted = .init(initialValue: healthKitService.isSleepGranted)
