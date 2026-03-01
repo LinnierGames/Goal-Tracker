@@ -91,6 +91,20 @@
 		E1AEE24229B7ECC100255806 /* TrackerDetailsSettingsTagsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AEE24129B7ECC100255806 /* TrackerDetailsSettingsTagsScreen.swift */; };
 		E1BA80522A6A3D9900388928 /* GoalsArchivedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BA80512A6A3D9900388928 /* GoalsArchivedScreen.swift */; };
 		E1BE3A112F53781A00A295A2 /* ActivityScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A102F53781A00A295A2 /* ActivityScreen.swift */; };
+		E1BE3A132F54219800A295A2 /* AddTaskSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A122F54219800A295A2 /* AddTaskSheet.swift */; };
+		E1BE3A222F54221F00A295A2 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A1C2F54221F00A295A2 /* Color+Hex.swift */; };
+		E1BE3A232F54221F00A295A2 /* TimeAxisLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A1F2F54221F00A295A2 /* TimeAxisLabels.swift */; };
+		E1BE3A242F54221F00A295A2 /* TaskTreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A1E2F54221F00A295A2 /* TaskTreeView.swift */; };
+		E1BE3A252F54221F00A295A2 /* TimeGridRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A212F54221F00A295A2 /* TimeGridRow.swift */; };
+		E1BE3A262F54221F00A295A2 /* TaskGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A1D2F54221F00A295A2 /* TaskGridView.swift */; };
+		E1BE3A272F54221F00A295A2 /* TimeGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A202F54221F00A295A2 /* TimeGridCell.swift */; };
+		E1BE3A2A2F54224700A295A2 /* Date+GridHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A292F54224700A295A2 /* Date+GridHelpers.swift */; };
+		E1BE3A2C2F54235B00A295A2 /* PreviewData+Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A2B2F54235B00A295A2 /* PreviewData+Task.swift */; };
+		E1BE3A2D2F54235B00A295A2 /* PreviewData+Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A2B2F54235B00A295A2 /* PreviewData+Task.swift */; };
+		E1BE3A3E2F54BA1000A295A2 /* TaskTracker+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A372F54BA1000A295A2 /* TaskTracker+CoreDataProperties.swift */; };
+		E1BE3A402F54BA1000A295A2 /* TaskTracker+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A362F54BA1000A295A2 /* TaskTracker+CoreDataClass.swift */; };
+		E1BE3A422F54BC8000A295A2 /* TaskTrackerLog+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A382F54BA1000A295A2 /* TaskTrackerLog+CoreDataClass.swift */; };
+		E1BE3A432F54BC8000A295A2 /* TaskTrackerLog+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE3A392F54BA1000A295A2 /* TaskTrackerLog+CoreDataProperties.swift */; };
 		E1BE6DC429F594E1001FA1A5 /* GoalChartAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BE6DC329F594E1001FA1A5 /* GoalChartAnnotation.swift */; };
 		E1C10D56297FB74F00825BCC /* SiriShortcutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D55297FB74F00825BCC /* SiriShortcutViewController.swift */; };
 		E1C10D58297FB76500825BCC /* SiriButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C10D57297FB76500825BCC /* SiriButton.swift */; };
@@ -209,6 +223,19 @@
 		E1AEE24129B7ECC100255806 /* TrackerDetailsSettingsTagsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerDetailsSettingsTagsScreen.swift; sourceTree = "<group>"; };
 		E1BA80512A6A3D9900388928 /* GoalsArchivedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsArchivedScreen.swift; sourceTree = "<group>"; };
 		E1BE3A102F53781A00A295A2 /* ActivityScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityScreen.swift; sourceTree = "<group>"; };
+		E1BE3A122F54219800A295A2 /* AddTaskSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskSheet.swift; sourceTree = "<group>"; };
+		E1BE3A1C2F54221F00A295A2 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		E1BE3A1D2F54221F00A295A2 /* TaskGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskGridView.swift; sourceTree = "<group>"; };
+		E1BE3A1E2F54221F00A295A2 /* TaskTreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTreeView.swift; sourceTree = "<group>"; };
+		E1BE3A1F2F54221F00A295A2 /* TimeAxisLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAxisLabels.swift; sourceTree = "<group>"; };
+		E1BE3A202F54221F00A295A2 /* TimeGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeGridCell.swift; sourceTree = "<group>"; };
+		E1BE3A212F54221F00A295A2 /* TimeGridRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeGridRow.swift; sourceTree = "<group>"; };
+		E1BE3A292F54224700A295A2 /* Date+GridHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+GridHelpers.swift"; sourceTree = "<group>"; };
+		E1BE3A2B2F54235B00A295A2 /* PreviewData+Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreviewData+Task.swift"; sourceTree = "<group>"; };
+		E1BE3A362F54BA1000A295A2 /* TaskTracker+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskTracker+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E1BE3A372F54BA1000A295A2 /* TaskTracker+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskTracker+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E1BE3A382F54BA1000A295A2 /* TaskTrackerLog+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskTrackerLog+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E1BE3A392F54BA1000A295A2 /* TaskTrackerLog+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskTrackerLog+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E1BE6DC329F594E1001FA1A5 /* GoalChartAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalChartAnnotation.swift; sourceTree = "<group>"; };
 		E1C10D55297FB74F00825BCC /* SiriShortcutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriShortcutViewController.swift; sourceTree = "<group>"; };
 		E1C10D57297FB76500825BCC /* SiriButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriButton.swift; sourceTree = "<group>"; };
@@ -363,6 +390,7 @@
 			children = (
 				E1C10D54297FB74800825BCC /* Siri */,
 				E104FCE1297C4A10003AF448 /* Charts */,
+				E1BE3A282F54222100A295A2 /* Tasks */,
 				E15F44CB2AE9914400706BC6 /* CommonUI.swift */,
 				E184F4E227E5AEC800BB2F2C /* AlertContent.swift */,
 				E1C10D5F2980594F00825BCC /* AlertLink.swift */,
@@ -463,6 +491,7 @@
 			children = (
 				E12E2C8E27E237FB002AD960 /* KeyPath.swift */,
 				E12BC20627E2488700580111 /* CSVFile.swift */,
+				E1BE3A292F54224700A295A2 /* Date+GridHelpers.swift */,
 				E13F21B3297490B400E1D4FD /* TimeInterval+Date.swift */,
 				E13F21B52974911D00E1D4FD /* Date+Extensions.swift */,
 				E11A949D2977BD1100FDCE41 /* Binding+Helpers.swift */,
@@ -516,8 +545,22 @@
 			isa = PBXGroup;
 			children = (
 				E1BE3A102F53781A00A295A2 /* ActivityScreen.swift */,
+				E1BE3A122F54219800A295A2 /* AddTaskSheet.swift */,
 			);
 			path = Activity;
+			sourceTree = "<group>";
+		};
+		E1BE3A282F54222100A295A2 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				E1BE3A1C2F54221F00A295A2 /* Color+Hex.swift */,
+				E1BE3A1D2F54221F00A295A2 /* TaskGridView.swift */,
+				E1BE3A1E2F54221F00A295A2 /* TaskTreeView.swift */,
+				E1BE3A1F2F54221F00A295A2 /* TimeAxisLabels.swift */,
+				E1BE3A202F54221F00A295A2 /* TimeGridCell.swift */,
+				E1BE3A212F54221F00A295A2 /* TimeGridRow.swift */,
+			);
+			path = Tasks;
 			sourceTree = "<group>";
 		};
 		E1C10D54297FB74800825BCC /* Siri */ = {
@@ -539,6 +582,11 @@
 				E16290EA29A3F52C009EED1C /* Tracker+HealthKit.swift */,
 				E16290EC29A43856009EED1C /* TrackerLog.swift */,
 				E16290EF29A43909009EED1C /* TrackerLog+HealthKit.swift */,
+				E1BE3A362F54BA1000A295A2 /* TaskTracker+CoreDataClass.swift */,
+				E1BE3A372F54BA1000A295A2 /* TaskTracker+CoreDataProperties.swift */,
+				E1BE3A382F54BA1000A295A2 /* TaskTrackerLog+CoreDataClass.swift */,
+				E1BE3A392F54BA1000A295A2 /* TaskTrackerLog+CoreDataProperties.swift */,
+				E1BE3A2B2F54235B00A295A2 /* PreviewData+Task.swift */,
 				E11A94A5297A53AA00FDCE41 /* Goal.swift */,
 				E108119F29A937320016312D /* GoalChart.swift */,
 				E1BE6DC329F594E1001FA1A5 /* GoalChartAnnotation.swift */,
@@ -694,6 +742,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1BE3A422F54BC8000A295A2 /* TaskTrackerLog+CoreDataClass.swift in Sources */,
+				E1BE3A432F54BC8000A295A2 /* TaskTrackerLog+CoreDataProperties.swift in Sources */,
 				E104FCE3297C4A17003AF448 /* TrackerBarChart.swift in Sources */,
 				E1C10D56297FB74F00825BCC /* SiriShortcutViewController.swift in Sources */,
 				E11A94A22977CFE900FDCE41 /* Button+Helpers.swift in Sources */,
@@ -705,6 +755,7 @@
 				E17F97E02B259A6D00A62346 /* GoalDashboardsScreen.swift in Sources */,
 				E12E2C8F27E237FB002AD960 /* KeyPath.swift in Sources */,
 				E12BC20727E2488700580111 /* CSVFile.swift in Sources */,
+				E1BE3A2C2F54235B00A295A2 /* PreviewData+Task.swift in Sources */,
 				E1EF452E29960B1400DC5CC1 /* ChartTools.swift in Sources */,
 				E13F21CA2975D5B000E1D4FD /* GoalDetailsSettingsTrackersScreen.swift in Sources */,
 				E15F44CC2AE9914400706BC6 /* CommonUI.swift in Sources */,
@@ -730,6 +781,8 @@
 				E104FCE5297D9BDA003AF448 /* TrackerLogDetailScreen.swift in Sources */,
 				E13F21B0297336E300E1D4FD /* ButtonFill.swift in Sources */,
 				E16290E529A1F6EE009EED1C /* HealthKit+Sleep.swift in Sources */,
+				E1BE3A3E2F54BA1000A295A2 /* TaskTracker+CoreDataProperties.swift in Sources */,
+				E1BE3A402F54BA1000A295A2 /* TaskTracker+CoreDataClass.swift in Sources */,
 				E1C10D622980595C00825BCC /* ActionSheetLink.swift in Sources */,
 				E15281CF2C8ABE90005F60CA /* GoalDashboardsScreen+Assessment.swift in Sources */,
 				E1BA80522A6A3D9900388928 /* GoalsArchivedScreen.swift in Sources */,
@@ -746,6 +799,7 @@
 				E104203D27DBA16600051F2A /* Persistence.swift in Sources */,
 				E10811A029A937320016312D /* GoalChart.swift in Sources */,
 				E1C10D6729820A8200825BCC /* GoalDetailsChartEditScreen.swift in Sources */,
+				E1BE3A2A2F54224700A295A2 /* Date+GridHelpers.swift in Sources */,
 				E1C10D6B29832BE100825BCC /* Range+Extensions.swift in Sources */,
 				E1BE3A112F53781A00A295A2 /* ActivityScreen.swift in Sources */,
 				E104204027DBA16600051F2A /* Habit_Tracker.xcdatamodeld in Sources */,
@@ -768,6 +822,7 @@
 				E13F21B4297490B400E1D4FD /* TimeInterval+Date.swift in Sources */,
 				E13F21B62974911D00E1D4FD /* Date+Extensions.swift in Sources */,
 				E16290F229A43C98009EED1C /* ExternalSyncManager.swift in Sources */,
+				E1BE3A132F54219800A295A2 /* AddTaskSheet.swift in Sources */,
 				E13F21C22974FAA800E1D4FD /* GoalsScreen.swift in Sources */,
 				E10AFC0B27DF18D5000965D9 /* FilePicker.swift in Sources */,
 				E15FB390298750F400A88FD0 /* TrackerDetailsSettingsFieldsScreen.swift in Sources */,
@@ -776,6 +831,12 @@
 				E1EF452A2995501E00DC5CC1 /* TrackerLogFieldValuesList.swift in Sources */,
 				E15B2D4D2BDCAEA7009C8B17 /* TrackerHistogramChart.swift in Sources */,
 				E15B2D5B2BDE25AA009C8B17 /* iOSPopover.swift in Sources */,
+				E1BE3A222F54221F00A295A2 /* Color+Hex.swift in Sources */,
+				E1BE3A232F54221F00A295A2 /* TimeAxisLabels.swift in Sources */,
+				E1BE3A242F54221F00A295A2 /* TaskTreeView.swift in Sources */,
+				E1BE3A252F54221F00A295A2 /* TimeGridRow.swift in Sources */,
+				E1BE3A262F54221F00A295A2 /* TaskGridView.swift in Sources */,
+				E1BE3A272F54221F00A295A2 /* TimeGridCell.swift in Sources */,
 				E104204827DBA28600051F2A /* FeelingSleepy+CoreDataClass.swift in Sources */,
 				E104204927DBA28600051F2A /* FeelingSleepy+CoreDataProperties.swift in Sources */,
 				E11A94A6297A53AA00FDCE41 /* Goal.swift in Sources */,
@@ -793,6 +854,7 @@
 				E15FB397298B16EB00A88FD0 /* Tracker.swift in Sources */,
 				E1EF451D298B9C8800DC5CC1 /* INTrackerLogValueIntentHandler.swift in Sources */,
 				E104207027DBA44100051F2A /* Intents.intentdefinition in Sources */,
+				E1BE3A2D2F54235B00A295A2 /* PreviewData+Task.swift in Sources */,
 				E1EF4519298B9C5600DC5CC1 /* Common.swift in Sources */,
 				E16290EE29A43899009EED1C /* TrackerLog.swift in Sources */,
 				E104207727DBB4B400051F2A /* Habit_Tracker.xcdatamodeld in Sources */,
