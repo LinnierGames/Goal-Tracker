@@ -9,7 +9,9 @@ import CoreData
 import SwiftUI
 
 struct AddTaskSheet: View {
+  var parentTask: TaskTracker?
   @Binding var isPresented: Bool
+  
   @Environment(\.managedObjectContext) var moc
   
   @State private var taskName: String = ""
@@ -96,6 +98,7 @@ struct AddTaskSheet: View {
     newTask.color = selectedColor
     newTask.order = determineNextOrder()
     newTask.createdAt = Date()
+    newTask.parentTask = parentTask
     
     do {
       try moc.save()
