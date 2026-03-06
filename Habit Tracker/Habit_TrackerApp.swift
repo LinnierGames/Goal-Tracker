@@ -9,6 +9,31 @@ import SwiftUI
 
 // TODO: try Conversational Intents for "Mark eating "cearal" for "breakfast"
 
+struct Test: View {
+  @State private var hoverLocation: CGPoint = .zero
+  @State private var isHovering = false
+
+  var body: some View {
+      Color.red
+          .frame(width: 400, height: 400)
+          .onContinuousHover { phase in
+              switch phase {
+              case .active(let location):
+                  hoverLocation = location
+                  isHovering = true
+              case .ended:
+                  isHovering = false
+              }
+          }
+          .overlay {
+              Rectangle()
+                  .frame(width: 50, height: 50)
+                  .foregroundStyle(isHovering ? .green : .blue)
+                  .offset(x: hoverLocation.x, y: hoverLocation.y)
+          }
+  }
+}
+
 @main
 struct Tracker_TrackerApp: App {
   let persistenceController = PersistenceController.shared
@@ -29,6 +54,7 @@ struct Tracker_TrackerApp: App {
           .tabItem {
             Label("Today", systemImage: "calendar")
           }
+        Test()
         ActivityScreen()
           .tabItem {
             Label("Activity", systemImage: "chart.bar.doc.horizontal")

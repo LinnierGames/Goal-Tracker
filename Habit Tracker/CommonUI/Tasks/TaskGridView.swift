@@ -12,35 +12,15 @@ struct TaskGridView: View {
   let date: Date
   let taskLogs: [TaskTrackerLog]
   let gridMode: GridMode
-  let selectedCell: (row: Int, column: Int)?
+  let selectedCells: Set<String>
   let onCellTap: (_ row: Int, _ column: Int) -> Void
+  let onRangeSelect: (_ startCellId: String, _ endCellId: String) -> Void
   
-  var timeAxisLabels: [String] {
-    switch gridMode {
-    case .fifteenMinDaily:
-      return (0..<24).map { "\($0)" }
-    case .hourly:
-      return [""]
-    case .weekly:
-      let weekStart = date.startOfWeek
-      let calendar = Calendar.current
-      return (0..<7).compactMap { dayOffset in
-        let dayDate = calendar.date(byAdding: .day, value: dayOffset, to: weekStart)
-        let formatter = DateFormatter()
-        formatter.dateFormat = "E"
-        return dayDate.map { formatter.string(from: $0) } ?? ""
-      }
-    case .monthly:
-      return (0..<5).map { weekNum in "W\(weekNum + 1)" }
-    }
-  }
+  @State private var startCellId: String? = nil
+  @State private var isDragging = false
   
   var body: some View {
     HStack(spacing: 0) {
-      // Left: Time axis labels
-      //            TimeAxisLabels(labels: timeAxisLabels, mode: gridMode)
-      
-      // Right: Scrollable grid
       ScrollView(.vertical, showsIndicators: true) {
         VStack(spacing: 4) {
           ForEach(0..<gridMode.rowCount, id: \.self) { row in
@@ -57,13 +37,34 @@ struct TaskGridView: View {
             
             TimeGridRow(
               timeLabel: rowLabel,
+              row: row,
               cellsPerRow: gridMode.cellsPerRow,
               cellDuration: gridMode.cellDuration,
               startTime: rowStartTime,
               logs: rowLogs,
-              selectedCell: selectedCell?.row == row ? selectedCell?.column : nil,
-              onCellTap: { column in
-                onCellTap(row, column)
+              selectedCells: selectedCells,
+              onCellTap: { r, c in
+                let cellId = "\(r),\(c)"
+                if isDragging && startCellId != nil && startCellId != cellId {
+                  // Range selection
+                  onRangeSelect(startCellId!, cellId)
+                  isDragging = false
+                  startCellId = nil
+                } else {
+                  // Single selection
+                  onCellTap(r, c)
+                }
+              },
+              onCellLongPress: { r, c in
+                let cellId = "\(r),\(c)"
+                startCellId = cellId
+                
+                if !isDragging {
+                    // Single selection
+                    onCellTap(r, c)
+                }
+                
+                isDragging = true
               }
             )
           }
@@ -115,8 +116,9 @@ struct TaskGridView_Previews: PreviewProvider {
         date: Date(),
         taskLogs: logs,
         gridMode: .fifteenMinDaily,
-        selectedCell: (0, 1),
-        onCellTap: { _, _ in }
+        selectedCells: ["0,1"],
+        onCellTap: { _, _ in },
+        onRangeSelect: { _, _ in }
       )
       .previewDisplayName("15-min Daily")
       
@@ -124,8 +126,9 @@ struct TaskGridView_Previews: PreviewProvider {
         date: Date(),
         taskLogs: logs,
         gridMode: .hourly,
-        selectedCell: nil,
-        onCellTap: { _, _ in }
+        selectedCells: [],
+        onCellTap: { _, _ in },
+        onRangeSelect: { _, _ in }
       )
       .previewDisplayName("Hourly")
       
@@ -133,8 +136,9 @@ struct TaskGridView_Previews: PreviewProvider {
         date: Date(),
         taskLogs: logs,
         gridMode: .weekly,
-        selectedCell: (0, 3),
-        onCellTap: { _, _ in }
+        selectedCells: ["0,3"],
+        onCellTap: { _, _ in },
+        onRangeSelect: { _, _ in }
       )
       .previewDisplayName("Weekly")
     }

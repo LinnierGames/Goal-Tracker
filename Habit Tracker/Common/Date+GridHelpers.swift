@@ -180,7 +180,7 @@ extension Date {
         
         switch mode {
         case .fifteenMinDaily:
-            return "Hour \(row)"
+            return "\(row)"
             
         case .hourly:
             return calendar.dateComponents([.month, .day], from: referenceDate).description

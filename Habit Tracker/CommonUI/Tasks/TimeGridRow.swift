@@ -10,41 +10,39 @@ import SwiftUI
 
 struct TimeGridRow: View {
   let timeLabel: String
+  let row: Int
   let cellsPerRow: Int
   let cellDuration: TimeInterval
   let startTime: Date
   let logs: [TaskTrackerLog]
-  let selectedCell: Int?
-  let onCellTap: (Int) -> Void
+  let selectedCells: Set<String>
+  let onCellTap: (_ row: Int, _ column: Int) -> Void
+  let onCellLongPress: (_ row: Int, _ column: Int) -> Void
   
   var body: some View {
     HStack(spacing: 4) {
-      // Time label
       Text(timeLabel)
         .font(.caption2)
-        .frame(width: 40)
-        .lineLimit(1)
+        .frame(maxHeight: .infinity, alignment: .top)
+        .frame(width: 30, alignment: .trailing)
+        .foregroundStyle(Color.gray)
+        .multilineTextAlignment(.trailing)
       
-      // Cells
-      ForEach(0..<cellsPerRow, id: \.self) { cellIndex in
-        let cellStartTime = startTime.addingTimeInterval(cellDuration * Double(cellIndex))
+      ForEach(0..<cellsPerRow, id: \.self) { column in
+        let cellStartTime = startTime.addingTimeInterval(cellDuration * Double(column))
         let cellEndTime = cellStartTime.addingTimeInterval(cellDuration)
-        
-        // Find log that overlaps this cell
         let overlappingLog = logs.first { log in
           log.startDate < cellEndTime && log.endDate > cellStartTime
         }
+        let cellId = "\(row),\(column)"
         
         TimeGridCell(
           taskLog: overlappingLog,
-          isSelected: selectedCell == cellIndex,
-          onTap: {
-            onCellTap(cellIndex)
-          }
+          isSelected: selectedCells.contains(cellId),
+          onTap: { onCellTap(row, column) },
+          onLongPress: { onCellLongPress(row, column) }
         )
       }
-      
-      Spacer()
     }
     .frame(height: 40)
   }
@@ -69,22 +67,26 @@ struct TimeGridRow_Previews: PreviewProvider {
     return VStack {
       TimeGridRow(
         timeLabel: "Hour 9",
+        row: 9,
         cellsPerRow: 4,
         cellDuration: 15 * 60,
         startTime: now,
         logs: [log],
-        selectedCell: nil,
-        onCellTap: { _ in }
+        selectedCells: [],
+        onCellTap: { _, _ in },
+        onCellLongPress: { _, _ in }
       )
       
       TimeGridRow(
         timeLabel: "Hour 10",
+        row: 10,
         cellsPerRow: 4,
         cellDuration: 15 * 60,
         startTime: now.addingTimeInterval(60 * 60),
         logs: [],
-        selectedCell: 1,
-        onCellTap: { _ in }
+        selectedCells: ["10,1"],
+        onCellTap: { _, _ in },
+        onCellLongPress: { _, _ in }
       )
     }
     .padding()

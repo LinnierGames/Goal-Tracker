@@ -12,6 +12,7 @@ struct TimeGridCell: View {
   let taskLog: TaskTrackerLog?
   let isSelected: Bool
   let onTap: () -> Void
+  let onLongPress: () -> Void
   
   var body: some View {
     ZStack {
@@ -32,6 +33,8 @@ struct TimeGridCell: View {
     .cornerRadius(4)
     .aspectRatio(1, contentMode: .fit)
     .onTapGesture(perform: onTap)
+    .onTapGesture(count: 2, perform: onLongPress)
+//    .onLongPressGesture(minimumDuration: 0.3, perform: onLongPress)
   }
 }
 

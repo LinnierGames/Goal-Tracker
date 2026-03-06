@@ -23,11 +23,12 @@ struct ActivityScreen: View {
   ) var allTaskLogs: FetchedResults<TaskTrackerLog>
   
   @State private var selectedDate = Date()
-  @State private var selectedCell: (row: Int, column: Int)? = nil
+  @State private var selectedCells: Set<String> = []
   @State private var gridMode: GridMode = .fifteenMinDaily
   @State private var showAddTaskSheet = false
   @State private var showDatePicker = false
   @State private var isEditing: Bool = false
+  @State private var isSelectionMode: Bool = false
   
   var taskLogsForSelectedDate: [TaskTrackerLog] {
     let calendar = Calendar.current
@@ -54,7 +55,7 @@ struct ActivityScreen: View {
   }
   
   var selectedCellDurationDescription: String {
-    selectedCell != nil ? gridMode.cellDescription : ""
+    selectedCells.isEmpty ? "" : "\(selectedCells.count) blocks"
   }
   
   var header: some View {
@@ -72,13 +73,13 @@ struct ActivityScreen: View {
         .datePickerStyle(.graphical)
         .padding()
         .onDisappear {
-          selectedCell = nil
+          selectedCells = []
         }
       }
       
       Button("Today") {
         selectedDate = Date()
-        selectedCell = nil
+        selectedCells = []
       }
       .font(.caption)
       
@@ -117,9 +118,48 @@ struct ActivityScreen: View {
         date: selectedDate,
         taskLogs: taskLogsForSelectedDate,
         gridMode: gridMode,
-        selectedCell: selectedCell,
+        selectedCells: selectedCells,
         onCellTap: { row, column in
-          selectedCell = (row, column)
+          let cellId = "\(row),\(column)"
+          if isSelectionMode {
+            // In selection mode, toggle cell in set
+            if selectedCells.contains(cellId) {
+              selectedCells.remove(cellId)
+            } else {
+              selectedCells.insert(cellId)
+            }
+          } else {
+            // Single selection mode
+            if selectedCells.contains(cellId) {
+              selectedCells.remove(cellId)
+            } else {
+              selectedCells = [cellId]
+            }
+          }
+        },
+        onRangeSelect: { startCellId, endCellId in
+          isSelectionMode = true
+          let startComponents = startCellId.split(separator: ",").compactMap { Int($0) }
+          let endComponents = endCellId.split(separator: ",").compactMap { Int($0) }
+          
+          guard startComponents.count == 2, endComponents.count == 2 else { return }
+          let (startRow, startCol) = (startComponents[0], startComponents[1])
+          let (endRow, endCol) = (endComponents[0], endComponents[1])
+          
+          // Convert to chronological (linear) indices
+          let cellsPerRow = gridMode.cellsPerRow
+          let startIndex = startRow * cellsPerRow + startCol
+          let endIndex = endRow * cellsPerRow + endCol
+          
+          let minIndex = min(startIndex, endIndex)
+          let maxIndex = max(startIndex, endIndex)
+          
+          // Select all cells in chronological order
+          for index in minIndex...maxIndex {
+            let row = index / cellsPerRow
+            let col = index % cellsPerRow
+            selectedCells.insert("\(row),\(col)")
+          }
         }
       )
       .frame(width: 200)
@@ -168,7 +208,8 @@ struct ActivityScreen: View {
       Spacer()
       
       Button("De-select") {
-        selectedCell = nil
+        selectedCells = []
+        isSelectionMode = false
       }
       .font(.caption)
       .buttonStyle(.bordered)
@@ -190,9 +231,9 @@ struct ActivityScreen: View {
         header
         content
         
-        if selectedCell != nil {
+        if !selectedCells.isEmpty {
           footer
-            .animation(.spring, value: selectedCell == nil)
+            .animation(.spring, value: selectedCells.isEmpty)
             .transition(.move(edge: .bottom))
         }
       }
@@ -208,50 +249,62 @@ struct ActivityScreen: View {
   }
   
   private func assignTaskToCell(_ task: TaskTracker) {
-    guard let (row, column) = selectedCell else { return }
-    
-    let (startDate, endDate) = Date.dateRange(
-      for: row,
-      column: column,
-      in: gridMode,
-      referenceDate: selectedDate
-    )
-    
-    let newLog = TaskTrackerLog(context: moc)
-    newLog.task = task
-    newLog.startDate = startDate
-    newLog.endDate = endDate
-    newLog.createdAt = Date()
-    newLog.updatedAt = Date()
+    for cellId in selectedCells {
+      let components = cellId.split(separator: ",").compactMap { Int($0) }
+      guard components.count == 2 else { continue }
+      let (row, column) = (components[0], components[1])
+      
+      let (startDate, endDate) = Date.dateRange(
+        for: row,
+        column: column,
+        in: gridMode,
+        referenceDate: selectedDate
+      )
+      
+      let newLog = TaskTrackerLog(context: moc)
+      newLog.task = task
+      newLog.startDate = startDate
+      newLog.endDate = endDate
+      newLog.createdAt = Date()
+      newLog.updatedAt = Date()
+    }
     
     do {
       try moc.save()
-      selectedCell = nil  // Clear selection after logging
+      selectedCells = []
+      isSelectionMode = false
     } catch {
       print("Error saving task log: \(error.localizedDescription)")
     }
   }
   
   private func eraseSelectedLog() {
-    guard let (row, column) = selectedCell else { return }
+    var logsToDelete: [TaskTrackerLog] = []
     
-    let (startDate, endDate) = Date.dateRange(
-      for: row,
-      column: column,
-      in: gridMode,
-      referenceDate: selectedDate
-    )
-    
-    // Find overlapping logs
-    let overlappingLogs = taskLogsForSelectedDate.filter { log in
-      log.startDate < endDate && log.endDate > startDate
+    for cellId in selectedCells {
+      let components = cellId.split(separator: ",").compactMap { Int($0) }
+      guard components.count == 2 else { continue }
+      let (row, column) = (components[0], components[1])
+      
+      let (startDate, endDate) = Date.dateRange(
+        for: row,
+        column: column,
+        in: gridMode,
+        referenceDate: selectedDate
+      )
+      
+      let overlappingLogs = taskLogsForSelectedDate.filter { log in
+        log.startDate < endDate && log.endDate > startDate
+      }
+      logsToDelete.append(contentsOf: overlappingLogs)
     }
     
-    overlappingLogs.forEach { moc.delete($0) }
+    logsToDelete.forEach { moc.delete($0) }
     
     do {
       try moc.save()
-      selectedCell = nil
+      selectedCells = []
+      isSelectionMode = false
     } catch {
       print("Error deleting task log: \(error.localizedDescription)")
     }
